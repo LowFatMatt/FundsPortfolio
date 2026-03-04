@@ -1,0 +1,217 @@
+{
+  "questionnaire": {
+    "version": "1.0",
+    "language": "en",
+    "sections": [
+      {
+        "id": "investment_goal",
+        "name": "What is your main goal with this investment?",
+        "type": "single_select",
+        "required": true,
+        "options": [
+          {
+            "id": "wealth_building",
+            "label": "Build wealth for your dreams and aspirations",
+            "value": "wealth_building"
+          },
+          {
+            "id": "retirement",
+            "label": "Secure your retirement income",
+            "value": "retirement"
+          },
+          {
+            "id": "home_ownership",
+            "label": "Save for your own home",
+            "value": "home_ownership"
+          },
+          {
+            "id": "wealth_transfer",
+            "label": "Pass on wealth to the next generation",
+            "value": "wealth_transfer"
+          }
+        ]
+      },
+      {
+        "id": "investment_duration",
+        "name": "How long are you planning to invest for?",
+        "type": "single_select",
+        "required": true,
+        "options": [
+          {
+            "id": "short_term",
+            "label": "Up to 12 years",
+            "value": "0_12_years"
+          },
+          {
+            "id": "medium_term",
+            "label": "12 to 20 years",
+            "value": "12_20_years"
+          },
+          {
+            "id": "long_term",
+            "label": "Over 20 years",
+            "value": "20_plus_years"
+          }
+        ]
+      },
+      {
+        "id": "monthly_savings",
+        "name": "How much can you save each month?",
+        "type": "single_select",
+        "required": true,
+        "options": [
+          {
+            "id": "micro",
+            "label": "£0 to £150",
+            "value": "0_150",
+            "currency": "GBP"
+          },
+          {
+            "id": "modest",
+            "label": "£150 to £300",
+            "value": "150_300",
+            "currency": "GBP"
+          },
+          {
+            "id": "moderate",
+            "label": "£300 to £500",
+            "value": "300_500",
+            "currency": "GBP"
+          },
+          {
+            "id": "substantial",
+            "label": "Over £500",
+            "value": "500_plus",
+            "currency": "GBP"
+          },
+          {
+            "id": "no_answer",
+            "label": "Prefer not to say",
+            "value": "no_answer"
+          }
+        ]
+      },
+      {
+        "id": "investment_experience",
+        "name": "Have you invested in any of these before?",
+        "type": "multi_select",
+        "required": false,
+        "options": [
+          {
+            "id": "insurance",
+            "label": "Life insurance or pension plans",
+            "value": "life_insurance"
+          },
+          {
+            "id": "funds",
+            "label": "Investment funds (shares, bonds or mixed funds)",
+            "value": "investment_funds"
+          },
+          {
+            "id": "alternative",
+            "label": "Alternative investments",
+            "value": "alternative_investments"
+          },
+          {
+            "id": "no_experience",
+            "label": "I'm new to this – and that's perfectly fine!",
+            "value": "no_experience"
+          }
+        ]
+      },
+      {
+        "id": "investment_knowledge",
+        "name": "How would you describe your investment knowledge?",
+        "type": "single_select",
+        "required": true,
+        "options": [
+          {
+            "id": "confident",
+            "label": "Yes, I'm quite confident with investments",
+            "value": "experienced"
+          },
+          {
+            "id": "beginner",
+            "label": "No, I'm just starting out",
+            "value": "beginner"
+          }
+        ]
+      },
+      {
+        "id": "risk_approach",
+        "name": "Which investment approach appeals to you most?",
+        "type": "single_select",
+        "required": true,
+        "options": [
+          {
+            "id": "conservative",
+            "label": "Security matters most – I want steady, predictable growth",
+            "value": "conservative",
+            "risk_profile": 1
+          },
+          {
+            "id": "moderate_low",
+            "label": "I value security, but I'm also open to modest growth opportunities",
+            "value": "moderate_low",
+            "risk_profile": 2
+          },
+          {
+            "id": "moderate",
+            "label": "I can accept some fluctuations for better returns, but I'd like some protection of my contributions",
+            "value": "moderate",
+            "risk_profile": 3
+          },
+          {
+            "id": "aggressive",
+            "label": "I'm comfortable taking on risk for better growth prospects, and I accept potential losses",
+            "value": "aggressive",
+            "risk_profile": 4
+          }
+        ]
+      },
+      {
+        "id": "loss_tolerance",
+        "name": "Can you afford financial losses?",
+        "type": "single_select",
+        "required": true,
+        "options": [
+          {
+            "id": "low_tolerance",
+            "label": "I need strong guarantees and want to minimise the risk of losses",
+            "value": "low_loss_tolerance",
+            "loss_tolerance_score": 1
+          },
+          {
+            "id": "high_tolerance",
+            "label": "I'm in a solid financial position to handle larger losses if needed",
+            "value": "high_loss_tolerance",
+            "loss_tolerance_score": 4
+          }
+        ]
+      }
+    ]
+  },
+  "response_schema": {
+    "portfolio_id": "string (UUID, auto-generated if not provided)",
+    "created_at": "ISO 8601 timestamp",
+    "updated_at": "ISO 8601 timestamp",
+    "user_answers": {
+      "investment_goal": "string (value from options)",
+      "investment_duration": "string (value from options)",
+      "monthly_savings": "string (value from options)",
+      "investment_experience": [
+        "array of strings (values from options)"
+      ],
+      "investment_knowledge": "string (value from options)",
+      "risk_approach": "string (value from options)",
+      "loss_tolerance": "string (value from options)"
+    },
+    "calculated_metrics": {
+      "risk_profile": "integer (1-4)",
+      "suitable_fund_categories": [
+        "array of recommended fund types"
+      ],
+      "diversification_needs": "string (conservative/moderate/aggressive)"
+    }
+  }
+}

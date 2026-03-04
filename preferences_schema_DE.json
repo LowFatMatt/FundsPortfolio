@@ -1,0 +1,194 @@
+{
+  "questionnaire": {
+    "version": "1.0",
+    "language": "de",
+    "sections": [
+      {
+        "id": "investment_goal",
+        "name": "Was ist Ihr Ziel mit dieser Geldanlage?",
+        "type": "single_select",
+        "required": true,
+        "options": [
+          {
+            "id": "wealth_building",
+            "label": "Vermögensaufbau für besondere Wünsche",
+            "value": "wealth_building"
+          },
+          {
+            "id": "retirement",
+            "label": "Absicherung meiner Altersvorsorge",
+            "value": "retirement"
+          },
+          {
+            "id": "home_ownership",
+            "label": "Traum von den eigenen vier Wänden",
+            "value": "home_ownership"
+          },
+          {
+            "id": "wealth_transfer",
+            "label": "Vermögen an die nächste Generation weitergeben",
+            "value": "wealth_transfer"
+          }
+        ]
+      },
+      {
+        "id": "investment_duration",
+        "name": "Wie lange möchten Sie Ihr Geld anlegen?",
+        "type": "single_select",
+        "required": true,
+        "options": [
+          {
+            "id": "short_term",
+            "label": "Bis zu 12 Jahren",
+            "value": "0_12_years"
+          },
+          {
+            "id": "medium_term",
+            "label": "12 bis 20 Jahre",
+            "value": "12_20_years"
+          },
+          {
+            "id": "long_term",
+            "label": "Über 20 Jahre",
+            "value": "20_plus_years"
+          }
+        ]
+      },
+      {
+        "id": "monthly_savings",
+        "name": "Wie viel können Sie monatlich sparen?",
+        "type": "single_select",
+        "required": true,
+        "options": [
+          {
+            "id": "micro",
+            "label": "0 € bis 150 €",
+            "value": "0_150",
+            "currency": "EUR"
+          },
+          {
+            "id": "modest",
+            "label": "150 € bis 300 €",
+            "value": "150_300",
+            "currency": "EUR"
+          },
+          {
+            "id": "moderate",
+            "label": "300 € bis 500 €",
+            "value": "300_500",
+            "currency": "EUR"
+          },
+          {
+            "id": "substantial",
+            "label": "Über 500 €",
+            "value": "500_plus",
+            "currency": "EUR"
+          },
+          {
+            "id": "no_answer",
+            "label": "Lieber keine Angabe",
+            "value": "no_answer"
+          }
+        ]
+      },
+      {
+        "id": "investment_experience",
+        "name": "Haben Sie bereits Erfahrung mit folgenden Anlageformen?",
+        "type": "multi_select",
+        "required": false,
+        "options": [
+          {
+            "id": "insurance",
+            "label": "Lebens- oder Rentenversicherungen",
+            "value": "life_insurance"
+          },
+          {
+            "id": "funds",
+            "label": "Investmentfonds (Aktien-, Renten- oder Mischfonds)",
+            "value": "investment_funds"
+          },
+          {
+            "id": "alternative",
+            "label": "Alternative Investmentformen",
+            "value": "alternative_investments"
+          },
+          {
+            "id": "no_experience",
+            "label": "Noch keine Erfahrung in diesem Bereich",
+            "value": "no_experience"
+          }
+        ]
+      },
+      {
+        "id": "investment_knowledge",
+        "name": "Wie würden Sie Ihr Wissen einschätzen?",
+        "type": "single_select",
+        "required": true,
+        "options": [
+          {
+            "id": "confident",
+            "label": "Ja, ich kenne mich bereits gut aus",
+            "value": "experienced"
+          },
+          {
+            "id": "beginner",
+            "label": "Nein, ich bin hier Anfänger – und das ist in Ordnung!",
+            "value": "beginner"
+          }
+        ]
+      },
+      {
+        "id": "risk_approach",
+        "name": "Welches Anlage-Szenario spricht Sie am ehesten an?",
+        "type": "single_select",
+        "required": true,
+        "options": [
+          {
+            "id": "conservative",
+            "label": "Mir ist Sicherheit das Wichtigste – ich möchte berechenbar sparen",
+            "value": "conservative",
+            "risk_profile": 1
+          },
+          {
+            "id": "moderate_low",
+            "label": "Sicherheit ist mir wichtig, aber ich bin auch offen für moderate Renditechancen",
+            "value": "moderate_low",
+            "risk_profile": 2
+          },
+          {
+            "id": "moderate",
+            "label": "Ich akzeptiere moderate Schwankungen für bessere Renditeaussichten, möchte aber einen Teil meiner Einzahlungen geschützt wissen",
+            "value": "moderate",
+            "risk_profile": 3
+          },
+          {
+            "id": "aggressive",
+            "label": "Ich bin bereit, für attraktive Renditechancen auf Garantien zu verzichten und auch Verluste zu akzeptieren",
+            "value": "aggressive",
+            "risk_profile": 4
+          }
+        ]
+      },
+      {
+        "id": "loss_tolerance",
+        "name": "Können Sie finanzielle Verluste verkraften?",
+        "type": "single_select",
+        "required": true,
+        "options": [
+          {
+            "id": "low_tolerance",
+            "label": "Ich benötige hohe Garantien und möchte Verluste minimieren",
+            "value": "low_loss_tolerance",
+            "loss_tolerance_score": 1
+          },
+          {
+            "id": "high_tolerance",
+            "label": "Finanziell bin ich in der Lage, auch größere Verluste zu tragen",
+            "value": "high_loss_tolerance",
+            "loss_tolerance_score": 4
+          }
+        ]
+      }
+    ]
+  }
+}

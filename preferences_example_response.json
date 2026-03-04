@@ -1,0 +1,26 @@
+{
+  "portfolio_id": "port_20260303_001",
+  "created_at": "2026-03-03T14:32:00Z",
+  "updated_at": "2026-03-03T14:32:00Z",
+  "user_answers": {
+    "investment_goal": "retirement",
+    "investment_duration": "20_plus_years",
+    "monthly_savings": "300_500",
+    "investment_experience": [
+      "life_insurance",
+      "investment_funds"
+    ],
+    "investment_knowledge": "experienced",
+    "risk_approach": "moderate",
+    "loss_tolerance": "high_loss_tolerance"
+  },
+  "calculated_metrics": {
+    "risk_profile": 3,
+    "suitable_fund_categories": [
+      "mixed_funds_50_50",
+      "equity_funds_diversified",
+      "emerging_markets_funds"
+    ],
+    "diversification_needs": "moderate"
+  }
+}

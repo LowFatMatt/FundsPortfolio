@@ -1,0 +1,28 @@
+# Sample ISIN list for MVP testing
+# Use: python scripts/fetch_kiids.py --isin-file isins_sample.txt --sample 20
+
+# iShares
+IE00B4L5Y983  # iShares MSCI USA UCITS ETF
+IE00B0M63284  # SPDR S&P Euro Dividend Aristocrats UCITS ETF
+IE00B4RL5Z48  # iShares Global Aggregate Bond UCITS ETF
+IE00B5BMR087  # Vanguard FTSE All-World UCITS ETF
+IE00B1FZS798  # iShares Core FTSE 100 UCITS ETF
+IE00B82Q3C77  # iShares STOXX Europe 600 UCITS ETF
+IE00BDVPTZ45  # iShares Core S&P 500 UCITS ETF
+IE00B0J2FY19  # iShares MSCI ACWI UCITS ETF
+IE00BHBZRH41  # iShares MSCI World Quality Dividend UCITS ETF
+IE00B0GKJD14  # iShares FTSE All-Share UCITS ETF
+
+# Vanguard
+IE00B96H7E69  # Vanguard FTSE Developed Europe UCITS ETF
+IE00BDP3DC33  # Vanguard FTSE Emerging Markets UCITS ETF
+IE00BNGWBH56  # Vanguard ESG Global Stock UCITS ETF
+IE00BG87TT79  # Vanguard Emerging Markets ESG UCITS ETF
+IE00BT0J7C53  # Vanguard Global Dividend UCITS ETF
+
+# SPDR (State Street)
+IE00BLKLM689  # SPDR Dow Jones Industrial Average ETF
+IE00BL3ZQW82  # SPDR Nuveen S&P High Yield Bond UCITS ETF
+IE00B1FZS854  # SPDR S&P 500 UCITS ETF
+IE00B0Q4YQ68  # SPDR S&P Euro Dividend Aristocrats UCITS ETF
+IE00B3CY1B26  # SPDR MSCI Global Dividend UCITS ETF

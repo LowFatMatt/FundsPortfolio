@@ -1,0 +1,85 @@
+{
+  "funds_database": [
+    {
+      "isin": "IE00B4L5Y983",
+      "name": "iShares MSCI USA UCITS ETF",
+      "provider": "iShares",
+      "url": "https://www.ishares.com/uk/individual/en/products/etfs/stocks/msci-usa-ucits-etf",
+      "kiid_url": "https://www.ishares.com/en/individual/en/products/etfs/stocks/ie00b4l5y983/",
+      "asset_class": "equity",
+      "region": "north_america",
+      "categories": [
+        "us_equity",
+        "developed_markets"
+      ],
+      "risk_level": 5,
+      "yearly_fee": 0.07
+    },
+    {
+      "isin": "IE00B0M63284",
+      "name": "SPDR S&P Euro Dividend Aristocrats UCITS ETF",
+      "provider": "SPDR",
+      "url": "https://www.spdrs.com/",
+      "kiid_url": "https://www.spdrs.com/products/etfdetails/euro-dividend.html",
+      "asset_class": "equity",
+      "region": "europe",
+      "categories": [
+        "european_equity",
+        "dividend_stocks"
+      ],
+      "risk_level": 4,
+      "yearly_fee": 0.35
+    },
+    {
+      "isin": "IE00B4RL5Z48",
+      "name": "iShares Global Aggregate Bond UCITS ETF",
+      "provider": "iShares",
+      "url": "https://www.ishares.com/uk/individual/en/products/etfs/bonds/",
+      "kiid_url": "https://www.ishares.com/en/individual/en/products/etfs/bonds/ie00b4rl5z48/",
+      "asset_class": "bond",
+      "region": "global",
+      "categories": [
+        "government_bonds",
+        "corporate_bonds"
+      ],
+      "risk_level": 2,
+      "yearly_fee": 0.20
+    },
+    {
+      "isin": "IE00B5BMR087",
+      "name": "Vanguard FTSE All-World UCITS ETF",
+      "provider": "Vanguard",
+      "url": "https://www.vanguard.com/",
+      "kiid_url": "https://www.vanguard.com/en/individual/products/",
+      "asset_class": "equity",
+      "region": "global",
+      "categories": [
+        "global_equity",
+        "mixed_caps"
+      ],
+      "risk_level": 5,
+      "yearly_fee": 0.22
+    },
+    {
+      "isin": "IE00B1FZS798",
+      "name": "iShares $ Treasury Bond 7-10yr UCITS ETF",
+      "provider": "iShares",
+      "url": "https://www.ishares.com/de/individual/",
+      "kiid_url": "https://www.ishares.com/de/privatanleger/de/produkte/251716/?referrer=tickerSearch/",
+      "asset_class": "equity",
+      "region": "united_kingdom",
+      "categories": [
+        "uk_equity",
+        "blue_chips"
+      ],
+      "risk_level": 4,
+      "yearly_fee": 0.07
+    }
+  ],
+  "metadata": {
+    "version": "1.0",
+    "last_updated": "2026-03-03",
+    "total_funds": 5,
+    "data_source": "ISIN database"
+  }
+}
