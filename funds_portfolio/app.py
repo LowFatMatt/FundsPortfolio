@@ -6,13 +6,13 @@ from flask import Flask, jsonify, render_template, render_template_string
 
 def create_app():
     """Create and configure Flask app"""
-    app = Flask(__name__, template_folder='templates')
+    app = Flask(__name__, template_folder='/app/templates')
     
     # Home page
     @app.route('/')
     def index():
         # Try to render the template; fall back if missing
-        tpl_path = os.path.join(app.root_path, 'templates', 'index.html')
+        tpl_path = os.path.join(app.template_folder, 'index.html')
         if os.path.exists(tpl_path):
             return render_template('index.html')
         logging.warning('index.html template not found at %s, returning fallback HTML', tpl_path)

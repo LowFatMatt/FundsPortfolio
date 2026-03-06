@@ -41,7 +41,7 @@ curl http://localhost:5000/api/questionnaire
 ## 📂 Project Structure (MVP)
 
 ```
-funds-portfolio/
+FundsPortfolio/
 ├── funds_portfolio/           # Main application
 │   ├── __init__.py
 │   ├── app.py                 # Flask app entry point
