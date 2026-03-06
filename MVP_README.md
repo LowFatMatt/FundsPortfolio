@@ -23,8 +23,8 @@
 
 ```bash
 # Clone repo
-git clone https://github.com/yourusername/funds-portfolio.git
-cd funds-portfolio
+git clone https://github.com/LowFatMatt/FundsPortfolio.git
+cd FundsPortfolio
 
 # Start services
 docker-compose up --build
