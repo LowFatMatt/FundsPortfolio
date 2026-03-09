@@ -3,82 +3,80 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FundsPortfolio - Investment Recommendation Engine</title>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; color: #333; }
-        .container { max-width: 900px; margin: 0 auto; padding: 20px; }
-        header { background: #1e3a8a; color: white; padding: 40px 0; text-align: center; margin-bottom: 40px; }
-        h1 { font-size: 2.5em; margin-bottom: 10px; }
-        .subtitle { font-size: 1.1em; opacity: 0.9; }
-        .status { background: #10b981; color: white; padding: 15px; border-radius: 5px; margin: 20px 0; }
-        .phase { background: #f3f4f6; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #3b82f6; }
-        .phase h3 { color: #1e3a8a; margin-bottom: 10px; }
-        .api-list { background: #f9fafb; padding: 20px; border-radius: 5px; margin: 20px 0; }
-        .api-list h4 { margin: 15px 0 10px 0; color: #1e3a8a; }
-        .endpoint { font-family: monospace; background: #e5e7eb; padding: 10px; border-radius: 3px; margin: 5px 0; }
-        footer { text-align: center; margin-top: 40px; padding: 20px; border-top: 1px solid #e5e7eb; color: #6b7280; }
-    </style>
+    <title>FundsPortfolio | Smart Investing</title>
+    <!-- Modern Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/static/css/style.css">
 </head>
 <body>
-    <header>
-        <h1>FundsPortfolio</h1>
-        <p class="subtitle">Smart Investment Portfolio Recommendations</p>
+
+    <header style="text-align: center; margin-bottom: 2rem; max-width: 600px; animation: fadeIn 0.4s ease-out;">
+        <h1 style="font-size: 2.8rem; margin-bottom: 0.5rem;">FundsPortfolio</h1>
+        <p class="subtitle">Discover your personalized data-driven investment strategy.</p>
     </header>
 
-    <div class="container">
-        <div class="status">
-            ✅ API is running and healthy
+    <main class="container">
+        
+        <!-- Loading State -->
+        <div id="loading-view" class="glass-card" style="text-align: center; padding: 4rem 2rem;">
+            <div class="loading-spinner" style="border-color: rgba(88, 166, 255, 0.2); border-top-color: var(--accent); width: 40px; height: 40px;"></div>
+            <h3 style="margin-top: 1.5rem; margin-bottom: 0; color: var(--text-secondary);">Initializing engine...</h3>
         </div>
 
-        <div class="phase">
-            <h3>📌 Current Status: Phase 1 (Foundation)</h3>
-            <p>The API skeleton is ready. Building Flask endpoints and data layer next.</p>
-        </div>
-
-        <div class="api-list">
-            <h4>📡 Available Endpoints</h4>
-            <div class="endpoint">GET /health</div>
-            <p style="margin: 10px 0; font-size: 0.9em;">Health check endpoint</p>
+        <!-- Questionnaire Form -->
+        <div id="form-view" class="glass-card hidden">
+            <h2>Build Your Profile</h2>
+            <div id="error-view" class="alert alert-error hidden">
+                <p id="error-message"></p>
+            </div>
             
-            <div class="endpoint">GET /api/questionnaire</div>
-            <p style="margin: 10px 0; font-size: 0.9em;">Load investment preference questionnaire (Phase 4)</p>
-            
-            <div class="endpoint">POST /api/portfolio</div>
-            <p style="margin: 10px 0; font-size: 0.9em;">Create new portfolio recommendation (Phase 4)</p>
-            
-            <div class="endpoint">GET /api/portfolio/{portfolio_id}</div>
-            <p style="margin: 10px 0; font-size: 0.9em;">Retrieve portfolio by ID (Phase 4)</p>
-            
-            <div class="endpoint">GET /api/funds</div>
-            <p style="margin: 10px 0; font-size: 0.9em;">List available funds (Phase 4)</p>
+            <form id="questionnaire-form">
+                <!-- Dynamically populated by JS -->
+                <div id="questionnaire-fields"></div>
+
+                <div class="form-group" style="margin-top: 3rem;">
+                    <button type="submit" id="submit-btn" class="btn btn-primary">
+                        <span id="btn-spinner" class="loading-spinner hidden"></span>
+                        <span id="btn-text">Generate Portfolio</span>
+                    </button>
+                </div>
+            </form>
         </div>
 
-        <div class="phase">
-            <h3>🎯 Next Steps (Weeks 1-2)</h3>
-            <ul style="margin-left: 20px;">
-                <li>Implement JSON loaders (fund_manager.py)</li>
-                <li>Build questionnaire validator (questionnaire/loader.py)</li>
-                <li>Create portfolio data model (models/portfolio.py)</li>
-                <li>Write unit tests</li>
-                <li>Validate with docker-compose</li>
-            </ul>
+        <!-- Results Display -->
+        <div id="results-view" class="glass-card hidden">
+            <div class="results-header form-group">
+                <div>
+                    <h2>Your Portfolio Strategy</h2>
+                    <p style="color: var(--text-secondary);">Optimized for max Sharpe Ratio</p>
+                </div>
+                <div class="portfolio-score">
+                    <div id="score-val" class="score-value">--</div>
+                    <div class="score-label">Risk Profile</div>
+                </div>
+            </div>
+
+            <!-- List of recommendations -->
+            <div id="recommendations-list" class="fund-list form-group">
+                <!-- Dynamically populated -->
+            </div>
+
+            <div class="form-group" style="margin-top: 2rem;">
+                <button id="restart-btn" class="btn" style="background: rgba(48, 54, 61, 0.5); color: var(--text-primary); border: 1px solid var(--card-border);">
+                    ← Start Over
+                </button>
+            </div>
         </div>
 
-        <div class="phase">
-            <h3>📚 Documentation</h3>
-            <p>See the project documentation:</p>
-            <ul style="margin-left: 20px;">
-                <li><a href="#">MVP_README.md</a> - Quick start guide</li>
-                <li><a href="#">IMPLEMENTATION_SPEC.md</a> - Technical architecture</li>
-                <li><a href="#">DEVOPS_GUIDE.md</a> - Docker & GitHub Actions</li>
-            </ul>
-        </div>
-    </div>
+    </main>
 
-    <footer>
-        <p>FundsPortfolio MVP v0.1.0 | Phase 1: Foundation</p>
-        <p style="font-size: 0.9em; margin-top: 10px;">Last updated: 6. März 2026</p>
+    <footer style="margin-top: 4rem; text-align: center; color: var(--text-secondary); font-size: 0.85rem;">
+        <p>&copy; 2026 FundsPortfolio Prototype. Phase 4 MVP.</p>
     </footer>
+
+    <!-- Custom JS -->
+    <script src="/static/js/app.js"></script>
 </body>
 </html>

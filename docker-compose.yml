@@ -23,6 +23,7 @@ services:
       - ${PWD}/funds_portfolio:/app/funds_portfolio
       - ${PWD}/config:/app/config
       - ${PWD}/templates:/app/templates
+      - ${PWD}/static:/app/static
       
       # Data directories
       - ${PWD}/portfolios:/app/portfolios

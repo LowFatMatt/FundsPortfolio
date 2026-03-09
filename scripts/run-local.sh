@@ -11,7 +11,8 @@ VENV_DIR="$ROOT_DIR/.venv"
 PYTHON_BIN=python
 
 # Allow skipping venv creation for environments where dependencies are already installed
-if [[ "$1" != "--no-venv" ]]; then
+# (use ${1:-} to avoid errors when $1 is unset under `set -u`)
+if [[ "${1:-}" != "--no-venv" ]]; then
   if [[ ! -d "$VENV_DIR" ]]; then
     echo "🛠 Creating virtual environment at $VENV_DIR"
     python -m venv "$VENV_DIR"

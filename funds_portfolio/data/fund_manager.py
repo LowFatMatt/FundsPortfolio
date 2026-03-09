@@ -30,8 +30,8 @@ class FundManager:
                 logger.debug('using fallback funds database path %s', alt)
                 db_path = alt
         self.db_path = db_path
-        self._funds_cache = None
-        self._metadata = None
+        self._funds_cache: Optional[List[Dict]] = None
+        self._metadata: Optional[Dict] = None
         self.load_funds()
     
     def load_funds(self) -> bool:
@@ -156,6 +156,105 @@ class FundManager:
             True if funds are loaded, False otherwise
         """
         return self._funds_cache is not None and len(self._funds_cache) > 0
+
+    def save_funds(self) -> bool:
+        """
+        Save the current funds cache and metadata back to the JSON file.
+
+        Returns:
+            True if save successful, False otherwise.
+        """
+        if self._funds_cache is None:
+            logger.error("Cannot save funds; cache is not loaded.")
+            return False
+
+        try:
+            data = {
+                "funds_database": self._funds_cache,
+                "metadata": self._metadata or {}
+            }
+            with open(self.db_path, 'w', encoding='utf-8') as f:
+                json.dump(data, f, indent=4)
+            logger.info("Saved %d funds to %s", len(self._funds_cache), self.db_path)
+            return True
+        except IOError as e:
+            logger.error("Failed to save funds database: %s", e)
+            return False
+
+    def add_fund(self, fund_data: Dict) -> bool:
+        """
+        Add a new fund to the database.
+
+        Args:
+            fund_data: Dictionary containing fund details. Must include an 'isin'.
+
+        Returns:
+            True if added successfully, False if ISIN already exists or invalid data.
+        """
+        if not fund_data.get('isin'):
+            logger.error("Cannot add fund without ISIN.")
+            return False
+
+        existing = self.get_fund_by_isin(fund_data['isin'])
+        if existing is not None:
+            logger.error("Fund with ISIN %s already exists.", fund_data['isin'])
+            return False
+
+        if self._funds_cache is None:
+            self._funds_cache = []
+
+        self._funds_cache.append(fund_data)
+        logger.info("Added new fund with ISIN %s", fund_data['isin'])
+        return self.save_funds()
+
+    def update_fund(self, isin: str, updates: Dict) -> bool:
+        """
+        Update an existing fund.
+
+        Args:
+            isin: ISIN of the fund to update.
+            updates: Dictionary of key-value pairs to update.
+
+        Returns:
+            True if updated successfully, False if not found.
+        """
+        if self._funds_cache is None:
+            return False
+
+        for i, fund in enumerate(self._funds_cache):
+            if fund.get('isin', '').upper() == isin.upper():
+                # apply updates
+                self._funds_cache[i].update(updates)
+                # optionally ensure ISIN is not altered
+                self._funds_cache[i]['isin'] = fund.get('isin', '').upper()
+                logger.info("Updated fund with ISIN %s", isin)
+                return self.save_funds()
+
+        logger.error("Fund with ISIN %s not found for update.", isin)
+        return False
+
+    def delete_fund(self, isin: str) -> bool:
+        """
+        Delete a fund from the database.
+
+        Args:
+            isin: ISIN of the fund to delete.
+
+        Returns:
+            True if deleted successfully, False if not found.
+        """
+        if self._funds_cache is None:
+            return False
+
+        initial_len = len(self._funds_cache)
+        self._funds_cache = [f for f in self._funds_cache if f.get('isin', '').upper() != isin.upper()]
+        
+        if len(self._funds_cache) < initial_len:
+            logger.info("Deleted fund with ISIN %s", isin)
+            return self.save_funds()
+        
+        logger.error("Fund with ISIN %s not found for deletion.", isin)
+        return False
 
 
 # Singleton instance for application-wide use
