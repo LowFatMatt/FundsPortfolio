@@ -2,6 +2,7 @@
   "funds_database": [
     {
       "isin": "IE00B4L5Y983",
+      "ticker": "CSPX.AS",
       "name": "iShares MSCI USA UCITS ETF",
       "provider": "iShares",
       "url": "https://www.ishares.com/uk/individual/en/products/etfs/stocks/msci-usa-ucits-etf",
@@ -17,6 +18,7 @@
     },
     {
       "isin": "IE00B0M63284",
+      "ticker": "SPYW.DE",
       "name": "SPDR S&P Euro Dividend Aristocrats UCITS ETF",
       "provider": "SPDR",
       "url": "https://www.spdrs.com/",
@@ -32,6 +34,7 @@
     },
     {
       "isin": "IE00B4RL5Z48",
+      "ticker": "AGGH.AS",
       "name": "iShares Global Aggregate Bond UCITS ETF",
       "provider": "iShares",
       "url": "https://www.ishares.com/uk/individual/en/products/etfs/bonds/",
@@ -47,6 +50,7 @@
     },
     {
       "isin": "IE00B5BMR087",
+      "ticker": "VWCE.DE",
       "name": "Vanguard FTSE All-World UCITS ETF",
       "provider": "Vanguard",
       "url": "https://www.vanguard.com/",
@@ -62,11 +66,12 @@
     },
     {
       "isin": "IE00B1FZS798",
+      "ticker": "IBTM.AS",
       "name": "iShares $ Treasury Bond 7-10yr UCITS ETF",
       "provider": "iShares",
       "url": "https://www.ishares.com/de/individual/",
       "kiid_url": "https://www.ishares.com/de/privatanleger/de/produkte/251716/?referrer=tickerSearch/",
-      "asset_class": "equity",
+      "asset_class": "bond",
       "region": "united_kingdom",
       "categories": [
         "uk_equity",

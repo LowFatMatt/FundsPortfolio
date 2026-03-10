@@ -53,7 +53,8 @@ class PortfolioCalculator:
                 logger.warning("Fund missing ISIN, skipping in ranking.")
                 continue
                 
-            metrics = self.price_fetcher.get_fund_metrics(isin)
+            identifier = fund_copy.get('ticker') or isin
+            metrics = self.price_fetcher.get_fund_metrics(identifier)
             
             if metrics:
                 fund_copy['annualized_return'] = metrics['annualized_return']

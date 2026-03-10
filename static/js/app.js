@@ -128,7 +128,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const data = await response.json();
 
             if (!response.ok) {
-                throw new Error(data.error || 'Failed to generate portfolio');
+                const details = data.details && data.details.length ? `\nReason: ${data.details.join('; ')}` : '';
+                throw new Error((data.error || 'Failed to generate portfolio') + details);
             }
 
             displayResults(data);

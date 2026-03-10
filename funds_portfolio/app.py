@@ -6,9 +6,10 @@ from flask import Flask, jsonify, render_template, render_template_string
 
 def create_app():
     """Create and configure Flask app"""
+    base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     app = Flask(__name__, 
-                template_folder='/app/templates' if os.path.exists('/app/templates') else 'templates',
-                static_folder='/app/static' if os.path.exists('/app/static') else 'static'
+                template_folder='/app/templates' if os.path.exists('/app/templates') else os.path.join(base_dir, 'templates'),
+                static_folder='/app/static' if os.path.exists('/app/static') else os.path.join(base_dir, 'static')
                )
     
     # Home page
