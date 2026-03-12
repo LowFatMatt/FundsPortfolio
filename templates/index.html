@@ -20,13 +20,40 @@
     <main class="container">
         
         <!-- Loading State -->
-        <div id="loading-view" class="glass-card" style="text-align: center; padding: 4rem 2rem;">
+        <div id="loading-view" class="glass-card hidden" style="text-align: center; padding: 4rem 2rem;">
             <div class="loading-spinner" style="border-color: rgba(88, 166, 255, 0.2); border-top-color: var(--accent); width: 40px; height: 40px;"></div>
-            <h3 style="margin-top: 1.5rem; margin-bottom: 0; color: var(--text-secondary);">Initializing engine...</h3>
+            <h3 style="margin-top: 1.5rem; margin-bottom: 0; color: var(--text-secondary);">Loading...</h3>
+        </div>
+
+        <!-- Welcome / Resume View -->
+        <div id="welcome-view" class="glass-card" style="text-align: center;">
+            <h2 style="margin-bottom: 1.5rem;">Welcome Back</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 2rem;">Do you have an existing Portfolio ID to resume?</p>
+            
+            <form id="resume-form" style="max-width: 400px; margin: 0 auto;">
+                <div class="form-group">
+                    <input type="text" id="resume-id" placeholder="e.g. port_20260310_6c75f86a" style="text-align: center; font-family: monospace;">
+                </div>
+                <div class="alert alert-error hidden" id="resume-error" style="margin-bottom: 1rem;"></div>
+                <button type="submit" class="btn btn-primary" style="margin-bottom: 1rem; width: 100%;">Resume Portfolio</button>
+            </form>
+            
+            <div style="margin: 2rem 0; color: var(--border-color);">— OR —</div>
+            
+            <button id="start-fresh-btn" class="btn" style="background: rgba(48, 54, 61, 0.5); border: 1px solid var(--card-border); width: 100%; max-width: 400px; margin: 0 auto; display: block;">
+                Start Fresh
+            </button>
         </div>
 
         <!-- Questionnaire Form -->
         <div id="form-view" class="glass-card hidden">
+            
+            <div id="active-session-banner" class="alert hidden" style="background: rgba(46, 160, 67, 0.1); border: 1px solid rgba(46, 160, 67, 0.3); color: #3fb950; margin-bottom: 2rem; display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <strong>Editing Portfolio:</strong> <span id="active-port-id" style="font-family: monospace; font-size: 1.1em; margin-left: 0.5rem; color: var(--text-primary);"></span>
+                </div>
+            </div>
+
             <h2>Build Your Profile</h2>
             <div id="error-view" class="alert alert-error hidden">
                 <p id="error-message"></p>
@@ -47,6 +74,16 @@
 
         <!-- Results Display -->
         <div id="results-view" class="glass-card hidden">
+            
+            <div id="portfolio-id-banner" class="alert" style="background: rgba(88, 166, 255, 0.1); border: 1px solid rgba(88, 166, 255, 0.3); color: var(--accent); margin-bottom: 2rem; display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <strong>Your Portfolio ID:</strong> <span id="display-port-id" style="font-family: monospace; font-size: 1.1em; margin-left: 0.5rem; color: var(--text-primary);"></span>
+                </div>
+                <div style="font-size: 0.8em; color: var(--text-secondary); text-align: right;">
+                    Save this ID to resume<br>Available for 14 days
+                </div>
+            </div>
+
             <div class="results-header form-group">
                 <div>
                     <h2>Your Portfolio Strategy</h2>
@@ -77,6 +114,6 @@
     </footer>
 
     <!-- Custom JS -->
-    <script src="/static/js/app.js"></script>
+    <script src="/static/js/app.js?v=2"></script>
 </body>
 </html>

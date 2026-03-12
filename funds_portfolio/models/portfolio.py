@@ -36,6 +36,7 @@ class Portfolio:
         self.user_answers = user_answers
         self.calculated_metrics = {}
         self.recommendations = []
+        self.server_logs = []
     
     @staticmethod
     def _generate_portfolio_id() -> str:
@@ -69,6 +70,11 @@ class Portfolio:
             metrics: Dictionary of calculated metrics
         """
         self.calculated_metrics = metrics
+        self.updated_at = self._get_iso_timestamp()
+        
+    def add_log(self, message: str) -> None:
+        """Add a server log message to be included in the output."""
+        self.server_logs.append(message)
         self.updated_at = self._get_iso_timestamp()
     
     def add_recommendation(self, isin: str, name: str, allocation_percent: float, rationale: str) -> None:
@@ -113,7 +119,8 @@ class Portfolio:
             'updated_at': self.updated_at,
             'user_answers': self.user_answers,
             'calculated_metrics': self.calculated_metrics,
-            'recommendations': self.recommendations
+            'recommendations': self.recommendations,
+            'server_logs': self.server_logs
         }
     
     def to_json(self) -> str:
@@ -144,6 +151,7 @@ class Portfolio:
         )
         portfolio.calculated_metrics = data.get('calculated_metrics', {})
         portfolio.recommendations = data.get('recommendations', [])
+        portfolio.server_logs = data.get('server_logs', [])
         return portfolio
     
     @classmethod

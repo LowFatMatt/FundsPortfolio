@@ -23,15 +23,15 @@ class TestPortfolioOptimizer:
         
     def test_determine_risk_level(self):
         opt = PortfolioOptimizer()
-        assert opt._determine_risk_level({'risk_approach': 'conservative'}) == 1
-        assert opt._determine_risk_level({'risk_approach': '1'}) == 1
-        assert opt._determine_risk_level({'risk_approach': 'aggressive'}) == 4
+        assert opt._determine_risk_level({'risk_approach': 'conservative'}) == (1, False)
+        assert opt._determine_risk_level({'risk_approach': '1'}) == (1, False)
+        assert opt._determine_risk_level({'risk_approach': 'aggressive'}) == (4, False)
         # Fallback test
-        assert opt._determine_risk_level({'risk_approach': 'unknown'}) == 2
+        assert opt._determine_risk_level({'risk_approach': 'unknown'}) == (2, True)
         
     def test_conservative_allocation(self, sample_funds):
         opt = PortfolioOptimizer()
-        recs = opt.optimize_portfolio({'risk_approach': 'conservative'}, sample_funds)
+        recs, meta = opt.optimize_portfolio({'risk_approach': 'conservative'}, sample_funds)
         
         # Total should be 100
         total = sum(r['allocation_percent'] for r in recs)
@@ -46,7 +46,7 @@ class TestPortfolioOptimizer:
             
     def test_aggressive_allocation(self, sample_funds):
         opt = PortfolioOptimizer()
-        recs = opt.optimize_portfolio({'risk_approach': 'aggressive'}, sample_funds)
+        recs, meta = opt.optimize_portfolio({'risk_approach': 'aggressive'}, sample_funds)
         
         # Aggressive (4) is 90% equity and 10% bond
         # We cap at top 5 equities. 90 / 5 = 18% each

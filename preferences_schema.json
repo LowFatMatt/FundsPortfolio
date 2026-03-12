@@ -211,7 +211,11 @@
       "suitable_fund_categories": [
         "array of recommended fund types"
       ],
-      "diversification_needs": "string (conservative/moderate/aggressive)"
-    }
+      "diversification_needs": "string (conservative/moderate/aggressive)",
+      "used_fallback_risk": "boolean (optional)"
+    },
+    "server_logs": [
+      "array of strings capturing backend overrides or warnings"
+    ]
   }
 }

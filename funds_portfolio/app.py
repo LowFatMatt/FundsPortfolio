@@ -75,7 +75,7 @@ def create_app():
         ranked_funds = calculator.enrich_and_rank_funds(funds)
 
         # 4. Optimize
-        recommendations = optimizer.optimize_portfolio(user_answers, ranked_funds)
+        recommendations, optimizer_metadata = optimizer.optimize_portfolio(user_answers, ranked_funds)
 
         # 5. Validate output
         is_valid, val_errors = validator.validate_recommendations(recommendations)
@@ -83,8 +83,16 @@ def create_app():
             return jsonify({"error": "Failed to generate valid portfolio", "details": val_errors}), 500
 
         # Create Model
-        portfolio = Portfolio(user_answers=user_answers)
+        portfolio_id = data.get('portfolio_id')
+        portfolio = Portfolio(user_answers=user_answers, portfolio_id=portfolio_id)
         portfolio.set_recommendations(recommendations)
+        portfolio.set_calculated_metrics(optimizer_metadata)
+        
+        if optimizer_metadata.get("used_fallback_risk"):
+            portfolio.add_log(
+                "Warning: Could not strongly determine risk profile from answers. "
+                "The optimizer defaulted to a Moderate Low risk profile (Level 2)."
+            )
         
         # Save to disk
         base_dir = '/app/portfolios' if os.path.exists('/app/portfolios') and os.access('/app/portfolios', os.W_OK) else os.path.join(os.getcwd(), 'portfolios')

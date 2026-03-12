@@ -12,9 +12,24 @@ document.addEventListener('DOMContentLoaded', () => {
     const btnSpinner = document.getElementById('btn-spinner');
     const restartBtn = document.getElementById('restart-btn');
 
+    // Welcome Screen Elements
+    const welcomeView = document.getElementById('welcome-view');
+    const resumeForm = document.getElementById('resume-form');
+    const resumeIdInput = document.getElementById('resume-id');
+    const resumeError = document.getElementById('resume-error');
+    const startFreshBtn = document.getElementById('start-fresh-btn');
+
+    // Questionnaire Form Elements
+    const activeSessionBanner = document.getElementById('active-session-banner');
+    const activePortIdDisplay = document.getElementById('active-port-id');
+
     // Results Elements
     const scoreVal = document.getElementById('score-val');
     const recList = document.getElementById('recommendations-list');
+    const displayPortId = document.getElementById('display-port-id');
+
+    // Global session state
+    let currentPortfolioId = null;
 
     // Initialize Application
     loadQuestionnaire();
@@ -22,6 +37,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // Event Listeners
     qForm.addEventListener('submit', handleSubmission);
     restartBtn.addEventListener('click', resetApp);
+    startFreshBtn.addEventListener('click', () => {
+        currentPortfolioId = null;
+        showFormView(null);
+    });
+    resumeForm.addEventListener('submit', handleResume);
 
     // Core Functions
     async function loadQuestionnaire() {
@@ -33,7 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
             renderForm(data.sections || []);
             
             loadingView.classList.add('hidden');
-            formView.classList.remove('hidden');
+            welcomeView.classList.remove('hidden');
         } catch (err) {
             showError("Could not connect to server to load the questionnaire.");
             console.error(err);
@@ -94,6 +114,36 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 wrapper.appendChild(select);
                 group.appendChild(wrapper);
+            } else if (section.type === 'multi_select') {
+                const wrapper = document.createElement('div');
+                wrapper.className = 'checkbox-wrapper';
+                wrapper.style.display = 'flex';
+                wrapper.style.flexDirection = 'column';
+                wrapper.style.gap = '0.5rem';
+                wrapper.style.marginTop = '0.5rem';
+                
+                (section.options || []).forEach(opt => {
+                    const cbLabel = document.createElement('label');
+                    cbLabel.style.display = 'flex';
+                    cbLabel.style.alignItems = 'center';
+                    cbLabel.style.fontWeight = 'normal';
+                    cbLabel.style.cursor = 'pointer';
+                    cbLabel.style.marginBottom = '0';
+                    cbLabel.style.color = 'var(--text-primary)';
+                    
+                    const cb = document.createElement('input');
+                    cb.type = 'checkbox';
+                    cb.name = section.id;
+                    cb.value = opt.value;
+                    cb.style.marginRight = '0.75rem';
+                    cb.style.width = 'auto'; // override default CSS width:100%
+                    
+                    cbLabel.appendChild(cb);
+                    cbLabel.appendChild(document.createTextNode(opt.label));
+                    wrapper.appendChild(cbLabel);
+                });
+                
+                group.appendChild(wrapper);
             } else {
                 // Fallback for unexpected types
                 const input = document.createElement('input');
@@ -116,13 +166,37 @@ document.addEventListener('DOMContentLoaded', () => {
         setLoadingState(true);
 
         const formData = new FormData(qForm);
-        const userAnswers = Object.fromEntries(formData.entries());
+        const userAnswers = {};
+        
+        for (const [key, value] of formData.entries()) {
+            if (userAnswers[key]) {
+                if (!Array.isArray(userAnswers[key])) {
+                    userAnswers[key] = [userAnswers[key]];
+                }
+                userAnswers[key].push(value);
+            } else {
+                // Check if this was supposed to be a multi_select but only 1 option was checked
+                const checkboxesForName = qForm.querySelectorAll(`input[type="checkbox"][name="${key}"]`);
+                if (checkboxesForName.length > 0) {
+                     userAnswers[key] = [value];
+                } else {
+                     userAnswers[key] = value;
+                }
+            }
+        }
+
+        const payload = { user_answers: userAnswers };
+        if (currentPortfolioId) {
+            payload.portfolio_id = currentPortfolioId;
+        }
+        
+        console.log("Submitting payload to /api/portfolio:", payload);
 
         try {
             const response = await fetch('/api/portfolio', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ user_answers: userAnswers })
+                body: JSON.stringify(payload)
             });
 
             const data = await response.json();
@@ -145,12 +219,37 @@ document.addEventListener('DOMContentLoaded', () => {
         formView.classList.add('hidden');
         resultsView.classList.remove('hidden');
 
+        // Display Portfolio ID
+        if (displayPortId) {
+            displayPortId.textContent = portfolio.portfolio_id || 'Unknown ID';
+        }
+
+        // Remove any previous warnings
+        const previousWarnings = resultsView.querySelectorAll('.alert-error');
+        previousWarnings.forEach(w => w.remove());
+
         // Extract risk score directly from payload or default
         const approach = portfolio.user_answers?.risk_approach || 'Unknown';
         scoreVal.textContent = approach.replace('_', ' ').toUpperCase();
 
         recList.innerHTML = '';
         
+        // Add transparency warning if default fallback was used
+        const usedFallback = portfolio.calculated_metrics?.used_fallback_risk || false;
+        if (usedFallback) {
+            const warningEl = document.createElement('div');
+            warningEl.className = 'alert alert-error';
+            warningEl.style.marginBottom = '1.5rem';
+            warningEl.style.color = '#ff7b72';
+            warningEl.style.backgroundColor = 'rgba(248, 81, 73, 0.1)';
+            warningEl.style.border = '1px solid rgba(248, 81, 73, 0.4)';
+            warningEl.innerHTML = '<strong>Note:</strong> We could not strongly determine your exact risk profile from the provided answers. The optimizer has defaulted to a <strong>Moderate Low</strong> risk profile (Level 2).';
+            
+            // Insert after results header
+            const header = resultsView.querySelector('.results-header');
+            header.parentNode.insertBefore(warningEl, header.nextSibling);
+        }
+
         if (!portfolio.recommendations || !portfolio.recommendations.length) {
             recList.innerHTML = '<p style="color:var(--text-secondary)">No valid recommendations available.</p>';
             return;
@@ -169,7 +268,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <p style="font-size: 0.8rem; margin-top: 0.5rem">${rec.rationale || ''}</p>
                 </div>
                 <div class="fund-allocation">
-                    <div class="allocation-percent">${(rec.allocation_percent || 0).toFixed(1)}%</div>
+                    <div class="allocation-percent">${(rec.allocation_percent || 0).toFixed(2)}%</div>
                     <div class="allocation-label">Target Weight</div>
                 </div>
             `;
@@ -182,10 +281,119 @@ document.addEventListener('DOMContentLoaded', () => {
         resultsView.classList.add('hidden');
         errorView.classList.add('hidden');
         qForm.reset();
-        formView.classList.remove('hidden');
+        
+        // Go back to the welcome screen
+        welcomeView.classList.remove('hidden');
+        resumeIdInput.value = '';
+        resumeError.classList.add('hidden');
+        
+        // Clear session ID
+        currentPortfolioId = null;
         
         // Scroll to top
         window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    async function handleResume(e) {
+        e.preventDefault();
+        resumeError.classList.add('hidden');
+        
+        let targetId = resumeIdInput.value.trim();
+        if (!targetId) {
+            resumeError.textContent = "Please enter a valid Portfolio ID";
+            resumeError.classList.remove('hidden');
+            return;
+        }
+        
+        // Clean off accidental .json extensions
+        if (targetId.endsWith('.json')) {
+            targetId = targetId.replace('.json', '');
+        }
+        
+        // Strip out 'port_' if they provided just the raw hash by mistake, then prepend it back
+        // to be extremely resillient to copy-paste errors
+        if (!targetId.startsWith('port_')) {
+            targetId = 'port_' + targetId;
+        }
+
+        try {
+            // Lock UI while loading
+            const submitBtn = resumeForm.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = "Locating...";
+            submitBtn.disabled = true;
+
+            const response = await fetch(`/api/portfolio/${targetId}`);
+            
+            if (!response.ok) {
+                if (response.status === 404) {
+                    throw new Error("Portfolio ID not found. It may have expired. Start fresh or try again.");
+                }
+                throw new Error("Failed to load portfolio.");
+            }
+
+            const savedPortfolio = await response.json();
+            
+            // Set global tracking ID if success
+            currentPortfolioId = savedPortfolio.portfolio_id;
+            
+            // Show Active Session banner
+            activePortIdDisplay.textContent = currentPortfolioId;
+            activeSessionBanner.classList.remove('hidden');
+            
+            showFormView(savedPortfolio.user_answers || {});
+
+        } catch (err) {
+            resumeError.textContent = err.message;
+            resumeError.classList.remove('hidden');
+        } finally {
+            const submitBtn = resumeForm.querySelector('button[type="submit"]');
+            submitBtn.textContent = "Resume Portfolio";
+            submitBtn.disabled = false;
+        }
+    }
+
+    function showFormView(prefillAnswers) {
+        welcomeView.classList.add('hidden');
+        formView.classList.remove('hidden');
+        
+        // If we are starting fresh, make sure the banner is hidden
+        if (!currentPortfolioId) {
+            activeSessionBanner.classList.add('hidden');
+        }
+        
+        // Pre-fill fields if we have a saved payload
+        if (prefillAnswers && Object.keys(prefillAnswers).length > 0) {
+            Object.entries(prefillAnswers).forEach(([key, value]) => {
+                // Determine what type of input this is by selecting all matching inputs
+                const elements = qForm.querySelectorAll(`[name="${key}"]`);
+                if (!elements || elements.length === 0) return;
+                
+                // If its a multi-select checkbox cluster
+                if (elements[0].type === 'checkbox') {
+                    const valueArray = Array.isArray(value) ? value : [value];
+                    elements.forEach(cb => {
+                        // Only check it if the saved value is one of the valid options
+                        if (valueArray.includes(cb.value)) {
+                            cb.checked = true;
+                        }
+                    });
+                } 
+                // If its a dropdown
+                else if (elements[0].tagName.toLowerCase() === 'select') {
+                    const select = elements[0];
+                    // Check if the saved value exists in the dropdown options
+                    const optionExists = Array.from(select.options).some(opt => opt.value === value);
+                    if (optionExists) {
+                        select.value = value;
+                    }
+                } 
+                // General input
+                else {
+                    elements[0].value = value;
+                }
+            });
+        }
     }
 
     // UI Helpers
