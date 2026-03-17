@@ -4,6 +4,7 @@ Questionnaire loader - loads and validates preferences_schema.json
 
 import json
 import os
+from collections import Counter
 from typing import Dict, List, Optional
 import logging
 
@@ -30,7 +31,10 @@ class QuestionnaireLoader:
         self.schema_path = schema_path
         self._questionnaire = None
         self._response_schema = None
+        self._funds_db_path = self._resolve_funds_db_path()
+        self._funds_mtime = None
         self.load_schema()
+        self._refresh_dynamic_options_if_needed(force=True)
 
     def load_schema(self) -> bool:
         """
@@ -64,6 +68,7 @@ class QuestionnaireLoader:
         Returns:
             Questionnaire dictionary with sections and options
         """
+        self._refresh_dynamic_options_if_needed()
         return self._questionnaire or {}
 
     def get_sections(self) -> List[Dict]:
@@ -73,6 +78,7 @@ class QuestionnaireLoader:
         Returns:
             List of section dictionaries
         """
+        self._refresh_dynamic_options_if_needed()
         return self._questionnaire.get("sections", []) if self._questionnaire else []
 
     def get_section_by_id(self, section_id: str) -> Optional[Dict]:
@@ -207,6 +213,150 @@ class QuestionnaireLoader:
             True if schema is loaded, False otherwise
         """
         return self._questionnaire is not None
+
+    def _resolve_funds_db_path(self) -> Optional[str]:
+        candidate = "/app/funds_database.json"
+        if os.path.exists(candidate):
+            return candidate
+        alt = os.path.join(os.getcwd(), "funds_database.json")
+        if os.path.exists(alt):
+            return alt
+        logger.warning("Funds database not found for dynamic options.")
+        return None
+
+    def _refresh_dynamic_options_if_needed(self, force: bool = False) -> None:
+        if not self._funds_db_path or not os.path.exists(self._funds_db_path):
+            return
+
+        try:
+            mtime = os.path.getmtime(self._funds_db_path)
+        except OSError:
+            return
+
+        if not force and self._funds_mtime == mtime:
+            return
+
+        if self._apply_dynamic_options():
+            self._funds_mtime = mtime
+
+    def _apply_dynamic_options(self) -> bool:
+        if not self._questionnaire:
+            return False
+
+        if not self._funds_db_path or not os.path.exists(self._funds_db_path):
+            return False
+
+        try:
+            with open(self._funds_db_path, "r", encoding="utf-8") as f:
+                data = json.load(f)
+        except (json.JSONDecodeError, OSError) as e:
+            logger.error("Failed to load funds database for dynamic options: %s", e)
+            return False
+
+        funds = data.get("funds_database", [])
+        region_counts: Counter[str] = Counter()
+        theme_counts: Counter[str] = Counter()
+
+        for fund in funds:
+            region = fund.get("region")
+            if region:
+                region_counts[str(region).strip().lower()] += 1
+
+            theme = fund.get("theme")
+            if theme:
+                theme_counts[str(theme).strip().upper()] += 1
+
+        region_options = self._build_region_options(region_counts)
+        theme_options = self._build_theme_options(theme_counts)
+
+        self._set_section_options("preferred_regions", region_options)
+        self._set_section_options("preferred_themes", theme_options)
+        return True
+
+    def _set_section_options(self, section_id: str, options: List[Dict]) -> None:
+        sections = (
+            self._questionnaire.get("sections", []) if self._questionnaire else []
+        )
+        for section in sections:
+            if section.get("id") == section_id:
+                section["options"] = options
+                return
+
+    def _build_region_options(self, counts: Counter) -> List[Dict]:
+        if not counts:
+            return []
+
+        label_map = {
+            "global": "Global - spread across all major markets",
+            "europe": "Europe - focus on European markets",
+            "north_america": "North America - US and Canadian markets",
+            "eurozone": "Eurozone - countries using the euro",
+            "united_kingdom": "United Kingdom - UK market focus",
+            "germany": "Germany - German market focus",
+            "asia": "Asia - developed and emerging Asia",
+            "emerging_markets": "Emerging Markets - high-growth developing economies",
+        }
+
+        preferred_order = [
+            "global",
+            "europe",
+            "north_america",
+            "eurozone",
+            "united_kingdom",
+            "germany",
+            "asia",
+            "emerging_markets",
+        ]
+
+        remaining = [r for r in counts.keys() if r not in preferred_order]
+        remaining.sort(key=lambda r: (-counts[r], r))
+
+        ordered = [r for r in preferred_order if r in counts] + remaining
+
+        options = []
+        for value in ordered:
+            label = label_map.get(value, value.replace("_", " ").title())
+            options.append(
+                {
+                    "id": f"region_{value}",
+                    "label": label,
+                    "value": value,
+                    "optimizer_region": value.upper(),
+                }
+            )
+        return options
+
+    def _build_theme_options(self, counts: Counter) -> List[Dict]:
+        label_map = {
+            "SUSTAINABILITY": "Sustainability & Climate - clean energy, environmental protection",
+            "TECHNOLOGY": "Technology & Innovation - AI, semiconductors, digitalisation",
+            "HEALTHCARE": "Healthcare & Life Sciences - biotech, medical devices, pharma",
+        }
+
+        options = [
+            {
+                "id": "theme_none",
+                "label": "No specific theme - just a well-diversified portfolio",
+                "value": "none",
+                "optimizer_theme": "NONE",
+            }
+        ]
+
+        themes = [t for t in counts.keys() if t and t.upper() != "NONE"]
+        themes.sort(key=lambda t: (-counts[t], t))
+
+        for theme in themes:
+            value = theme.lower()
+            label = label_map.get(theme, theme.replace("_", " ").title())
+            options.append(
+                {
+                    "id": f"theme_{value}",
+                    "label": label,
+                    "value": value,
+                    "optimizer_theme": theme,
+                }
+            )
+        return options
 
 
 # Singleton instance for application-wide use

@@ -41,6 +41,8 @@ document.addEventListener('DOMContentLoaded', () => {
     restartBtn.addEventListener('click', resetApp);
     startFreshBtn.addEventListener('click', () => {
         currentPortfolioId = null;
+        qForm.reset();
+        clearResults();
         showFormView(null);
     });
     resumeForm.addEventListener('submit', handleResume);
@@ -165,6 +167,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Hide errors, show spinner
         errorView.classList.add('hidden');
+        clearResults();
         setLoadingState(true);
 
         const formData = new FormData(qForm);
@@ -301,8 +304,20 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    function resetApp() {
+    function clearResults() {
         resultsView.classList.add('hidden');
+        if (displayPortId) displayPortId.textContent = '';
+        if (scoreVal) scoreVal.textContent = '';
+        if (decisionSummaryText) decisionSummaryText.textContent = '';
+        if (decisionFilters) decisionFilters.innerHTML = '';
+        if (recList) recList.innerHTML = '';
+
+        const previousWarnings = resultsView.querySelectorAll('.alert-error');
+        previousWarnings.forEach(w => w.remove());
+    }
+
+    function resetApp() {
+        clearResults();
         errorView.classList.add('hidden');
         qForm.reset();
 

@@ -12,6 +12,7 @@ Ship a user‑visible “decision filtering” showcase by upgrading the recomme
 - Acceptance — ETF‑only preference returns 100% ETF funds; ESG‑required excludes funds below the ESG threshold; preferred regions/themes influence selection weights; missing required answers return a 400 with clear errors; the pipeline produces a stable top‑N set for identical inputs.
 
 ### Week 2 — Explainability & UI Showcase
+- Deliverable — Preferred regions/themes are generated from the fund database and refreshed when the database changes.
 - Deliverable — Extend API response to include portfolio metrics (risk profile, estimated volatility proxy, weighted fee), plus per‑fund explanation strings.
 - Deliverable — Update the UI to display “why these funds” and show how preferences affected the result (ESG, ETF, region, theme).
 - Deliverable — Add a “decision summary” panel that highlights the key filters and constraints applied.

@@ -2,53 +2,70 @@
 
 [![CI/CD](https://github.com/LowFatMatt/FundsPortfolio/actions/workflows/ci-cd.yml/badge.svg?branch=main)](https://github.com/LowFatMatt/FundsPortfolio/actions)
 
-## What this Software does
+**Overview**
+FundsPortfolio is a Flask-based portfolio recommender for investment funds. It loads a fund database, asks a short questionnaire, and returns a diversified portfolio with explainability and a persistent `portfolio_id` you can later resume.
 
-This Software is a portfolio manager for funds. That is, it can thake anything that has an ISIN and create an initial Database of the list of funds. The user is then asked a few questions about the financial situation he is in and how risk averse oder riskinclined he is when it comes to investments. The user can then choose his personal portfolio out of the Database and the Software will calculate the best possible portfolio for him by filtering the Database based on the users answers. Portfolios get a unique ID that is sorted by the date of creation but otherwise not human readable.
+**What’s Implemented**
+1. Questionnaire-driven recommendations with risk profiling and preference filters (ESG, ETF, region, theme).
+2. Explainability output for each fund plus a decision trace of filters/relaxations.
+3. A web UI for interactive users and a JSON API for machine access.
+4. Dynamic preferred regions/themes derived from the fund database, refreshed when the database changes.
 
-## How it works
+**Quick Start (Docker)**
+1. `docker compose up --build -d`
+2. Open `http://localhost:5000/`
 
-The Software works by using the ISIN of the fund to get the fund's KIID. The KIID is then used to get the fund's performance data. The performance data is then used to calculate the expected return and the risk of the fund. The expected return and the risk are then used to calculate the Sharpe Ratio of the fund. The Sharpe Ratio is then used to rank the funds. The funds are then sorted by their Sharpe Ratio and the top 100 funds are selected. The selected funds are then used to calculate the best possible portfolio for the user based on the users answers.
+**Quick Start (Local)**
+1. `python -m pip install -r requirements.txt`
+2. `PYTHONPATH=. python -m funds_portfolio.app`
+3. Open `http://localhost:5000/`
 
-## Architecture
+**API Endpoints**
+- `GET /health` → health check
+- `GET /api/questionnaire` → questionnaire schema
+- `POST /api/portfolio` → generate a portfolio
+- `GET /api/portfolio/<portfolio_id>` → resume a portfolio
 
-The Logic of the Software is built using Python and the following libraries:
-- pandas
-- numpy
-- matplotlib
-- yfinance
-- 
+Example request:
+```bash
+curl -s -X POST http://localhost:5000/api/portfolio \
+  -H "Content-Type: application/json" \
+  -d '{
+    "user_answers": {
+      "investment_goal": "retirement",
+      "investment_duration": "20_plus_years",
+      "monthly_savings": "300_500",
+      "investment_knowledge": "experienced",
+      "risk_approach": "moderate",
+      "loss_tolerance": "high_loss_tolerance",
+      "esg_preference": "no_requirement",
+      "etf_preference": "no_preference"
+    }
+  }'
+```
 
-The Frontend of the Software is built using HTML, CSS and JavaScript.
+**Data Sources**
+- Fund database: `funds_database.json`
+- Questionnaire schema: `preferences_schema.json`
+- CSV inputs (for enrichment/import): `assets/data/`
+- Notes/ideas: `notes/`
 
-## How to use it
+To (re)build the fund database from CSVs:
+1. `python scripts/import_csv_funds.py` for a dry run
+2. `python scripts/import_csv_funds.py --write` to write `funds_database.json`
 
-### Admin
+**Where Portfolios Are Stored**
+- Portfolios are written to `./portfolios/` when writable.
+- If not writable, the app falls back to `/tmp/portfolios` and logs a warning.
 
-The Admin can add new Funds to the Database. He can also edit existing Funds.
-a Database entry has the following attributes:
-- ISIN
-- Name
-- URL to the Fund (e.g. on the website of the Fund)
-- URL to the Fund's KIID
+**Tests and Linting**
+- Tests: `python -m pytest`
+- Lint: `python -m ruff check --select E,F,W .`
 
-There is no GUI for the Admin. 
-The initial Database is just a JSON file.
-There is another JSON file that defines the questions the user is asked.
+**Project Layout**
+- `funds_portfolio/` → backend logic and Flask app
+- `templates/` and `static/` → frontend UI
+- `scripts/` → data utilities and ingestion tools
 
-### User
-
-The User can create a Portfolio out of the Database. He can also edit existing Portfolios.
-a Portfolio entry has the following attributes:
-- ID
-- Name
-- Date of creation
-- ISINs of the Funds in the Portfolio
-- Answers of the user to the questions
-
-The entry URL can take the poitfolio ID as an optional parameter. If it is not provided, the user is asked to etner it malually or cninue wihtout an existing ID in which case a new Portfolio is created automatically. If it is provided, the user is asked shown the Portfolio with the given ID which he can then edit.
-
-### Machine Access
-
-The Software can also be used by machines. It will not respond to any GUI requests but will instead return the data as JSON. In case it is called with a portfolio ID, it will return the portfolio with the given ID. 
-In case it is called without a portfolio ID, it will create a new Portfolio and return its ID and empty sting answers and exit. The machine can then fill in the answers and call the Software again with the portfolio ID. 
+**License**
+This is a prototype project and does not provide financial advice.
