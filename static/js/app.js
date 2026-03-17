@@ -27,6 +27,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const scoreVal = document.getElementById('score-val');
     const recList = document.getElementById('recommendations-list');
     const displayPortId = document.getElementById('display-port-id');
+    const decisionSummaryText = document.getElementById('decision-summary-text');
+    const decisionFilters = document.getElementById('decision-filters');
 
     // Global session state
     let currentPortfolioId = null;
@@ -48,10 +50,10 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             const response = await fetch('/api/questionnaire');
             if (!response.ok) throw new Error('Failed to load questionnaire schema');
-            
+
             const data = await response.json();
             renderForm(data.sections || []);
-            
+
             loadingView.classList.add('hidden');
             welcomeView.classList.remove('hidden');
         } catch (err) {
@@ -62,24 +64,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function renderForm(sections) {
         qFields.innerHTML = '';
-        
+
         sections.forEach((section) => {
             const group = document.createElement('div');
             group.className = 'form-group';
-            
+
             const label = document.createElement('label');
             label.htmlFor = section.id;
             label.textContent = section.title || section.id.replace('_', ' ').toUpperCase();
-            
+
             if (section.required) {
                 const reqSpan = document.createElement('span');
                 reqSpan.textContent = ' *';
                 reqSpan.style.color = 'var(--accent)';
                 label.appendChild(reqSpan);
             }
-            
+
             group.appendChild(label);
-            
+
             if (section.description) {
                 const desc = document.createElement('p');
                 desc.style.fontSize = '0.85rem';
@@ -88,30 +90,30 @@ document.addEventListener('DOMContentLoaded', () => {
                 desc.textContent = section.description;
                 group.appendChild(desc);
             }
-            
+
             if (section.type === 'single_select') {
                 const wrapper = document.createElement('div');
                 wrapper.className = 'select-wrapper';
-                
+
                 const select = document.createElement('select');
                 select.id = section.id;
                 select.name = section.id;
                 if (section.required) select.required = true;
-                
+
                 const defaultOpt = document.createElement('option');
                 defaultOpt.value = '';
                 defaultOpt.textContent = 'Select an option...';
                 defaultOpt.disabled = true;
                 defaultOpt.selected = true;
                 select.appendChild(defaultOpt);
-                
+
                 (section.options || []).forEach(opt => {
                     const option = document.createElement('option');
                     option.value = opt.value;
                     option.textContent = opt.label;
                     select.appendChild(option);
                 });
-                
+
                 wrapper.appendChild(select);
                 group.appendChild(wrapper);
             } else if (section.type === 'multi_select') {
@@ -121,7 +123,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 wrapper.style.flexDirection = 'column';
                 wrapper.style.gap = '0.5rem';
                 wrapper.style.marginTop = '0.5rem';
-                
+
                 (section.options || []).forEach(opt => {
                     const cbLabel = document.createElement('label');
                     cbLabel.style.display = 'flex';
@@ -130,19 +132,19 @@ document.addEventListener('DOMContentLoaded', () => {
                     cbLabel.style.cursor = 'pointer';
                     cbLabel.style.marginBottom = '0';
                     cbLabel.style.color = 'var(--text-primary)';
-                    
+
                     const cb = document.createElement('input');
                     cb.type = 'checkbox';
                     cb.name = section.id;
                     cb.value = opt.value;
                     cb.style.marginRight = '0.75rem';
                     cb.style.width = 'auto'; // override default CSS width:100%
-                    
+
                     cbLabel.appendChild(cb);
                     cbLabel.appendChild(document.createTextNode(opt.label));
                     wrapper.appendChild(cbLabel);
                 });
-                
+
                 group.appendChild(wrapper);
             } else {
                 // Fallback for unexpected types
@@ -160,14 +162,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function handleSubmission(e) {
         e.preventDefault();
-        
+
         // Hide errors, show spinner
         errorView.classList.add('hidden');
         setLoadingState(true);
 
         const formData = new FormData(qForm);
         const userAnswers = {};
-        
+
         for (const [key, value] of formData.entries()) {
             if (userAnswers[key]) {
                 if (!Array.isArray(userAnswers[key])) {
@@ -178,9 +180,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Check if this was supposed to be a multi_select but only 1 option was checked
                 const checkboxesForName = qForm.querySelectorAll(`input[type="checkbox"][name="${key}"]`);
                 if (checkboxesForName.length > 0) {
-                     userAnswers[key] = [value];
+                    userAnswers[key] = [value];
                 } else {
-                     userAnswers[key] = value;
+                    userAnswers[key] = value;
                 }
             }
         }
@@ -189,7 +191,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (currentPortfolioId) {
             payload.portfolio_id = currentPortfolioId;
         }
-        
+
         console.log("Submitting payload to /api/portfolio:", payload);
 
         try {
@@ -228,14 +230,29 @@ document.addEventListener('DOMContentLoaded', () => {
         const previousWarnings = resultsView.querySelectorAll('.alert-error');
         previousWarnings.forEach(w => w.remove());
 
-        // Extract risk score directly from payload or default
-        const approach = portfolio.user_answers?.risk_approach || 'Unknown';
-        scoreVal.textContent = approach.replace('_', ' ').toUpperCase();
+        // Risk profile display
+        const riskLabel = portfolio.risk_profile || portfolio.user_answers?.risk_approach || 'Unknown';
+        scoreVal.textContent = riskLabel.replace('_', ' ').toUpperCase();
 
-        recList.innerHTML = '';
-        
+        // Decision summary
+        if (decisionSummaryText) {
+            const summary = portfolio.explanations?.summary || 'Summary unavailable.';
+            decisionSummaryText.textContent = summary;
+        }
+
+        if (decisionFilters) {
+            decisionFilters.innerHTML = '';
+            const filters = portfolio.decision_trace?.filters || [];
+            filters.forEach((f) => {
+                const pill = document.createElement('span');
+                pill.className = 'decision-filter';
+                pill.textContent = `${f.name}: ${f.before}→${f.after}`;
+                decisionFilters.appendChild(pill);
+            });
+        }
+
         // Add transparency warning if default fallback was used
-        const usedFallback = portfolio.calculated_metrics?.used_fallback_risk || false;
+        const usedFallback = portfolio.decision_trace?.used_fallback_risk || false;
         if (usedFallback) {
             const warningEl = document.createElement('div');
             warningEl.className = 'alert alert-error';
@@ -243,8 +260,8 @@ document.addEventListener('DOMContentLoaded', () => {
             warningEl.style.color = '#ff7b72';
             warningEl.style.backgroundColor = 'rgba(248, 81, 73, 0.1)';
             warningEl.style.border = '1px solid rgba(248, 81, 73, 0.4)';
-            warningEl.innerHTML = '<strong>Note:</strong> We could not strongly determine your exact risk profile from the provided answers. The optimizer has defaulted to a <strong>Moderate Low</strong> risk profile (Level 2).';
-            
+            warningEl.innerHTML = '<strong>Note:</strong> We could not strongly determine your exact risk profile from the provided answers. The engine defaulted to a <strong>Balanced</strong> risk profile.';
+
             // Insert after results header
             const header = resultsView.querySelector('.results-header');
             header.parentNode.insertBefore(warningEl, header.nextSibling);
@@ -255,24 +272,31 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
+        recList.innerHTML = '';
+
         portfolio.recommendations.forEach(rec => {
             const item = document.createElement('div');
             item.className = 'fund-item form-group'; // Reuse animation class
 
             const isinLabel = rec.isin ? `<span class="badge ${rec.asset_class?.toLowerCase() || 'bond'}">${rec.asset_class || 'BOND'}</span>` : '';
-            
+            const explanations = Array.isArray(rec.explanations) ? rec.explanations : [];
+            const explanationsHtml = explanations.length
+                ? `<ul class="fund-explanations">${explanations.map(e => `<li>${e}</li>`).join('')}</ul>`
+                : '';
+
             item.innerHTML = `
                 <div class="fund-meta">
                     <h4>${rec.name || 'Unknown Fund'} ${isinLabel}</h4>
                     <p>${rec.isin || 'N/A'} • Exp. Ratio: ${(rec.yearly_fee || 0).toFixed(2)}%</p>
                     <p style="font-size: 0.8rem; margin-top: 0.5rem">${rec.rationale || ''}</p>
+                    ${explanationsHtml}
                 </div>
                 <div class="fund-allocation">
                     <div class="allocation-percent">${(rec.allocation_percent || 0).toFixed(2)}%</div>
                     <div class="allocation-label">Target Weight</div>
                 </div>
             `;
-            
+
             recList.appendChild(item);
         });
     }
@@ -281,15 +305,15 @@ document.addEventListener('DOMContentLoaded', () => {
         resultsView.classList.add('hidden');
         errorView.classList.add('hidden');
         qForm.reset();
-        
+
         // Go back to the welcome screen
         welcomeView.classList.remove('hidden');
         resumeIdInput.value = '';
         resumeError.classList.add('hidden');
-        
+
         // Clear session ID
         currentPortfolioId = null;
-        
+
         // Scroll to top
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
@@ -297,19 +321,19 @@ document.addEventListener('DOMContentLoaded', () => {
     async function handleResume(e) {
         e.preventDefault();
         resumeError.classList.add('hidden');
-        
+
         let targetId = resumeIdInput.value.trim();
         if (!targetId) {
             resumeError.textContent = "Please enter a valid Portfolio ID";
             resumeError.classList.remove('hidden');
             return;
         }
-        
+
         // Clean off accidental .json extensions
         if (targetId.endsWith('.json')) {
             targetId = targetId.replace('.json', '');
         }
-        
+
         // Strip out 'port_' if they provided just the raw hash by mistake, then prepend it back
         // to be extremely resillient to copy-paste errors
         if (!targetId.startsWith('port_')) {
@@ -324,7 +348,7 @@ document.addEventListener('DOMContentLoaded', () => {
             submitBtn.disabled = true;
 
             const response = await fetch(`/api/portfolio/${targetId}`);
-            
+
             if (!response.ok) {
                 if (response.status === 404) {
                     throw new Error("Portfolio ID not found. It may have expired. Start fresh or try again.");
@@ -333,14 +357,14 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             const savedPortfolio = await response.json();
-            
+
             // Set global tracking ID if success
             currentPortfolioId = savedPortfolio.portfolio_id;
-            
+
             // Show Active Session banner
             activePortIdDisplay.textContent = currentPortfolioId;
             activeSessionBanner.classList.remove('hidden');
-            
+
             showFormView(savedPortfolio.user_answers || {});
 
         } catch (err) {
@@ -356,19 +380,19 @@ document.addEventListener('DOMContentLoaded', () => {
     function showFormView(prefillAnswers) {
         welcomeView.classList.add('hidden');
         formView.classList.remove('hidden');
-        
+
         // If we are starting fresh, make sure the banner is hidden
         if (!currentPortfolioId) {
             activeSessionBanner.classList.add('hidden');
         }
-        
+
         // Pre-fill fields if we have a saved payload
         if (prefillAnswers && Object.keys(prefillAnswers).length > 0) {
             Object.entries(prefillAnswers).forEach(([key, value]) => {
                 // Determine what type of input this is by selecting all matching inputs
                 const elements = qForm.querySelectorAll(`[name="${key}"]`);
                 if (!elements || elements.length === 0) return;
-                
+
                 // If its a multi-select checkbox cluster
                 if (elements[0].type === 'checkbox') {
                     const valueArray = Array.isArray(value) ? value : [value];
@@ -378,7 +402,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             cb.checked = true;
                         }
                     });
-                } 
+                }
                 // If its a dropdown
                 else if (elements[0].tagName.toLowerCase() === 'select') {
                     const select = elements[0];
@@ -387,7 +411,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (optionExists) {
                         select.value = value;
                     }
-                } 
+                }
                 // General input
                 else {
                     elements[0].value = value;

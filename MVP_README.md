@@ -113,6 +113,24 @@ Maps user answers → portfolio calculations.
 {
   "portfolio_id": "port_20260304_a1b2c3d4e5f6",
   "created_at": "2026-03-04T10:30:00Z",
+  "updated_at": "2026-03-04T10:30:00Z",
+  "risk_profile": "BALANCED",
+  "portfolio_metrics": {
+    "risk_profile": "BALANCED",
+    "srri_proxy": 4,
+    "weighted_fee": 0.19
+  },
+  "explanations": {
+    "summary": "Risk profile: BALANCED. Weighted fee estimate: 0.19%. ESG filters applied."
+  },
+  "decision_trace": {
+    "filters": [
+      {"name": "required_fields", "before": 197, "after": 195},
+      {"name": "esg_filter", "before": 195, "after": 120}
+    ],
+    "relaxations": [],
+    "used_fallback_risk": false
+  },
   "user_answers": {
     "investment_goal": "retirement",
     "investment_duration": "20_plus_years",
@@ -123,7 +141,11 @@ Maps user answers → portfolio calculations.
       "isin": "IE00B4L5Y983",
       "name": "iShares MSCI USA UCITS ETF",
       "allocation_percent": 30,
-      "rationale": "US equity exposure for long-term growth"
+      "rationale": "Matches your regional preference.",
+      "explanations": [
+        "Matches your regional preference.",
+        "Risk alignment and cost efficiency score: 72.5."
+      ]
     }
   ]
 }
@@ -142,14 +164,17 @@ GET /api/questionnaire
 
 POST /api/portfolio
   Body: { "user_answers": { "investment_goal": "...", ... } }
-  → Creates new portfolio, returns portfolio_id + recommendations
+  → Creates new portfolio and returns:
+    - portfolio_id
+    - recommendations
+    - risk_profile
+    - portfolio_metrics
+    - explanations
+    - decision_trace
+  → Validation errors return 400 with field-level details
 
 GET /api/portfolio/{portfolio_id}
   → Retrieve saved portfolio (from portfolios/{id}.json)
-
-PUT /api/portfolio/{portfolio_id}
-  Body: { "user_answers": {...} }
-  → Update answers, recalculate, save
 
 GET /api/funds
   → Returns funds_database.json (for debugging)
@@ -166,11 +191,10 @@ GET /api/funds
    → Generates QS report (verified/pending/failed)
 3. Manual QS: Review pending ISINs, verify URLs work
 4. Update funds_database.json with kiid_status
-5. Backend calculates Sharpe Ratio for each fund
-6. When user submits questionnaire:
-   → Filter funds by risk profile
-   → Optimize allocation using scipy.optimize
-   → Return portfolio with ISINs + allocations %
+5. Decision engine applies ESG/ETF/risk filters and preference rules
+6. Scores and selects a diversified shortlist
+7. Allocates weights with risk/preference tilts
+8. Returns portfolio + explanations + decision trace
 ```
 
 ---

@@ -16,7 +16,6 @@ Usage:
 import csv
 import json
 import os
-import sys
 import argparse
 from datetime import date
 from typing import Dict, List, Optional, Tuple
@@ -28,13 +27,14 @@ from typing import Dict, List, Optional, Tuple
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 PROJECT_ROOT = os.path.abspath(os.path.join(SCRIPT_DIR, ".."))
 FUND_DB_PATH = os.path.join(PROJECT_ROOT, "funds_database.json")
+DATA_DIR = os.path.join(PROJECT_ROOT, "assets", "data")
 
 CSV_FILES = {
-    "FundsInitDB_de_de": os.path.join(PROJECT_ROOT, "FundsInitDB_de_de.csv"),
-    "aktienfonds_50":    os.path.join(PROJECT_ROOT, "aktienfonds_50.csv"),
-    "etfs_50":           os.path.join(PROJECT_ROOT, "etfs_50.csv"),
-    "mischfonds_50":     os.path.join(PROJECT_ROOT, "mischfonds_50.csv"),
-    "rentenfonds_50":    os.path.join(PROJECT_ROOT, "rentenfonds_50.csv"),
+    "FundsInitDB_de_de": os.path.join(DATA_DIR, "FundsInitDB_de_de.csv"),
+    "aktienfonds_50": os.path.join(DATA_DIR, "aktienfonds_50.csv"),
+    "etfs_50": os.path.join(DATA_DIR, "etfs_50.csv"),
+    "mischfonds_50": os.path.join(DATA_DIR, "mischfonds_50.csv"),
+    "rentenfonds_50": os.path.join(DATA_DIR, "rentenfonds_50.csv"),
 }
 
 
@@ -44,41 +44,61 @@ CSV_FILES = {
 FONDSTYP_MAP: List[Tuple[str, str, List[str], str]] = [
     # (prefix, asset_class, categories, region)
     # --- Aktienfonds ---
-    ("Aktienfonds – Europa",          "equity", ["european_equity"],                  "europe"),
-    ("Aktienfonds Europa",            "equity", ["european_equity"],                  "europe"),
-    ("Aktienfonds International",     "equity", ["global_equity"],                    "global"),
-    ("Aktienfonds Deutschland",       "equity", ["german_equity"],                    "germany"),
-    ("Aktienfonds Euroland",          "equity", ["eurozone_equity"],                  "eurozone"),
-    ("Aktienfonds Südostasien",       "equity", ["asian_equity"],                     "asia"),
-    ("Aktienfonds Emerging Markets",  "equity", ["emerging_markets"],                 "emerging_markets"),
-    ("Aktienfonds Branchen/Themen",   "equity", ["thematic_equity"],                  "global"),
+    ("Aktienfonds – Europa", "equity", ["european_equity"], "europe"),
+    ("Aktienfonds Europa", "equity", ["european_equity"], "europe"),
+    ("Aktienfonds International", "equity", ["global_equity"], "global"),
+    ("Aktienfonds Deutschland", "equity", ["german_equity"], "germany"),
+    ("Aktienfonds Euroland", "equity", ["eurozone_equity"], "eurozone"),
+    ("Aktienfonds Südostasien", "equity", ["asian_equity"], "asia"),
+    (
+        "Aktienfonds Emerging Markets",
+        "equity",
+        ["emerging_markets"],
+        "emerging_markets",
+    ),
+    ("Aktienfonds Branchen/Themen", "equity", ["thematic_equity"], "global"),
     # --- ETFs ---
-    ("ETF – MSCI Europe ESG",         "equity", ["etf", "european_equity", "esg"],   "europe"),
-    ("ETF – MSCI Europe SRI",         "equity", ["etf", "european_equity", "esg"],   "europe"),
-    ("ETF – MSCI Europe Small Cap",   "equity", ["etf", "small_cap"],                "europe"),
-    ("ETF – MSCI Europe",             "equity", ["etf", "european_equity"],           "europe"),
-    ("ETF – STOXX Europe 600 Technology", "equity", ["etf", "technology"],           "europe"),
-    ("ETF – STOXX Europe 600 ESG",    "equity", ["etf", "european_equity", "esg"],   "europe"),
-    ("ETF – STOXX Europe 600 ESG-X",  "equity", ["etf", "european_equity", "esg"],   "europe"),
-    ("ETF – STOXX Europe 600",        "equity", ["etf", "european_equity"],           "europe"),
-    ("ETF – EURO STOXX 50 ESG",       "equity", ["etf", "eurozone_equity", "esg"],   "eurozone"),
-    ("ETF – EURO STOXX 50",           "equity", ["etf", "eurozone_equity"],           "eurozone"),
-    ("ETF – FTSE Europe",             "equity", ["etf", "european_equity"],           "europe"),
+    ("ETF – MSCI Europe ESG", "equity", ["etf", "european_equity", "esg"], "europe"),
+    ("ETF – MSCI Europe SRI", "equity", ["etf", "european_equity", "esg"], "europe"),
+    ("ETF – MSCI Europe Small Cap", "equity", ["etf", "small_cap"], "europe"),
+    ("ETF – MSCI Europe", "equity", ["etf", "european_equity"], "europe"),
+    ("ETF – STOXX Europe 600 Technology", "equity", ["etf", "technology"], "europe"),
+    (
+        "ETF – STOXX Europe 600 ESG",
+        "equity",
+        ["etf", "european_equity", "esg"],
+        "europe",
+    ),
+    (
+        "ETF – STOXX Europe 600 ESG-X",
+        "equity",
+        ["etf", "european_equity", "esg"],
+        "europe",
+    ),
+    ("ETF – STOXX Europe 600", "equity", ["etf", "european_equity"], "europe"),
+    (
+        "ETF – EURO STOXX 50 ESG",
+        "equity",
+        ["etf", "eurozone_equity", "esg"],
+        "eurozone",
+    ),
+    ("ETF – EURO STOXX 50", "equity", ["etf", "eurozone_equity"], "eurozone"),
+    ("ETF – FTSE Europe", "equity", ["etf", "european_equity"], "europe"),
     # --- Mischfonds ---
-    ("Mischfonds – Europa",           "mixed",  ["balanced", "european_mixed"],       "europe"),
-    ("Mischfonds",                    "mixed",  ["balanced"],                          "global"),
+    ("Mischfonds – Europa", "mixed", ["balanced", "european_mixed"], "europe"),
+    ("Mischfonds", "mixed", ["balanced"], "global"),
     # --- Rentenfonds ---
-    ("Rentenfonds – Geldmarkt",       "bond",   ["money_market"],                     "europe"),
-    ("Rentenfonds – Hochverzinslich", "bond",   ["high_yield_bonds"],                 "europe"),
-    ("Rentenfonds – Flexibel",        "bond",   ["flexible_bonds"],                   "europe"),
-    ("Rentenfonds – Europa",          "bond",   ["european_bonds"],                   "europe"),
-    ("Rentenfonds International",     "bond",   ["global_bonds"],                     "global"),
-    ("Rentenfonds Europa",            "bond",   ["european_bonds"],                   "europe"),
+    ("Rentenfonds – Geldmarkt", "bond", ["money_market"], "europe"),
+    ("Rentenfonds – Hochverzinslich", "bond", ["high_yield_bonds"], "europe"),
+    ("Rentenfonds – Flexibel", "bond", ["flexible_bonds"], "europe"),
+    ("Rentenfonds – Europa", "bond", ["european_bonds"], "europe"),
+    ("Rentenfonds International", "bond", ["global_bonds"], "global"),
+    ("Rentenfonds Europa", "bond", ["european_bonds"], "europe"),
     # --- FundsInitDB Kategorie values ---
-    ("Wertsicherungsfonds",           "mixed",  ["capital_protection"],               "global"),
-    ("Geldmarktnahe Fonds",           "bond",   ["money_market"],                     "europe"),
-    ("Indexfonds (ETFs)",             "equity", ["etf"],                              "global"),
-    ("Vermögensverwaltende Fonds",    "mixed",  ["multi_asset"],                      "global"),
+    ("Wertsicherungsfonds", "mixed", ["capital_protection"], "global"),
+    ("Geldmarktnahe Fonds", "bond", ["money_market"], "europe"),
+    ("Indexfonds (ETFs)", "equity", ["etf"], "global"),
+    ("Vermögensverwaltende Fonds", "mixed", ["multi_asset"], "global"),
 ]
 
 
@@ -96,10 +116,10 @@ def map_fondstyp(raw: str) -> Tuple[str, List[str], str]:
 # Risk level mapping
 # ---------------------------------------------------------------------------
 RISIKOKLASSE_MAP: Dict[str, int] = {
-    "niedrig":     2,
-    "mittel":      3,
-    "hoch":        5,
-    "sehr hoch":   5,
+    "niedrig": 2,
+    "mittel": 3,
+    "hoch": 5,
+    "sehr hoch": 5,
     "sehr niedrig": 1,
 }
 
@@ -141,17 +161,17 @@ def parse_fundsinitdb(filepath: str, source_name: str) -> List[Dict]:
     funds = []
     with open(filepath, encoding="utf-8-sig") as f:
         reader = csv.reader(f, delimiter=";")
-        header = next(reader)  # skip header
+        next(reader, None)  # skip header
         for row in reader:
             if not row or len(row) < 4:
                 continue
             # row layout: Nr. | Kategorie | Fondsname | ISIN | Art8 | Art9 | Risiko
             kategorie = row[1].strip() if len(row) > 1 else ""
-            name      = row[2].strip() if len(row) > 2 else ""
-            isin_raw  = row[3].strip() if len(row) > 3 else ""
-            art8      = row[4].strip() if len(row) > 4 else ""
-            art9      = row[5].strip() if len(row) > 5 else ""
-            risk_raw  = row[6].strip() if len(row) > 6 else "3"
+            name = row[2].strip() if len(row) > 2 else ""
+            isin_raw = row[3].strip() if len(row) > 3 else ""
+            art8 = row[4].strip() if len(row) > 4 else ""
+            art9 = row[5].strip() if len(row) > 5 else ""
+            risk_raw = row[6].strip() if len(row) > 6 else "3"
 
             isin = sanitise_isin(isin_raw)
             if not isin or not name:
@@ -161,19 +181,19 @@ def parse_fundsinitdb(filepath: str, source_name: str) -> List[Dict]:
             risk_level = map_risk_level(risk_raw)
 
             fund = {
-                "isin":          isin,
-                "name":          name,
-                "provider":      _derive_provider(name),
-                "kiid_url":      None,
-                "asset_class":   asset_class,
-                "region":        region,
-                "categories":    categories,
-                "risk_level":    risk_level,
-                "yearly_fee":    None,
+                "isin": isin,
+                "name": name,
+                "provider": _derive_provider(name),
+                "kiid_url": None,
+                "asset_class": asset_class,
+                "region": region,
+                "categories": categories,
+                "risk_level": risk_level,
+                "yearly_fee": None,
                 "esg_article_8": is_esg_checked(art8),
                 "esg_article_9": is_esg_checked(art9),
-                "notes":         None,
-                "source":        source_name,
+                "notes": None,
+                "source": source_name,
             }
             funds.append(enrich_fund(fund))
     return funds
@@ -189,13 +209,13 @@ def parse_generic_csv(filepath: str, source_name: str) -> List[Dict]:
     with open(filepath, encoding="utf-8-sig") as f:
         reader = csv.DictReader(f)
         for row in reader:
-            name      = row.get("Name des Fonds", "").strip()
-            isin_raw  = row.get("ISIN", "").strip()
-            fondstyp  = row.get("Fondstyp", "").strip()
-            risiko    = row.get("Risikoklasse", "Mittel").strip()
-            provider  = row.get("Ausgebende Gesellschaft", "").strip()
-            kiid_url  = row.get("Link zum KIID/Factsheet", "").strip() or None
-            notes     = row.get("Besonderheiten", "").strip() or None
+            name = row.get("Name des Fonds", "").strip()
+            isin_raw = row.get("ISIN", "").strip()
+            fondstyp = row.get("Fondstyp", "").strip()
+            risiko = row.get("Risikoklasse", "Mittel").strip()
+            provider = row.get("Ausgebende Gesellschaft", "").strip()
+            kiid_url = row.get("Link zum KIID/Factsheet", "").strip() or None
+            notes = row.get("Besonderheiten", "").strip() or None
 
             isin = sanitise_isin(isin_raw)
             if not isin or not name:
@@ -205,19 +225,19 @@ def parse_generic_csv(filepath: str, source_name: str) -> List[Dict]:
             risk_level = map_risk_level(risiko)
 
             fund = {
-                "isin":          isin,
-                "name":          name,
-                "provider":      provider or _derive_provider(name),
-                "kiid_url":      kiid_url,
-                "asset_class":   asset_class,
-                "region":        region,
-                "categories":    categories,
-                "risk_level":    risk_level,
-                "yearly_fee":    None,
+                "isin": isin,
+                "name": name,
+                "provider": provider or _derive_provider(name),
+                "kiid_url": kiid_url,
+                "asset_class": asset_class,
+                "region": region,
+                "categories": categories,
+                "risk_level": risk_level,
+                "yearly_fee": None,
                 "esg_article_8": False,
                 "esg_article_9": False,
-                "notes":         notes,
-                "source":        source_name,
+                "notes": notes,
+                "source": source_name,
             }
             funds.append(enrich_fund(fund))
     return funds
@@ -227,16 +247,62 @@ def parse_generic_csv(filepath: str, source_name: str) -> List[Dict]:
 # Derive provider name from fund name (heuristic fallback)
 # ---------------------------------------------------------------------------
 KNOWN_PROVIDERS = [
-    "iShares", "Vanguard", "Amundi", "DWS", "Deka", "SPDR", "Xtrackers",
-    "Lyxor", "Comgest", "Fidelity", "Schroders", "Invesco", "BlackRock",
-    "JPMorgan", "Allianz", "UBS", "BNP Paribas", "Pictet", "Nordea",
-    "Carmignac", "Flossbach", "Ökoworld", "Templeton", "Franklin",
-    "ComStage", "HSBC", "BGF", "AB ", "MFS", "T. Rowe", "Janus Henderson",
-    "Neuberger", "Legg Mason", "Morgan Stanley", "Goldman Sachs",
-    "Threadneedle", "Aviva", "AXA", "BNY Mellon", "RobecoSAM", "Robeco",
-    "Credit Suisse", "M&G", "Capital Group", "Dimensional", "Acatis",
-    "Ethna", "Swisscanto", "Provinzial", "SK ", "LIGA", "SCOR", "Lazard",
-    "Antecedo", "BayernInvest", "Goyer",
+    "iShares",
+    "Vanguard",
+    "Amundi",
+    "DWS",
+    "Deka",
+    "SPDR",
+    "Xtrackers",
+    "Lyxor",
+    "Comgest",
+    "Fidelity",
+    "Schroders",
+    "Invesco",
+    "BlackRock",
+    "JPMorgan",
+    "Allianz",
+    "UBS",
+    "BNP Paribas",
+    "Pictet",
+    "Nordea",
+    "Carmignac",
+    "Flossbach",
+    "Ökoworld",
+    "Templeton",
+    "Franklin",
+    "ComStage",
+    "HSBC",
+    "BGF",
+    "AB ",
+    "MFS",
+    "T. Rowe",
+    "Janus Henderson",
+    "Neuberger",
+    "Legg Mason",
+    "Morgan Stanley",
+    "Goldman Sachs",
+    "Threadneedle",
+    "Aviva",
+    "AXA",
+    "BNY Mellon",
+    "RobecoSAM",
+    "Robeco",
+    "Credit Suisse",
+    "M&G",
+    "Capital Group",
+    "Dimensional",
+    "Acatis",
+    "Ethna",
+    "Swisscanto",
+    "Provinzial",
+    "SK ",
+    "LIGA",
+    "SCOR",
+    "Lazard",
+    "Antecedo",
+    "BayernInvest",
+    "Goyer",
 ]
 
 
@@ -253,12 +319,15 @@ def _derive_provider(name: str) -> str:
 # Derived fields for OptimizerPseudoCode compatibility
 # ---------------------------------------------------------------------------
 
+
 def derive_is_etf(categories: List[str]) -> bool:
     """True when 'etf' is listed in the fund's categories."""
     return "etf" in [c.lower() for c in categories]
 
 
-def derive_esg_label(esg_article_8: bool, esg_article_9: bool, categories: List[str]) -> str:
+def derive_esg_label(
+    esg_article_8: bool, esg_article_9: bool, categories: List[str]
+) -> str:
     """
     Map SFDR disclosure flags + ESG category tag to the optimizer's label set:
       SFDR_ARTICLE_9 > SFDR_ARTICLE_8 > MEDIUM (esg category) > LOW
@@ -274,10 +343,31 @@ def derive_esg_label(esg_article_8: bool, esg_article_9: bool, categories: List[
 
 # Category / notes keywords → optimizer Theme
 _THEME_KEYWORDS: List[Tuple[List[str], str]] = [
-    (["technology", "tech", "digitali", "digital", "ki", "artificial", "innovation"],    "TECHNOLOGY"),
-    (["health", "gesundheit", "biotech", "pharma", "medical", "life science"],             "HEALTHCARE"),
-    (["sustainability", "climate", "clean", "green", "water", "warming",
-      "nachhaltig", "umwelt", "esg", "impact", "responsible", "environmental"],           "SUSTAINABILITY"),
+    (
+        ["technology", "tech", "digitali", "digital", "ki", "artificial", "innovation"],
+        "TECHNOLOGY",
+    ),
+    (
+        ["health", "gesundheit", "biotech", "pharma", "medical", "life science"],
+        "HEALTHCARE",
+    ),
+    (
+        [
+            "sustainability",
+            "climate",
+            "clean",
+            "green",
+            "water",
+            "warming",
+            "nachhaltig",
+            "umwelt",
+            "esg",
+            "impact",
+            "responsible",
+            "environmental",
+        ],
+        "SUSTAINABILITY",
+    ),
 ]
 
 
@@ -307,24 +397,26 @@ def enrich_fund(fund: Dict) -> Dict:
     Add/overwrite the four derived fields on a fund dict in-place.
     Safe to call on both freshly-parsed and existing curated entries.
     """
-    cats      = fund.get("categories", [])
-    art8      = fund.get("esg_article_8", False)
-    art9      = fund.get("esg_article_9", False)
-    notes     = fund.get("notes")
-    name      = fund.get("name", "")
-    risk_lvl  = fund.get("risk_level", 3)
+    cats = fund.get("categories", [])
+    art8 = fund.get("esg_article_8", False)
+    art9 = fund.get("esg_article_9", False)
+    notes = fund.get("notes")
+    name = fund.get("name", "")
+    risk_lvl = fund.get("risk_level", 3)
 
-    fund["is_etf"]    = derive_is_etf(cats)
+    fund["is_etf"] = derive_is_etf(cats)
     fund["esg_label"] = derive_esg_label(art8, art9, cats)
-    fund["theme"]     = derive_theme(cats, notes, name)
-    fund["srri"]      = derive_srri(risk_lvl)
+    fund["theme"] = derive_theme(cats, notes, name)
+    fund["srri"] = derive_srri(risk_lvl)
     return fund
 
 
 # ---------------------------------------------------------------------------
 # Merge: existing DB first (curated wins), then CSV rows
 # ---------------------------------------------------------------------------
-def merge_funds(existing: List[Dict], csv_batches: List[Tuple[str, List[Dict]]]) -> Tuple[List[Dict], Dict]:
+def merge_funds(
+    existing: List[Dict], csv_batches: List[Tuple[str, List[Dict]]]
+) -> Tuple[List[Dict], Dict]:
     seen_isins: Dict[str, str] = {}  # isin → source
     result: List[Dict] = []
     skipped: Dict[str, List[str]] = {}  # source → list of skipped ISINs
@@ -367,8 +459,12 @@ def load_existing_db(path: str) -> Tuple[List[Dict], Dict]:
 # Main
 # ---------------------------------------------------------------------------
 def main():
-    parser = argparse.ArgumentParser(description="Import fund CSVs into funds_database.json")
-    parser.add_argument("--write", action="store_true", help="Write the merged database to disk")
+    parser = argparse.ArgumentParser(
+        description="Import fund CSVs into funds_database.json"
+    )
+    parser.add_argument(
+        "--write", action="store_true", help="Write the merged database to disk"
+    )
     args = parser.parse_args()
 
     # Load existing
@@ -397,7 +493,11 @@ def main():
     print(f"Duplicate ISINs skipped: {total_skipped}")
     for src, isins in skipped.items():
         if isins:
-            print(f"  [{src}] skipped {len(isins)}: {', '.join(isins[:5])}{'...' if len(isins) > 5 else ''}")
+            print(
+                f"  [{src}] skipped {len(isins)}: "
+                f"{', '.join(isins[:5])}"
+                f"{'...' if len(isins) > 5 else ''}"
+            )
 
     # Asset class breakdown
     breakdown: Dict[str, int] = {}
@@ -414,7 +514,7 @@ def main():
 
     # Build new metadata
     new_metadata = {
-        "version":     "2.0",
+        "version": "2.0",
         "last_updated": str(date.today()),
         "total_funds": len(merged),
         "data_source": (
@@ -425,14 +525,17 @@ def main():
 
     output = {
         "funds_database": merged,
-        "metadata":       new_metadata,
+        "metadata": new_metadata,
     }
 
     with open(FUND_DB_PATH, "w", encoding="utf-8") as f:
         json.dump(output, f, indent=2, ensure_ascii=False)
 
     print(f"\n✓ Written {len(merged)} funds to {FUND_DB_PATH}")
-    print(f"  version: {new_metadata['version']}, last_updated: {new_metadata['last_updated']}")
+    print(
+        f"  version: {new_metadata['version']}, "
+        f"last_updated: {new_metadata['last_updated']}"
+    )
 
 
 if __name__ == "__main__":
