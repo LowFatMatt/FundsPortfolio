@@ -3,6 +3,13 @@
 import os
 import logging
 from flask import Flask, jsonify, render_template, render_template_string
+import datetime
+import os
+
+# Get build info from environment variables (if planned)
+BUILD_NUMBER = os.environ.get("BUILD_NUMBER", "dev")
+BUILD_TIMESTAMP = os.environ.get("BUILD_TIMESTAMP", datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S UTC"))
+
 
 
 def create_app():
@@ -24,7 +31,7 @@ def create_app():
         # Try to render the template; fall back if missing
         tpl_path = os.path.join(app.template_folder, "index.html")
         if os.path.exists(tpl_path):
-            return render_template("index.html")
+            return render_template("index.html", build_number=BUILD_NUMBER, build_timestamp=BUILD_TIMESTAMP)
         logging.warning(
             "index.html template not found at %s, returning fallback HTML", tpl_path
         )
