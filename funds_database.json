@@ -9,9 +9,13 @@
       "kiid_url": "https://www.justetf.com/en/etf-profile.html?isin=IE00B4L5Y983",
       "asset_class": "equity",
       "region": "global",
-      "categories": ["global_equity","developed_markets","etf"],
+      "categories": [
+        "global_equity",
+        "developed_markets",
+        "etf"
+      ],
       "risk_level": 5,
-      "yearly_fee": 0.20,
+      "yearly_fee": 0.2,
       "is_etf": true,
       "esg_label": "LOW",
       "theme": "NONE",
@@ -31,9 +35,14 @@
       "kiid_url": "https://www.justetf.com/en/etf-profile.html?isin=IE00B0M63284",
       "asset_class": "equity",
       "region": "europe",
-      "categories": ["european_equity","real_estate","dividend_stocks","etf"],
+      "categories": [
+        "european_equity",
+        "real_estate",
+        "dividend_stocks",
+        "etf"
+      ],
       "risk_level": 5,
-      "yearly_fee": 0.40,
+      "yearly_fee": 0.4,
       "is_etf": true,
       "esg_label": "LOW",
       "theme": "NONE",
@@ -53,9 +62,14 @@
       "kiid_url": "https://www.justetf.com/en/etf-profile.html?isin=IE00B4RL5Z48",
       "asset_class": "bond",
       "region": "global",
-      "categories": ["government_bonds","corporate_bonds","aggregate_bonds","etf"],
+      "categories": [
+        "government_bonds",
+        "corporate_bonds",
+        "aggregate_bonds",
+        "etf"
+      ],
       "risk_level": 2,
-      "yearly_fee": 0.10,
+      "yearly_fee": 0.1,
       "is_etf": true,
       "esg_label": "LOW",
       "theme": "NONE",
@@ -75,7 +89,12 @@
       "kiid_url": "https://www.justetf.com/en/etf-profile.html?isin=IE00B5BMR087",
       "asset_class": "equity",
       "region": "global",
-      "categories": ["global_equity","developed_markets","emerging_markets","etf"],
+      "categories": [
+        "global_equity",
+        "developed_markets",
+        "emerging_markets",
+        "etf"
+      ],
       "risk_level": 5,
       "yearly_fee": 0.22,
       "is_etf": true,
@@ -97,7 +116,11 @@
       "kiid_url": "https://www.justetf.com/en/etf-profile.html?isin=IE00B1FZS798",
       "asset_class": "bond",
       "region": "north_america",
-      "categories": ["government_bonds","us_treasury","etf"],
+      "categories": [
+        "government_bonds",
+        "us_treasury",
+        "etf"
+      ],
       "risk_level": 3,
       "yearly_fee": 0.07,
       "is_etf": true,
@@ -119,7 +142,9 @@
       "kiid_url": null,
       "asset_class": "mixed",
       "region": "europe",
-      "categories": ["capital_protection"],
+      "categories": [
+        "capital_protection"
+      ],
       "risk_level": 4,
       "yearly_fee": null,
       "is_etf": false,
@@ -141,7 +166,9 @@
       "kiid_url": null,
       "asset_class": "mixed",
       "region": "global",
-      "categories": ["capital_protection"],
+      "categories": [
+        "capital_protection"
+      ],
       "risk_level": 4,
       "yearly_fee": null,
       "is_etf": false,
@@ -163,7 +190,9 @@
       "kiid_url": null,
       "asset_class": "mixed",
       "region": "global",
-      "categories": ["capital_protection"],
+      "categories": [
+        "capital_protection"
+      ],
       "risk_level": 4,
       "yearly_fee": null,
       "is_etf": false,
@@ -185,7 +214,9 @@
       "kiid_url": null,
       "asset_class": "mixed",
       "region": "europe",
-      "categories": ["capital_protection"],
+      "categories": [
+        "capital_protection"
+      ],
       "risk_level": 3,
       "yearly_fee": null,
       "is_etf": false,
@@ -207,7 +238,9 @@
       "kiid_url": null,
       "asset_class": "mixed",
       "region": "global",
-      "categories": ["capital_protection"],
+      "categories": [
+        "capital_protection"
+      ],
       "risk_level": 3,
       "yearly_fee": null,
       "is_etf": false,
@@ -229,7 +262,9 @@
       "kiid_url": null,
       "asset_class": "equity",
       "region": "global",
-      "categories": ["global_equity"],
+      "categories": [
+        "global_equity"
+      ],
       "risk_level": 4,
       "yearly_fee": null,
       "is_etf": false,
@@ -251,7 +286,9 @@
       "kiid_url": null,
       "asset_class": "equity",
       "region": "global",
-      "categories": ["global_equity"],
+      "categories": [
+        "global_equity"
+      ],
       "risk_level": 4,
       "yearly_fee": 2.06,
       "is_etf": false,
@@ -273,7 +310,10 @@
       "kiid_url": null,
       "asset_class": "equity",
       "region": "global",
-      "categories": ["global_equity","small_cap"],
+      "categories": [
+        "global_equity",
+        "small_cap"
+      ],
       "risk_level": 5,
       "yearly_fee": null,
       "is_etf": false,
@@ -295,7 +335,10 @@
       "kiid_url": null,
       "asset_class": "equity",
       "region": "global",
-      "categories": ["global_equity","dividend_stocks"],
+      "categories": [
+        "global_equity",
+        "dividend_stocks"
+      ],
       "risk_level": 3,
       "yearly_fee": 1.46,
       "is_etf": false,
@@ -317,7 +360,9 @@
       "kiid_url": null,
       "asset_class": "equity",
       "region": "global",
-      "categories": ["global_equity"],
+      "categories": [
+        "global_equity"
+      ],
       "risk_level": 4,
       "yearly_fee": null,
       "is_etf": false,
@@ -339,7 +384,10 @@
       "kiid_url": null,
       "asset_class": "equity",
       "region": "global",
-      "categories": ["global_equity","dividend_stocks"],
+      "categories": [
+        "global_equity",
+        "dividend_stocks"
+      ],
       "risk_level": 3,
       "yearly_fee": null,
       "is_etf": false,
@@ -361,7 +409,9 @@
       "kiid_url": null,
       "asset_class": "equity",
       "region": "global",
-      "categories": ["global_equity"],
+      "categories": [
+        "global_equity"
+      ],
       "risk_level": 4,
       "yearly_fee": null,
       "is_etf": false,
@@ -383,7 +433,9 @@
       "kiid_url": null,
       "asset_class": "equity",
       "region": "global",
-      "categories": ["global_equity"],
+      "categories": [
+        "global_equity"
+      ],
       "risk_level": 4,
       "yearly_fee": null,
       "is_etf": false,
@@ -405,7 +457,10 @@
       "kiid_url": null,
       "asset_class": "equity",
       "region": "global",
-      "categories": ["global_equity","low_volatility"],
+      "categories": [
+        "global_equity",
+        "low_volatility"
+      ],
       "risk_level": 3,
       "yearly_fee": null,
       "is_etf": false,
@@ -427,7 +482,9 @@
       "kiid_url": null,
       "asset_class": "equity",
       "region": "global",
-      "categories": ["global_equity"],
+      "categories": [
+        "global_equity"
+      ],
       "risk_level": 4,
       "yearly_fee": null,
       "is_etf": false,
@@ -449,7 +506,10 @@
       "kiid_url": null,
       "asset_class": "equity",
       "region": "global",
-      "categories": ["global_equity","impact_investing"],
+      "categories": [
+        "global_equity",
+        "impact_investing"
+      ],
       "risk_level": 4,
       "yearly_fee": null,
       "is_etf": false,
@@ -471,7 +531,10 @@
       "kiid_url": null,
       "asset_class": "equity",
       "region": "global",
-      "categories": ["thematic_equity","technology"],
+      "categories": [
+        "thematic_equity",
+        "technology"
+      ],
       "risk_level": 4,
       "yearly_fee": null,
       "is_etf": false,
@@ -493,7 +556,9 @@
       "kiid_url": null,
       "asset_class": "equity",
       "region": "global",
-      "categories": ["thematic_equity"],
+      "categories": [
+        "thematic_equity"
+      ],
       "risk_level": 4,
       "yearly_fee": null,
       "is_etf": false,
@@ -515,7 +580,10 @@
       "kiid_url": null,
       "asset_class": "equity",
       "region": "global",
-      "categories": ["thematic_equity","global_equity"],
+      "categories": [
+        "thematic_equity",
+        "global_equity"
+      ],
       "risk_level": 4,
       "yearly_fee": null,
       "is_etf": false,
@@ -537,7 +605,9 @@
       "kiid_url": null,
       "asset_class": "equity",
       "region": "global",
-      "categories": ["global_equity"],
+      "categories": [
+        "global_equity"
+      ],
       "risk_level": 4,
       "yearly_fee": null,
       "is_etf": false,
@@ -559,7 +629,9 @@
       "kiid_url": null,
       "asset_class": "equity",
       "region": "global",
-      "categories": ["global_equity"],
+      "categories": [
+        "global_equity"
+      ],
       "risk_level": 4,
       "yearly_fee": null,
       "is_etf": false,
@@ -581,7 +653,9 @@
       "kiid_url": null,
       "asset_class": "equity",
       "region": "global",
-      "categories": ["global_equity"],
+      "categories": [
+        "global_equity"
+      ],
       "risk_level": 4,
       "yearly_fee": null,
       "is_etf": false,
@@ -603,7 +677,9 @@
       "kiid_url": null,
       "asset_class": "equity",
       "region": "global",
-      "categories": ["global_equity"],
+      "categories": [
+        "global_equity"
+      ],
       "risk_level": 4,
       "yearly_fee": null,
       "is_etf": false,
@@ -625,7 +701,9 @@
       "kiid_url": null,
       "asset_class": "equity",
       "region": "europe",
-      "categories": ["european_equity"],
+      "categories": [
+        "european_equity"
+      ],
       "risk_level": 4,
       "yearly_fee": null,
       "is_etf": false,
@@ -647,7 +725,10 @@
       "kiid_url": null,
       "asset_class": "equity",
       "region": "europe",
-      "categories": ["european_equity","small_cap"],
+      "categories": [
+        "european_equity",
+        "small_cap"
+      ],
       "risk_level": 4,
       "yearly_fee": null,
       "is_etf": false,
@@ -669,7 +750,9 @@
       "kiid_url": null,
       "asset_class": "equity",
       "region": "europe",
-      "categories": ["european_equity"],
+      "categories": [
+        "european_equity"
+      ],
       "risk_level": 4,
       "yearly_fee": null,
       "is_etf": false,
@@ -691,7 +774,9 @@
       "kiid_url": null,
       "asset_class": "equity",
       "region": "europe",
-      "categories": ["european_equity"],
+      "categories": [
+        "european_equity"
+      ],
       "risk_level": 4,
       "yearly_fee": null,
       "is_etf": false,
@@ -713,7 +798,9 @@
       "kiid_url": null,
       "asset_class": "equity",
       "region": "eurozone",
-      "categories": ["eurozone_equity"],
+      "categories": [
+        "eurozone_equity"
+      ],
       "risk_level": 4,
       "yearly_fee": null,
       "is_etf": false,
@@ -735,7 +822,9 @@
       "kiid_url": null,
       "asset_class": "equity",
       "region": "germany",
-      "categories": ["german_equity"],
+      "categories": [
+        "german_equity"
+      ],
       "risk_level": 4,
       "yearly_fee": null,
       "is_etf": false,
@@ -757,7 +846,9 @@
       "kiid_url": null,
       "asset_class": "equity",
       "region": "asia",
-      "categories": ["asian_equity"],
+      "categories": [
+        "asian_equity"
+      ],
       "risk_level": 4,
       "yearly_fee": null,
       "is_etf": false,
@@ -779,7 +870,9 @@
       "kiid_url": null,
       "asset_class": "equity",
       "region": "asia",
-      "categories": ["asian_equity"],
+      "categories": [
+        "asian_equity"
+      ],
       "risk_level": 4,
       "yearly_fee": null,
       "is_etf": false,
@@ -801,7 +894,9 @@
       "kiid_url": null,
       "asset_class": "equity",
       "region": "emerging_markets",
-      "categories": ["emerging_markets"],
+      "categories": [
+        "emerging_markets"
+      ],
       "risk_level": 4,
       "yearly_fee": null,
       "is_etf": false,
@@ -823,7 +918,11 @@
       "kiid_url": null,
       "asset_class": "equity",
       "region": "global",
-      "categories": ["thematic_equity","gold_mining","commodities"],
+      "categories": [
+        "thematic_equity",
+        "gold_mining",
+        "commodities"
+      ],
       "risk_level": 5,
       "yearly_fee": null,
       "is_etf": false,
@@ -845,7 +944,11 @@
       "kiid_url": null,
       "asset_class": "equity",
       "region": "global",
-      "categories": ["thematic_equity","mining","commodities"],
+      "categories": [
+        "thematic_equity",
+        "mining",
+        "commodities"
+      ],
       "risk_level": 5,
       "yearly_fee": null,
       "is_etf": false,
@@ -867,7 +970,10 @@
       "kiid_url": null,
       "asset_class": "equity",
       "region": "global",
-      "categories": ["thematic_equity","healthcare"],
+      "categories": [
+        "thematic_equity",
+        "healthcare"
+      ],
       "risk_level": 4,
       "yearly_fee": null,
       "is_etf": false,
@@ -889,7 +995,11 @@
       "kiid_url": null,
       "asset_class": "equity",
       "region": "global",
-      "categories": ["thematic_equity","technology","artificial_intelligence"],
+      "categories": [
+        "thematic_equity",
+        "technology",
+        "artificial_intelligence"
+      ],
       "risk_level": 5,
       "yearly_fee": null,
       "is_etf": false,
@@ -911,7 +1021,10 @@
       "kiid_url": null,
       "asset_class": "equity",
       "region": "global",
-      "categories": ["thematic_equity","defense"],
+      "categories": [
+        "thematic_equity",
+        "defense"
+      ],
       "risk_level": 4,
       "yearly_fee": null,
       "is_etf": false,
@@ -933,7 +1046,10 @@
       "kiid_url": null,
       "asset_class": "equity",
       "region": "global",
-      "categories": ["thematic_equity","technology"],
+      "categories": [
+        "thematic_equity",
+        "technology"
+      ],
       "risk_level": 4,
       "yearly_fee": null,
       "is_etf": false,
@@ -955,7 +1071,10 @@
       "kiid_url": null,
       "asset_class": "equity",
       "region": "global",
-      "categories": ["thematic_equity","infrastructure"],
+      "categories": [
+        "thematic_equity",
+        "infrastructure"
+      ],
       "risk_level": 4,
       "yearly_fee": null,
       "is_etf": false,
@@ -977,7 +1096,10 @@
       "kiid_url": null,
       "asset_class": "equity",
       "region": "global",
-      "categories": ["thematic_equity","climate_change"],
+      "categories": [
+        "thematic_equity",
+        "climate_change"
+      ],
       "risk_level": 4,
       "yearly_fee": null,
       "is_etf": false,
@@ -999,7 +1121,10 @@
       "kiid_url": null,
       "asset_class": "equity",
       "region": "global",
-      "categories": ["thematic_equity","water"],
+      "categories": [
+        "thematic_equity",
+        "water"
+      ],
       "risk_level": 4,
       "yearly_fee": null,
       "is_etf": false,
@@ -1021,7 +1146,10 @@
       "kiid_url": null,
       "asset_class": "equity",
       "region": "global",
-      "categories": ["thematic_equity","energy"],
+      "categories": [
+        "thematic_equity",
+        "energy"
+      ],
       "risk_level": 4,
       "yearly_fee": null,
       "is_etf": false,
@@ -1043,7 +1171,9 @@
       "kiid_url": null,
       "asset_class": "bond",
       "region": "global",
-      "categories": ["global_bonds"],
+      "categories": [
+        "global_bonds"
+      ],
       "risk_level": 2,
       "yearly_fee": null,
       "is_etf": false,
@@ -1065,7 +1195,9 @@
       "kiid_url": null,
       "asset_class": "bond",
       "region": "global",
-      "categories": ["global_bonds"],
+      "categories": [
+        "global_bonds"
+      ],
       "risk_level": 3,
       "yearly_fee": null,
       "is_etf": false,
@@ -1087,7 +1219,9 @@
       "kiid_url": null,
       "asset_class": "bond",
       "region": "global",
-      "categories": ["global_bonds"],
+      "categories": [
+        "global_bonds"
+      ],
       "risk_level": 2,
       "yearly_fee": null,
       "is_etf": false,
@@ -1109,7 +1243,9 @@
       "kiid_url": null,
       "asset_class": "bond",
       "region": "global",
-      "categories": ["global_bonds"],
+      "categories": [
+        "global_bonds"
+      ],
       "risk_level": 3,
       "yearly_fee": null,
       "is_etf": false,
@@ -1131,7 +1267,9 @@
       "kiid_url": null,
       "asset_class": "bond",
       "region": "global",
-      "categories": ["global_bonds"],
+      "categories": [
+        "global_bonds"
+      ],
       "risk_level": 2,
       "yearly_fee": null,
       "is_etf": false,
@@ -1153,7 +1291,9 @@
       "kiid_url": null,
       "asset_class": "bond",
       "region": "europe",
-      "categories": ["european_bonds"],
+      "categories": [
+        "european_bonds"
+      ],
       "risk_level": 2,
       "yearly_fee": null,
       "is_etf": false,
@@ -1175,7 +1315,9 @@
       "kiid_url": null,
       "asset_class": "bond",
       "region": "europe",
-      "categories": ["european_bonds"],
+      "categories": [
+        "european_bonds"
+      ],
       "risk_level": 3,
       "yearly_fee": null,
       "is_etf": false,
@@ -1197,7 +1339,9 @@
       "kiid_url": null,
       "asset_class": "bond",
       "region": "europe",
-      "categories": ["european_bonds"],
+      "categories": [
+        "european_bonds"
+      ],
       "risk_level": 2,
       "yearly_fee": null,
       "is_etf": false,
@@ -1219,7 +1363,9 @@
       "kiid_url": null,
       "asset_class": "bond",
       "region": "europe",
-      "categories": ["money_market"],
+      "categories": [
+        "money_market"
+      ],
       "risk_level": 2,
       "yearly_fee": null,
       "is_etf": false,
@@ -1241,7 +1387,9 @@
       "kiid_url": null,
       "asset_class": "bond",
       "region": "europe",
-      "categories": ["money_market"],
+      "categories": [
+        "money_market"
+      ],
       "risk_level": 2,
       "yearly_fee": null,
       "is_etf": false,
@@ -1263,7 +1411,9 @@
       "kiid_url": null,
       "asset_class": "mixed",
       "region": "global",
-      "categories": ["balanced"],
+      "categories": [
+        "balanced"
+      ],
       "risk_level": 3,
       "yearly_fee": null,
       "is_etf": false,
@@ -1285,9 +1435,12 @@
       "kiid_url": null,
       "asset_class": "mixed",
       "region": "global",
-      "categories": ["balanced","multi_asset"],
+      "categories": [
+        "balanced",
+        "multi_asset"
+      ],
       "risk_level": 3,
-      "yearly_fee": 0.50,
+      "yearly_fee": 0.5,
       "is_etf": false,
       "esg_label": "LOW",
       "theme": "NONE",
@@ -1307,9 +1460,11 @@
       "kiid_url": null,
       "asset_class": "mixed",
       "region": "global",
-      "categories": ["balanced"],
+      "categories": [
+        "balanced"
+      ],
       "risk_level": 3,
-      "yearly_fee": 1.50,
+      "yearly_fee": 1.5,
       "is_etf": false,
       "esg_label": "SFDR_ARTICLE_8",
       "theme": "NONE",
@@ -1329,7 +1484,10 @@
       "kiid_url": null,
       "asset_class": "mixed",
       "region": "emerging_markets",
-      "categories": ["balanced","emerging_markets"],
+      "categories": [
+        "balanced",
+        "emerging_markets"
+      ],
       "risk_level": 3,
       "yearly_fee": null,
       "is_etf": false,
@@ -1351,7 +1509,9 @@
       "kiid_url": null,
       "asset_class": "mixed",
       "region": "global",
-      "categories": ["balanced"],
+      "categories": [
+        "balanced"
+      ],
       "risk_level": 3,
       "yearly_fee": null,
       "is_etf": false,
@@ -1373,7 +1533,9 @@
       "kiid_url": null,
       "asset_class": "mixed",
       "region": "global",
-      "categories": ["balanced"],
+      "categories": [
+        "balanced"
+      ],
       "risk_level": 2,
       "yearly_fee": null,
       "is_etf": false,
@@ -1395,7 +1557,9 @@
       "kiid_url": null,
       "asset_class": "mixed",
       "region": "europe",
-      "categories": ["balanced"],
+      "categories": [
+        "balanced"
+      ],
       "risk_level": 2,
       "yearly_fee": null,
       "is_etf": false,
@@ -1417,7 +1581,9 @@
       "kiid_url": null,
       "asset_class": "mixed",
       "region": "global",
-      "categories": ["balanced"],
+      "categories": [
+        "balanced"
+      ],
       "risk_level": 2,
       "yearly_fee": null,
       "is_etf": false,
@@ -1439,7 +1605,10 @@
       "kiid_url": null,
       "asset_class": "mixed",
       "region": "global",
-      "categories": ["balanced","income"],
+      "categories": [
+        "balanced",
+        "income"
+      ],
       "risk_level": 3,
       "yearly_fee": null,
       "is_etf": false,
@@ -1461,7 +1630,9 @@
       "kiid_url": null,
       "asset_class": "mixed",
       "region": "global",
-      "categories": ["balanced"],
+      "categories": [
+        "balanced"
+      ],
       "risk_level": 3,
       "yearly_fee": null,
       "is_etf": false,
@@ -1483,7 +1654,9 @@
       "kiid_url": null,
       "asset_class": "mixed",
       "region": "global",
-      "categories": ["balanced"],
+      "categories": [
+        "balanced"
+      ],
       "risk_level": 3,
       "yearly_fee": null,
       "is_etf": false,
@@ -1505,7 +1678,9 @@
       "kiid_url": null,
       "asset_class": "mixed",
       "region": "global",
-      "categories": ["balanced"],
+      "categories": [
+        "balanced"
+      ],
       "risk_level": 3,
       "yearly_fee": null,
       "is_etf": false,
@@ -1527,7 +1702,9 @@
       "kiid_url": null,
       "asset_class": "mixed",
       "region": "global",
-      "categories": ["balanced"],
+      "categories": [
+        "balanced"
+      ],
       "risk_level": 3,
       "yearly_fee": null,
       "is_etf": false,
@@ -1549,7 +1726,9 @@
       "kiid_url": null,
       "asset_class": "mixed",
       "region": "global",
-      "categories": ["balanced"],
+      "categories": [
+        "balanced"
+      ],
       "risk_level": 3,
       "yearly_fee": null,
       "is_etf": false,
@@ -1571,7 +1750,10 @@
       "kiid_url": null,
       "asset_class": "mixed",
       "region": "global",
-      "categories": ["balanced","impact_investing"],
+      "categories": [
+        "balanced",
+        "impact_investing"
+      ],
       "risk_level": 3,
       "yearly_fee": null,
       "is_etf": false,
@@ -1593,7 +1775,9 @@
       "kiid_url": null,
       "asset_class": "mixed",
       "region": "global",
-      "categories": ["balanced"],
+      "categories": [
+        "balanced"
+      ],
       "risk_level": 3,
       "yearly_fee": null,
       "is_etf": false,
@@ -1615,7 +1799,9 @@
       "kiid_url": null,
       "asset_class": "mixed",
       "region": "global",
-      "categories": ["multi_asset"],
+      "categories": [
+        "multi_asset"
+      ],
       "risk_level": 3,
       "yearly_fee": null,
       "is_etf": false,
@@ -1637,7 +1823,9 @@
       "kiid_url": null,
       "asset_class": "mixed",
       "region": "global",
-      "categories": ["multi_asset"],
+      "categories": [
+        "multi_asset"
+      ],
       "risk_level": 3,
       "yearly_fee": null,
       "is_etf": false,
@@ -1659,7 +1847,9 @@
       "kiid_url": null,
       "asset_class": "mixed",
       "region": "global",
-      "categories": ["multi_asset"],
+      "categories": [
+        "multi_asset"
+      ],
       "risk_level": 3,
       "yearly_fee": null,
       "is_etf": false,
@@ -1681,7 +1871,9 @@
       "kiid_url": null,
       "asset_class": "mixed",
       "region": "global",
-      "categories": ["multi_asset"],
+      "categories": [
+        "multi_asset"
+      ],
       "risk_level": 3,
       "yearly_fee": null,
       "is_etf": false,
@@ -1703,7 +1895,9 @@
       "kiid_url": null,
       "asset_class": "mixed",
       "region": "global",
-      "categories": ["multi_asset"],
+      "categories": [
+        "multi_asset"
+      ],
       "risk_level": 4,
       "yearly_fee": null,
       "is_etf": false,
@@ -1725,7 +1919,9 @@
       "kiid_url": null,
       "asset_class": "mixed",
       "region": "global",
-      "categories": ["multi_asset"],
+      "categories": [
+        "multi_asset"
+      ],
       "risk_level": 2,
       "yearly_fee": null,
       "is_etf": false,
@@ -1747,7 +1943,9 @@
       "kiid_url": null,
       "asset_class": "mixed",
       "region": "global",
-      "categories": ["multi_asset"],
+      "categories": [
+        "multi_asset"
+      ],
       "risk_level": 3,
       "yearly_fee": null,
       "is_etf": false,
@@ -1769,7 +1967,10 @@
       "kiid_url": "https://www.justetf.com/en/etf-profile.html?isin=DE000ETFL011",
       "asset_class": "equity",
       "region": "germany",
-      "categories": ["etf","german_equity"],
+      "categories": [
+        "etf",
+        "german_equity"
+      ],
       "risk_level": 4,
       "yearly_fee": 0.15,
       "is_etf": true,
@@ -1791,7 +1992,10 @@
       "kiid_url": "https://www.justetf.com/en/etf-profile.html?isin=DE000ETFL029",
       "asset_class": "equity",
       "region": "eurozone",
-      "categories": ["etf","eurozone_equity"],
+      "categories": [
+        "etf",
+        "eurozone_equity"
+      ],
       "risk_level": 4,
       "yearly_fee": 0.15,
       "is_etf": true,
@@ -1813,9 +2017,12 @@
       "kiid_url": "https://www.justetf.com/en/etf-profile.html?isin=DE000ETFL375",
       "asset_class": "bond",
       "region": "europe",
-      "categories": ["etf","corporate_bonds"],
+      "categories": [
+        "etf",
+        "corporate_bonds"
+      ],
       "risk_level": 2,
-      "yearly_fee": 0.20,
+      "yearly_fee": 0.2,
       "is_etf": true,
       "esg_label": "LOW",
       "theme": "NONE",
@@ -1835,7 +2042,11 @@
       "kiid_url": "https://www.justetf.com/en/etf-profile.html?isin=DE000ETFL565",
       "asset_class": "equity",
       "region": "europe",
-      "categories": ["etf","european_equity","climate_change"],
+      "categories": [
+        "etf",
+        "european_equity",
+        "climate_change"
+      ],
       "risk_level": 4,
       "yearly_fee": 0.25,
       "is_etf": true,
@@ -1857,7 +2068,11 @@
       "kiid_url": "https://www.justetf.com/en/etf-profile.html?isin=DE000ETFL508",
       "asset_class": "equity",
       "region": "global",
-      "categories": ["etf","global_equity","developed_markets"],
+      "categories": [
+        "etf",
+        "global_equity",
+        "developed_markets"
+      ],
       "risk_level": 4,
       "yearly_fee": 0.31,
       "is_etf": true,
@@ -1879,7 +2094,11 @@
       "kiid_url": "https://www.justetf.com/en/etf-profile.html?isin=DE000ETFL581",
       "asset_class": "equity",
       "region": "global",
-      "categories": ["etf","global_equity","climate_change"],
+      "categories": [
+        "etf",
+        "global_equity",
+        "climate_change"
+      ],
       "risk_level": 4,
       "yearly_fee": 0.26,
       "is_etf": true,
@@ -1901,7 +2120,10 @@
       "kiid_url": "https://www.justetf.com/en/etf-profile.html?isin=IE00B4L5YC18",
       "asset_class": "equity",
       "region": "emerging_markets",
-      "categories": ["etf","emerging_markets"],
+      "categories": [
+        "etf",
+        "emerging_markets"
+      ],
       "risk_level": 4,
       "yearly_fee": 0.18,
       "is_etf": true,
@@ -1923,9 +2145,12 @@
       "kiid_url": "https://www.dimensional.com/us-en/funds/ie00b1w6cy02/european-value-fund-gbp-acc",
       "asset_class": "equity",
       "region": "europe",
-      "categories": ["european_equity","value"],
+      "categories": [
+        "european_equity",
+        "value"
+      ],
       "risk_level": 3,
-      "yearly_fee": null,
+      "yearly_fee": 0.1,
       "is_etf": false,
       "esg_label": "LOW",
       "theme": "NONE",
@@ -1945,9 +2170,12 @@
       "kiid_url": "https://www.fynup.at/f/lu0161305916",
       "asset_class": "equity",
       "region": "europe",
-      "categories": ["european_equity","value"],
+      "categories": [
+        "european_equity",
+        "value"
+      ],
       "risk_level": 3,
-      "yearly_fee": null,
+      "yearly_fee": 0.05,
       "is_etf": false,
       "esg_label": "LOW",
       "theme": "NONE",
@@ -1967,9 +2195,12 @@
       "kiid_url": "https://www.fynup.at/f/lu1797811236",
       "asset_class": "equity",
       "region": "europe",
-      "categories": ["european_equity","value"],
+      "categories": [
+        "european_equity",
+        "value"
+      ],
       "risk_level": 3,
-      "yearly_fee": null,
+      "yearly_fee": 0.86,
       "is_etf": false,
       "esg_label": "LOW",
       "theme": "NONE",
@@ -1989,9 +2220,11 @@
       "kiid_url": "https://www.fynup.at/f/lu0143811718",
       "asset_class": "equity",
       "region": "europe",
-      "categories": ["european_equity"],
+      "categories": [
+        "european_equity"
+      ],
       "risk_level": 3,
-      "yearly_fee": null,
+      "yearly_fee": 0.15,
       "is_etf": false,
       "esg_label": "LOW",
       "theme": "NONE",
@@ -2011,9 +2244,11 @@
       "kiid_url": "https://www.fynup.at/f/lu0157028340",
       "asset_class": "equity",
       "region": "europe",
-      "categories": ["european_equity"],
+      "categories": [
+        "european_equity"
+      ],
       "risk_level": 3,
-      "yearly_fee": null,
+      "yearly_fee": 0.15,
       "is_etf": false,
       "esg_label": "LOW",
       "theme": "NONE",
@@ -2033,9 +2268,11 @@
       "kiid_url": "https://www.fynup.at/f/lu0389811539",
       "asset_class": "equity",
       "region": "europe",
-      "categories": ["european_equity"],
+      "categories": [
+        "european_equity"
+      ],
       "risk_level": 3,
-      "yearly_fee": null,
+      "yearly_fee": 0.15,
       "is_etf": false,
       "esg_label": "LOW",
       "theme": "NONE",
@@ -2055,9 +2292,11 @@
       "kiid_url": "https://www.fynup.at/f/ie0002639551",
       "asset_class": "equity",
       "region": "europe",
-      "categories": ["european_equity"],
+      "categories": [
+        "european_equity"
+      ],
       "risk_level": 3,
-      "yearly_fee": null,
+      "yearly_fee": 0.12,
       "is_etf": false,
       "esg_label": "LOW",
       "theme": "NONE",
@@ -2077,9 +2316,12 @@
       "kiid_url": "https://www.fynup.at/f/ie00b1w6cv70",
       "asset_class": "equity",
       "region": "europe",
-      "categories": ["european_equity","value"],
+      "categories": [
+        "european_equity",
+        "value"
+      ],
       "risk_level": 3,
-      "yearly_fee": null,
+      "yearly_fee": 0.31,
       "is_etf": false,
       "esg_label": "LOW",
       "theme": "NONE",
@@ -2099,9 +2341,11 @@
       "kiid_url": "https://www.fynup.at/f/ch0024446681",
       "asset_class": "equity",
       "region": "europe",
-      "categories": ["european_equity"],
+      "categories": [
+        "european_equity"
+      ],
       "risk_level": 3,
-      "yearly_fee": null,
+      "yearly_fee": 0.5,
       "is_etf": false,
       "esg_label": "LOW",
       "theme": "NONE",
@@ -2121,9 +2365,11 @@
       "kiid_url": "https://www.fynup.at/f/lu0389811885",
       "asset_class": "equity",
       "region": "europe",
-      "categories": ["european_equity"],
+      "categories": [
+        "european_equity"
+      ],
       "risk_level": 3,
-      "yearly_fee": null,
+      "yearly_fee": 0.3,
       "is_etf": false,
       "esg_label": "LOW",
       "theme": "NONE",
@@ -2143,7 +2389,9 @@
       "kiid_url": "https://www.fidelity.de/funds/lu0552385210",
       "asset_class": "equity",
       "region": "europe",
-      "categories": ["european_equity"],
+      "categories": [
+        "european_equity"
+      ],
       "risk_level": 3,
       "yearly_fee": null,
       "is_etf": false,
@@ -2165,7 +2413,9 @@
       "kiid_url": "https://www.fynup.at/f/lu0125978776",
       "asset_class": "equity",
       "region": "europe",
-      "categories": ["european_equity"],
+      "categories": [
+        "european_equity"
+      ],
       "risk_level": 3,
       "yearly_fee": null,
       "is_etf": false,
@@ -2187,7 +2437,10 @@
       "kiid_url": "https://www.fynup.at/f/lu0253399692",
       "asset_class": "equity",
       "region": "europe",
-      "categories": ["european_equity","growth"],
+      "categories": [
+        "european_equity",
+        "growth"
+      ],
       "risk_level": 3,
       "yearly_fee": null,
       "is_etf": false,
@@ -2209,7 +2462,9 @@
       "kiid_url": "https://www.fynup.at/f/lu0133077099",
       "asset_class": "equity",
       "region": "europe",
-      "categories": ["european_equity"],
+      "categories": [
+        "european_equity"
+      ],
       "risk_level": 3,
       "yearly_fee": null,
       "is_etf": false,
@@ -2231,7 +2486,10 @@
       "kiid_url": "https://www.fynup.at/f/lu0048578714",
       "asset_class": "equity",
       "region": "europe",
-      "categories": ["european_equity","low_volatility"],
+      "categories": [
+        "european_equity",
+        "low_volatility"
+      ],
       "risk_level": 3,
       "yearly_fee": null,
       "is_etf": false,
@@ -2253,9 +2511,11 @@
       "kiid_url": "https://www.fynup.at/f/de0008474008",
       "asset_class": "bond",
       "region": "europe",
-      "categories": ["european_bonds"],
+      "categories": [
+        "european_bonds"
+      ],
       "risk_level": 2,
-      "yearly_fee": null,
+      "yearly_fee": 1.4,
       "is_etf": false,
       "esg_label": "LOW",
       "theme": "NONE",
@@ -2275,7 +2535,9 @@
       "kiid_url": "https://www.fynup.at/f/lu0170736720",
       "asset_class": "equity",
       "region": "europe",
-      "categories": ["european_equity"],
+      "categories": [
+        "european_equity"
+      ],
       "risk_level": 3,
       "yearly_fee": null,
       "is_etf": false,
@@ -2297,7 +2559,10 @@
       "kiid_url": "https://www.fynup.at/f/lu0238095192",
       "asset_class": "equity",
       "region": "europe",
-      "categories": ["european_equity","growth"],
+      "categories": [
+        "european_equity",
+        "growth"
+      ],
       "risk_level": 3,
       "yearly_fee": null,
       "is_etf": false,
@@ -2319,7 +2584,9 @@
       "kiid_url": "https://www.fynup.at/f/lu0119219324",
       "asset_class": "equity",
       "region": "europe",
-      "categories": ["european_equity"],
+      "categories": [
+        "european_equity"
+      ],
       "risk_level": 3,
       "yearly_fee": null,
       "is_etf": false,
@@ -2341,7 +2608,9 @@
       "kiid_url": "https://www.fynup.at/f/lu0133077172",
       "asset_class": "equity",
       "region": "europe",
-      "categories": ["european_equity"],
+      "categories": [
+        "european_equity"
+      ],
       "risk_level": 3,
       "yearly_fee": null,
       "is_etf": false,
@@ -2363,7 +2632,9 @@
       "kiid_url": "https://www.fynup.at/f/lu0179539324",
       "asset_class": "equity",
       "region": "europe",
-      "categories": ["european_equity"],
+      "categories": [
+        "european_equity"
+      ],
       "risk_level": 3,
       "yearly_fee": null,
       "is_etf": false,
@@ -2385,7 +2656,9 @@
       "kiid_url": "https://www.fynup.at/f/lu0329759853",
       "asset_class": "equity",
       "region": "europe",
-      "categories": ["european_equity"],
+      "categories": [
+        "european_equity"
+      ],
       "risk_level": 3,
       "yearly_fee": null,
       "is_etf": false,
@@ -2407,7 +2680,10 @@
       "kiid_url": "https://www.fynup.at/f/lu0110396290",
       "asset_class": "equity",
       "region": "europe",
-      "categories": ["european_equity","growth"],
+      "categories": [
+        "european_equity",
+        "growth"
+      ],
       "risk_level": 3,
       "yearly_fee": null,
       "is_etf": false,
@@ -2429,7 +2705,9 @@
       "kiid_url": "https://www.fynup.at/f/lu0133077255",
       "asset_class": "equity",
       "region": "europe",
-      "categories": ["european_equity"],
+      "categories": [
+        "european_equity"
+      ],
       "risk_level": 3,
       "yearly_fee": null,
       "is_etf": false,
@@ -2451,7 +2729,9 @@
       "kiid_url": "https://www.fynup.at/f/lu0179539407",
       "asset_class": "equity",
       "region": "europe",
-      "categories": ["european_equity"],
+      "categories": [
+        "european_equity"
+      ],
       "risk_level": 3,
       "yearly_fee": null,
       "is_etf": false,
@@ -2473,7 +2753,9 @@
       "kiid_url": "https://www.fynup.at/f/lu0232303470",
       "asset_class": "equity",
       "region": "europe",
-      "categories": ["european_equity"],
+      "categories": [
+        "european_equity"
+      ],
       "risk_level": 3,
       "yearly_fee": null,
       "is_etf": false,
@@ -2495,7 +2777,9 @@
       "kiid_url": "https://www.fynup.at/f/lu0119219405",
       "asset_class": "equity",
       "region": "europe",
-      "categories": ["european_equity"],
+      "categories": [
+        "european_equity"
+      ],
       "risk_level": 3,
       "yearly_fee": null,
       "is_etf": false,
@@ -2517,7 +2801,9 @@
       "kiid_url": "https://www.fynup.at/f/lu0133077332",
       "asset_class": "equity",
       "region": "europe",
-      "categories": ["european_equity"],
+      "categories": [
+        "european_equity"
+      ],
       "risk_level": 3,
       "yearly_fee": null,
       "is_etf": false,
@@ -2539,7 +2825,9 @@
       "kiid_url": "https://www.fynup.at/f/lu0179539580",
       "asset_class": "equity",
       "region": "europe",
-      "categories": ["european_equity"],
+      "categories": [
+        "european_equity"
+      ],
       "risk_level": 3,
       "yearly_fee": null,
       "is_etf": false,
@@ -2561,7 +2849,10 @@
       "kiid_url": "https://www.fynup.at/f/lu0232303553",
       "asset_class": "equity",
       "region": "europe",
-      "categories": ["european_equity","value"],
+      "categories": [
+        "european_equity",
+        "value"
+      ],
       "risk_level": 3,
       "yearly_fee": null,
       "is_etf": false,
@@ -2583,7 +2874,9 @@
       "kiid_url": "https://www.fynup.at/f/lu0179539663",
       "asset_class": "equity",
       "region": "europe",
-      "categories": ["european_equity"],
+      "categories": [
+        "european_equity"
+      ],
       "risk_level": 3,
       "yearly_fee": null,
       "is_etf": false,
@@ -2605,7 +2898,9 @@
       "kiid_url": "https://www.fynup.at/f/lu0232303636",
       "asset_class": "equity",
       "region": "europe",
-      "categories": ["european_equity"],
+      "categories": [
+        "european_equity"
+      ],
       "risk_level": 3,
       "yearly_fee": null,
       "is_etf": false,
@@ -2627,7 +2922,10 @@
       "kiid_url": "https://www.fynup.at/f/lu0119219588",
       "asset_class": "equity",
       "region": "europe",
-      "categories": ["european_equity","growth"],
+      "categories": [
+        "european_equity",
+        "growth"
+      ],
       "risk_level": 3,
       "yearly_fee": null,
       "is_etf": false,
@@ -2649,7 +2947,9 @@
       "kiid_url": "https://www.fynup.at/f/lu0133077415",
       "asset_class": "equity",
       "region": "europe",
-      "categories": ["european_equity"],
+      "categories": [
+        "european_equity"
+      ],
       "risk_level": 3,
       "yearly_fee": null,
       "is_etf": false,
@@ -2671,7 +2971,10 @@
       "kiid_url": "https://www.fynup.at/f/de000dws0gr8",
       "asset_class": "equity",
       "region": "global",
-      "categories": ["global_equity","dividend_stocks"],
+      "categories": [
+        "global_equity",
+        "dividend_stocks"
+      ],
       "risk_level": 3,
       "yearly_fee": 1.45,
       "is_etf": false,
@@ -2693,7 +2996,10 @@
       "kiid_url": "https://www.fynup.at/f/fr0010314504",
       "asset_class": "equity",
       "region": "europe",
-      "categories": ["european_equity","growth"],
+      "categories": [
+        "european_equity",
+        "growth"
+      ],
       "risk_level": 3,
       "yearly_fee": null,
       "is_etf": false,
@@ -2715,7 +3021,10 @@
       "kiid_url": "https://www.fynup.at/f/de000a0h08g5",
       "asset_class": "mixed",
       "region": "global",
-      "categories": ["balanced","multi_asset"],
+      "categories": [
+        "balanced",
+        "multi_asset"
+      ],
       "risk_level": 3,
       "yearly_fee": 1.63,
       "is_etf": false,
@@ -2737,7 +3046,10 @@
       "kiid_url": "https://www.justetf.com/en/etf-profile.html?isin=IE00B4K48X80",
       "asset_class": "equity",
       "region": "europe",
-      "categories": ["etf","european_equity"],
+      "categories": [
+        "etf",
+        "european_equity"
+      ],
       "risk_level": 3,
       "yearly_fee": 0.12,
       "is_etf": true,
@@ -2759,7 +3071,10 @@
       "kiid_url": "https://www.justetf.com/en/etf-profile.html?isin=LU1437015735",
       "asset_class": "equity",
       "region": "europe",
-      "categories": ["etf","european_equity"],
+      "categories": [
+        "etf",
+        "european_equity"
+      ],
       "risk_level": 3,
       "yearly_fee": 0.15,
       "is_etf": true,
@@ -2781,7 +3096,10 @@
       "kiid_url": "https://www.justetf.com/en/etf-profile.html?isin=LU0908500753",
       "asset_class": "equity",
       "region": "europe",
-      "categories": ["etf","european_equity"],
+      "categories": [
+        "etf",
+        "european_equity"
+      ],
       "risk_level": 3,
       "yearly_fee": 0.07,
       "is_etf": true,
@@ -2803,7 +3121,10 @@
       "kiid_url": "https://www.justetf.com/en/etf-profile.html?isin=IE00B4K6B022",
       "asset_class": "equity",
       "region": "eurozone",
-      "categories": ["etf","eurozone_equity"],
+      "categories": [
+        "etf",
+        "eurozone_equity"
+      ],
       "risk_level": 3,
       "yearly_fee": 0.05,
       "is_etf": true,
@@ -2825,9 +3146,13 @@
       "kiid_url": "https://etf.dws.com/en/LU0322253906-msci-europe-small-cap-ucits-etf-1c/",
       "asset_class": "equity",
       "region": "europe",
-      "categories": ["etf","small_cap","european_equity"],
+      "categories": [
+        "etf",
+        "small_cap",
+        "european_equity"
+      ],
       "risk_level": 3,
-      "yearly_fee": 0.30,
+      "yearly_fee": 0.3,
       "is_etf": true,
       "esg_label": "LOW",
       "theme": "NONE",
@@ -2847,7 +3172,11 @@
       "kiid_url": "https://www.justetf.com/en/etf-profile.html?isin=IE00BFNM3D14",
       "asset_class": "equity",
       "region": "europe",
-      "categories": ["etf","european_equity","esg"],
+      "categories": [
+        "etf",
+        "european_equity",
+        "esg"
+      ],
       "risk_level": 3,
       "yearly_fee": 0.12,
       "is_etf": true,
@@ -2869,7 +3198,11 @@
       "kiid_url": "https://www.justetf.com/en/etf-profile.html?isin=LU1681040223",
       "asset_class": "equity",
       "region": "europe",
-      "categories": ["etf","european_equity","esg"],
+      "categories": [
+        "etf",
+        "european_equity",
+        "esg"
+      ],
       "risk_level": 3,
       "yearly_fee": 0.18,
       "is_etf": true,
@@ -2891,7 +3224,10 @@
       "kiid_url": "https://www.justetf.com/en/etf-profile.html?isin=DE000A0H08Q4",
       "asset_class": "equity",
       "region": "europe",
-      "categories": ["etf","technology"],
+      "categories": [
+        "etf",
+        "technology"
+      ],
       "risk_level": 3,
       "yearly_fee": 0.46,
       "is_etf": true,
@@ -2913,9 +3249,12 @@
       "kiid_url": "https://www.justetf.com/en/etf-profile.html?isin=IE00B53SZB19",
       "asset_class": "equity",
       "region": "eurozone",
-      "categories": ["etf","eurozone_equity"],
+      "categories": [
+        "etf",
+        "eurozone_equity"
+      ],
       "risk_level": 3,
-      "yearly_fee": 0.10,
+      "yearly_fee": 0.1,
       "is_etf": true,
       "esg_label": "LOW",
       "theme": "NONE",
@@ -2935,9 +3274,12 @@
       "kiid_url": "https://www.justetf.com/en/etf-profile.html?isin=IE00B82QM594",
       "asset_class": "equity",
       "region": "europe",
-      "categories": ["etf","european_equity"],
+      "categories": [
+        "etf",
+        "european_equity"
+      ],
       "risk_level": 3,
-      "yearly_fee": 0.10,
+      "yearly_fee": 0.1,
       "is_etf": true,
       "esg_label": "LOW",
       "theme": "NONE",
@@ -2957,7 +3299,10 @@
       "kiid_url": "https://www.justetf.com/en/etf-profile.html?isin=IE00B40X6D77",
       "asset_class": "equity",
       "region": "europe",
-      "categories": ["etf","european_equity"],
+      "categories": [
+        "etf",
+        "european_equity"
+      ],
       "risk_level": 3,
       "yearly_fee": 0.19,
       "is_etf": true,
@@ -2979,7 +3324,10 @@
       "kiid_url": "https://www.ssga.com/gb/en_gb/institutional/etfs/funds/spdr-msci-europe-ucits-etf-mseu",
       "asset_class": "equity",
       "region": "europe",
-      "categories": ["etf","european_equity"],
+      "categories": [
+        "etf",
+        "european_equity"
+      ],
       "risk_level": 3,
       "yearly_fee": 0.25,
       "is_etf": true,
@@ -3001,9 +3349,12 @@
       "kiid_url": "https://www.justetf.com/en/etf-profile.html?isin=LU0522107616",
       "asset_class": "equity",
       "region": "europe",
-      "categories": ["etf","european_equity"],
+      "categories": [
+        "etf",
+        "european_equity"
+      ],
       "risk_level": 3,
-      "yearly_fee": 0.20,
+      "yearly_fee": 0.2,
       "is_etf": true,
       "esg_label": "LOW",
       "theme": "NONE",
@@ -3023,7 +3374,10 @@
       "kiid_url": "https://www.justetf.com/en/etf-profile.html?isin=LU1781541179",
       "asset_class": "equity",
       "region": "europe",
-      "categories": ["etf","european_equity"],
+      "categories": [
+        "etf",
+        "european_equity"
+      ],
       "risk_level": 3,
       "yearly_fee": 0.25,
       "is_etf": true,
@@ -3045,7 +3399,10 @@
       "kiid_url": "https://www.deka-etf.de/etf/msci-europe-ucits-etf",
       "asset_class": "equity",
       "region": "europe",
-      "categories": ["etf","european_equity"],
+      "categories": [
+        "etf",
+        "european_equity"
+      ],
       "risk_level": 3,
       "yearly_fee": null,
       "is_etf": true,
@@ -3067,7 +3424,10 @@
       "kiid_url": null,
       "asset_class": "equity",
       "region": "europe",
-      "categories": ["etf","european_equity"],
+      "categories": [
+        "etf",
+        "european_equity"
+      ],
       "risk_level": 3,
       "yearly_fee": null,
       "is_etf": true,
@@ -3089,9 +3449,14 @@
       "kiid_url": "https://www.justetf.com/en/etf-profile.html?isin=IE00BYX2JV35",
       "asset_class": "equity",
       "region": "europe",
-      "categories": ["etf","european_equity","esg","sri"],
+      "categories": [
+        "etf",
+        "european_equity",
+        "esg",
+        "sri"
+      ],
       "risk_level": 3,
-      "yearly_fee": 0.20,
+      "yearly_fee": 0.2,
       "is_etf": true,
       "esg_label": "HIGH",
       "theme": "SUSTAINABILITY",
@@ -3111,7 +3476,12 @@
       "kiid_url": "https://www.justetf.com/en/etf-profile.html?isin=FR0010756098",
       "asset_class": "equity",
       "region": "europe",
-      "categories": ["etf","european_equity","esg","sri"],
+      "categories": [
+        "etf",
+        "european_equity",
+        "esg",
+        "sri"
+      ],
       "risk_level": 3,
       "yearly_fee": 0.18,
       "is_etf": true,
@@ -3133,7 +3503,11 @@
       "kiid_url": "https://www.justetf.com/en/etf-profile.html?isin=IE00BKX55T58",
       "asset_class": "equity",
       "region": "europe",
-      "categories": ["etf","european_equity","esg"],
+      "categories": [
+        "etf",
+        "european_equity",
+        "esg"
+      ],
       "risk_level": 3,
       "yearly_fee": 0.12,
       "is_etf": true,
@@ -3155,9 +3529,13 @@
       "kiid_url": "https://www.ssga.com/gb/en_gb/institutional/etfs/funds/spdr-msci-europe-quality-mix-ucits-etf-qmue",
       "asset_class": "equity",
       "region": "europe",
-      "categories": ["etf","european_equity","factor_investing"],
+      "categories": [
+        "etf",
+        "european_equity",
+        "factor_investing"
+      ],
       "risk_level": 3,
-      "yearly_fee": 0.30,
+      "yearly_fee": 0.3,
       "is_etf": true,
       "esg_label": "LOW",
       "theme": "NONE",
@@ -3177,7 +3555,10 @@
       "kiid_url": "https://www.justetf.com/en/etf-profile.html?isin=IE00B5M4W363",
       "asset_class": "equity",
       "region": "europe",
-      "categories": ["etf","european_equity"],
+      "categories": [
+        "etf",
+        "european_equity"
+      ],
       "risk_level": 3,
       "yearly_fee": 0.19,
       "is_etf": true,
@@ -3199,7 +3580,10 @@
       "kiid_url": "https://www.justetf.com/en/etf-profile.html?isin=IE00B53QM825",
       "asset_class": "equity",
       "region": "europe",
-      "categories": ["etf","european_equity"],
+      "categories": [
+        "etf",
+        "european_equity"
+      ],
       "risk_level": 3,
       "yearly_fee": null,
       "is_etf": true,
@@ -3221,9 +3605,12 @@
       "kiid_url": "https://www.justetf.com/en/etf-profile.html?isin=IE00B53L3W79",
       "asset_class": "equity",
       "region": "eurozone",
-      "categories": ["etf","eurozone_equity"],
+      "categories": [
+        "etf",
+        "eurozone_equity"
+      ],
       "risk_level": 3,
-      "yearly_fee": 0.10,
+      "yearly_fee": 0.1,
       "is_etf": true,
       "esg_label": "LOW",
       "theme": "NONE",
@@ -3243,7 +3630,10 @@
       "kiid_url": null,
       "asset_class": "equity",
       "region": "europe",
-      "categories": ["etf","european_equity"],
+      "categories": [
+        "etf",
+        "european_equity"
+      ],
       "risk_level": 3,
       "yearly_fee": null,
       "is_etf": true,
@@ -3265,7 +3655,10 @@
       "kiid_url": null,
       "asset_class": "equity",
       "region": "europe",
-      "categories": ["etf","european_equity"],
+      "categories": [
+        "etf",
+        "european_equity"
+      ],
       "risk_level": 3,
       "yearly_fee": null,
       "is_etf": true,
@@ -3287,7 +3680,10 @@
       "kiid_url": null,
       "asset_class": "equity",
       "region": "europe",
-      "categories": ["etf","european_equity"],
+      "categories": [
+        "etf",
+        "european_equity"
+      ],
       "risk_level": 3,
       "yearly_fee": null,
       "is_etf": true,
@@ -3309,7 +3705,10 @@
       "kiid_url": null,
       "asset_class": "equity",
       "region": "europe",
-      "categories": ["etf","european_equity"],
+      "categories": [
+        "etf",
+        "european_equity"
+      ],
       "risk_level": 3,
       "yearly_fee": null,
       "is_etf": true,
@@ -3331,7 +3730,11 @@
       "kiid_url": null,
       "asset_class": "equity",
       "region": "europe",
-      "categories": ["etf","european_equity","esg"],
+      "categories": [
+        "etf",
+        "european_equity",
+        "esg"
+      ],
       "risk_level": 3,
       "yearly_fee": null,
       "is_etf": true,
@@ -3353,7 +3756,11 @@
       "kiid_url": null,
       "asset_class": "equity",
       "region": "europe",
-      "categories": ["etf","european_equity","esg"],
+      "categories": [
+        "etf",
+        "european_equity",
+        "esg"
+      ],
       "risk_level": 3,
       "yearly_fee": null,
       "is_etf": true,
@@ -3375,7 +3782,11 @@
       "kiid_url": null,
       "asset_class": "equity",
       "region": "europe",
-      "categories": ["etf","european_equity","esg"],
+      "categories": [
+        "etf",
+        "european_equity",
+        "esg"
+      ],
       "risk_level": 3,
       "yearly_fee": null,
       "is_etf": true,
@@ -3397,7 +3808,10 @@
       "kiid_url": null,
       "asset_class": "equity",
       "region": "europe",
-      "categories": ["etf","european_equity"],
+      "categories": [
+        "etf",
+        "european_equity"
+      ],
       "risk_level": 3,
       "yearly_fee": null,
       "is_etf": true,
@@ -3419,7 +3833,10 @@
       "kiid_url": null,
       "asset_class": "equity",
       "region": "europe",
-      "categories": ["etf","european_equity"],
+      "categories": [
+        "etf",
+        "european_equity"
+      ],
       "risk_level": 3,
       "yearly_fee": null,
       "is_etf": true,
@@ -3441,7 +3858,10 @@
       "kiid_url": null,
       "asset_class": "equity",
       "region": "europe",
-      "categories": ["etf","european_equity"],
+      "categories": [
+        "etf",
+        "european_equity"
+      ],
       "risk_level": 3,
       "yearly_fee": null,
       "is_etf": true,
@@ -3463,7 +3883,10 @@
       "kiid_url": null,
       "asset_class": "equity",
       "region": "eurozone",
-      "categories": ["etf","eurozone_equity"],
+      "categories": [
+        "etf",
+        "eurozone_equity"
+      ],
       "risk_level": 3,
       "yearly_fee": null,
       "is_etf": true,
@@ -3485,7 +3908,10 @@
       "kiid_url": null,
       "asset_class": "equity",
       "region": "eurozone",
-      "categories": ["etf","eurozone_equity"],
+      "categories": [
+        "etf",
+        "eurozone_equity"
+      ],
       "risk_level": 3,
       "yearly_fee": null,
       "is_etf": true,
@@ -3507,7 +3933,10 @@
       "kiid_url": null,
       "asset_class": "equity",
       "region": "eurozone",
-      "categories": ["etf","eurozone_equity"],
+      "categories": [
+        "etf",
+        "eurozone_equity"
+      ],
       "risk_level": 3,
       "yearly_fee": null,
       "is_etf": true,
@@ -3529,7 +3958,10 @@
       "kiid_url": null,
       "asset_class": "equity",
       "region": "eurozone",
-      "categories": ["etf","eurozone_equity"],
+      "categories": [
+        "etf",
+        "eurozone_equity"
+      ],
       "risk_level": 3,
       "yearly_fee": null,
       "is_etf": true,
@@ -3551,7 +3983,10 @@
       "kiid_url": null,
       "asset_class": "equity",
       "region": "eurozone",
-      "categories": ["etf","eurozone_equity"],
+      "categories": [
+        "etf",
+        "eurozone_equity"
+      ],
       "risk_level": 3,
       "yearly_fee": null,
       "is_etf": true,
@@ -3573,9 +4008,12 @@
       "kiid_url": "https://boersen.manager-magazin.de/kursinformation/DE000A0DNG73/",
       "asset_class": "mixed",
       "region": "europe",
-      "categories": ["balanced","european_mixed"],
+      "categories": [
+        "balanced",
+        "european_mixed"
+      ],
       "risk_level": 3,
-      "yearly_fee": null,
+      "yearly_fee": 0.5,
       "is_etf": false,
       "esg_label": "LOW",
       "theme": "NONE",
@@ -3595,9 +4033,12 @@
       "kiid_url": "https://www.fynup.at/f/lu0284394151",
       "asset_class": "mixed",
       "region": "europe",
-      "categories": ["balanced","european_mixed"],
+      "categories": [
+        "balanced",
+        "european_mixed"
+      ],
       "risk_level": 3,
-      "yearly_fee": null,
+      "yearly_fee": 0.77,
       "is_etf": false,
       "esg_label": "LOW",
       "theme": "NONE",
@@ -3617,9 +4058,12 @@
       "kiid_url": "https://www.fynup.at/f/lu0140351767",
       "asset_class": "mixed",
       "region": "europe",
-      "categories": ["balanced","european_mixed"],
+      "categories": [
+        "balanced",
+        "european_mixed"
+      ],
       "risk_level": 3,
-      "yearly_fee": null,
+      "yearly_fee": 0.67,
       "is_etf": false,
       "esg_label": "LOW",
       "theme": "NONE",
@@ -3639,9 +4083,12 @@
       "kiid_url": "https://www.fynup.at/f/de0009786202",
       "asset_class": "mixed",
       "region": "europe",
-      "categories": ["balanced","european_mixed"],
+      "categories": [
+        "balanced",
+        "european_mixed"
+      ],
       "risk_level": 3,
-      "yearly_fee": null,
+      "yearly_fee": 0.97,
       "is_etf": false,
       "esg_label": "LOW",
       "theme": "NONE",
@@ -3661,9 +4108,12 @@
       "kiid_url": "https://www.fynup.at/f/lu0179866602",
       "asset_class": "mixed",
       "region": "europe",
-      "categories": ["balanced","european_mixed"],
+      "categories": [
+        "balanced",
+        "european_mixed"
+      ],
       "risk_level": 3,
-      "yearly_fee": null,
+      "yearly_fee": 0.85,
       "is_etf": false,
       "esg_label": "LOW",
       "theme": "NONE",
@@ -3683,9 +4133,12 @@
       "kiid_url": "https://www.fynup.at/f/lu0179866867",
       "asset_class": "mixed",
       "region": "europe",
-      "categories": ["balanced","european_mixed"],
+      "categories": [
+        "balanced",
+        "european_mixed"
+      ],
       "risk_level": 3,
-      "yearly_fee": null,
+      "yearly_fee": 0.85,
       "is_etf": false,
       "esg_label": "LOW",
       "theme": "NONE",
@@ -3705,9 +4158,13 @@
       "kiid_url": "https://www.fynup.at/f/lu0243957668",
       "asset_class": "mixed",
       "region": "europe",
-      "categories": ["balanced","european_mixed","income"],
+      "categories": [
+        "balanced",
+        "european_mixed",
+        "income"
+      ],
       "risk_level": 3,
-      "yearly_fee": null,
+      "yearly_fee": 1.06,
       "is_etf": false,
       "esg_label": "LOW",
       "theme": "NONE",
@@ -3727,9 +4184,12 @@
       "kiid_url": "https://www.fynup.at/f/lu0184635471",
       "asset_class": "mixed",
       "region": "europe",
-      "categories": ["balanced","european_mixed"],
+      "categories": [
+        "balanced",
+        "european_mixed"
+      ],
       "risk_level": 3,
-      "yearly_fee": null,
+      "yearly_fee": 0.61,
       "is_etf": false,
       "esg_label": "LOW",
       "theme": "NONE",
@@ -3749,9 +4209,12 @@
       "kiid_url": "https://www.fynup.at/f/lu2209017347",
       "asset_class": "mixed",
       "region": "europe",
-      "categories": ["balanced","european_mixed"],
+      "categories": [
+        "balanced",
+        "european_mixed"
+      ],
       "risk_level": 3,
-      "yearly_fee": null,
+      "yearly_fee": 0.89,
       "is_etf": false,
       "esg_label": "LOW",
       "theme": "NONE",
@@ -3771,9 +4234,12 @@
       "kiid_url": "https://www.fynup.at/f/lu2209017263",
       "asset_class": "mixed",
       "region": "europe",
-      "categories": ["balanced","european_mixed"],
+      "categories": [
+        "balanced",
+        "european_mixed"
+      ],
       "risk_level": 3,
-      "yearly_fee": null,
+      "yearly_fee": 0.9,
       "is_etf": false,
       "esg_label": "LOW",
       "theme": "NONE",
@@ -3793,9 +4259,11 @@
       "kiid_url": "https://www.fynup.at/f/de0005314116",
       "asset_class": "mixed",
       "region": "global",
-      "categories": ["balanced"],
+      "categories": [
+        "balanced"
+      ],
       "risk_level": 3,
-      "yearly_fee": null,
+      "yearly_fee": 2.13,
       "is_etf": false,
       "esg_label": "LOW",
       "theme": "NONE",
@@ -3815,9 +4283,13 @@
       "kiid_url": "https://www.fynup.at/f/lu0794790716",
       "asset_class": "mixed",
       "region": "europe",
-      "categories": ["balanced","european_mixed","income"],
+      "categories": [
+        "balanced",
+        "european_mixed",
+        "income"
+      ],
       "risk_level": 3,
-      "yearly_fee": null,
+      "yearly_fee": 1.61,
       "is_etf": false,
       "esg_label": "LOW",
       "theme": "NONE",
@@ -3837,9 +4309,12 @@
       "kiid_url": "https://www.fynup.at/f/lu0989117667",
       "asset_class": "mixed",
       "region": "global",
-      "categories": ["balanced","multi_asset"],
+      "categories": [
+        "balanced",
+        "multi_asset"
+      ],
       "risk_level": 3,
-      "yearly_fee": null,
+      "yearly_fee": 1.71,
       "is_etf": false,
       "esg_label": "LOW",
       "theme": "NONE",
@@ -3859,9 +4334,11 @@
       "kiid_url": "https://www.fynup.at/f/de0009848077",
       "asset_class": "mixed",
       "region": "global",
-      "categories": ["balanced"],
+      "categories": [
+        "balanced"
+      ],
       "risk_level": 3,
-      "yearly_fee": null,
+      "yearly_fee": 0.86,
       "is_etf": false,
       "esg_label": "LOW",
       "theme": "NONE",
@@ -3881,7 +4358,10 @@
       "kiid_url": "https://www.fynup.at/f/lu1744628287",
       "asset_class": "mixed",
       "region": "europe",
-      "categories": ["balanced","european_mixed"],
+      "categories": [
+        "balanced",
+        "european_mixed"
+      ],
       "risk_level": 3,
       "yearly_fee": 1.79,
       "is_etf": false,
@@ -3903,9 +4383,12 @@
       "kiid_url": "https://www.fynup.at/f/ie00byvxs345",
       "asset_class": "mixed",
       "region": "europe",
-      "categories": ["balanced","european_mixed"],
+      "categories": [
+        "balanced",
+        "european_mixed"
+      ],
       "risk_level": 3,
-      "yearly_fee": null,
+      "yearly_fee": 2.6,
       "is_etf": false,
       "esg_label": "LOW",
       "theme": "NONE",
@@ -3925,7 +4408,9 @@
       "kiid_url": "https://www.fynup.at/f/lu0179540073",
       "asset_class": "equity",
       "region": "europe",
-      "categories": ["european_equity"],
+      "categories": [
+        "european_equity"
+      ],
       "risk_level": 3,
       "yearly_fee": null,
       "is_etf": false,
@@ -3947,7 +4432,10 @@
       "kiid_url": "https://www.fynup.at/f/lu0119219661",
       "asset_class": "equity",
       "region": "europe",
-      "categories": ["european_equity","growth"],
+      "categories": [
+        "european_equity",
+        "growth"
+      ],
       "risk_level": 3,
       "yearly_fee": null,
       "is_etf": false,
@@ -3969,7 +4457,9 @@
       "kiid_url": "https://www.fynup.at/f/lu0179540156",
       "asset_class": "equity",
       "region": "europe",
-      "categories": ["european_equity"],
+      "categories": [
+        "european_equity"
+      ],
       "risk_level": 3,
       "yearly_fee": null,
       "is_etf": false,
@@ -3991,7 +4481,9 @@
       "kiid_url": "https://www.fynup.at/f/lu0133077598",
       "asset_class": "equity",
       "region": "europe",
-      "categories": ["european_equity"],
+      "categories": [
+        "european_equity"
+      ],
       "risk_level": 3,
       "yearly_fee": null,
       "is_etf": false,
@@ -4013,7 +4505,9 @@
       "kiid_url": "https://www.fynup.at/f/lu0179540230",
       "asset_class": "equity",
       "region": "europe",
-      "categories": ["european_equity"],
+      "categories": [
+        "european_equity"
+      ],
       "risk_level": 3,
       "yearly_fee": null,
       "is_etf": false,
@@ -4035,7 +4529,9 @@
       "kiid_url": "https://www.fynup.at/f/lu0119219747",
       "asset_class": "equity",
       "region": "europe",
-      "categories": ["european_equity"],
+      "categories": [
+        "european_equity"
+      ],
       "risk_level": 3,
       "yearly_fee": null,
       "is_etf": false,
@@ -4057,7 +4553,9 @@
       "kiid_url": "https://www.fynup.at/f/lu0133077671",
       "asset_class": "equity",
       "region": "europe",
-      "categories": ["european_equity"],
+      "categories": [
+        "european_equity"
+      ],
       "risk_level": 3,
       "yearly_fee": null,
       "is_etf": false,
@@ -4079,7 +4577,9 @@
       "kiid_url": "https://www.fynup.at/f/lu0179540313",
       "asset_class": "equity",
       "region": "europe",
-      "categories": ["european_equity"],
+      "categories": [
+        "european_equity"
+      ],
       "risk_level": 3,
       "yearly_fee": null,
       "is_etf": false,
@@ -4101,7 +4601,10 @@
       "kiid_url": "https://www.justetf.com/en/etf-profile.html?isin=DE000A0Q4RZ9",
       "asset_class": "bond",
       "region": "europe",
-      "categories": ["money_market","etf"],
+      "categories": [
+        "money_market",
+        "etf"
+      ],
       "risk_level": 1,
       "yearly_fee": 0.13,
       "is_etf": true,
@@ -4123,7 +4626,10 @@
       "kiid_url": "https://www.justetf.com/en/etf-profile.html?isin=DE000ETFL227",
       "asset_class": "bond",
       "region": "europe",
-      "categories": ["money_market","etf"],
+      "categories": [
+        "money_market",
+        "etf"
+      ],
       "risk_level": 1,
       "yearly_fee": 0.12,
       "is_etf": true,
@@ -4145,7 +4651,10 @@
       "kiid_url": "https://www.justetf.com/en/etf-profile.html?isin=FR0010510800",
       "asset_class": "bond",
       "region": "europe",
-      "categories": ["money_market","etf"],
+      "categories": [
+        "money_market",
+        "etf"
+      ],
       "risk_level": 1,
       "yearly_fee": 0.14,
       "is_etf": true,
@@ -4167,9 +4676,12 @@
       "kiid_url": "https://www.justetf.com/en/etf-profile.html?isin=LU0290358497",
       "asset_class": "bond",
       "region": "europe",
-      "categories": ["money_market","etf"],
+      "categories": [
+        "money_market",
+        "etf"
+      ],
       "risk_level": 1,
-      "yearly_fee": 0.10,
+      "yearly_fee": 0.1,
       "is_etf": true,
       "esg_label": "LOW",
       "theme": "NONE",
@@ -4189,7 +4701,9 @@
       "kiid_url": "https://www.scor-ip.com/en/sfdrarticle10/esgeurohighyield",
       "asset_class": "bond",
       "region": "europe",
-      "categories": ["high_yield_bonds"],
+      "categories": [
+        "high_yield_bonds"
+      ],
       "risk_level": 3,
       "yearly_fee": null,
       "is_etf": false,
@@ -4211,7 +4725,9 @@
       "kiid_url": "https://www.lazardassetmanagement.com/li/en_gb/investment-solutions/how-to-invest/16/3803",
       "asset_class": "bond",
       "region": "europe",
-      "categories": ["high_yield_bonds"],
+      "categories": [
+        "high_yield_bonds"
+      ],
       "risk_level": 3,
       "yearly_fee": null,
       "is_etf": false,
@@ -4233,9 +4749,11 @@
       "kiid_url": "https://www.fynup.at/f/de0008480666",
       "asset_class": "bond",
       "region": "europe",
-      "categories": ["european_bonds"],
+      "categories": [
+        "european_bonds"
+      ],
       "risk_level": 2,
-      "yearly_fee": null,
+      "yearly_fee": 0.8,
       "is_etf": false,
       "esg_label": "LOW",
       "theme": "NONE",
@@ -4255,9 +4773,11 @@
       "kiid_url": "https://www.fynup.at/f/de000dws3bq5",
       "asset_class": "bond",
       "region": "europe",
-      "categories": ["european_bonds"],
+      "categories": [
+        "european_bonds"
+      ],
       "risk_level": 3,
-      "yearly_fee": null,
+      "yearly_fee": 0.42,
       "is_etf": false,
       "esg_label": "LOW",
       "theme": "NONE",
@@ -4277,9 +4797,12 @@
       "kiid_url": "https://www.fynup.at/f/lu2190101332",
       "asset_class": "bond",
       "region": "eurozone",
-      "categories": ["european_bonds","flexible_bonds"],
+      "categories": [
+        "european_bonds",
+        "flexible_bonds"
+      ],
       "risk_level": 3,
-      "yearly_fee": null,
+      "yearly_fee": 0.27,
       "is_etf": false,
       "esg_label": "LOW",
       "theme": "NONE",
@@ -4299,9 +4822,11 @@
       "kiid_url": "https://www.fynup.at/f/ie00bysx5l43",
       "asset_class": "bond",
       "region": "eurozone",
-      "categories": ["european_bonds"],
+      "categories": [
+        "european_bonds"
+      ],
       "risk_level": 3,
-      "yearly_fee": null,
+      "yearly_fee": 0.12,
       "is_etf": false,
       "esg_label": "LOW",
       "theme": "NONE",
@@ -4321,7 +4846,9 @@
       "kiid_url": "https://www.fynup.at/f/de000dws1dy8",
       "asset_class": "bond",
       "region": "europe",
-      "categories": ["european_bonds"],
+      "categories": [
+        "european_bonds"
+      ],
       "risk_level": 3,
       "yearly_fee": null,
       "is_etf": false,
@@ -4333,14 +4860,36 @@
       "esg_article_9": false,
       "notes": "Provider expanded. kiid_url was pointing to completely wrong fund, corrected.",
       "source": "rentenfonds_50"
-    }        
+    }
   ],
   "metadata": {
     "version": "1.0",
     "last_updated": "2026-03-18",
     "total_funds_shown": 197,
     "total_funds_in_db": 197,
-    "uniform_schema_fields": ["isin","ticker","name","provider","url","kiid_url","asset_class","region","categories","risk_level","yearly_fee","is_etf","esg_article_8","esg_article_9","esg_label","theme","srri","sharpe_ratio","notes","source"],
-    "notes": "This file was manually concatenated from 4 chunks. It may need refinement."
+    "uniform_schema_fields": [
+      "isin",
+      "ticker",
+      "name",
+      "provider",
+      "url",
+      "kiid_url",
+      "asset_class",
+      "region",
+      "categories",
+      "risk_level",
+      "yearly_fee",
+      "is_etf",
+      "esg_article_8",
+      "esg_article_9",
+      "esg_label",
+      "theme",
+      "srri",
+      "sharpe_ratio",
+      "notes",
+      "source"
+    ],
+    "notes": "This file was manually concatenated from 4 chunks. It may need refinement.",
+    "last_enriched": "2026-03-19"
   }
 }

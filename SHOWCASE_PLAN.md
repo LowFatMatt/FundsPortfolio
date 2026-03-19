@@ -23,6 +23,13 @@ Ship a user‑visible “decision filtering” showcase by upgrading the recomme
 - Deliverable — Update documentation to match actual endpoints and payloads, including the new explainability fields.
 - Acceptance — Tests cover the new decision filters and fail on regressions; docs accurately reflect request/response shapes.
 
+### Week 4 — Contributor‑Ready Workflow (Parallel Track)
+- Deliverable — Implement GitHub Actions CI as described in `GITHUB_ACTIONS_SETUP.md` and `GITHUB_ACTIONS_GUIDE.md` for lint + tests on PRs.
+- Deliverable — Keep deployment local only (Docker Compose) for now; no Heroku deployment steps.
+- Deliverable — Add contributor docs and templates (CONTRIBUTING, PR template, issue template) and a short “how to run CI locally” section.
+- Acceptance — A new contributor can run `docker compose up --build` and `python -m pytest` successfully, and CI status checks appear on PRs.
+- Note — Provide light coaching for GitHub Actions workflow steps when requested; assume strong DevSecOps background but limited GH Actions hands‑on.
+
 ## Public API Changes
 - `POST /api/portfolio` response adds `risk_profile`, `portfolio_metrics`, `explanations`, and `decision_trace`.
 - Validation errors return consistent 4xx error objects with field‑level messages.

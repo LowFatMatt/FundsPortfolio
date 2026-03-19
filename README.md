@@ -62,6 +62,13 @@ To (re)build the fund database from CSVs:
 - Tests: `python -m pytest`
 - Lint: `python -m ruff check --select E,F,W .`
 
+
+**Run CI Locally (Quick Check)**
+- `make ci`
+- `python -m ruff format .`
+- `python -m ruff check .`
+- `python -m pytest`
+
 **Project Layout**
 - `funds_portfolio/` → backend logic and Flask app
 - `templates/` and `static/` → frontend UI
@@ -69,3 +76,5 @@ To (re)build the fund database from CSVs:
 
 **License**
 This is a prototype project and does not provide financial advice.
+
+

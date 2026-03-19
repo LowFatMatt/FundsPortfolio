@@ -238,7 +238,35 @@ repo → Actions tab
 
 ---
 
+
+---
+
+## 🧭 Coaching Checklist (First Runs)
+
+Use this quick list when you want a guided, low-stress first run.
+
+### First Local Run (No GitHub Yet)
+- [ ] Run `python -m pytest` locally (baseline signal).
+- [ ] If tests fail, fix locally before pushing.
+- [ ] Optional: run `act push -j test` if you want to simulate Actions locally.
+
+### First GitHub Actions Run
+- [ ] Push a small change to a branch (not `main`).
+- [ ] Open a PR and watch the Actions tab for the CI run.
+- [ ] Click into the run and expand the `test` job logs.
+- [ ] Confirm the workflow uses the correct Python version and runs pytest.
+
+### If It Fails
+- [ ] Read the first error in the log (usually the root cause).
+- [ ] Re-run only after a local fix.
+- [ ] If in doubt, paste the failing log section and we’ll triage together.
+
 ##  🚀 Deploying with GitHub Actions
+### Status
+
+Local Docker only for now. Skip this section until we decide to deploy.
+
+
 
 ### Deploy to Heroku (Manual Trigger)
 

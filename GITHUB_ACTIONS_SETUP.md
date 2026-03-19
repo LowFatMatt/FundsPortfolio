@@ -7,7 +7,7 @@ This document explains the GitHub Actions CI/CD setup for the FundsPortfolio pro
 ### 1. Test Workflow (`.github/workflows/test.yml`)
 - **Triggers**: Push to `main`/`develop`, PR to `main`
 - **Jobs**:
-  - `test`: Runs pytest on Ubuntu with Python 3.11
+  - `test`: Runs pytest on Ubuntu with Python 3.13
 
 ### 2. CI/CD Pipeline (`.github/workflows/ci-cd.yml`)
 - **Triggers**: Push to `main`/`develop`, PR to `main`, Manual dispatch

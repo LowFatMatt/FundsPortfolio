@@ -131,16 +131,15 @@ def _pdf_to_text(pdf_bytes: bytes) -> Optional[str]:
 
     try:
         reader = PdfReader(io.BytesIO(pdf_bytes))
+        parts: List[str] = []
+        for page in reader.pages:
+            try:
+                parts.append(page.extract_text() or "")
+            except Exception:
+                continue
+        return "\n".join(parts)
     except Exception:
         return None
-
-    parts: List[str] = []
-    for page in reader.pages:
-        try:
-            parts.append(page.extract_text() or "")
-        except Exception:
-            continue
-    return "\n".join(parts)
 
 
 def _looks_like_pdf(resp: requests.Response) -> bool:
@@ -292,9 +291,10 @@ def _enrich_fee(
     pdf_bytes = _fetch_pdf(kiid_url, session_timeout)
     if pdf_bytes:
         text = _pdf_to_text(pdf_bytes)
-        fee = _extract_fee_from_text(text or "", allow_heuristic)
-        time.sleep(pdf_delay)
-        return fee, fund.get("kiid_status")
+        if text:
+            fee = _extract_fee_from_text(text or "", allow_heuristic)
+            time.sleep(pdf_delay)
+            return fee, fund.get("kiid_status")
 
     html = _fetch_html(kiid_url, session_timeout)
     fee = _extract_fee_from_html(html or "", allow_heuristic)
