@@ -4340,7 +4340,7 @@
     "last_updated": "2026-03-18",
     "total_funds_shown": 197,
     "total_funds_in_db": 197,
-    "uniform_schema_fields": ["isin","ticker","name","provider","url","kiid_url","asset_class","region","categories","risk_level","yearly_fee","is_etf","esg_article_8","esg_article_9","esg_label","theme","srri","sharpe_ratio","notes","source","corrections"],
+    "uniform_schema_fields": ["isin","ticker","name","provider","url","kiid_url","asset_class","region","categories","risk_level","yearly_fee","is_etf","esg_article_8","esg_article_9","esg_label","theme","srri","sharpe_ratio","notes","source"],
     "notes": "This file was manually concatenated from 4 chunks. It may need refinement."
   }
 }

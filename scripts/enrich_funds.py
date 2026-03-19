@@ -77,9 +77,12 @@ def _apply_ticker_map(fund: Dict, ticker_map: Dict[str, str]) -> bool:
 def _normalize_percent(value: str) -> Optional[float]:
     if value is None:
         return None
-    cleaned = value.strip().replace("%", "").replace(",", ".")
+    cleaned = value.strip().replace(",", ".")
+    match = re.search(r"([0-9]+(?:\.[0-9]+)?)", cleaned)
+    if not match:
+        return None
     try:
-        return float(cleaned)
+        return float(match.group(1))
     except ValueError:
         return None
 
@@ -89,8 +92,8 @@ def _extract_fee_from_text(text: str, allow_heuristic: bool) -> Optional[float]:
         return None
 
     patterns = [
-        r"(ongoing charges|ongoing charge|laufende kosten|gesamtkostenquote|total expense ratio|ter)[^\d%]{0,30}([0-9]+[\.,][0-9]+)\s*%",
-        r"([0-9]+[\.,][0-9]+)\s*%\s*(ongoing charges|laufende kosten|gesamtkostenquote|total expense ratio|ter)",
+        r"(ongoing charges|ongoing charge|laufende kosten|gesamtkostenquote|total expense ratio|ter|expense ratio)[^\d%]{0,30}([0-9]+[\.,][0-9]+)\s*%",
+        r"([0-9]+[\.,][0-9]+)\s*%\s*(ongoing charges|laufende kosten|gesamtkostenquote|total expense ratio|ter|expense ratio)",
     ]
 
     for pattern in patterns:
@@ -175,7 +178,7 @@ def _extract_pdf_url_from_html(html: str, base_url: str) -> Optional[str]:
 
 def _fetch_pdf(url: str, timeout: int) -> Optional[bytes]:
     try:
-        resp = requests.get(url, timeout=timeout)
+        resp = requests.get(url, timeout=timeout, headers={"User-Agent": "FundsPortfolio/1.0"})
     except requests.RequestException:
         return None
 
@@ -190,7 +193,7 @@ def _fetch_pdf(url: str, timeout: int) -> Optional[bytes]:
         return None
 
     try:
-        resp = requests.get(resolved, timeout=timeout)
+        resp = requests.get(resolved, timeout=timeout, headers={"User-Agent": "FundsPortfolio/1.0"})
     except requests.RequestException:
         return None
 
@@ -201,6 +204,52 @@ def _fetch_pdf(url: str, timeout: int) -> Optional[bytes]:
         return resp.content
 
     return None
+
+
+def _fetch_html(url: str, timeout: int) -> Optional[str]:
+    try:
+        resp = requests.get(url, timeout=timeout, headers={"User-Agent": "FundsPortfolio/1.0"})
+    except requests.RequestException:
+        return None
+
+    if resp.status_code != 200:
+        return None
+
+    content_type = (resp.headers.get("Content-Type") or "").lower()
+    if "html" not in content_type:
+        return None
+
+    return resp.text
+
+
+def _strip_html(html: str) -> str:
+    if not html:
+        return ""
+    text = re.sub(r"<script[^>]*>.*?</script>", " ", html, flags=re.IGNORECASE | re.DOTALL)
+    text = re.sub(r"<style[^>]*>.*?</style>", " ", text, flags=re.IGNORECASE | re.DOTALL)
+    text = re.sub(r"<[^>]+>", " ", text)
+    return re.sub(r"\s+", " ", text)
+
+
+def _extract_fee_from_html(html: str, allow_heuristic: bool) -> Optional[float]:
+    if not html:
+        return None
+
+    # justETF shows TER in a data-testid value
+    match = re.search(
+        r'data-testid="etf-profile-header_ter-value"[^>]*>([^<]+)',
+        html,
+        flags=re.IGNORECASE,
+    )
+    if match:
+        value = match.group(1).strip()
+        fee = _normalize_percent(value)
+        if fee is not None:
+            return fee
+
+    # Fallback to text extraction
+    text = _strip_html(html)
+    return _extract_fee_from_text(text, allow_heuristic)
 
 
 def _fetch_kiid_url(isin: str, timeout: int) -> Tuple[Optional[str], str]:
@@ -241,13 +290,19 @@ def _enrich_fee(
         return None, fund.get("kiid_status")
 
     pdf_bytes = _fetch_pdf(kiid_url, session_timeout)
-    if not pdf_bytes:
-        return None, fund.get("kiid_status")
+    if pdf_bytes:
+        text = _pdf_to_text(pdf_bytes)
+        fee = _extract_fee_from_text(text or "", allow_heuristic)
+        time.sleep(pdf_delay)
+        return fee, fund.get("kiid_status")
 
-    text = _pdf_to_text(pdf_bytes)
-    fee = _extract_fee_from_text(text or "", allow_heuristic)
-    time.sleep(pdf_delay)
-    return fee, fund.get("kiid_status")
+    html = _fetch_html(kiid_url, session_timeout)
+    fee = _extract_fee_from_html(html or "", allow_heuristic)
+    if fee is not None:
+        time.sleep(pdf_delay)
+        return fee, fund.get("kiid_status")
+
+    return None, fund.get("kiid_status")
 
 
 def _enrich_sharpe(
