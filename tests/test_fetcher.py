@@ -17,7 +17,8 @@ def sample_price_data():
     # Create simple linear growth with some noise
     # ~10% annual return
     daily_growth_rate = 0.10 / 252
-    noise = np.random.normal(
+    rng = np.random.default_rng(42)
+    noise = rng.normal(
         0, 0.01, len(dates)
     )  # Daily standard deviation of 1% (~15.8% annualized vol)
 

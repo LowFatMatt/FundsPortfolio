@@ -2,7 +2,16 @@
 
 import os
 import logging
+from datetime import datetime, timezone
 from flask import Flask, jsonify, render_template, render_template_string
+
+APP_STARTED_AT = datetime.now(timezone.utc)
+
+
+def _format_build_time(raw_time: str | None) -> str:
+    if raw_time:
+        return raw_time
+    return APP_STARTED_AT.strftime("%Y-%m-%d %H:%M:%S UTC")
 
 
 def create_app():
@@ -23,14 +32,20 @@ def create_app():
     def index():
         # Try to render the template; fall back if missing
         tpl_path = os.path.join(app.template_folder, "index.html")
+        build_id = os.getenv("BUILD_ID", "local-dev")
+        build_time = _format_build_time(os.getenv("BUILD_TIME"))
         if os.path.exists(tpl_path):
-            return render_template("index.html")
+            return render_template(
+                "index.html", build_id=build_id, build_time=build_time
+            )
         logging.warning(
             "index.html template not found at %s, returning fallback HTML", tpl_path
         )
         return render_template_string(
             "<!doctype html><html><head><title>FundsPortfolio</title></head>"
-            "<body><h1>FundsPortfolio API</h1><p>Template missing.</p></body></html>"
+            "<body><h1>FundsPortfolio API</h1>"
+            f"<p>Build: {build_id} • Started: {build_time}</p>"
+            "<p>Template missing.</p></body></html>"
         )
 
     # Health check endpoint
