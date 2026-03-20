@@ -205,7 +205,7 @@ funds-portfolio/
 Before starting Phase 1, ensure:
 
 - [ ] All team members have GitHub access
-- [ ] Python 3.11 installed locally (for testing)
+- [ ] Python 3.13 installed locally (for testing)
 - [ ] Docker & Docker Compose installed
 - [ ] All documentation reviewed (this index + specific guides)
 - [ ] 200-ISIN list sourced

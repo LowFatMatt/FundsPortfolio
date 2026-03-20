@@ -16,7 +16,7 @@
 
 ### Prerequisites
 - Docker & Docker Compose installed
-- Python 3.11+ (for local testing without Docker)
+- Python 3.13+ (for local testing without Docker)
 - Git
 
 ### Local Development

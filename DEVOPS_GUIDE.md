@@ -17,7 +17,7 @@
 ### Dockerfile (MVP)
 
 ```dockerfile
-FROM python:3.11-slim
+FROM python:3.13-slim
 
 WORKDIR /app
 
@@ -118,10 +118,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       
-      - name: Set up Python 3.11
+      - name: Set up Python 3.13
         uses: actions/setup-python@v4
         with:
-          python-version: '3.11'
+          python-version: '3.13'
           cache: 'pip'
       
       - name: Install dependencies
@@ -419,7 +419,7 @@ RUN groupadd -r appuser && useradd -r -g appuser appuser
 USER appuser
 
 # Don't use latest; pin Python version
-FROM python:3.11-slim
+FROM python:3.13-slim
 
 # Use --no-cache-dir to reduce layer size
 RUN pip install --no-cache-dir -r requirements.txt
@@ -467,7 +467,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 **Fix:**
 ```yaml
-# Use docker/build-push-action v5+ (v4 has issues with 3.11)
+# Use docker/build-push-action v5+ (v4 has issues with 3.13)
 - uses: docker/build-push-action@v5
 ```
 

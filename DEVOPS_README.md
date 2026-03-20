@@ -165,7 +165,7 @@ Your team should follow this process:
 
 ### Docker
 - Use `.dockerignore` to exclude large files (speeds up build)
-- Pin Python version (3.11-slim) – don't use `latest`
+- Pin Python version (3.13-slim) – don't use `latest`
 - Test `docker-compose up` repeatedly during dev phase
 
 ### KIID Retrieval

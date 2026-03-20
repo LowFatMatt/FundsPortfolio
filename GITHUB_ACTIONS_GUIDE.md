@@ -153,10 +153,10 @@ gh secret set MY_SECRET --body "$(cat ~/.secret)"
 
 ### Matrix Builds Failing Partially
 
-**Scenario:** Tests run for Python 3.10 but fail for 3.11  
+**Scenario:** Tests run for Python 3.12 but fail for 3.13  
 **Strategy:** 
 - Don't use `fail-fast: true` for debugging
-- Check logs by matrix value: `strategy: { matrix: { python: [3.10, 3.11] } }`
+- Check logs by matrix value: `strategy: { matrix: { python: [3.12, 3.13] } }`
 - Each combination gets separate log tab in UI
 
 ---
@@ -341,7 +341,7 @@ jobs:
   test:
     strategy:
       matrix:
-        python-version: ['3.10', '3.11']
+        python-version: ['3.12', '3.13']
         os: [ubuntu-latest, macos-latest]
     runs-on: ${{ matrix.os }}
     steps:
