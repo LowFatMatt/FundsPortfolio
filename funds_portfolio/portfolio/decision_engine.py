@@ -335,8 +335,8 @@ class DecisionEngine:
         scored.sort(
             key=lambda x: (
                 x["_scores"]["final"],
-                x.get("sharpe_ratio", 0.0),
-                -float(x.get("yearly_fee", 0.0) or 0.0),
+                self._as_float(x.get("sharpe_ratio")),
+                -self._as_float(x.get("yearly_fee")),
                 x.get("isin", ""),
             ),
             reverse=True,

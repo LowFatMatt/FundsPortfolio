@@ -177,7 +177,9 @@ def _extract_pdf_url_from_html(html: str, base_url: str) -> Optional[str]:
 
 def _fetch_pdf(url: str, timeout: int) -> Optional[bytes]:
     try:
-        resp = requests.get(url, timeout=timeout, headers={"User-Agent": "FundsPortfolio/1.0"})
+        resp = requests.get(
+            url, timeout=timeout, headers={"User-Agent": "FundsPortfolio/1.0"}
+        )
     except requests.RequestException:
         return None
 
@@ -192,7 +194,9 @@ def _fetch_pdf(url: str, timeout: int) -> Optional[bytes]:
         return None
 
     try:
-        resp = requests.get(resolved, timeout=timeout, headers={"User-Agent": "FundsPortfolio/1.0"})
+        resp = requests.get(
+            resolved, timeout=timeout, headers={"User-Agent": "FundsPortfolio/1.0"}
+        )
     except requests.RequestException:
         return None
 
@@ -207,7 +211,9 @@ def _fetch_pdf(url: str, timeout: int) -> Optional[bytes]:
 
 def _fetch_html(url: str, timeout: int) -> Optional[str]:
     try:
-        resp = requests.get(url, timeout=timeout, headers={"User-Agent": "FundsPortfolio/1.0"})
+        resp = requests.get(
+            url, timeout=timeout, headers={"User-Agent": "FundsPortfolio/1.0"}
+        )
     except requests.RequestException:
         return None
 
@@ -224,8 +230,12 @@ def _fetch_html(url: str, timeout: int) -> Optional[str]:
 def _strip_html(html: str) -> str:
     if not html:
         return ""
-    text = re.sub(r"<script[^>]*>.*?</script>", " ", html, flags=re.IGNORECASE | re.DOTALL)
-    text = re.sub(r"<style[^>]*>.*?</style>", " ", text, flags=re.IGNORECASE | re.DOTALL)
+    text = re.sub(
+        r"<script[^>]*>.*?</script>", " ", html, flags=re.IGNORECASE | re.DOTALL
+    )
+    text = re.sub(
+        r"<style[^>]*>.*?</style>", " ", text, flags=re.IGNORECASE | re.DOTALL
+    )
     text = re.sub(r"<[^>]+>", " ", text)
     return re.sub(r"\s+", " ", text)
 
