@@ -26,6 +26,13 @@ FundsPortfolio is a Flask-based portfolio recommender for investment funds. It l
 - `POST /api/portfolio` → generate a portfolio
 - `GET /api/portfolio/<portfolio_id>` → resume a portfolio
 
+
+**Response Fields (POST /api/portfolio)**
+- `risk_profile`
+- `portfolio_metrics` (e.g., `weighted_fee`, `srri_proxy`, exposures)
+- `explanations` (`summary`, `per_fund`)
+- `decision_trace` (`filters`, `relaxations`, `used_fallback_risk`)
+
 Example request:
 ```bash
 curl -s -X POST http://localhost:5000/api/portfolio \
@@ -76,5 +83,7 @@ To (re)build the fund database from CSVs:
 
 **License**
 This is a prototype project and does not provide financial advice.
+
+
 
 
