@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FundsPortfolio | Smart Investing</title>
+    <title data-i18n="meta.title">FundsPortfolio | Smart Investing</title>
     <!-- Modern Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,8 +13,15 @@
 <body>
 
     <header style="text-align: center; margin-bottom: 2rem; max-width: 600px; animation: fadeIn 0.4s ease-out;">
-        <h1 style="font-size: 2.8rem; margin-bottom: 0.5rem;">FundsPortfolio</h1>
-        <p class="subtitle">Discover your personalized data-driven investment strategy.</p>
+        <div style="display: flex; justify-content: flex-end; margin-bottom: 0.5rem;">
+            <label for="lang-select" data-i18n="ui.language_label" style="margin-right: 0.5rem; font-size: 0.85rem; color: var(--text-secondary);">Language</label>
+            <select id="lang-select" style="background: rgba(48, 54, 61, 0.5); color: var(--text-primary); border: 1px solid var(--card-border); border-radius: 6px; padding: 0.2rem 0.4rem;">
+                <option value="en">English</option>
+                <option value="de">Deutsch</option>
+            </select>
+        </div>
+        <h1 style="font-size: 2.8rem; margin-bottom: 0.5rem;" data-i18n="app.title">FundsPortfolio</h1>
+        <p class="subtitle" data-i18n="app.subtitle">Discover your personalized data-driven investment strategy.</p>
     </header>
 
     <main class="container">
@@ -22,26 +29,26 @@
         <!-- Loading State -->
         <div id="loading-view" class="glass-card hidden" style="text-align: center; padding: 4rem 2rem;">
             <div class="loading-spinner" style="border-color: rgba(88, 166, 255, 0.2); border-top-color: var(--accent); width: 40px; height: 40px;"></div>
-            <h3 style="margin-top: 1.5rem; margin-bottom: 0; color: var(--text-secondary);">Loading...</h3>
+            <h3 style="margin-top: 1.5rem; margin-bottom: 0; color: var(--text-secondary);" data-i18n="ui.loading">Loading...</h3>
         </div>
 
         <!-- Welcome / Resume View -->
         <div id="welcome-view" class="glass-card" style="text-align: center;">
-            <h2 style="margin-bottom: 1.5rem;">Welcome Back</h2>
-            <p style="color: var(--text-secondary); margin-bottom: 2rem;">Do you have an existing Portfolio ID to resume?</p>
+            <h2 style="margin-bottom: 1.5rem;" data-i18n="ui.welcome_title">Welcome Back</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 2rem;" data-i18n="ui.welcome_subtitle">Do you have an existing Portfolio ID to resume?</p>
             
             <form id="resume-form" style="max-width: 400px; margin: 0 auto;">
                 <div class="form-group">
-                    <input type="text" id="resume-id" placeholder="e.g. port_20260310_6c75f86a" style="text-align: center; font-family: monospace;">
+                    <input type="text" id="resume-id" placeholder="e.g. port_20260310_6c75f86a" data-i18n-placeholder="ui.resume_placeholder" style="text-align: center; font-family: monospace;">
                 </div>
                 <div class="alert alert-error hidden" id="resume-error" style="margin-bottom: 1rem;"></div>
-                <button type="submit" class="btn btn-primary" style="margin-bottom: 1rem; width: 100%;">Resume Portfolio</button>
+                <button type="submit" class="btn btn-primary" style="margin-bottom: 1rem; width: 100%;" data-i18n="ui.resume_button">Resume Portfolio</button>
             </form>
             
-            <div style="margin: 2rem 0; color: var(--border-color);">— OR —</div>
+            <div style="margin: 2rem 0; color: var(--border-color);" data-i18n="ui.or_divider">— OR —</div>
             
             <button id="start-fresh-btn" class="btn" style="background: rgba(48, 54, 61, 0.5); border: 1px solid var(--card-border); width: 100%; max-width: 400px; margin: 0 auto; display: block;">
-                Start Fresh
+                <span data-i18n="ui.start_fresh">Start Fresh</span>
             </button>
         </div>
 
@@ -50,11 +57,11 @@
             
             <div id="active-session-banner" class="alert hidden" style="background: rgba(46, 160, 67, 0.1); border: 1px solid rgba(46, 160, 67, 0.3); color: #3fb950; margin-bottom: 2rem; display: flex; justify-content: space-between; align-items: center;">
                 <div>
-                    <strong>Editing Portfolio:</strong> <span id="active-port-id" style="font-family: monospace; font-size: 1.1em; margin-left: 0.5rem; color: var(--text-primary);"></span>
+                    <strong data-i18n="ui.editing_portfolio">Editing Portfolio:</strong> <span id="active-port-id" style="font-family: monospace; font-size: 1.1em; margin-left: 0.5rem; color: var(--text-primary);"></span>
                 </div>
             </div>
 
-            <h2>Build Your Profile</h2>
+            <h2 data-i18n="ui.build_profile">Build Your Profile</h2>
             <div id="error-view" class="alert alert-error hidden">
                 <p id="error-message"></p>
             </div>
@@ -66,7 +73,7 @@
                 <div class="form-group" style="margin-top: 3rem;">
                     <button type="submit" id="submit-btn" class="btn btn-primary">
                         <span id="btn-spinner" class="loading-spinner hidden"></span>
-                        <span id="btn-text">Generate Portfolio</span>
+                        <span id="btn-text" data-i18n="ui.generate_portfolio">Generate Portfolio</span>
                     </button>
                 </div>
             </form>
@@ -77,26 +84,26 @@
             
             <div id="portfolio-id-banner" class="alert" style="background: rgba(88, 166, 255, 0.1); border: 1px solid rgba(88, 166, 255, 0.3); color: var(--accent); margin-bottom: 2rem; display: flex; justify-content: space-between; align-items: center;">
                 <div>
-                    <strong>Your Portfolio ID:</strong> <span id="display-port-id" style="font-family: monospace; font-size: 1.1em; margin-left: 0.5rem; color: var(--text-primary);"></span>
+                    <strong data-i18n="ui.portfolio_id_label">Your Portfolio ID:</strong> <span id="display-port-id" style="font-family: monospace; font-size: 1.1em; margin-left: 0.5rem; color: var(--text-primary);"></span>
                 </div>
-                <div style="font-size: 0.8em; color: var(--text-secondary); text-align: right;">
+                <div style="font-size: 0.8em; color: var(--text-secondary); text-align: right;" data-i18n-html="ui.save_note">
                     Save this ID to resume<br>Available for 14 days
                 </div>
             </div>
 
             <div class="results-header form-group">
                 <div>
-                    <h2>Your Portfolio Strategy</h2>
-                    <p style="color: var(--text-secondary);">Optimized for max Sharpe Ratio</p>
+                    <h2 data-i18n="ui.strategy_title">Your Portfolio Strategy</h2>
+                    <p style="color: var(--text-secondary);" data-i18n="ui.strategy_subtitle">Optimized for max Sharpe Ratio</p>
                 </div>
                 <div class="portfolio-score">
                     <div id="score-val" class="score-value">--</div>
-                    <div class="score-label">Risk Profile</div>
+                    <div class="score-label" data-i18n="ui.risk_profile">Risk Profile</div>
                 </div>
             </div>
 
             <div id="decision-summary" class="decision-summary">
-                <h3>Decision Summary</h3>
+                <h3 data-i18n="ui.decision_summary">Decision Summary</h3>
                 <p id="decision-summary-text" class="muted"></p>
                 <div id="decision-filters" class="decision-filters"></div>
             </div>
@@ -110,7 +117,7 @@
 
             <div class="form-group" style="margin-top: 2rem;">
                 <button id="restart-btn" class="btn" style="background: rgba(48, 54, 61, 0.5); color: var(--text-primary); border: 1px solid var(--card-border);">
-                    ← Start Over
+                    <span data-i18n="ui.start_over">← Start Over</span>
                 </button>
             </div>
         </div>

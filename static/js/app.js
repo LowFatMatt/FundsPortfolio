@@ -29,12 +29,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const displayPortId = document.getElementById('display-port-id');
     const decisionSummaryText = document.getElementById('decision-summary-text');
     const decisionFilters = document.getElementById('decision-filters');
+    const langSelect = document.getElementById('lang-select');
 
     // Global session state
     let currentPortfolioId = null;
+    const supportedLangs = ['en', 'de'];
+    let currentLang = 'en';
+    let uiStrings = {};
 
     // Initialize Application
-    loadQuestionnaire();
+    initLanguage();
 
     // Event Listeners
     qForm.addEventListener('submit', handleSubmission);
@@ -48,10 +52,74 @@ document.addEventListener('DOMContentLoaded', () => {
     resumeForm.addEventListener('submit', handleResume);
 
     // Core Functions
+    function normalizeLang(lang) {
+        if (!lang) return 'en';
+        const short = lang.toLowerCase().split('-')[0];
+        return supportedLangs.includes(short) ? short : 'en';
+    }
+
+    function t(key, fallback) {
+        return uiStrings[key] || fallback || key;
+    }
+
+    function applyTranslations() {
+        document.documentElement.lang = currentLang;
+
+        const titleEl = document.querySelector('title[data-i18n]');
+        if (titleEl) {
+            document.title = t(titleEl.dataset.i18n, titleEl.textContent);
+        }
+
+        document.querySelectorAll('[data-i18n]').forEach((el) => {
+            const key = el.dataset.i18n;
+            el.textContent = t(key, el.textContent);
+        });
+
+        document.querySelectorAll('[data-i18n-html]').forEach((el) => {
+            const key = el.dataset.i18nHtml;
+            el.innerHTML = t(key, el.innerHTML);
+        });
+
+        document.querySelectorAll('[data-i18n-placeholder]').forEach((el) => {
+            const key = el.dataset.i18nPlaceholder;
+            el.placeholder = t(key, el.placeholder);
+        });
+    }
+
+    async function loadTranslations(lang) {
+        try {
+            const response = await fetch(`/static/i18n/${lang}.json`);
+            if (response.ok) {
+                uiStrings = await response.json();
+            }
+        } catch (err) {
+            console.warn('Failed to load UI translations:', err);
+        }
+        applyTranslations();
+    }
+
+    function initLanguage() {
+        const saved = localStorage.getItem('lang');
+        const browserLang = navigator.language || 'en';
+        currentLang = normalizeLang(saved || browserLang);
+
+        if (langSelect) {
+            langSelect.value = currentLang;
+            langSelect.addEventListener('change', async (e) => {
+                currentLang = normalizeLang(e.target.value);
+                localStorage.setItem('lang', currentLang);
+                await loadTranslations(currentLang);
+                await loadQuestionnaire();
+            });
+        }
+
+        loadTranslations(currentLang).then(loadQuestionnaire);
+    }
+
     async function loadQuestionnaire() {
         try {
-            const response = await fetch('/api/questionnaire');
-            if (!response.ok) throw new Error('Failed to load questionnaire schema');
+            const response = await fetch(`/api/questionnaire?lang=${currentLang}`);
+            if (!response.ok) throw new Error(t('errors.load_questionnaire', 'Failed to load questionnaire schema'));
 
             const data = await response.json();
             renderForm(data.sections || []);
@@ -59,7 +127,7 @@ document.addEventListener('DOMContentLoaded', () => {
             loadingView.classList.add('hidden');
             welcomeView.classList.remove('hidden');
         } catch (err) {
-            showError("Could not connect to server to load the questionnaire.");
+            showError(t('errors.load_questionnaire', 'Could not connect to server to load the questionnaire.'));
             console.error(err);
         }
     }
@@ -73,7 +141,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const label = document.createElement('label');
             label.htmlFor = section.id;
-            label.textContent = section.title || section.id.replace('_', ' ').toUpperCase();
+            label.textContent = section.title || section.name || section.id.replace('_', ' ').toUpperCase();
 
             if (section.required) {
                 const reqSpan = document.createElement('span');
@@ -104,7 +172,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 const defaultOpt = document.createElement('option');
                 defaultOpt.value = '';
-                defaultOpt.textContent = 'Select an option...';
+                defaultOpt.textContent = t('ui.select_placeholder', 'Select an option...');
                 defaultOpt.disabled = true;
                 defaultOpt.selected = true;
                 select.appendChild(defaultOpt);
@@ -226,7 +294,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Display Portfolio ID
         if (displayPortId) {
-            displayPortId.textContent = portfolio.portfolio_id || 'Unknown ID';
+            displayPortId.textContent = portfolio.portfolio_id || t('ui.unknown_id', 'Unknown ID');
         }
 
         // Remove any previous warnings
@@ -239,7 +307,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Decision summary
         if (decisionSummaryText) {
-            const summary = portfolio.explanations?.summary || 'Summary unavailable.';
+            const summary = portfolio.explanations?.summary || t('ui.summary_unavailable', 'Summary unavailable.');
             decisionSummaryText.textContent = summary;
         }
 
@@ -284,7 +352,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         if (!portfolio.recommendations || !portfolio.recommendations.length) {
-            recList.innerHTML = '<p style="color:var(--text-secondary)">No valid recommendations available.</p>';
+            recList.innerHTML = `<p style="color:var(--text-secondary)">${t('ui.no_recommendations', 'No valid recommendations available.')}</p>`;
             return;
         }
 
@@ -352,7 +420,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         let targetId = resumeIdInput.value.trim();
         if (!targetId) {
-            resumeError.textContent = "Please enter a valid Portfolio ID";
+            resumeError.textContent = t('errors.resume_invalid', 'Please enter a valid Portfolio ID');
             resumeError.classList.remove('hidden');
             return;
         }
@@ -372,16 +440,16 @@ document.addEventListener('DOMContentLoaded', () => {
             // Lock UI while loading
             const submitBtn = resumeForm.querySelector('button[type="submit"]');
             const originalText = submitBtn.textContent;
-            submitBtn.textContent = "Locating...";
+            submitBtn.textContent = t('ui.locating', 'Locating...');
             submitBtn.disabled = true;
 
             const response = await fetch(`/api/portfolio/${targetId}`);
 
             if (!response.ok) {
                 if (response.status === 404) {
-                    throw new Error("Portfolio ID not found. It may have expired. Start fresh or try again.");
+                    throw new Error(t('errors.resume_not_found', 'Portfolio ID not found. It may have expired. Start fresh or try again.'));
                 }
-                throw new Error("Failed to load portfolio.");
+                throw new Error(t('errors.resume_failed', 'Failed to load portfolio.'));
             }
 
             const savedPortfolio = await response.json();
@@ -400,7 +468,7 @@ document.addEventListener('DOMContentLoaded', () => {
             resumeError.classList.remove('hidden');
         } finally {
             const submitBtn = resumeForm.querySelector('button[type="submit"]');
-            submitBtn.textContent = "Resume Portfolio";
+            submitBtn.textContent = t('ui.resume_button', 'Resume Portfolio');
             submitBtn.disabled = false;
         }
     }
@@ -452,10 +520,10 @@ document.addEventListener('DOMContentLoaded', () => {
     function setLoadingState(isLoading) {
         submitBtn.disabled = isLoading;
         if (isLoading) {
-            btnText.textContent = 'Analyzing...';
+            btnText.textContent = t('ui.analyzing', 'Analyzing...');
             btnSpinner.classList.remove('hidden');
         } else {
-            btnText.textContent = 'Generate Portfolio';
+            btnText.textContent = t('ui.generate_portfolio', 'Generate Portfolio');
             btnSpinner.classList.add('hidden');
         }
     }

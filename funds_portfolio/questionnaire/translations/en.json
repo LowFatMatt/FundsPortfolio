@@ -1,0 +1,113 @@
+{
+  "sections": {
+    "investment_goal": {
+      "name": "What is your main goal with this investment?",
+      "options": {
+        "wealth_building": "Build wealth for your dreams and aspirations",
+        "retirement": "Secure your retirement income",
+        "home_ownership": "Save for your own home",
+        "wealth_transfer": "Pass on wealth to the next generation"
+      }
+    },
+    "investment_duration": {
+      "name": "How long are you planning to invest for?",
+      "options": {
+        "short_term": "Up to 12 years",
+        "medium_term": "12 to 20 years",
+        "long_term": "Over 20 years"
+      }
+    },
+    "monthly_savings": {
+      "name": "How much can you save each month?",
+      "options": {
+        "micro": "€0 to €150",
+        "modest": "€150 to €300",
+        "moderate": "€300 to €500",
+        "substantial": "Over €500",
+        "no_answer": "Prefer not to say"
+      }
+    },
+    "investment_experience": {
+      "name": "Have you invested in any of these before?",
+      "options": {
+        "insurance": "Life insurance or pension plans",
+        "funds": "Investment funds (shares, bonds or mixed funds)",
+        "alternative": "Alternative investments",
+        "no_experience": "I'm new to this – and that's perfectly fine!"
+      }
+    },
+    "investment_knowledge": {
+      "name": "How would you describe your investment knowledge?",
+      "options": {
+        "confident": "Yes, I'm quite confident with investments",
+        "beginner": "No, I'm just starting out"
+      }
+    },
+    "risk_approach": {
+      "name": "Which investment approach appeals to you most?",
+      "options": {
+        "conservative": "Security matters most – I want steady, predictable growth",
+        "moderate_low": "I value security, but I'm also open to modest growth opportunities",
+        "moderate": "I can accept some fluctuations for better returns, but I'd like some protection of my contributions",
+        "aggressive": "I'm comfortable taking on risk for better growth prospects, and I accept potential losses"
+      }
+    },
+    "loss_tolerance": {
+      "name": "Can you afford financial losses?",
+      "options": {
+        "low_tolerance": "I need strong guarantees and want to minimise the risk of losses",
+        "high_tolerance": "I'm in a solid financial position to handle larger losses if needed"
+      }
+    },
+    "esg_preference": {
+      "name": "How important is sustainability to you?",
+      "options": {
+        "no_esg_requirement": "It's not a priority – focus on performance",
+        "esg_basic": "I'd like some sustainability standards (Article 8 funds and above)",
+        "esg_enhanced": "Sustainability is very important to me (Article 9 / high-impact funds only)"
+      }
+    },
+    "etf_preference": {
+      "name": "Do you have a preference for ETFs (index-tracking funds)?",
+      "options": {
+        "no_etf_preference": "No preference – include all fund types",
+        "prefer_etf": "I'd prefer ETFs where possible",
+        "etf_only": "ETFs only – I want strictly index funds"
+      }
+    },
+    "preferred_regions": {
+      "name": "Which regions would you like to invest in?",
+      "options": {
+        "region_global": "Global – spread across all major markets",
+        "region_europe": "Europe – focus on European markets",
+        "region_north_america": "North America – US and Canadian markets",
+        "region_emerging": "Emerging Markets – high-growth developing economies"
+      }
+    },
+    "preferred_themes": {
+      "name": "Are there any investment themes you're excited about?",
+      "options": {
+        "theme_none": "No specific theme – just a well-diversified portfolio",
+        "theme_sustainability": "Sustainability & Climate – clean energy, environmental protection",
+        "theme_technology": "Technology & Innovation – AI, semiconductors, digitalisation",
+        "theme_healthcare": "Healthcare & Life Sciences – biotech, medical devices, pharma"
+      }
+    }
+  },
+  "regions": {
+    "global": "Global - spread across all major markets",
+    "europe": "Europe - focus on European markets",
+    "north_america": "North America - US and Canadian markets",
+    "eurozone": "Eurozone - countries using the euro",
+    "united_kingdom": "United Kingdom - UK market focus",
+    "germany": "Germany - German market focus",
+    "asia": "Asia - developed and emerging Asia",
+    "emerging_markets": "Emerging Markets - high-growth developing economies"
+  },
+  "themes": {
+    "none": "No specific theme - just a well-diversified portfolio",
+    "sustainability": "Sustainability & Climate - clean energy, environmental protection",
+    "technology": "Technology & Innovation - AI, semiconductors, digitalisation",
+    "healthcare": "Healthcare & Life Sciences - biotech, medical devices, pharma"
+  }
+}

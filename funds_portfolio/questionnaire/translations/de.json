@@ -1,0 +1,113 @@
+{
+  "sections": {
+    "investment_goal": {
+      "name": "Was ist Ihr Hauptziel mit dieser Geldanlage?",
+      "options": {
+        "wealth_building": "Vermögensaufbau für Wünsche und Ziele",
+        "retirement": "Absicherung der Altersvorsorge",
+        "home_ownership": "Sparen für das eigene Zuhause",
+        "wealth_transfer": "Vermögen an die nächste Generation weitergeben"
+      }
+    },
+    "investment_duration": {
+      "name": "Wie lange möchten Sie anlegen?",
+      "options": {
+        "short_term": "Bis zu 12 Jahre",
+        "medium_term": "12 bis 20 Jahre",
+        "long_term": "Über 20 Jahre"
+      }
+    },
+    "monthly_savings": {
+      "name": "Wie viel können Sie monatlich sparen?",
+      "options": {
+        "micro": "0 € bis 150 €",
+        "modest": "150 € bis 300 €",
+        "moderate": "300 € bis 500 €",
+        "substantial": "Über 500 €",
+        "no_answer": "Lieber keine Angabe"
+      }
+    },
+    "investment_experience": {
+      "name": "Haben Sie bereits Erfahrung mit folgenden Anlageformen?",
+      "options": {
+        "insurance": "Lebensversicherung oder Rentenversicherung",
+        "funds": "Investmentfonds (Aktien-, Renten- oder Mischfonds)",
+        "alternative": "Alternative Investments",
+        "no_experience": "Noch keine Erfahrung – das ist völlig in Ordnung"
+      }
+    },
+    "investment_knowledge": {
+      "name": "Wie würden Sie Ihre Kenntnisse einschätzen?",
+      "options": {
+        "confident": "Ja, ich kenne mich gut aus",
+        "beginner": "Nein, ich bin noch Anfänger"
+      }
+    },
+    "risk_approach": {
+      "name": "Welcher Anlageansatz spricht Sie am meisten an?",
+      "options": {
+        "conservative": "Sicherheit ist mir am wichtigsten – lieber stetiges Wachstum",
+        "moderate_low": "Sicherheit ist mir wichtig, aber ich bin offen für moderate Chancen",
+        "moderate": "Ich akzeptiere Schwankungen für bessere Renditen, möchte aber etwas Schutz",
+        "aggressive": "Ich nehme Risiken in Kauf für bessere Wachstumschancen"
+      }
+    },
+    "loss_tolerance": {
+      "name": "Können Sie finanzielle Verluste tragen?",
+      "options": {
+        "low_tolerance": "Ich brauche starke Garantien und möchte Verluste minimieren",
+        "high_tolerance": "Ich kann auch größere Verluste finanziell verkraften"
+      }
+    },
+    "esg_preference": {
+      "name": "Wie wichtig ist Ihnen Nachhaltigkeit?",
+      "options": {
+        "no_esg_requirement": "Keine Priorität – Fokus auf Performance",
+        "esg_basic": "Etwas Nachhaltigkeit (Artikel‑8‑Fonds und besser)",
+        "esg_enhanced": "Sehr wichtig (nur Artikel‑9 / High‑Impact‑Fonds)"
+      }
+    },
+    "etf_preference": {
+      "name": "Bevorzugen Sie ETFs (indexnahe Fonds)?",
+      "options": {
+        "no_etf_preference": "Keine Präferenz – alle Fondsarten",
+        "prefer_etf": "ETFs bevorzugt",
+        "etf_only": "Nur ETFs – ausschließlich Indexfonds"
+      }
+    },
+    "preferred_regions": {
+      "name": "Welche Regionen möchten Sie bevorzugen?",
+      "options": {
+        "region_global": "Global – weltweit verteilt",
+        "region_europe": "Europa – Fokus auf europäische Märkte",
+        "region_north_america": "Nordamerika – USA und Kanada",
+        "region_emerging": "Schwellenländer – wachstumsstark"
+      }
+    },
+    "preferred_themes": {
+      "name": "Gibt es Anlagethemen, die Sie besonders interessieren?",
+      "options": {
+        "theme_none": "Kein spezielles Thema – gut diversifiziert",
+        "theme_sustainability": "Nachhaltigkeit & Klima – saubere Energie, Umweltschutz",
+        "theme_technology": "Technologie & Innovation – KI, Halbleiter, Digitalisierung",
+        "theme_healthcare": "Gesundheit & Life Sciences – Biotech, Medizintechnik, Pharma"
+      }
+    }
+  },
+  "regions": {
+    "global": "Global – weltweit verteilt",
+    "europe": "Europa – Fokus auf europäische Märkte",
+    "north_america": "Nordamerika – USA und Kanada",
+    "eurozone": "Eurozone – Länder mit Euro",
+    "united_kingdom": "Vereinigtes Königreich – UK‑Fokus",
+    "germany": "Deutschland – Fokus auf den deutschen Markt",
+    "asia": "Asien – entwickelte und aufstrebende Märkte",
+    "emerging_markets": "Schwellenländer – wachstumsstark"
+  },
+  "themes": {
+    "none": "Kein spezielles Thema – gut diversifiziert",
+    "sustainability": "Nachhaltigkeit & Klima – saubere Energie, Umweltschutz",
+    "technology": "Technologie & Innovation – KI, Halbleiter, Digitalisierung",
+    "healthcare": "Gesundheit & Life Sciences – Biotech, Medizintechnik, Pharma"
+  }
+}

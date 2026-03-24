@@ -70,7 +70,12 @@ def create_app():
     # Questionnaire endpoint
     @app.route("/api/questionnaire", methods=["GET"])
     def get_questionnaire():
-        return jsonify(ql.get_questionnaire()), 200
+        lang = request.args.get("lang")
+        if not lang:
+            accept_lang = request.headers.get("Accept-Language", "")
+            if accept_lang:
+                lang = accept_lang.split(",")[0].strip().split("-")[0]
+        return jsonify(ql.get_questionnaire(language=lang)), 200
 
     # Portfolio endpoints
     @app.route("/api/portfolio", methods=["POST"])

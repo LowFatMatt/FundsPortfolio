@@ -4,6 +4,7 @@ Questionnaire loader - loads and validates preferences_schema.json
 
 import json
 import os
+import copy
 from collections import Counter
 from typing import Dict, List, Optional
 import logging
@@ -31,6 +32,7 @@ class QuestionnaireLoader:
         self.schema_path = schema_path
         self._questionnaire = None
         self._response_schema = None
+        self._translations = self._load_translations()
         self._funds_db_path = self._resolve_funds_db_path()
         self._funds_mtime = None
         self.load_schema()
@@ -61,7 +63,7 @@ class QuestionnaireLoader:
             logger.error("Failed to load questionnaire schema: %s", e)
             return False
 
-    def get_questionnaire(self) -> Dict:
+    def get_questionnaire(self, language: Optional[str] = None) -> Dict:
         """
         Get the full questionnaire schema.
 
@@ -69,7 +71,9 @@ class QuestionnaireLoader:
             Questionnaire dictionary with sections and options
         """
         self._refresh_dynamic_options_if_needed()
-        return self._questionnaire or {}
+        if not language:
+            return self._questionnaire or {}
+        return self._translate_questionnaire(language)
 
     def get_sections(self) -> List[Dict]:
         """
@@ -105,6 +109,70 @@ class QuestionnaireLoader:
             Response schema dictionary
         """
         return self._response_schema or {}
+
+    def _load_translations(self) -> Dict[str, Dict]:
+        translations = {}
+        base_dir = os.path.join(os.path.dirname(__file__), "translations")
+        if not os.path.isdir(base_dir):
+            return translations
+
+        for filename in os.listdir(base_dir):
+            if not filename.endswith(".json"):
+                continue
+            lang = filename[:-5]
+            path = os.path.join(base_dir, filename)
+            try:
+                with open(path, "r", encoding="utf-8") as f:
+                    translations[lang] = json.load(f)
+            except (OSError, json.JSONDecodeError) as e:
+                logger.warning("Failed to load translation %s: %s", path, e)
+        return translations
+
+    def _translate_questionnaire(self, language: str) -> Dict:
+        if not self._questionnaire:
+            return {}
+
+        translations = self._translations.get(language) or self._translations.get("en")
+        if not translations:
+            return self._questionnaire
+
+        translated = copy.deepcopy(self._questionnaire)
+        section_map = translations.get("sections", {})
+        region_map = translations.get("regions", {})
+        theme_map = translations.get("themes", {})
+
+        for section in translated.get("sections", []):
+            section_id = section.get("id")
+            sec_t = section_map.get(section_id, {})
+
+            if sec_t.get("name"):
+                section["name"] = sec_t["name"]
+            if sec_t.get("title"):
+                section["title"] = sec_t["title"]
+            elif sec_t.get("name") and not section.get("title"):
+                section["title"] = sec_t["name"]
+            if sec_t.get("description"):
+                section["description"] = sec_t["description"]
+
+            option_map = sec_t.get("options", {})
+            for opt in section.get("options", []):
+                opt_id = opt.get("id")
+                if opt_id in option_map:
+                    opt["label"] = option_map[opt_id]
+
+            if section_id == "preferred_regions" and region_map:
+                for opt in section.get("options", []):
+                    value = opt.get("value")
+                    if value in region_map:
+                        opt["label"] = region_map[value]
+
+            if section_id == "preferred_themes" and theme_map:
+                for opt in section.get("options", []):
+                    value = opt.get("value")
+                    if value in theme_map:
+                        opt["label"] = theme_map[value]
+
+        return translated
 
     def validate_answers(self, user_answers: Dict) -> tuple[bool, List[str]]:
         """
