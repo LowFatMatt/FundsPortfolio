@@ -2,16 +2,126 @@
 
 import os
 import logging
+import json
 from datetime import datetime, timezone
-from flask import Flask, jsonify, render_template, render_template_string
+from flask import (
+    Flask,
+    jsonify,
+    render_template,
+    render_template_string,
+    send_from_directory,
+)
 
 APP_STARTED_AT = datetime.now(timezone.utc)
+logger = logging.getLogger(__name__)
 
 
 def _format_build_time(raw_time: str | None) -> str:
     if raw_time:
         return raw_time
     return APP_STARTED_AT.strftime("%Y-%m-%d %H:%M:%S UTC")
+
+
+def _build_brand_css_vars(config: dict) -> dict:
+    colors = config.get("colors", {})
+    fonts = config.get("fonts", {})
+    radii = config.get("radii", {})
+    spacing = config.get("spacing", {})
+    effects = config.get("effects", {})
+
+    return {
+        "--bg-color": colors.get("bg", "#0d1117"),
+        "--card-bg": colors.get("card", "rgba(22, 27, 34, 0.65)"),
+        "--card-border": colors.get("card_border", "rgba(48, 54, 61, 0.5)"),
+        "--text-primary": colors.get("text_primary", "#f0f6fc"),
+        "--text-secondary": colors.get("text_secondary", "#8b949e"),
+        "--accent": colors.get("accent", "#58a6ff"),
+        "--accent-hover": colors.get("accent_hover", "#1f6feb"),
+        "--success": colors.get("success", "#2ea043"),
+        "--error": colors.get("error", "#f85149"),
+        "--input-bg": colors.get("input_bg", "rgba(13, 17, 23, 0.8)"),
+        "--input-border": colors.get("input_border", "rgba(48, 54, 61, 0.5)"),
+        "--surface-muted": colors.get("surface_muted", "rgba(48, 54, 61, 0.5)"),
+        "--bg-accent-1": colors.get("bg_accent_1", "rgba(88, 166, 255, 0.08)"),
+        "--bg-accent-2": colors.get("bg_accent_2", "rgba(46, 160, 67, 0.05)"),
+        "--banner-info-bg": colors.get("banner_info_bg", "rgba(88, 166, 255, 0.1)"),
+        "--banner-info-border": colors.get(
+            "banner_info_border", "rgba(88, 166, 255, 0.3)"
+        ),
+        "--banner-info-text": colors.get("banner_info_text", "#58a6ff"),
+        "--banner-success-bg": colors.get(
+            "banner_success_bg", "rgba(46, 160, 67, 0.1)"
+        ),
+        "--banner-success-border": colors.get(
+            "banner_success_border", "rgba(46, 160, 67, 0.3)"
+        ),
+        "--banner-success-text": colors.get("banner_success_text", "#3fb950"),
+        "--banner-warning-bg": colors.get(
+            "banner_warning_bg", "rgba(248, 81, 73, 0.1)"
+        ),
+        "--banner-warning-border": colors.get(
+            "banner_warning_border", "rgba(248, 81, 73, 0.4)"
+        ),
+        "--banner-warning-text": colors.get("banner_warning_text", "#ff7b72"),
+        "--font-body": fonts.get(
+            "body", "'Inter', system-ui, -apple-system, sans-serif"
+        ),
+        "--font-heading": fonts.get(
+            "heading",
+            fonts.get("body", "'Inter', system-ui, -apple-system, sans-serif"),
+        ),
+        "--radius-card": radii.get("card", "16px"),
+        "--radius-button": radii.get("button", "8px"),
+        "--radius-input": radii.get("input", "8px"),
+        "--radius-pill": radii.get("pill", "999px"),
+        "--page-padding": spacing.get("page_padding", "2rem 1rem"),
+        "--card-padding": spacing.get("card_padding", "2rem"),
+        "--glass-blur": effects.get("glass_blur", "blur(12px)"),
+        "--card-shadow": effects.get("card_shadow", "0 8px 32px rgba(0, 0, 0, 0.2)"),
+        "--button-shadow": effects.get(
+            "button_shadow", "0 4px 12px rgba(88, 166, 255, 0.3)"
+        ),
+        "--button-shadow-hover": effects.get(
+            "button_shadow_hover", "0 6px 16px rgba(88, 166, 255, 0.4)"
+        ),
+    }
+
+
+def _load_brand(base_dir: str) -> dict:
+    brand_root = os.path.join(base_dir, "brand")
+    requested = os.getenv("BRAND", "default")
+    default_dir = os.path.join(brand_root, "default")
+    brand_dir = os.path.join(brand_root, requested)
+    if not os.path.isdir(brand_dir):
+        logger.warning("Brand '%s' not found. Falling back to default.", requested)
+        requested = "default"
+        brand_dir = default_dir
+
+    config_path = os.path.join(brand_dir, "brand.json")
+    config = {}
+    try:
+        with open(config_path, "r", encoding="utf-8") as f:
+            config = json.load(f)
+    except (OSError, json.JSONDecodeError) as exc:
+        logger.warning("Failed to load brand config %s: %s", config_path, exc)
+
+    brand_name = config.get("name", requested)
+    logo_file = config.get("logo", "logo.svg")
+    overrides_file = config.get("overrides_css", "overrides.css")
+    font_import_url = config.get("font_import_url")
+
+    logo_path = os.path.join(brand_dir, logo_file)
+    overrides_path = os.path.join(brand_dir, overrides_file)
+
+    return {
+        "name": brand_name,
+        "slug": requested,
+        "dir": brand_dir,
+        "font_import_url": font_import_url,
+        "logo": logo_file if os.path.exists(logo_path) else None,
+        "overrides_css": overrides_file if os.path.exists(overrides_path) else None,
+        "css_vars": _build_brand_css_vars(config),
+    }
 
 
 def create_app():
@@ -27,6 +137,19 @@ def create_app():
         else os.path.join(base_dir, "static"),
     )
 
+    brand = _load_brand(base_dir)
+    brand_css_vars = "; ".join(
+        f"{key}: {value}" for key, value in brand.get("css_vars", {}).items()
+    )
+    brand_logo_url = f"/brand/{brand['logo']}" if brand.get("logo") else None
+    brand_overrides_url = (
+        f"/brand/{brand['overrides_css']}" if brand.get("overrides_css") else None
+    )
+
+    @app.route("/brand/<path:filename>")
+    def brand_asset(filename: str):
+        return send_from_directory(brand["dir"], filename)
+
     # Home page
     @app.route("/")
     def index():
@@ -36,7 +159,14 @@ def create_app():
         build_time = _format_build_time(os.getenv("BUILD_TIME"))
         if os.path.exists(tpl_path):
             return render_template(
-                "index.html", build_id=build_id, build_time=build_time
+                "index.html",
+                build_id=build_id,
+                build_time=build_time,
+                brand_name=brand.get("name"),
+                brand_css_vars=brand_css_vars,
+                brand_logo_url=brand_logo_url,
+                brand_overrides_url=brand_overrides_url,
+                brand_font_url=brand.get("font_import_url"),
             )
         logging.warning(
             "index.html template not found at %s, returning fallback HTML", tpl_path

@@ -13,6 +13,8 @@ services:
       - FLASK_APP=funds_portfolio.app
       - FLASK_ENV=development
       - FLASK_DEBUG=1
+      # - BRAND=${BRAND:-dark}
+      - BRAND=${BRAND:-default}
 
       # Application settings
       - LOG_LEVEL=DEBUG
@@ -24,6 +26,7 @@ services:
       - ${PWD}/config:/app/config
       - ${PWD}/templates:/app/templates
       - ${PWD}/static:/app/static
+      - ${PWD}/brand:/app/brand
 
       # Data directories
       - ${PWD}/portfolios:/app/portfolios

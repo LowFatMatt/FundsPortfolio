@@ -1,0 +1,51 @@
+{
+  "name": "FundsPortfolio Dark",
+  "logo": "logo.svg",
+  "overrides_css": "overrides.css",
+  "font_import_url": "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap",
+  "fonts": {
+    "body": "'Inter', system-ui, -apple-system, sans-serif",
+    "heading": "'Inter', system-ui, -apple-system, sans-serif"
+  },
+  "colors": {
+    "bg": "#0d1117",
+    "card": "rgba(22, 27, 34, 0.65)",
+    "card_border": "rgba(48, 54, 61, 0.5)",
+    "text_primary": "#f0f6fc",
+    "text_secondary": "#8b949e",
+    "accent": "#58a6ff",
+    "accent_hover": "#1f6feb",
+    "success": "#2ea043",
+    "error": "#f85149",
+    "input_bg": "rgba(13, 17, 23, 0.8)",
+    "input_border": "rgba(48, 54, 61, 0.5)",
+    "surface_muted": "rgba(48, 54, 61, 0.5)",
+    "bg_accent_1": "rgba(88, 166, 255, 0.08)",
+    "bg_accent_2": "rgba(46, 160, 67, 0.05)",
+    "banner_info_bg": "rgba(88, 166, 255, 0.1)",
+    "banner_info_border": "rgba(88, 166, 255, 0.3)",
+    "banner_info_text": "#58a6ff",
+    "banner_success_bg": "rgba(46, 160, 67, 0.1)",
+    "banner_success_border": "rgba(46, 160, 67, 0.3)",
+    "banner_success_text": "#3fb950",
+    "banner_warning_bg": "rgba(248, 81, 73, 0.1)",
+    "banner_warning_border": "rgba(248, 81, 73, 0.4)",
+    "banner_warning_text": "#ff7b72"
+  },
+  "radii": {
+    "card": "16px",
+    "button": "8px",
+    "input": "8px",
+    "pill": "999px"
+  },
+  "spacing": {
+    "page_padding": "2rem 1rem",
+    "card_padding": "2rem"
+  },
+  "effects": {
+    "glass_blur": "blur(12px)",
+    "card_shadow": "0 8px 32px rgba(0, 0, 0, 0.2)",
+    "button_shadow": "0 4px 12px rgba(88, 166, 255, 0.3)",
+    "button_shadow_hover": "0 6px 16px rgba(88, 166, 255, 0.4)"
+  }
+}

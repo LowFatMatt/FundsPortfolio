@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-
 :root {
     --bg-color: #0d1117;
     --card-bg: rgba(22, 27, 34, 0.65);
@@ -10,10 +8,35 @@
     --accent-hover: #1f6feb;
     --success: #2ea043;
     --error: #f85149;
+    --input-bg: rgba(13, 17, 23, 0.8);
+    --input-border: rgba(48, 54, 61, 0.5);
+    --surface-muted: rgba(48, 54, 61, 0.5);
+    --bg-accent-1: rgba(88, 166, 255, 0.08);
+    --bg-accent-2: rgba(46, 160, 67, 0.05);
+    --banner-info-bg: rgba(88, 166, 255, 0.1);
+    --banner-info-border: rgba(88, 166, 255, 0.3);
+    --banner-info-text: var(--accent);
+    --banner-success-bg: rgba(46, 160, 67, 0.1);
+    --banner-success-border: rgba(46, 160, 67, 0.3);
+    --banner-success-text: #3fb950;
+    --banner-warning-bg: rgba(248, 81, 73, 0.1);
+    --banner-warning-border: rgba(248, 81, 73, 0.4);
+    --banner-warning-text: #ff7b72;
     --glass-blur: blur(12px);
+    --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    --button-shadow: 0 4px 12px rgba(88, 166, 255, 0.3);
+    --button-shadow-hover: 0 6px 16px rgba(88, 166, 255, 0.4);
+    --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+    --font-heading: 'Inter', system-ui, -apple-system, sans-serif;
+    --radius-card: 16px;
+    --radius-button: 8px;
+    --radius-input: 8px;
+    --radius-pill: 999px;
+    --page-padding: 2rem 1rem;
+    --card-padding: 2rem;
     
     font-size: 16px;
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-family: var(--font-body);
     line-height: 1.5;
 }
 
@@ -30,11 +53,64 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 2rem 1rem;
+    padding: var(--page-padding);
     background-image: 
-        radial-gradient(circle at 15% 50%, rgba(88, 166, 255, 0.08), transparent 25%),
-        radial-gradient(circle at 85% 30%, rgba(46, 160, 67, 0.05), transparent 25%);
+        radial-gradient(circle at 15% 50%, var(--bg-accent-1), transparent 25%),
+        radial-gradient(circle at 85% 30%, var(--bg-accent-2), transparent 25%);
     background-attachment: fixed;
+}
+
+/* Branding Header */
+.brand-header {
+    text-align: center;
+    margin-bottom: 2rem;
+    max-width: 760px;
+    width: 100%;
+    animation: fadeIn 0.4s ease-out;
+}
+
+.brand-topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+}
+
+.brand-logo-wrap {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.brand-logo {
+    height: 34px;
+    width: auto;
+}
+
+.brand-title {
+    font-size: 2.8rem;
+    margin-bottom: 0.5rem;
+}
+
+.lang-select-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.lang-select-label {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+.lang-select {
+    background: var(--surface-muted);
+    color: var(--text-primary);
+    border: 1px solid var(--card-border);
+    border-radius: 6px;
+    padding: 0.3rem 0.55rem;
+    font-family: var(--font-body);
 }
 
 /* Typography */
@@ -42,9 +118,8 @@ h1 {
     font-size: 2.5rem;
     font-weight: 700;
     margin-bottom: 0.5rem;
-    background: linear-gradient(180deg, #fff, #8b949e);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: var(--text-primary);
+    font-family: var(--font-heading);
     text-align: center;
 }
 
@@ -52,12 +127,14 @@ h2 {
     font-size: 1.75rem;
     font-weight: 600;
     margin-bottom: 1.5rem;
+    font-family: var(--font-heading);
 }
 
 h3 {
     font-size: 1.25rem;
     font-weight: 500;
     margin-bottom: 1rem;
+    font-family: var(--font-heading);
 }
 
 p.subtitle {
@@ -76,11 +153,11 @@ p.subtitle {
 .glass-card {
     background: var(--card-bg);
     border: 1px solid var(--card-border);
-    border-radius: 16px;
-    padding: 2rem;
+    border-radius: var(--radius-card);
+    padding: var(--card-padding);
     backdrop-filter: var(--glass-blur);
     -webkit-backdrop-filter: var(--glass-blur);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    box-shadow: var(--card-shadow);
     margin-bottom: 2rem;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
@@ -110,11 +187,11 @@ p.subtitle {
 select, input[type="text"] {
     width: 100%;
     padding: 0.875rem 1rem;
-    background: rgba(13, 17, 23, 0.8);
-    border: 1px solid var(--card-border);
-    border-radius: 8px;
+    background: var(--input-bg);
+    border: 1px solid var(--input-border);
+    border-radius: var(--radius-input);
     color: var(--text-primary);
-    font-family: 'Inter', sans-serif;
+    font-family: var(--font-body);
     font-size: 1rem;
     appearance: none;
     -webkit-appearance: none;
@@ -150,7 +227,7 @@ select option {
     align-items: center;
     justify-content: center;
     padding: 0.875rem 1.75rem;
-    border-radius: 8px;
+    border-radius: var(--radius-button);
     font-family: inherit;
     font-weight: 600;
     font-size: 1rem;
@@ -163,17 +240,23 @@ select option {
 .btn-primary {
     background: var(--accent);
     color: #fff;
-    box-shadow: 0 4px 12px rgba(88, 166, 255, 0.3);
+    box-shadow: var(--button-shadow);
 }
 
 .btn-primary:hover {
     background: var(--accent-hover);
     transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(88, 166, 255, 0.4);
+    box-shadow: var(--button-shadow-hover);
 }
 
 .btn-primary:active {
     transform: translateY(0);
+}
+
+.btn-secondary {
+    background: var(--surface-muted);
+    color: var(--text-primary);
+    border: 1px solid var(--card-border);
 }
 
 /* Loading State */
@@ -197,9 +280,21 @@ select option {
 }
 
 .alert-error {
-    background: rgba(248, 81, 73, 0.1);
-    border: 1px solid rgba(248, 81, 73, 0.4);
-    color: #ff7b72;
+    background: var(--banner-warning-bg);
+    border: 1px solid var(--banner-warning-border);
+    color: var(--banner-warning-text);
+}
+
+.alert-info {
+    background: var(--banner-info-bg);
+    border: 1px solid var(--banner-info-border);
+    color: var(--banner-info-text);
+}
+
+.alert-success {
+    background: var(--banner-success-bg);
+    border: 1px solid var(--banner-success-border);
+    color: var(--banner-success-text);
 }
 
 /* Results Component */

@@ -1,0 +1,51 @@
+{
+  "name": "FundsPortfolio",
+  "logo": "logo.svg",
+  "overrides_css": "overrides.css",
+  "font_import_url": null,
+  "fonts": {
+    "body": "Arial, 'Helvetica Neue', Helvetica, sans-serif",
+    "heading": "Arial, 'Helvetica Neue', Helvetica, sans-serif"
+  },
+  "colors": {
+    "bg": "#e9edf2",
+    "card": "#ffffff",
+    "card_border": "#c7d0db",
+    "text_primary": "#1f2a37",
+    "text_secondary": "#5b6675",
+    "accent": "#003b8e",
+    "accent_hover": "#002f73",
+    "success": "#1f7a3f",
+    "error": "#b42318",
+    "input_bg": "#f4f6f9",
+    "input_border": "#c7d0db",
+    "surface_muted": "#eef2f6",
+    "bg_accent_1": "rgba(0, 59, 142, 0.08)",
+    "bg_accent_2": "rgba(0, 122, 204, 0.06)",
+    "banner_info_bg": "rgba(0, 59, 142, 0.08)",
+    "banner_info_border": "rgba(0, 59, 142, 0.25)",
+    "banner_info_text": "#003b8e",
+    "banner_success_bg": "rgba(31, 122, 63, 0.12)",
+    "banner_success_border": "rgba(31, 122, 63, 0.28)",
+    "banner_success_text": "#1f7a3f",
+    "banner_warning_bg": "rgba(180, 35, 24, 0.08)",
+    "banner_warning_border": "rgba(180, 35, 24, 0.28)",
+    "banner_warning_text": "#b42318"
+  },
+  "radii": {
+    "card": "14px",
+    "button": "8px",
+    "input": "8px",
+    "pill": "999px"
+  },
+  "spacing": {
+    "page_padding": "2rem 1rem",
+    "card_padding": "2rem"
+  },
+  "effects": {
+    "glass_blur": "blur(0px)",
+    "card_shadow": "0 12px 28px rgba(9, 30, 66, 0.08)",
+    "button_shadow": "0 6px 16px rgba(0, 59, 142, 0.2)",
+    "button_shadow_hover": "0 8px 22px rgba(0, 59, 142, 0.28)"
+  }
+}

@@ -1,0 +1,9 @@
+/* Brand-specific overrides (optional). */
+
+.brand-title {
+    letter-spacing: 0.2px;
+}
+
+.decision-summary {
+    border-left: 4px solid var(--accent);
+}

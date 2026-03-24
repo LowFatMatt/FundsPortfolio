@@ -10,6 +10,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY funds_portfolio/ ./funds_portfolio/
 COPY config/ ./config/
 COPY templates/ ./templates/
+COPY static/ ./static/
+COPY brand/ ./brand/
 COPY funds_database.json preferences_schema.json ./
 
 # Create portfolios directory (will be mounted as volume in dev/prod)
