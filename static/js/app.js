@@ -258,7 +258,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        const payload = { user_answers: userAnswers };
+        const payload = { user_answers: userAnswers, language: currentLang };
         if (currentPortfolioId) {
             payload.portfolio_id = currentPortfolioId;
         }

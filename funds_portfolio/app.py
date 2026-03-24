@@ -85,6 +85,11 @@ def create_app():
             return jsonify({"error": "Missing user_answers"}), 400
 
         user_answers = data["user_answers"]
+        lang = data.get("language") or data.get("lang")
+        if not lang:
+            accept_lang = request.headers.get("Accept-Language", "")
+            if accept_lang:
+                lang = accept_lang.split(",")[0].strip().split("-")[0]
 
         # 1. Validate answers
         valid, errors = ql.validate_answers(user_answers)
@@ -95,12 +100,16 @@ def create_app():
         funds = fm.get_all_funds()
 
         # 3. Recommend
-        result = decision_engine.recommend(user_answers, funds)
+        result = decision_engine.recommend(user_answers, funds, language=lang)
         recommendations = result.get("recommendations", [])
         if not recommendations:
+            error_summary = (
+                result.get("explanations", {}).get("summary")
+                or "No eligible funds after filtering"
+            )
             return jsonify(
                 {
-                    "error": "No eligible funds after filtering",
+                    "error": error_summary,
                     "decision_trace": result.get("decision_trace", {}),
                 }
             ), 422

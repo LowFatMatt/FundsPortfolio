@@ -1,0 +1,17 @@
+{
+  "decision.no_eligible": "Keine geeigneten Fonds nach den Filtern verfuegbar.",
+  "decision.summary.risk_profile": "Risikoprofil: {risk_profile}.",
+  "decision.summary.weighted_fee": "Geschaetzte gewichtete Gebuehren: {weighted_fee}%.",
+  "decision.summary.esg": "ESG-Filter angewendet.",
+  "decision.summary.etf_only": "Nur-ETF-Filter angewendet.",
+  "decision.summary.region": "Regionale Praeferenzen beruecksichtigt.",
+  "decision.summary.theme": "Thematische Praeferenzen beruecksichtigt.",
+  "decision.summary.fallback": "Risikoprofil-Fallback angewendet.",
+  "decision.summary.relaxed": "Risikofilter wurden gelockert, um genug geeignete Fonds zu erhalten.",
+  "decision.reason.etf": "ETF-Struktur unterstuetzt niedrigere Kosten und Transparenz.",
+  "decision.reason.esg": "Erfuellt Ihre ESG-Anforderung.",
+  "decision.reason.region": "Entspricht Ihrer regionalen Praeferenz.",
+  "decision.reason.theme": "Entspricht Ihrer thematischen Praeferenz.",
+  "decision.reason.score": "Risikoabgleich- und Kosteneffizienz-Score: {score}.",
+  "decision.reason.default": "An Ihren Praeferenzen ausgerichtet."
+}

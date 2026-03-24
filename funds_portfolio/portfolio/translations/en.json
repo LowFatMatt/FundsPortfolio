@@ -1,0 +1,17 @@
+{
+  "decision.no_eligible": "No eligible funds after filtering.",
+  "decision.summary.risk_profile": "Risk profile: {risk_profile}.",
+  "decision.summary.weighted_fee": "Weighted fee estimate: {weighted_fee}%.",
+  "decision.summary.esg": "ESG filters applied.",
+  "decision.summary.etf_only": "ETF-only filter applied.",
+  "decision.summary.region": "Regional preferences considered.",
+  "decision.summary.theme": "Thematic preferences considered.",
+  "decision.summary.fallback": "Risk profile fallback applied.",
+  "decision.summary.relaxed": "Risk filters were relaxed to ensure enough eligible funds.",
+  "decision.reason.etf": "ETF structure supports lower costs and transparency.",
+  "decision.reason.esg": "Meets your ESG requirement.",
+  "decision.reason.region": "Matches your regional preference.",
+  "decision.reason.theme": "Matches your thematic preference.",
+  "decision.reason.score": "Risk alignment and cost efficiency score: {score}.",
+  "decision.reason.default": "Aligned with your preferences."
+}

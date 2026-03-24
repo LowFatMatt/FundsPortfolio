@@ -7,6 +7,8 @@ from __future__ import annotations
 
 from typing import Dict, List, Any, Tuple, Optional
 import logging
+import os
+import json
 
 logger = logging.getLogger(__name__)
 
@@ -32,9 +34,13 @@ class DecisionEngine:
         self.final_fund_count = final_fund_count
         self.max_per_provider = max_per_provider
         self.max_per_category = max_per_category
+        self._translations = self._load_translations()
 
     def recommend(
-        self, user_answers: Dict[str, Any], funds: List[Dict[str, Any]]
+        self,
+        user_answers: Dict[str, Any],
+        funds: List[Dict[str, Any]],
+        language: Optional[str] = None,
     ) -> Dict[str, Any]:
         trace = {"filters": [], "relaxations": [], "used_fallback_risk": False}
 
@@ -125,7 +131,13 @@ class DecisionEngine:
                 "recommendations": [],
                 "risk_profile": risk_profile,
                 "portfolio_metrics": {},
-                "explanations": {"summary": "No eligible funds after filtering."},
+                "explanations": {
+                    "summary": self._t(
+                        language,
+                        "decision.no_eligible",
+                        "No eligible funds after filtering.",
+                    )
+                },
                 "decision_trace": trace,
             }
 
@@ -138,14 +150,16 @@ class DecisionEngine:
 
         # 8) Build recommendations and explanations
         recommendations, explanations = self._build_recommendations(
-            selected, allocations, user_answers, risk_profile
+            selected, allocations, user_answers, risk_profile, language
         )
 
         # 9) Portfolio metrics
         metrics = self._compute_portfolio_metrics(recommendations, risk_profile)
 
         # Summary string for UI
-        summary = self._build_summary(user_answers, risk_profile, metrics, trace)
+        summary = self._build_summary(
+            user_answers, risk_profile, metrics, trace, language
+        )
         explanations["summary"] = summary
 
         return {
@@ -475,6 +489,7 @@ class DecisionEngine:
         weights: Dict[str, float],
         user_answers: Dict[str, Any],
         risk_profile: str,
+        language: Optional[str] = None,
     ) -> Tuple[List[Dict[str, Any]], Dict[str, Any]]:
         explanations: Dict[str, Any] = {"per_fund": {}}
         recs: List[Dict[str, Any]] = []
@@ -485,24 +500,51 @@ class DecisionEngine:
 
             reasons = []
             if f.get("is_etf"):
-                reasons.append("ETF structure supports lower costs and transparency.")
+                reasons.append(
+                    self._t(
+                        language,
+                        "decision.reason.etf",
+                        "ETF structure supports lower costs and transparency.",
+                    )
+                )
             if user_answers.get("esg_preference") in ("esg_basic", "esg_enhanced"):
-                reasons.append("Meets your ESG requirement.")
+                reasons.append(
+                    self._t(
+                        language,
+                        "decision.reason.esg",
+                        "Meets your ESG requirement.",
+                    )
+                )
             preferred_regions = set(user_answers.get("preferred_regions") or [])
             if preferred_regions and f.get("region") in preferred_regions:
-                reasons.append("Matches your regional preference.")
+                reasons.append(
+                    self._t(
+                        language,
+                        "decision.reason.region",
+                        "Matches your regional preference.",
+                    )
+                )
             preferred_themes = set(user_answers.get("preferred_themes") or [])
             if (
                 preferred_themes
                 and "none" not in preferred_themes
                 and f.get("theme") in preferred_themes
             ):
-                reasons.append("Matches your thematic preference.")
+                reasons.append(
+                    self._t(
+                        language,
+                        "decision.reason.theme",
+                        "Matches your thematic preference.",
+                    )
+                )
 
             score_info = f.get("_scores", {})
             reasons.append(
-                "Risk alignment and cost efficiency score: "
-                f"{score_info.get('base', 'n/a')}."
+                self._t(
+                    language,
+                    "decision.reason.score",
+                    "Risk alignment and cost efficiency score: {score}.",
+                ).format(score=score_info.get("base", "n/a"))
             )
 
             explanations["per_fund"][isin] = reasons
@@ -521,7 +563,11 @@ class DecisionEngine:
                     "esg_label": f.get("esg_label"),
                     "rationale": " ".join(reasons[:2])
                     if reasons
-                    else "Aligned with your preferences.",
+                    else self._t(
+                        language,
+                        "decision.reason.default",
+                        "Aligned with your preferences.",
+                    ),
                     "explanations": reasons,
                 }
             )
@@ -584,23 +630,94 @@ class DecisionEngine:
         risk_profile: str,
         metrics: Dict[str, Any],
         trace: Dict[str, Any],
+        language: Optional[str] = None,
     ) -> str:
         parts = [
-            f"Risk profile: {risk_profile}.",
-            f"Weighted fee estimate: {metrics.get('weighted_fee', 'n/a')}%.",
+            self._t(
+                language,
+                "decision.summary.risk_profile",
+                "Risk profile: {risk_profile}.",
+            ).format(risk_profile=risk_profile),
+            self._t(
+                language,
+                "decision.summary.weighted_fee",
+                "Weighted fee estimate: {weighted_fee}%.",
+            ).format(weighted_fee=metrics.get("weighted_fee", "n/a")),
         ]
         if user_answers.get("esg_preference") in ("esg_basic", "esg_enhanced"):
-            parts.append("ESG filters applied.")
+            parts.append(
+                self._t(
+                    language,
+                    "decision.summary.esg",
+                    "ESG filters applied.",
+                )
+            )
         if user_answers.get("etf_preference") == "etf_only":
-            parts.append("ETF-only filter applied.")
+            parts.append(
+                self._t(
+                    language,
+                    "decision.summary.etf_only",
+                    "ETF-only filter applied.",
+                )
+            )
         if user_answers.get("preferred_regions"):
-            parts.append("Regional preferences considered.")
+            parts.append(
+                self._t(
+                    language,
+                    "decision.summary.region",
+                    "Regional preferences considered.",
+                )
+            )
         if user_answers.get("preferred_themes") and "none" not in user_answers.get(
             "preferred_themes"
         ):
-            parts.append("Thematic preferences considered.")
+            parts.append(
+                self._t(
+                    language,
+                    "decision.summary.theme",
+                    "Thematic preferences considered.",
+                )
+            )
         if trace.get("used_fallback_risk"):
-            parts.append("Risk profile fallback applied.")
+            parts.append(
+                self._t(
+                    language,
+                    "decision.summary.fallback",
+                    "Risk profile fallback applied.",
+                )
+            )
         if trace.get("relaxations"):
-            parts.append("Risk filters were relaxed to ensure enough eligible funds.")
+            parts.append(
+                self._t(
+                    language,
+                    "decision.summary.relaxed",
+                    "Risk filters were relaxed to ensure enough eligible funds.",
+                )
+            )
         return " ".join(parts)
+
+    def _load_translations(self) -> Dict[str, Dict[str, str]]:
+        base_dir = os.path.join(os.path.dirname(__file__), "translations")
+        translations: Dict[str, Dict[str, str]] = {}
+        if not os.path.isdir(base_dir):
+            return translations
+        for filename in os.listdir(base_dir):
+            if not filename.endswith(".json"):
+                continue
+            lang = filename[:-5]
+            path = os.path.join(base_dir, filename)
+            try:
+                with open(path, "r", encoding="utf-8") as f:
+                    translations[lang] = json.load(f)
+            except (OSError, json.JSONDecodeError) as e:
+                logger.warning("Failed to load decision translations %s: %s", path, e)
+        return translations
+
+    def _t(self, language: Optional[str], key: str, fallback: str) -> str:
+        if not language:
+            return fallback
+        short = str(language).lower().split("-")[0]
+        lang_map = self._translations.get(short) or self._translations.get("en")
+        if not lang_map:
+            return fallback
+        return lang_map.get(key, fallback)

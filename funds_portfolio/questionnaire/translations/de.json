@@ -61,6 +61,7 @@
     },
     "esg_preference": {
       "name": "Wie wichtig ist Ihnen Nachhaltigkeit?",
+      "description": "ESG steht für Environmental, Social & Governance und misst, wie verantwortungsvoll ein Unternehmen handelt.",
       "options": {
         "no_esg_requirement": "Keine Priorität – Fokus auf Performance",
         "esg_basic": "Etwas Nachhaltigkeit (Artikel‑8‑Fonds und besser)",
@@ -69,6 +70,7 @@
     },
     "etf_preference": {
       "name": "Bevorzugen Sie ETFs (indexnahe Fonds)?",
+      "description": "ETFs sind typischerweise kostengünstiger und transparenter. Aktiv gemanagte Fonds wollen den Markt schlagen, verlangen aber höhere Gebühren.",
       "options": {
         "no_etf_preference": "Keine Präferenz – alle Fondsarten",
         "prefer_etf": "ETFs bevorzugt",
@@ -77,6 +79,7 @@
     },
     "preferred_regions": {
       "name": "Welche Regionen möchten Sie bevorzugen?",
+      "description": "Wählen Sie alles, was Sie interessiert. Wir nutzen dies, um regionale Schwerpunkte zu setzen und das Portfolio dennoch zu diversifizieren.",
       "options": {
         "region_global": "Global – weltweit verteilt",
         "region_europe": "Europa – Fokus auf europäische Märkte",
@@ -86,6 +89,7 @@
     },
     "preferred_themes": {
       "name": "Gibt es Anlagethemen, die Sie besonders interessieren?",
+      "description": "Themenfonds konzentrieren sich auf bestimmte Trends oder Sektoren. Das sind Satellitenpositionen – sie werden Ihr Portfolio nicht dominieren.",
       "options": {
         "theme_none": "Kein spezielles Thema – gut diversifiziert",
         "theme_sustainability": "Nachhaltigkeit & Klima – saubere Energie, Umweltschutz",
