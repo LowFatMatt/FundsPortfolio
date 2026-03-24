@@ -660,24 +660,69 @@ class DecisionEngine:
                     "ETF-only filter applied.",
                 )
             )
-        if user_answers.get("preferred_regions"):
-            parts.append(
-                self._t(
-                    language,
-                    "decision.summary.region",
-                    "Regional preferences considered.",
-                )
+        preferred_regions = set(user_answers.get("preferred_regions") or [])
+        if preferred_regions:
+            match_pct = self._match_percent(
+                metrics.get("region_exposures", {}), preferred_regions
             )
-        if user_answers.get("preferred_themes") and "none" not in user_answers.get(
-            "preferred_themes"
-        ):
-            parts.append(
-                self._t(
-                    language,
-                    "decision.summary.theme",
-                    "Thematic preferences considered.",
+            if match_pct is None:
+                parts.append(
+                    self._t(
+                        language,
+                        "decision.summary.region",
+                        "Regional preferences considered.",
+                    )
                 )
+            else:
+                pct = self._format_percent(match_pct)
+                if match_pct <= 0:
+                    parts.append(
+                        self._t(
+                            language,
+                            "decision.summary.region_none",
+                            "Regional preferences considered, but no matching funds were available ({percent}%).",
+                        ).format(percent=pct)
+                    )
+                else:
+                    parts.append(
+                        self._t(
+                            language,
+                            "decision.summary.region_match",
+                            "Regional preferences matched {percent}% of allocation.",
+                        ).format(percent=pct)
+                    )
+
+        preferred_themes = set(user_answers.get("preferred_themes") or [])
+        if preferred_themes and "none" not in preferred_themes:
+            match_pct = self._match_percent(
+                metrics.get("theme_exposures", {}), preferred_themes
             )
+            if match_pct is None:
+                parts.append(
+                    self._t(
+                        language,
+                        "decision.summary.theme",
+                        "Thematic preferences considered.",
+                    )
+                )
+            else:
+                pct = self._format_percent(match_pct)
+                if match_pct <= 0:
+                    parts.append(
+                        self._t(
+                            language,
+                            "decision.summary.theme_none",
+                            "Thematic preferences considered, but no matching funds were available ({percent}%).",
+                        ).format(percent=pct)
+                    )
+                else:
+                    parts.append(
+                        self._t(
+                            language,
+                            "decision.summary.theme_match",
+                            "Thematic preferences matched {percent}% of allocation.",
+                        ).format(percent=pct)
+                    )
         if trace.get("used_fallback_risk"):
             parts.append(
                 self._t(
@@ -695,6 +740,29 @@ class DecisionEngine:
                 )
             )
         return " ".join(parts)
+
+    @staticmethod
+    def _match_percent(exposures: Dict[str, float], preferred: set) -> Optional[float]:
+        if not exposures or not preferred:
+            return None
+        total = 0.0
+        match = 0.0
+        preferred_norm = {str(p).lower() for p in preferred}
+        for key, value in exposures.items():
+            try:
+                weight = float(value)
+            except (TypeError, ValueError):
+                continue
+            total += weight
+            if str(key).lower() in preferred_norm:
+                match += weight
+        if total <= 0:
+            return None
+        return round(match * 100, 1)
+
+    @staticmethod
+    def _format_percent(value: float) -> str:
+        return str(int(value)) if float(value).is_integer() else f"{value:.1f}"
 
     def _load_translations(self) -> Dict[str, Dict[str, str]]:
         base_dir = os.path.join(os.path.dirname(__file__), "translations")

@@ -366,13 +366,12 @@ document.addEventListener('DOMContentLoaded', () => {
             const explanations = Array.isArray(rec.explanations) ? rec.explanations : [];
             const explanationsHtml = explanations.length
                 ? `<ul class="fund-explanations">${explanations.map(e => `<li>${e}</li>`).join('')}</ul>`
-                : '';
+                : (rec.rationale ? `<p style="font-size: 0.8rem; margin-top: 0.5rem">${rec.rationale}</p>` : '');
 
             item.innerHTML = `
                 <div class="fund-meta">
                     <h4>${rec.name || 'Unknown Fund'} ${isinLabel}</h4>
                     <p>${rec.isin || 'N/A'} • Exp. Ratio: ${(rec.yearly_fee || 0).toFixed(2)}%</p>
-                    <p style="font-size: 0.8rem; margin-top: 0.5rem">${rec.rationale || ''}</p>
                     ${explanationsHtml}
                 </div>
                 <div class="fund-allocation">
