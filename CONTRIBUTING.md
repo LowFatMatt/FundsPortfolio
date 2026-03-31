@@ -39,6 +39,14 @@ Just follow the link and sign electronically — it takes 30 seconds.
 - Link any issue or discussion if relevant.
 - Include test results.
 
+## CLA Signing (Required)
+This project uses a Contributor License Agreement (CLA). When you open a PR, the CLA bot will comment if you have not signed yet.
+
+To sign, add a PR comment with the exact text:
+`I have read the CLA Document and I hereby sign the CLA`
+
+The CLA text is in `CLA.md`.
+
 
 ## PR Checklist
 - [ ] Clear summary of changes
