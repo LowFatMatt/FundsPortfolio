@@ -46,6 +46,7 @@ To sign, add a PR comment with the exact text:
 `I have read the CLA Document and I hereby sign the CLA`
 
 The CLA text is in `CLA.md`.
+Signatures are stored in the private repository `LowFatMatt/FP-Signatures` for audit and review.
 
 
 ## PR Checklist
