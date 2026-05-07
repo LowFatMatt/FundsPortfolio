@@ -73,25 +73,26 @@ def get_kiid_url(isin):
 **Core Modules:**
 ```
 funds_portfolio/
+├── app.py                       # Flask entry point + all API endpoints
 ├── data/
-│   ├── fund_manager.py      # Load/save funds_database.json
-│   ├── kiid_retriever.py    # iShares search + redirect logic
-│   └── price_fetcher.py     # yfinance integration
+│   ├── fund_manager.py          # Load/cache funds_database.json
+│   └── price_fetcher.py         # yfinance integration
 ├── portfolio/
-│   ├── calculator.py        # Sharpe Ratio + optimization
-│   ├── validator.py         # Risk/fee/diversification checks
-│   └── optimizer.py         # Portfolio weighting algorithm
+│   ├── decision_engine.py       # Filter → score → select → allocate pipeline
+│   ├── calculator.py            # Sharpe Ratio calculations
+│   ├── validator.py             # Risk/fee/diversification checks
+│   ├── optimizer.py             # Portfolio weight allocation
+│   └── translations/            # Decision message strings (en.json, de.json)
 ├── questionnaire/
-│   ├── loader.py           # Load preferences_schema.json
-│   └── validator.py        # Validate user answers
-├── api/
-│   ├── routes.py           # Flask endpoints
-│   └── serializer.py       # JSON response formatting
-├── models/
-│   ├── fund.py             # Fund data model
-│   └── portfolio.py        # Portfolio storage model
-└── scripts/
-    └── fetch_kiids.py      # Batch KIID URL retrieval + QS reporting
+│   ├── loader.py                # Load + validate preferences_schema.json
+│   └── translations/            # Questionnaire strings (en.json, de.json)
+└── models/
+    └── portfolio.py             # Portfolio storage + UUID persistence
+
+scripts/
+├── fetch_kiids.py               # Batch KIID URL retrieval + QS reporting
+├── import_csv_funds.py          # Import funds from CSV sources
+└── enrich_funds.py              # Fund data enrichment utilities
 ```
 
 **Key Libraries (MVP):**
@@ -115,27 +116,25 @@ funds_portfolio/
    - Allocation % in the portfolio
    - Link to fund KIID document
 
-**API Endpoints (MVP - Anonymous):**
+**API Endpoints:**
 ```
-GET /api/questionnaire
-   → Returns preferences_schema.json
+GET  /health
+   → { "status": "ok" }
+
+GET  /api/questionnaire
+   → Returns preferences_schema.json (questions + dynamic region/theme options)
 
 POST /api/portfolio
-   Body: { "user_answers": {...} }
-   → Creates new portfolio, returns { "portfolio_id", "recommendations", "metadata" }
+   Body: { "user_answers": { "investment_goal": "...", "risk_approach": "...", ... } }
+   → 201: { "portfolio_id", "risk_profile", "recommendations",
+             "portfolio_metrics", "explanations", "decision_trace" }
+   → 400: { "error", "details" } on validation failure
 
-GET /api/portfolio/{portfolio_id}
-   → Retrieves stored portfolio JSON from disk
+GET  /api/portfolio/{portfolio_id}
+   → Retrieves saved portfolio from portfolios/{id}.json
 
-PUT /api/portfolio/{portfolio_id}
-   Body: { "user_answers": {...} }
-   → Updates answers, recalculates, saves portfolio
-
-GET /api/funds
-   → Returns funds_database.json (for inspection)
-
-GET /health
-   → Returns { "status": "ok" }
+GET  /api/funds
+   → Returns full funds_database.json (for inspection/debugging)
 ```
 
 ---
@@ -146,93 +145,37 @@ GET /health
 preferences_schema.json
 ├── questionnaire (static configuration)
 │   ├── sections (7 question groups)
-│   │   ├── options (possible answers)
+│   │   ├── options (possible answers; region/theme populated dynamically from DB)
 │   │   └── metadata (required, type, etc.)
-│   └── version control
+│   └── version
 
-funds_database.json (~200 funds, MVP)
-├── funds_database (array of fund objects)
-│   ├── ISIN, name, provider
-│   ├── kiid_url (retrieved via iShares search redirect)
-│   ├── kiid_status ("verified", "pending", "failed")
-│   ├── asset class, region, categories
-│   ├── risk_level (1-5), yearly_fee
-│   └── notes (QS validation remarks)
-└── metadata (last_updated, total_funds, retrieval_date)
+funds_database.json (~200+ funds)
+├── funds_database (array)
+│   ├── isin, name, provider, ticker
+│   ├── asset_class, region, theme, categories
+│   ├── risk_level (1-5), srri (1-7), yearly_fee
+│   ├── is_etf, esg_label, esg_article_8, esg_article_9
+│   ├── sharpe_ratio
+│   ├── kiid_url, kiid_status ("verified"|"pending"|"failed")
+│   └── notes
+└── metadata (last_updated, total_funds)
 
-portfolios/ (local JSON storage)
-├── {portfolio_id}.json (one file per portfolio)
-│   ├── portfolio_id (UUID)
-│   ├── created_at, updated_at
-│   ├── user_answers (from preferences_schema questions)
-│   ├── calculated_metrics
-│   │   ├── risk_profile (1-4)
-│   │   ├── suitable_fund_categories
-│   │   └── diversification_needs
-│   └── recommended_funds (array with allocations %)
-└── .gitignore (ignore portfolio files)
+portfolios/{portfolio_id}.json
+├── portfolio_id            # "port_YYYYMMDD_UUID8"
+├── created_at              # ISO 8601
+├── user_answers            # answers from questionnaire
+├── risk_profile            # "DEFENSIVE" | "BALANCED" | "OPPORTUNITY"
+├── recommendations[]       # selected funds with allocation_percent + rationale
+├── portfolio_metrics
+│   ├── weighted_fee        # weighted average TER
+│   ├── srri_proxy          # weighted average SRRI
+│   └── exposures           # by asset class, region, theme
+├── explanations
+│   ├── summary             # human-readable summary string
+│   └── per_fund{}          # per-ISIN explanation strings
+└── decision_trace
+    ├── filters[]           # each filter: name, before count, after count
+    ├── relaxations[]       # any risk-band relaxations applied
+    └── used_fallback_risk  # bool
 ```
 
----
-
-## 🎯 Implementation Roadmap (Phased)
-
-### **Phase 1: Foundation (Weeks 1-2)**
-- [ ] Set up Git repo structure
-- [ ] Create API skeleton (Flask/FastAPI)
-- [ ] Implement JSON loaders for questionnaire + funds
-- [ ] Build basic user answer validation
-
-### **Phase 2: Data Layer (Weeks 3-4)**
-- [ ] Fund manager (CRUD for funds_database.json)
-- [ ] KIID retriever script (iShares search → 302 redirect → PDF URL)
-- [ ] yfinance data fetcher
-- [ ] Semi-manual QS validation (test 20 ISINs, verify KIID URLs)
-
-### **Phase 3: Calculation Engine (Weeks 5-6)**
-- [ ] Sharpe Ratio calculator
-- [ ] Modern Portfolio Theory optimizer
-- [ ] Risk/fee validator
-- [ ] Unit tests for calculations
-
-### **Phase 4: API & Frontend (Weeks 7-8)**
-- [ ] REST endpoints for questionnaire
-- [ ] Portfolio creation/retrieval endpoints
-- [ ] HTML/JS questionnaire renderer
-- [ ] Portfolio results display
-
-### **Phase 5: Polish & Deployment (Week 9)**
-- [ ] Integration testing
-- [ ] Performance optimization
-- [ ] Documentation + README updates
-- [ ] Deploy to hosting platform
-
----
-
-## 🔧 Required Skills
-
-| Skill | Level | Duration |
-|-------|-------|----------|
-| Python (pandas, numpy, scipy) | Advanced | 2-3 weeks |
-| REST API Design | Intermediate | 1 week |
-| Financial Calculations (Sharpe, Optimization) | Intermediate | 2 weeks |
-| JavaScript/HTML/CSS | Intermediate | 1 week |
-| JSON/Database schema design | Intermediate | 1 week |
-| Git + testing (pytest) | Basic | Throughout |
-
-**Recommended Team (MVP):**
-- 1 Backend Developer (Python/API/Docker) – primary
-- You: DevSecOps/Infrastructure (GitHub Actions, Docker, deployment strategy)
-- Ad-hoc: Financial analyst for 20-ISIN QS validation
-
----
-
-## ✅ Checklist Before Starting
-
-- [ ] Assemble list of ~200 ISINs (iShares, Vanguard, SPDR mix)
-- [ ] Test KIID retrieval script on 20 sample ISINs
-- [ ] MVP: Keep funds_database.json; no SQL migration yet
-- [ ] Set up GitHub Actions: linting, testing on push
-- [ ] Error handling: Log failed ISINs; flag KIID retrieval failures for manual review
-- [ ] Authentication: Anonymous (no sign-up); portfolios stored by UUID only
-- [ ] Deployment: Docker image + docker-compose.yml for local testing

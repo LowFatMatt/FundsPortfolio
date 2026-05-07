@@ -8,7 +8,7 @@
 3. Stores portfolio recommendations by UUID (anonymous, no personal data)
 4. Provides REST API for both GUI and machine access
 
-**MVP Status:** Foundation phase – Docker local dev ready; GitHub Actions pipeline; KIID retrieval script
+**Status:** Working MVP — decision engine, explainability, branding, i18n, CI, and Docker all implemented.
 
 ---
 
@@ -38,48 +38,55 @@ curl http://localhost:5000/api/questionnaire
 
 ---
 
-## 📂 Project Structure (MVP)
+## 📂 Project Structure
 
 ```
 FundsPortfolio/
-├── funds_portfolio/           # Main application
-│   ├── __init__.py
-│   ├── app.py                 # Flask app entry point
+├── funds_portfolio/           # Application package
+│   ├── app.py                 # Flask entry point + API endpoints
 │   ├── data/
-│   │   ├── fund_manager.py    # Load funds_database.json
+│   │   ├── fund_manager.py    # Fund database loader
 │   │   └── price_fetcher.py   # yfinance wrapper
 │   ├── portfolio/
+│   │   ├── decision_engine.py # Core filter → score → select → allocate pipeline
 │   │   ├── calculator.py      # Sharpe Ratio calculations
-│   │   └── optimizer.py       # Portfolio weighting
+│   │   ├── optimizer.py       # Portfolio weight allocation
+│   │   ├── validator.py       # Diversification & fee checks
+│   │   └── translations/      # Decision message strings (en, de)
 │   ├── questionnaire/
-│   │   └── loader.py          # Load preferences_schema.json
-│   ├── api/
-│   │   └── routes.py          # Flask endpoints
+│   │   ├── loader.py          # Schema loader + answer validation
+│   │   └── translations/      # Questionnaire strings (en, de)
 │   └── models/
-│       └── portfolio.py       # Portfolio data model
+│       └── portfolio.py       # Portfolio UUID persistence
 ├── config/
 │   └── settings.py            # Flask config
 ├── templates/                 # HTML/JS frontend
 │   ├── index.html
 │   └── static/
+├── static/                    # Frontend assets (css, js, i18n)
+├── brand/                     # Branding themes (default + dark)
 ├── tests/
 │   └── test_*.py
 ├── scripts/
-│   └── fetch_kiids.py         # KIID retrieval tool
-├── reports/                   # QS output (auto-created)
-├── portfolios/                # Stored portfolios (auto-created, .gitignore)
+│   ├── fetch_kiids.py         # KIID retrieval tool
+│   ├── import_csv_funds.py    # Import funds from CSV
+│   └── enrich_funds.py        # Fund data enrichment
+├── assets/data/               # Raw CSV data sources
+├── notes/                     # Working files, dev notes
+├── reports/                   # KIID QS output (auto-created, gitignored)
+├── portfolios/                # Stored portfolios (auto-created, gitignored)
 ├── Dockerfile
 ├── docker-compose.yml
+├── heroku.yml
 ├── requirements.txt
+├── Makefile
 ├── .github/workflows/
-│   ├── ci-cd.yml              # GitHub Actions
-│   └── deploy.yml             # Heroku deployment
-├── funds_database.json        # ~200 funds with KIID URLs
-├── preferences_schema.json    # Questionnaire definition
-├── isins_sample.txt           # Test ISIN list
-├── README.md                  # This file
-├── IMPLEMENTATION_SPEC.md     # Technical details
-└── DEVOPS_GUIDE.md            # Docker + GitHub Actions guide
+│   ├── ci-cd.yml              # Lint + test + Docker build
+│   ├── test.yml               # PR test runner
+│   └── cla.yml                # CLA check
+├── funds_database.json        # ~200+ funds
+├── preferences_schema.json    # Questionnaire (EN)
+└── preferences_schema_DE.json # Questionnaire (DE)
 ```
 
 ---
@@ -306,19 +313,7 @@ git push origin main
 
 ---
 
-## 📋 MVP Implementation Phases
-
-| Phase | Timeline | Deliverable |
-|-------|----------|-------------|
-| 1: Foundation | Weeks 1-2 | Flask skeleton + JSON loaders + Docker |
-| 2: KIID Retrieval | Week 3 | fetch_kiids.py script + QS reports |
-| 3: Calculation Engine | Weeks 4-5 | Sharpe Ratio + optimizer + tests |
-| 4: API & Frontend | Week 6 | REST endpoints + HTML questionnaire |
-| 5: CI/CD & Deploy | Week 7 | GitHub Actions + Heroku Docker |
-
----
-
-## 🔒 Security (MVP)
+## 🔒 Security
 
 ✅ **Anonymous portfolios:** No sign-up, no personal data, UUID-based storage  
 ✅ **HTTPS only:** Enforced by Heroku  
@@ -394,11 +389,7 @@ curl -I https://www.ishares.com/uk/individual/en/search?searchTerm=IE00B4L5Y983
 
 ## 🤝 Contributing
 
-1. Create feature branch: `git checkout -b feature/xyz`
-2. Make changes + test: `pytest tests/ -v`
-3. Commit: `git commit -m "feat: add xyz"`
-4. Push: `git push origin feature/xyz`
-5. Open PR (GitHub Actions will test automatically)
+See [CONTRIBUTING.md](CONTRIBUTING.md) for the full workflow (CLA, branch naming, PR checklist).
 
 ---
 
@@ -407,10 +398,7 @@ curl -I https://www.ishares.com/uk/individual/en/search?searchTerm=IE00B4L5Y983
 For issues, see:
 - GitHub Issues tab
 - Logs: `docker-compose logs -f`
-- Heroku logs: `heroku logs --tail -a funds-portfolio-mvp`
 
 ---
 
-**Last Updated:** 4. März 2026  
-**MVP Status:** Phase 1 (Foundation) – Ready for development  
-**License:** MIT
+**License:** AGPL-3.0 — see [LICENSE.md](LICENSE.md)

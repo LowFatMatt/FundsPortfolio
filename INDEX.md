@@ -1,262 +1,135 @@
-# FundsPortfolio MVP – Documentation Index
+# FundsPortfolio — Documentation Index
 
-**Start here!** 👇 Find the right guide for your role.
-
----
-
-## 🎯 Quick Links by Role
-
-### I'm a **Developer** (Building the App)
-1. **Start:** [MVP_README.md](MVP_README.md) – Local setup in 5 minutes
-2. **Deep dive:** [IMPLEMENTATION_SPEC.md](IMPLEMENTATION_SPEC.md) – Architecture + API design
-3. **Reference:** [preferences_schema.json](preferences_schema.json) – Questionnaire structure
-
-**Phase checklist:**
-- [ ] Phase 1: Flask skeleton + JSON loaders
-- [ ] Phase 2: KIID retriever + yfinance integration
-- [ ] Phase 3: Sharpe Ratio calculator + tests
-- [ ] Phase 4: REST API endpoints + HTML forms
-- [ ] Phase 5: Ready for DevOps deployment
+**Status:** Working MVP — questionnaire-driven fund recommendation engine, fully implemented.
 
 ---
 
-### I'm a **DevOps/Infrastructure Engineer** (You!)
-1. **Start:** [DEVOPS_README.md](DEVOPS_README.md) – MVP summary + your responsibilities
-2. **Setup guide:** [DEVOPS_GUIDE.md](DEVOPS_GUIDE.md) – Docker + GitHub Actions complete walkthrough
-3. **Quick ref:** [GITHUB_ACTIONS_GUIDE.md](GITHUB_ACTIONS_GUIDE.md) – CI/CD troubleshooting + best practices
+## What's Built
 
-**Your deliverables:**
-- [ ] GitHub repo structure + `.gitignore`
-- [ ] GitHub Actions workflows (ci-cd.yml + deploy.yml)
-- [ ] Docker image build + GHCR/Docker Hub push
-- [ ] Heroku app setup + deployment testing
-- [ ] Security hardening (rate limiting, CORS, etc.)
-- [ ] Monitoring/logging strategy
-
----
-
-### I'm a **Financial Analyst** (KIID Validation)
-1. **Start:** [MVP_README.md](MVP_README.md) – Section "KIID Retrieval"
-2. **Instructions:** Run this command:
-   ```bash
-   python scripts/fetch_kiids.py --isin-file isins_sample.txt --sample 20 --output reports/
-   ```
-3. **Review checklist:** `reports/kiid_qc_checklist_*.md` (auto-generated)
-
-**Your workflow:**
-- [ ] Receive 20-50 ISINs to validate
-- [ ] Run fetch_kiids.py
-- [ ] Review "Pending" results manually (Google ISIN, find KIID)
-- [ ] Verify KIID URLs work (can download PDF?)
-- [ ] Approve/reject for funds_database.json
+| Component | File(s) | Notes |
+|-----------|---------|-------|
+| Flask app & API | `funds_portfolio/app.py` | All endpoints live here |
+| Decision engine | `funds_portfolio/portfolio/decision_engine.py` | Filter → score → select → allocate |
+| Portfolio optimizer | `funds_portfolio/portfolio/optimizer.py` | Weight allocation by risk profile |
+| Sharpe calculator | `funds_portfolio/portfolio/calculator.py` | Risk-adjusted return scoring |
+| Validator | `funds_portfolio/portfolio/validator.py` | Diversification, fee, count checks |
+| Fund data loader | `funds_portfolio/data/fund_manager.py` | Loads `funds_database.json` |
+| Price fetcher | `funds_portfolio/data/price_fetcher.py` | yfinance wrapper |
+| Questionnaire loader | `funds_portfolio/questionnaire/loader.py` | Loads & validates user answers |
+| Portfolio model | `funds_portfolio/models/portfolio.py` | UUID persistence to disk |
+| Web UI | `templates/index.html` + `static/` | Questionnaire form + results display |
+| Branding system | `brand/` | JSON token-based theming (default + dark) |
+| i18n | `static/i18n/` | UI strings in `en.json` / `de.json` |
 
 ---
 
-### I'm a **Project Manager**
-- **Status:** [DEVOPS_README.md](DEVOPS_README.md) – "What's Been Delivered"
-- **Timeline:** [IMPLEMENTATION_SPEC.md](IMPLEMENTATION_SPEC.md) – "Implementation Roadmap"
-- **Risks:** See "Troubleshooting" sections in respective guides
+## Documentation Map
+
+| Document | What it covers |
+|----------|---------------|
+| `README.md` | Quick start, API reference, project layout |
+| `MVP_README.md` | Detailed setup: Docker, KIID retrieval, testing |
+| `IMPLEMENTATION_SPEC.md` | Technical spec: algorithm, API contract, JSON schemas |
+| `DEVOPS_GUIDE.md` | Docker + GitHub Actions complete guide |
+| `DEVOPS_README.md` | DevOps summary: design decisions, security checklist |
+| `GITHUB_ACTIONS_GUIDE.md` | CI/CD troubleshooting & best practices reference |
+| `GITHUB_ACTIONS_SETUP.md` | GitHub secrets & workflow configuration |
+| `BRANDING_GUIDE.md` | Brand pack format, token schema, adding themes |
+| `I18N_GUIDE.md` | i18n structure, adding languages, fallback behaviour |
+| `CONTRIBUTING.md` | How to contribute, CLA, PR workflow |
+| `SECURITY.md` | Vulnerability reporting |
 
 ---
 
-## 📂 File Structure Explained
+## Project Layout
 
 ```
-funds-portfolio/
+FundsPortfolio/
 │
-├── 📘 Documentation (Read first!)
-│   ├── MVP_README.md              ← Everyone: start here
-│   ├── IMPLEMENTATION_SPEC.md      ← Technical deep-dive
-│   ├── DEVOPS_GUIDE.md             ← DevOps setup
-│   ├── DEVOPS_README.md            ← DevOps summary
-│   ├── GITHUB_ACTIONS_GUIDE.md     ← CI/CD troubleshooting
-│   └── INDEX.md                    ← This file
+├── funds_portfolio/              # Application package
+│   ├── app.py                    # Flask entry point + API endpoints
+│   ├── data/
+│   │   ├── fund_manager.py       # Fund database loader
+│   │   └── price_fetcher.py      # yfinance wrapper
+│   ├── portfolio/
+│   │   ├── decision_engine.py    # Core filter/score/select pipeline
+│   │   ├── optimizer.py          # Weight allocation
+│   │   ├── calculator.py         # Sharpe Ratio
+│   │   ├── validator.py          # Diversification & fee checks
+│   │   └── translations/         # Decision message strings (en, de)
+│   ├── questionnaire/
+│   │   ├── loader.py             # Schema loader + answer validation
+│   │   └── translations/         # Questionnaire strings (en, de)
+│   └── models/
+│       └── portfolio.py          # Portfolio storage model
 │
-├── 🐳 Docker & Deployment
-│   ├── Dockerfile                  ← Container image definition
-│   ├── docker-compose.yml          ← Local dev stack
-│   ├── .github/workflows/
-│   │   ├── ci-cd.yml               ← GitHub Actions pipeline
-│   │   └── deploy.yml              ← Heroku deployment (manual)
-│   └── .dockerignore               ← Exclude files from Docker build
+├── templates/                    # HTML frontend
+│   ├── index.html
+│   └── static/
 │
-├── 🐍 Application (Flask Backend)
-│   ├── funds_portfolio/
-│   │   ├── __init__.py
-│   │   ├── app.py                  ← Flask entry point (STUB)
-│   │   ├── data/
-│   │   │   ├── fund_manager.py     ← Load funds_database.json (STUB)
-│   │   │   └── price_fetcher.py    ← yfinance wrapper (STUB)
-│   │   ├── portfolio/
-│   │   │   ├── calculator.py       ← Sharpe Ratio (STUB)
-│   │   │   └── optimizer.py        ← Portfolio allocation (STUB)
-│   │   ├── questionnaire/
-│   │   │   └── loader.py           ← Load preferences_schema.json (STUB)
-│   │   ├── api/
-│   │   │   └── routes.py           ← Flask endpoints (STUB)
-│   │   └── models/
-│   │       └── portfolio.py        ← Data model (STUB)
-│   │
-│   ├── templates/                  ← HTML/JS (STUB)
-│   │   ├── index.html              ← Questionnaire form
-│   │   └── static/
-│   │
-│   ├── tests/                      ← Pytest tests (STUB)
-│   │   └── test_*.py
-│   │
-│   └── config/
-│       └── settings.py             ← Flask configuration (STUB)
+├── static/                       # Frontend assets
+│   ├── css/
+│   ├── js/
+│   └── i18n/                     # UI strings (en.json, de.json)
 │
-├── 🔧 Scripts & Tools
-│   ├── scripts/fetch_kiids.py      ← KIID retrieval tool (READY)
-│   └── scripts/                    ← Future: data migration, backups
+├── brand/                        # Branding themes
+│   ├── default/                  # Light theme (brand.json + overrides.css)
+│   └── dark/                     # Dark theme
 │
-├── 📊 Data Files
-│   ├── funds_database.json         ← ~200 funds (SEED DATA)
-│   ├── preferences_schema.json     ← Questionnaire (EN) (READY)
-│   ├── preferences_schema_DE.json  ← Questionnaire (DE) (READY)
-│   ├── isins_sample.txt            ← 20 test ISINs (READY)
-│   └── preferences_example_response.json ← Example portfolio (READY)
+├── scripts/                      # Data utilities
+│   ├── fetch_kiids.py            # KIID URL retrieval + QS reports
+│   ├── import_csv_funds.py       # Import funds from CSV sources
+│   └── enrich_funds.py           # Fund data enrichment
 │
-├── 📁 Runtime Directories (Auto-created)
-│   ├── portfolios/                 ← User portfolios (JSON files)
-│   ├── reports/                    ← QS reports from fetch_kiids.py
-│   └── logs/                       ← Application logs
+├── tests/                        # pytest test suite
+│   └── test_*.py
 │
-└── 🔒 Configuration
-    ├── .gitignore                  ← Security: exclude secrets + data
-    ├── .env.example                ← (NOT CREATED YET - add before go-live)
-    └── requirements.txt            ← Python dependencies (READY)
+├── config/
+│   └── settings.py               # Flask configuration
+│
+├── assets/data/                  # Raw data sources (CSV imports)
+├── notes/                        # Working files, dev notes
+├── portfolios/                   # Saved portfolios (UUID-named JSON, gitignored)
+├── reports/                      # KIID QS output (gitignored)
+│
+├── funds_database.json           # Fund database (~200+ entries)
+├── preferences_schema.json       # Questionnaire schema (EN)
+├── preferences_schema_DE.json    # Questionnaire schema (DE)
+│
+├── Dockerfile
+├── docker-compose.yml
+├── heroku.yml
+├── requirements.txt
+├── Makefile
+└── .github/
+    ├── workflows/
+    │   ├── ci-cd.yml             # Lint + test + Docker build
+    │   ├── test.yml              # PR test runner
+    │   └── cla.yml               # CLA check
+    └── ISSUE_TEMPLATE/
 ```
 
-**Note:** (STUB) = File template exists, needs implementation  
-**Note:** (READY) = Complete, ready to use  
-**Note:** (SEED DATA) = Sample data, replace with real ISINs before production
-
 ---
 
-## 📚 Documentation by Topic
+## Quick Start
 
-### **Getting Started**
-- Local development: [MVP_README.md](MVP_README.md#-quick-start-5-minutes)
-- Repository setup: [DEVOPS_GUIDE.md](DEVOPS_GUIDE.md#-github-actions-best-practices-devsecops)
-
-### **Architecture & Design**
-- System overview: [IMPLEMENTATION_SPEC.md](IMPLEMENTATION_SPEC.md#-technical-implementation-details-mvp)
-- API endpoints: [IMPLEMENTATION_SPEC.md](IMPLEMENTATION_SPEC.md#api-endpoints-mvp---anonymous)
-- Data schema: [IMPLEMENTATION_SPEC.md](IMPLEMENTATION_SPEC.md#-json-schema-hierarchy-mvp)
-
-### **Docker & Deployment**
-- Local Docker: [DEVOPS_GUIDE.md](DEVOPS_GUIDE.md#-docker-setup)
-- GitHub Actions: [DEVOPS_GUIDE.md](DEVOPS_GUIDE.md#-github-actions-workflow)
-- Heroku deployment: [DEVOPS_GUIDE.md](DEVOPS_GUIDE.md#-heroku-deployment-docker)
-- CI/CD troubleshooting: [GITHUB_ACTIONS_GUIDE.md](GITHUB_ACTIONS_GUIDE.md#-troubleshooting-workflows)
-
-### **KIID Retrieval & QS**
-- Batch retrieval: [MVP_README.md](MVP_README.md#-kiid-retrieval-semi-manual-qs)
-- Script usage: [scripts/fetch_kiids.py](scripts/fetch_kiids.py) (see `--help`)
-- Error handling: [DEVOPS_GUIDE.md](DEVOPS_GUIDE.md#-error-handling---qs-process-semi-manual)
-
-### **Security**
-- Secrets management: [GITHUB_ACTIONS_GUIDE.md](GITHUB_ACTIONS_GUIDE.md#-secrets-management)
-- Docker security: [DEVOPS_GUIDE.md](DEVOPS_GUIDE.md#-security-hardening-devsecops)
-- Pre-production checklist: [DEVOPS_GUIDE.md](DEVOPS_GUIDE.md#-security-hardening-devsecops)
-
----
-
-## 🎯 Phase-by-Phase Deliverables
-
-| Phase | Duration | Deliverables | Owner |
-|-------|----------|-------------|-------|
-| **1: Foundation** | Weeks 1-2 | Flask skeleton, JSON loaders, Docker ✓ | Dev |
-| **2: Data Layer** | Week 3 | KIID retriever, yfinance integration | Dev + Analyst |
-| **3: Calculations** | Weeks 4-5 | Sharpe Ratio, portfolio optimizer, tests | Dev |
-| **4: API & UI** | Week 6 | REST endpoints, HTML form, database | Dev |
-| **5: DevOps** | Week 7 | GitHub Actions, Docker image, Heroku deploy | You |
-
-**Current status:** Pre-Phase 1 (all specifications ready)
-
----
-
-## 🔍 How to Use This Index
-
-### "I'm stuck on Docker"
-→ [DEVOPS_GUIDE.md](DEVOPS_GUIDE.md#-docker-setup) or [MVP_README.md](MVP_README.md#-docker-development)
-
-### "GitHub Actions workflow failed"
-→ [GITHUB_ACTIONS_GUIDE.md](GITHUB_ACTIONS_GUIDE.md#-troubleshooting-workflows)
-
-### "How do I set up the project?"
-→ [MVP_README.md](MVP_README.md#-quick-start-5-minutes)
-
-### "What is the API contract?"
-→ [IMPLEMENTATION_SPEC.md](IMPLEMENTATION_SPEC.md#api-endpoints-mvp---anonymous)
-
-### "What are my DevOps responsibilities?"
-→ [DEVOPS_README.md](DEVOPS_README.md#-your-next-steps-devsecops-lead)
-
-### "How do I retrieve KIID documents?"
-→ [scripts/fetch_kiids.py](scripts/fetch_kiids.py) + [MVP_README.md](MVP_README.md#-kiid-retrieval-semi-manual-qs)
-
----
-
-## 📋 Pre-Development Checklist
-
-Before starting Phase 1, ensure:
-
-- [ ] All team members have GitHub access
-- [ ] Python 3.13 installed locally (for testing)
-- [ ] Docker & Docker Compose installed
-- [ ] All documentation reviewed (this index + specific guides)
-- [ ] 200-ISIN list sourced
-- [ ] Heroku account ready (for Phase 5)
-- [ ] KIID analyst available (for Phase 2)
-- [ ] DevOps engineer (you!) committed 20-25 hours
-
----
-
-## 🚀 Getting Started (TL;DR)
-
-**1. Read these in order:**
-```
-MVP_README.md (10 min)
-  → IMPLEMENTATION_SPEC.md (20 min)
-    → DEVOPS_GUIDE.md (30 min)
-```
-
-**2. Test locally:**
 ```bash
-docker-compose up --build
-curl http://localhost:5000/health
+docker compose up --build
+# → http://localhost:5000/
 ```
 
-**3. Test KIID retrieval:**
+Or without Docker:
 ```bash
-python scripts/fetch_kiids.py --isin-file isins_sample.txt --sample 5
+pip install -r requirements.txt
+PYTHONPATH=. python -m funds_portfolio.app
 ```
 
-**4. Confirm architecture:**
-- JSON storage ✓
-- Anonymous portfolios ✓
-- Docker local dev ✓
-- GitHub Actions ready ✓
-
-**5. Create GitHub repo & start Phase 1!**
+Tests:
+```bash
+python -m pytest
+make ci
+```
 
 ---
 
-## 📞 Quick Reference
-
-**For questions about:**
-- **Flask app structure** → [IMPLEMENTATION_SPEC.md](IMPLEMENTATION_SPEC.md#backend-python)
-- **Docker setup** → [DEVOPS_GUIDE.md](DEVOPS_GUIDE.md)
-- **API endpoints** → [IMPLEMENTATION_SPEC.md](IMPLEMENTATION_SPEC.md#api-endpoints-mvp---anonymous)
-- **GitHub Actions** → [GITHUB_ACTIONS_GUIDE.md](GITHUB_ACTIONS_GUIDE.md)
-- **KIID retrieval** → [scripts/fetch_kiids.py](scripts/fetch_kiids.py)
-- **Data schema** → [funds_database.json](funds_database.json) + [preferences_schema.json](preferences_schema.json)
-
----
-
-**Last Updated:** 4. März 2026  
-**MVP Status:** Ready for Phase 1 development  
-**Doc Version:** 1.0
+**Governance:** [CONTRIBUTING.md](CONTRIBUTING.md) · [CLA.md](CLA.md) · [LICENSE.md](LICENSE.md) · [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) · [SECURITY.md](SECURITY.md)
