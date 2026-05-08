@@ -337,6 +337,33 @@ def _enrich_sharpe(
     return sharpe
 
 
+def _enrich_vol_mdd(
+    fund: Dict,
+    price_fetcher: PriceFetcher,
+) -> Tuple[Optional[float], Optional[float]]:
+    """Return (volatility_pct, mdd_pct) or (None, None) on failure."""
+    has_vol = fund.get("volatility") not in (None, "")
+    has_mdd = fund.get("max_drawdown") not in (None, "")
+    if has_vol and has_mdd:
+        return fund.get("volatility"), fund.get("max_drawdown")
+
+    identifier = fund.get("ticker") or fund.get("isin")
+    if not identifier:
+        return None, None
+
+    prices = price_fetcher.fetch_prices(identifier)
+    if prices is None:
+        return None, None
+
+    metrics = price_fetcher.calculate_metrics(prices)
+    vol = metrics.get("annualized_volatility_pct")
+    mdd = metrics.get("max_drawdown")
+    return (
+        round(float(vol), 4) if vol is not None else None,
+        round(float(mdd), 4) if mdd is not None else None,
+    )
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(
         description="Enrich funds_database.json with yearly_fee and sharpe_ratio"
@@ -346,6 +373,8 @@ def main() -> None:
     parser.add_argument("--limit", type=int, default=0, help="Limit funds processed")
     parser.add_argument("--fees", action="store_true", help="Enrich yearly_fee")
     parser.add_argument("--sharpe", action="store_true", help="Enrich sharpe_ratio")
+    parser.add_argument("--volatility", action="store_true", help="Enrich volatility (annualised %)")
+    parser.add_argument("--mdd", action="store_true", help="Enrich max_drawdown (%)")
     parser.add_argument(
         "--refresh-kiid",
         action="store_true",
@@ -376,9 +405,11 @@ def main() -> None:
     data = _load_db(args.db)
     funds = data.get("funds_database", [])
 
-    if not args.fees and not args.sharpe:
+    if not args.fees and not args.sharpe and not args.volatility and not args.mdd:
         args.fees = True
         args.sharpe = True
+        args.volatility = True
+        args.mdd = True
 
     if PdfReader is None and args.fees:
         print("WARNING: pypdf not installed; fee extraction will be skipped.")
@@ -392,6 +423,8 @@ def main() -> None:
 
     updated_fee = 0
     updated_sharpe = 0
+    updated_vol = 0
+    updated_mdd = 0
     refreshed_kiid = 0
     updated_ticker = 0
 
@@ -441,6 +474,15 @@ def main() -> None:
                 fund["sharpe_ratio"] = round(float(sharpe), 6)
                 updated_sharpe += 1
 
+        if args.volatility or args.mdd:
+            vol, mdd = _enrich_vol_mdd(fund, price_fetcher)
+            if args.volatility and vol is not None and fund.get("volatility") != vol:
+                fund["volatility"] = vol
+                updated_vol += 1
+            if args.mdd and mdd is not None and fund.get("max_drawdown") != mdd:
+                fund["max_drawdown"] = mdd
+                updated_mdd += 1
+
         if idx % 25 == 0:
             print(f"Processed {idx}/{limit}")
 
@@ -450,6 +492,8 @@ def main() -> None:
     print("Enrichment summary:")
     print(f"  fees updated: {updated_fee}")
     print(f"  sharpe updated: {updated_sharpe}")
+    print(f"  volatility updated: {updated_vol}")
+    print(f"  max_drawdown updated: {updated_mdd}")
     print(f"  kiid refreshed: {refreshed_kiid}")
     print(f"  tickers applied: {updated_ticker}")
 

@@ -32,14 +32,14 @@ Process:
 
 ### 3. Portfolio Optimization Algorithm
 
+> **Note:** The decision engine has been redesigned to v2. The authoritative specification is [FUND_SELECTION_LOGIC_SPEC_V2.md](FUND_SELECTION_LOGIC_SPEC_V2.md). The summary below reflects the high-level approach.
+
 For each user profile:
-1. **Filter funds** by risk level + asset class matching
-2. **Diversify** across regions + asset classes
-3. **Optimize weights** using Sharpe Ratio ranking
-4. **Validate** against:
-   - Volatility ceiling
-   - Fee constraints (avg < 0.5% annually)
-   - Minimum fund count (5-10 for diversification)
+1. **Filter funds** — regulatory quality check → risk band (SRRI + volatility + MDD) → ESG → ETF → regional/thematic markers
+2. **Score** — composite score: 50 % Sharpe / 30 % MDD / 20 % TER (min-max normalised per metric) + preference bonuses
+3. **Select top 5** — diversification caps (max 1 per provider, max 2 per sub-category) + thematic guarantee
+4. **Allocate weights** — Core-Satellite classification; inverse volatility weighting within tiered bounds; satellite total capped at 30 %
+5. **Validate** against fee constraints and diversification requirements
 
 ### 4. Data Sources Required (MVP)
 

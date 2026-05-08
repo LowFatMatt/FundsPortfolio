@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//usr/bin/**)",
+      "Read(//home/mrick/.local/bin/**)",
+      "Bash(~/.local/bin/pytest tests/test_decision_engine.py -v)",
+      "Bash(~/.local/bin/pytest tests/ -v)"
+    ]
+  }
+}

@@ -17,7 +17,7 @@
   "ui.portfolio_id_label": "Your Portfolio ID:",
   "ui.save_note": "Save this ID to resume<br>Available for 14 days",
   "ui.strategy_title": "Your Portfolio Strategy",
-  "ui.strategy_subtitle": "Optimized for max Sharpe Ratio",
+  "ui.strategy_subtitle": "Quality-optimized selection (Sharpe · MDD · cost)",
   "ui.risk_profile": "Risk Profile",
   "ui.decision_summary": "Decision Summary",
   "ui.start_over": "← Start Over",

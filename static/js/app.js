@@ -362,7 +362,18 @@ document.addEventListener('DOMContentLoaded', () => {
             const item = document.createElement('div');
             item.className = 'fund-item form-group'; // Reuse animation class
 
-            const isinLabel = rec.isin ? `<span class="badge ${rec.asset_class?.toLowerCase() || 'bond'}">${rec.asset_class || 'BOND'}</span>` : '';
+            const assetBadge = rec.isin
+                ? `<span class="badge ${rec.asset_class?.toLowerCase() || 'bond'}">${rec.asset_class || 'BOND'}</span>`
+                : '';
+            const coreSatBadge = rec.core_satellite_class
+                ? `<span class="badge ${rec.core_satellite_class === 'satellite' ? 'satellite' : 'core'}">${rec.core_satellite_class}</span>`
+                : '';
+            const etfFallbackBadge = rec.etf_not_available
+                ? `<span class="badge bond" title="No ETF available for this position">active (no ETF)</span>`
+                : '';
+            const feeDisplay = rec.yearly_fee != null
+                ? `${Number(rec.yearly_fee).toFixed(2)}%`
+                : 'N/A';
             const explanations = Array.isArray(rec.explanations) ? rec.explanations : [];
             const explanationsHtml = explanations.length
                 ? `<ul class="fund-explanations">${explanations.map(e => `<li>${e}</li>`).join('')}</ul>`
@@ -370,8 +381,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
             item.innerHTML = `
                 <div class="fund-meta">
-                    <h4>${rec.name || 'Unknown Fund'} ${isinLabel}</h4>
-                    <p>${rec.isin || 'N/A'} • Exp. Ratio: ${(rec.yearly_fee || 0).toFixed(2)}%</p>
+                    <h4>${rec.name || 'Unknown Fund'} ${assetBadge} ${coreSatBadge} ${etfFallbackBadge}</h4>
+                    <p>${rec.isin || 'N/A'} • Exp. Ratio: ${feeDisplay}</p>
                     ${explanationsHtml}
                 </div>
                 <div class="fund-allocation">

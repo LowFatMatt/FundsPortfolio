@@ -56,22 +56,33 @@ class PriceFetcher:
 
     def calculate_metrics(self, prices: pd.DataFrame) -> Dict[str, float]:
         """
-        Calculate annualized return and volatility from daily prices.
+        Calculate annualized return, volatility, and maximum drawdown from daily prices.
 
         Args:
             prices: DataFrame with 'Close' column and Date index
 
         Returns:
-            Dictionary with 'annualized_return' and 'annualized_volatility'
+            Dictionary with 'annualized_return', 'annualized_volatility' (as fraction),
+            'annualized_volatility_pct' (as %), and 'max_drawdown' (as %).
         """
         if prices is None or prices.empty or len(prices) < 2:
-            return {"annualized_return": 0.0, "annualized_volatility": 0.0}
+            return {
+                "annualized_return": 0.0,
+                "annualized_volatility": 0.0,
+                "annualized_volatility_pct": 0.0,
+                "max_drawdown": 0.0,
+            }
 
         # Calculate daily returns
         daily_returns = prices["Close"].pct_change().dropna()
 
         if len(daily_returns) == 0:
-            return {"annualized_return": 0.0, "annualized_volatility": 0.0}
+            return {
+                "annualized_return": 0.0,
+                "annualized_volatility": 0.0,
+                "annualized_volatility_pct": 0.0,
+                "max_drawdown": 0.0,
+            }
 
         # Annualize the returns
         # Usually 252 trading days in a year
@@ -85,10 +96,31 @@ class PriceFetcher:
         daily_volatility = daily_returns.std()
         annualized_volatility = daily_volatility * np.sqrt(trading_days)
 
+        mdd = self.calculate_mdd(prices)
+
         return {
             "annualized_return": float(annualized_return),
             "annualized_volatility": float(annualized_volatility),
+            "annualized_volatility_pct": float(annualized_volatility * 100),
+            "max_drawdown": float(mdd),
         }
+
+    def calculate_mdd(self, prices: pd.DataFrame) -> float:
+        """
+        Calculate maximum drawdown as a positive percentage (e.g. 23.5 for 23.5%).
+
+        Args:
+            prices: DataFrame with 'Close' column and Date index
+
+        Returns:
+            Maximum drawdown as a positive percentage value.
+        """
+        if prices is None or prices.empty or len(prices) < 2:
+            return 0.0
+        close = prices["Close"]
+        peak = close.cummax()
+        drawdown = (close - peak) / peak
+        return float(abs(drawdown.min()) * 100)
 
     def get_fund_metrics(self, ticker: str) -> Optional[Dict[str, float]]:
         """

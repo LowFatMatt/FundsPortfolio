@@ -16,6 +16,7 @@
   "decision.reason.esg": "Erfuellt Ihre ESG-Anforderung.",
   "decision.reason.region": "Entspricht Ihrer regionalen Praeferenz.",
   "decision.reason.theme": "Entspricht Ihrer thematischen Praeferenz.",
-  "decision.reason.score": "Risikoabgleich- und Kosteneffizienz-Score: {score}.",
+  "decision.reason.score": "Qualitaets-Score: {score} (Sharpe: {sharpe_norm}, MDD: {mdd_norm}, TER: {ter_norm}).",
+  "decision.reason.etf_not_available": "Aktiv verwalteter Fonds (kein passendes ETF verfuegbar).",
   "decision.reason.default": "An Ihren Praeferenzen ausgerichtet."
 }

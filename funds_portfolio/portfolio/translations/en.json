@@ -16,6 +16,7 @@
   "decision.reason.esg": "Meets your ESG requirement.",
   "decision.reason.region": "Matches your regional preference.",
   "decision.reason.theme": "Matches your thematic preference.",
-  "decision.reason.score": "Risk alignment and cost efficiency score: {score}.",
+  "decision.reason.score": "Quality score: {score} (Sharpe: {sharpe_norm}, MDD: {mdd_norm}, TER: {ter_norm}).",
+  "decision.reason.etf_not_available": "Active fund (ETF not available within your criteria).",
   "decision.reason.default": "Aligned with your preferences."
 }

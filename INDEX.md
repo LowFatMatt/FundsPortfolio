@@ -30,6 +30,7 @@
 | `README.md` | Quick start, API reference, project layout |
 | `MVP_README.md` | Detailed setup: Docker, KIID retrieval, testing |
 | `IMPLEMENTATION_SPEC.md` | Technical spec: algorithm, API contract, JSON schemas |
+| `FUND_SELECTION_LOGIC_SPEC_V2.md` | Fund selection logic v2: filter pipeline, scoring formula, Core-Satellite allocation, edge cases |
 | `DEVOPS_GUIDE.md` | Docker + GitHub Actions complete guide |
 | `DEVOPS_README.md` | DevOps summary: design decisions, security checklist |
 | `GITHUB_ACTIONS_GUIDE.md` | CI/CD troubleshooting & best practices reference |

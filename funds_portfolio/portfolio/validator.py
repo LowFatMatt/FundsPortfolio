@@ -47,7 +47,7 @@ class PortfolioValidator:
 
         # Calculate weighted average fee
         weighted_fee = sum(
-            (r.get("allocation_percent", 0) / 100.0) * r.get("yearly_fee", 0.0)
+            (r.get("allocation_percent", 0) / 100.0) * float(r.get("yearly_fee") or 0.0)
             for r in recommendations
         )
 
