@@ -7,6 +7,7 @@
         "id": "investment_goal",
         "name": "What is your main goal with this investment?",
         "type": "single_select",
+        "display_hint": "cards",
         "required": true,
         "options": [
           {
@@ -123,6 +124,7 @@
         "id": "investment_knowledge",
         "name": "How would you describe your investment knowledge?",
         "type": "single_select",
+        "display_hint": "cards",
         "required": true,
         "options": [
           {
@@ -141,6 +143,7 @@
         "id": "risk_approach",
         "name": "Which investment approach appeals to you most?",
         "type": "single_select",
+        "display_hint": "cards",
         "required": true,
         "options": [
           {
@@ -177,6 +180,7 @@
         "id": "loss_tolerance",
         "name": "Can you afford financial losses?",
         "type": "single_select",
+        "display_hint": "cards",
         "required": true,
         "options": [
           {
@@ -198,6 +202,7 @@
         "name": "How important is sustainability to you?",
         "description": "ESG stands for Environmental, Social & Governance – it measures how responsibly a company operates.",
         "type": "single_select",
+        "display_hint": "cards",
         "required": true,
         "options": [
           {
@@ -228,6 +233,7 @@
         "name": "Do you have a preference for ETFs (index-tracking funds)?",
         "description": "ETFs are typically lower-cost and transparent. Actively managed funds aim to beat the market but charge higher fees.",
         "type": "single_select",
+        "display_hint": "cards",
         "required": true,
         "options": [
           {
@@ -255,6 +261,7 @@
         "name": "Which regions would you like to invest in?",
         "description": "Select all that interest you. We'll use this to prioritize regional exposure while keeping the portfolio diversified.",
         "type": "multi_select",
+        "display_hint": "chips",
         "required": false,
         "options": [
           {
@@ -288,6 +295,7 @@
         "name": "Are there any investment themes you're excited about?",
         "description": "Thematic funds focus on specific trends or sectors. These are satellite positions – they won't dominate your portfolio.",
         "type": "multi_select",
+        "display_hint": "chips",
         "required": false,
         "options": [
           {

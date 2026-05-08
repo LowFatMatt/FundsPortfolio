@@ -4,7 +4,9 @@
       "Read(//usr/bin/**)",
       "Read(//home/mrick/.local/bin/**)",
       "Bash(~/.local/bin/pytest tests/test_decision_engine.py -v)",
-      "Bash(~/.local/bin/pytest tests/ -v)"
+      "Bash(~/.local/bin/pytest tests/ -v)",
+      "Bash(python3 -m pip install pytest pytest-mock)",
+      "Bash(python3 -m pip install flask pandas yfinance)"
     ]
   }
 }

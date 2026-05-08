@@ -1,7 +1,10 @@
 {
   "permissions": {
     "allow": [
-      "Bash(python3 -m json.tool)"
+      "Bash(python3 -m json.tool)",
+      "Bash(python3 -m pytest tests/ -v --tb=short)",
+      "Bash(docker compose:*)",
+      "Bash(.venv/bin/pytest tests/ -v --tb=short)"
     ]
   }
 }

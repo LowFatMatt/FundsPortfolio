@@ -4,149 +4,261 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title data-i18n="meta.title">FundsPortfolio | Smart Investing</title>
-    <!-- Modern Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     {% if brand_font_url %}
     <link rel="stylesheet" href="{{ brand_font_url }}">
     {% endif %}
-    <!-- Custom CSS -->
     <link rel="stylesheet" href="/static/css/style.css">
     {% if brand_css_vars %}
-    <style>
-        :root { {{ brand_css_vars }}; }
-    </style>
+    <style>:root { {{ brand_css_vars }}; }</style>
     {% endif %}
     {% if brand_overrides_url %}
     <link rel="stylesheet" href="{{ brand_overrides_url }}">
     {% endif %}
 </head>
 <body>
+<div class="page-shell">
 
-    <header class="brand-header">
-        <div class="brand-topbar">
-            <div class="brand-logo-wrap">
+    <!-- Top App Bar -->
+    <header class="app-bar">
+        <div class="app-bar__inner">
+            <div class="app-bar__logo-wrap">
                 {% if brand_logo_url %}
-                <img class="brand-logo" src="{{ brand_logo_url }}" alt="{{ brand_name }} logo">
+                <img class="app-bar__logo" src="{{ brand_logo_url }}" alt="{{ brand_name }}">
+                {% else %}
+                <span class="app-bar__title" data-i18n="app.title">FundsPortfolio</span>
                 {% endif %}
             </div>
-            <div class="lang-select-row">
-                <label for="lang-select" data-i18n="ui.language_label" class="lang-select-label">Language</label>
-                <select id="lang-select" class="lang-select">
-                <option value="en">English</option>
-                <option value="de">Deutsch</option>
-            </select>
+            <div class="app-bar__controls">
+                <label for="lang-select" class="lang-select-label sr-only" data-i18n="ui.language_label">Language</label>
+                <select id="lang-select" class="lang-select" aria-label="Language">
+                    <option value="en">EN</option>
+                    <option value="de">DE</option>
+                </select>
             </div>
         </div>
-        <h1 class="brand-title" data-i18n="app.title">FundsPortfolio</h1>
-        <p class="subtitle" data-i18n="app.subtitle">Discover your personalized data-driven investment strategy.</p>
     </header>
 
-    <main class="container">
-        
+    <!-- Page Content -->
+    <main class="page-content">
+
         <!-- Loading State -->
-        <div id="loading-view" class="glass-card hidden" style="text-align: center; padding: 4rem 2rem;">
-            <div class="loading-spinner" style="border-color: rgba(88, 166, 255, 0.2); border-top-color: var(--accent); width: 40px; height: 40px;"></div>
-            <h3 style="margin-top: 1.5rem; margin-bottom: 0; color: var(--text-secondary);" data-i18n="ui.loading">Loading...</h3>
+        <div id="loading-view" class="hidden" style="text-align:center; padding: 5rem 0;">
+            <div class="loading-spinner loading-spinner--page" style="margin: 0 auto 1.5rem;"></div>
+            <p class="text-secondary" data-i18n="ui.loading">Loading...</p>
         </div>
 
-        <!-- Welcome / Resume View -->
-        <div id="welcome-view" class="glass-card" style="text-align: center;">
-            <h2 style="margin-bottom: 1.5rem;" data-i18n="ui.welcome_title">Welcome Back</h2>
-            <p style="color: var(--text-secondary); margin-bottom: 2rem;" data-i18n="ui.welcome_subtitle">Do you have an existing Portfolio ID to resume?</p>
-            
-            <form id="resume-form" style="max-width: 400px; margin: 0 auto;">
-                <div class="form-group">
-                    <input type="text" id="resume-id" placeholder="e.g. port_20260310_6c75f86a" data-i18n-placeholder="ui.resume_placeholder" style="text-align: center; font-family: monospace;">
+        <!-- Welcome Screen -->
+        <div id="welcome-view" class="welcome-center hidden">
+            <div class="md-card welcome-card animate-in">
+                <h1 class="welcome-card__title" data-i18n="ui.welcome_title">Welcome Back</h1>
+                <p class="welcome-card__subtitle" data-i18n="app.subtitle">Discover your personalized data-driven investment strategy.</p>
+
+                <form id="resume-form" class="welcome-card__body">
+                    <div class="field-group">
+                        <input type="text" id="resume-id"
+                               data-i18n-placeholder="ui.resume_placeholder"
+                               placeholder="e.g. port_20260310_6c75f86a"
+                               style="text-align:center; font-family:monospace;">
+                    </div>
+                    <div id="resume-error" class="alert alert-error hidden"></div>
+                    <button type="submit" class="btn btn-secondary btn--full" data-i18n="ui.resume_button">Resume Portfolio</button>
+                </form>
+
+                <div class="welcome-divider" data-i18n="ui.or_divider">— OR —</div>
+
+                <div class="welcome-btn-row">
+                    <button id="start-fresh-btn" class="btn btn-primary btn--full">
+                        <span data-i18n="ui.start_fresh">Start Fresh</span>
+                    </button>
                 </div>
-                <div class="alert alert-error hidden" id="resume-error" style="margin-bottom: 1rem;"></div>
-                <button type="submit" class="btn btn-primary" style="margin-bottom: 1rem; width: 100%;" data-i18n="ui.resume_button">Resume Portfolio</button>
-            </form>
-            
-            <div style="margin: 2rem 0; color: var(--border-color);" data-i18n="ui.or_divider">— OR —</div>
-            
-            <button id="start-fresh-btn" class="btn btn-secondary" style="width: 100%; max-width: 400px; margin: 0 auto; display: block;">
-                <span data-i18n="ui.start_fresh">Start Fresh</span>
-            </button>
+            </div>
         </div>
 
         <!-- Questionnaire Form -->
-        <div id="form-view" class="glass-card hidden">
-            
-            <div id="active-session-banner" class="alert alert-success hidden" style="margin-bottom: 2rem; display: flex; justify-content: space-between; align-items: center;">
-                <div>
-                    <strong data-i18n="ui.editing_portfolio">Editing Portfolio:</strong> <span id="active-port-id" style="font-family: monospace; font-size: 1.1em; margin-left: 0.5rem; color: var(--text-primary);"></span>
-                </div>
-            </div>
+        <div id="form-view" class="hidden">
+            <div class="md-card animate-in">
 
-            <h2 data-i18n="ui.build_profile">Build Your Profile</h2>
-            <div id="error-view" class="alert alert-error hidden">
-                <p id="error-message"></p>
-            </div>
-            
-            <form id="questionnaire-form">
-                <!-- Dynamically populated by JS -->
-                <div id="questionnaire-fields"></div>
-
-                <div class="form-group" style="margin-top: 3rem;">
-                    <button type="submit" id="submit-btn" class="btn btn-primary">
-                        <span id="btn-spinner" class="loading-spinner hidden"></span>
-                        <span id="btn-text" data-i18n="ui.generate_portfolio">Generate Portfolio</span>
-                    </button>
+                <div id="active-session-banner" class="active-session-banner hidden">
+                    <span>
+                        <strong data-i18n="ui.editing_portfolio">Editing Portfolio:</strong>
+                        <span id="active-port-id" style="font-family:monospace; margin-left:0.4rem;"></span>
+                    </span>
                 </div>
-            </form>
+
+                <div id="error-view" class="alert alert-error hidden">
+                    <p id="error-message"></p>
+                </div>
+
+                <h2 class="form-section-title" data-i18n="ui.build_profile">Build Your Profile</h2>
+
+                <form id="questionnaire-form">
+                    <div id="questionnaire-fields"></div>
+                    <div class="form-actions">
+                        <button type="submit" id="submit-btn" class="btn btn-primary">
+                            <span id="btn-spinner" class="loading-spinner hidden"></span>
+                            <span id="btn-text" data-i18n="ui.generate_portfolio">Generate Portfolio</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
 
-        <!-- Results Display -->
-        <div id="results-view" class="glass-card hidden">
-            
-            <div id="portfolio-id-banner" class="alert alert-info" style="margin-bottom: 2rem; display: flex; justify-content: space-between; align-items: center;">
+        <!-- Results -->
+        <div id="results-view" class="hidden animate-in">
+
+            <!-- Portfolio ID banner -->
+            <div id="portfolio-id-banner" class="portfolio-id-banner">
                 <div>
-                    <strong data-i18n="ui.portfolio_id_label">Your Portfolio ID:</strong> <span id="display-port-id" style="font-family: monospace; font-size: 1.1em; margin-left: 0.5rem; color: var(--text-primary);"></span>
+                    <span style="font-size:0.85rem; color:var(--md-sys-color-on-surface-variant);" data-i18n="ui.portfolio_id_label">Your Portfolio ID:</span>
+                    <span id="display-port-id" class="portfolio-id-value"></span>
                 </div>
-                <div style="font-size: 0.8em; color: var(--text-secondary); text-align: right;" data-i18n-html="ui.save_note">
-                    Save this ID to resume<br>Available for 14 days
+                <div class="portfolio-id-note" data-i18n-html="ui.save_note">Save this ID to resume<br>Available for 14 days</div>
+            </div>
+
+            <!-- Results card -->
+            <div class="md-card">
+
+                <!-- Tab bar -->
+                <div class="result-tabs" role="tablist">
+                    <button class="result-tab active" role="tab" data-tab="tab-summary"   data-i18n="ui.tab_summary">Summary</button>
+                    <button class="result-tab"        role="tab" data-tab="tab-prefs"     data-i18n="ui.tab_prefs">Preferences</button>
+                    <button class="result-tab"        role="tab" data-tab="tab-stress"    data-i18n="ui.tab_stress">Stress Test</button>
+                    <button class="result-tab"        role="tab" data-tab="tab-vol"       data-i18n="ui.tab_volatility">Volatility</button>
+                    <button class="result-tab"        role="tab" data-tab="tab-perf"      data-i18n="ui.tab_performance">Performance</button>
                 </div>
-            </div>
 
-            <div class="results-header form-group">
-                <div>
-                    <h2 data-i18n="ui.strategy_title">Your Portfolio Strategy</h2>
-                    <p style="color: var(--text-secondary);" data-i18n="ui.strategy_subtitle">Optimized for max Sharpe Ratio</p>
+                <!-- Tab: Summary -->
+                <div id="tab-summary" class="tab-panel active" role="tabpanel">
+                    <div class="summary-layout">
+
+                        <!-- Left panel -->
+                        <aside class="summary-panel">
+                            <div class="summary-metric">
+                                <span class="summary-metric__label" data-i18n="ui.risk_profile">Risk Profile</span>
+                                <span id="score-val" class="summary-metric__value">—</span>
+                            </div>
+                            <div class="summary-divider"></div>
+                            <div class="summary-metric">
+                                <span class="summary-metric__label" data-i18n="ui.label_fee">Weighted Fee</span>
+                                <span id="weighted-fee-val" class="summary-metric__value">—</span>
+                                <span class="summary-metric__sub" data-i18n="ui.label_fee_note">Estimated annual cost</span>
+                            </div>
+                            <div class="summary-divider"></div>
+                            <div class="summary-metric">
+                                <span class="summary-metric__label" data-i18n="ui.label_asset_classes">Asset Classes</span>
+                                <span id="asset-class-summary" class="summary-metric__sub text-secondary">—</span>
+                            </div>
+                            <div class="chart-placeholder" id="chart-asset-classes" data-i18n="ui.chart_coming_soon">Chart coming soon</div>
+                            <div class="summary-metric">
+                                <span class="summary-metric__label" data-i18n="ui.label_regions">Regions</span>
+                                <span id="region-summary" class="summary-metric__sub text-secondary">—</span>
+                            </div>
+                            <div class="chart-placeholder" id="chart-regions" data-i18n="ui.chart_coming_soon">Chart coming soon</div>
+                        </aside>
+
+                        <!-- Right panel: fund table -->
+                        <div>
+                            <div class="fund-table-wrap">
+                                <div class="fund-table-header">
+                                    <span data-i18n="ui.all_funds_label">All Funds</span>
+                                    <span id="fund-count" style="margin-left:0.4rem; font-weight:400;"></span>
+                                </div>
+                                <div style="overflow-x:auto;">
+                                    <table class="fund-table">
+                                        <thead>
+                                            <tr>
+                                                <th data-i18n="ui.col_fund">Fund</th>
+                                                <th data-i18n="ui.col_rating">Rating</th>
+                                                <th data-i18n="ui.col_class">Class</th>
+                                                <th data-i18n="ui.col_weight">Weight</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="fund-table-body">
+                                            <!-- Dynamically populated -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div><!-- /.summary-layout -->
+                </div><!-- /#tab-summary -->
+
+                <!-- Tab: Preferences (decision trace) -->
+                <div id="tab-prefs" class="tab-panel" role="tabpanel">
+                    <div id="decision-summary" class="decision-summary">
+                        <div class="decision-summary__title" data-i18n="ui.decision_summary">Decision Summary</div>
+                        <p id="decision-summary-text" class="decision-summary__text"></p>
+                        <div id="decision-filters" class="decision-filters"></div>
+                    </div>
                 </div>
-                <div class="portfolio-score">
-                    <div id="score-val" class="score-value">--</div>
-                    <div class="score-label" data-i18n="ui.risk_profile">Risk Profile</div>
+
+                <!-- Tab: Stress Test — placeholder -->
+                <div id="tab-stress" class="tab-panel" role="tabpanel">
+                    <div class="chart-placeholder" style="height:200px; margin-top:0.5rem;" data-i18n="ui.coming_soon_stress">Stress test results coming soon.</div>
                 </div>
-            </div>
 
-            <div id="decision-summary" class="decision-summary">
-                <h3 data-i18n="ui.decision_summary">Decision Summary</h3>
-                <p id="decision-summary-text" class="muted"></p>
-                <div id="decision-filters" class="decision-filters"></div>
-            </div>
+                <!-- Tab: Volatility — placeholder -->
+                <div id="tab-vol" class="tab-panel" role="tabpanel">
+                    <div class="chart-placeholder" style="height:200px; margin-top:0.5rem;" data-i18n="ui.coming_soon_vol">Volatility chart coming soon.</div>
+                </div>
 
-            </div>
+                <!-- Tab: Performance — placeholder -->
+                <div id="tab-perf" class="tab-panel" role="tabpanel">
+                    <div class="chart-placeholder" style="height:200px; margin-top:0.5rem;" data-i18n="ui.coming_soon_perf">Performance chart coming soon.</div>
+                </div>
 
-            <!-- List of recommendations -->
-            <div id="recommendations-list" class="fund-list form-group">
-                <!-- Dynamically populated -->
-            </div>
+            </div><!-- /.md-card -->
 
-            <div class="form-group" style="margin-top: 2rem;">
+            <!-- Start over -->
+            <div style="margin-top:0.5rem;">
                 <button id="restart-btn" class="btn btn-secondary">
                     <span data-i18n="ui.start_over">← Start Over</span>
                 </button>
             </div>
-        </div>
+
+        </div><!-- /#results-view -->
 
     </main>
 
-    <footer style="margin-top: 4rem; text-align: center; color: var(--text-secondary); font-size: 0.85rem;">
-        <p>&copy; 2026 FundsPortfolio Prototype. Build: {{ build_id }} • Started: {{ build_time }}.</p>
+    <!-- Footer -->
+    <footer class="app-footer">
+        <div class="app-footer__inner">
+            <nav class="footer-links" aria-label="Support links">
+                <a href="#" class="footer-link" id="footer-contact" data-i18n-aria-label="ui.footer_contact">
+                    <!-- Phone icon -->
+                    <svg class="footer-link__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.8 19.79 19.79 0 01.01 1.18 2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92z"/>
+                    </svg>
+                    <span data-i18n="ui.footer_contact">Kontakt</span>
+                </a>
+                <a href="#" class="footer-link" id="footer-advice" data-i18n-aria-label="ui.footer_advice">
+                    <!-- Person-search icon -->
+                    <svg class="footer-link__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <circle cx="11" cy="8" r="4"/>
+                        <path d="M3 20v-1a7 7 0 0111.95-4.95M19 19l2 2m0 0l2-2m-2 2v-4a2 2 0 00-2-2h-1"/>
+                    </svg>
+                    <span data-i18n="ui.footer_advice">Beratung</span>
+                </a>
+                <a href="#" class="footer-link" id="footer-feedback" data-i18n-aria-label="ui.footer_feedback">
+                    <!-- Chat-bubble-with-exclamation icon -->
+                    <svg class="footer-link__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
+                        <line x1="12" y1="8" x2="12" y2="12"/>
+                        <line x1="12" y1="16" x2="12.01" y2="16"/>
+                    </svg>
+                    <span data-i18n="ui.footer_feedback">Feedback</span>
+                </a>
+            </nav>
+            <p class="footer-meta">&copy; 2026 FundsPortfolio Prototype &bull; Build: {{ build_id }} &bull; {{ build_time }}</p>
+        </div>
     </footer>
 
-    <!-- Custom JS -->
-    <script src="/static/js/app.js?v={{ build_time | replace(' ', '_') | replace(':', '-') }}"></script>
+</div><!-- /.page-shell -->
+
+<script src="/static/js/app.js?v={{ build_time | replace(' ', '_') | replace(':', '-') }}"></script>
 </body>
 </html>

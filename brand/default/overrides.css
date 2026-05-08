@@ -1,9 +1,57 @@
-/* Brand-specific overrides (optional). */
+/* ==========================================================================
+   Brand: FundsPortfolio Default (Light)
+   Maps Provinzial corporate colours to M3 system roles.
+   Primary: Navy #003b8e  |  Surface: White #ffffff  |  Background: #e9edf2
+   ========================================================================== */
+:root {
+    /* Primary — Provinzial navy */
+    --md-sys-color-primary:                #003b8e;
+    --md-sys-color-on-primary:             #ffffff;
+    --md-sys-color-primary-container:      #002f73;
+    --md-sys-color-on-primary-container:   #d0e4ff;
 
-.brand-title {
-    letter-spacing: 0.2px;
-}
+    /* Secondary = same tonal palette as primary (per Farbmapping spec) */
+    --md-sys-color-secondary:              #003b8e;
+    --md-sys-color-on-secondary:           #ffffff;
+    --md-sys-color-secondary-container:    #dce8ff;
+    --md-sys-color-on-secondary-container: #001f5c;
 
-.decision-summary {
-    border-left: 4px solid var(--accent);
+    /* Surface roles */
+    --md-sys-color-surface:                #ffffff;
+    --md-sys-color-surface-variant:        #e9edf2;
+    --md-sys-color-on-surface:             #1f2a37;
+    --md-sys-color-on-surface-variant:     #5b6675;
+
+    /* Outline */
+    --md-sys-color-outline:                #c7d0db;
+    --md-sys-color-outline-variant:        #dde3ea;
+
+    /* Error */
+    --md-sys-color-error:                  #b42318;
+    --md-sys-color-on-error:               #ffffff;
+    --md-sys-color-error-container:        rgba(180, 35, 24, 0.08);
+    --md-sys-color-on-error-container:     #b42318;
+
+    /* Success */
+    --md-sys-color-success:                #1f7a3f;
+    --md-sys-color-on-success:             #ffffff;
+    --md-sys-color-success-container:      rgba(31, 122, 63, 0.10);
+    --md-sys-color-on-success-container:   #1f7a3f;
+
+    /* Info (banner) */
+    --md-sys-color-info-container:         rgba(0, 59, 142, 0.07);
+    --md-sys-color-on-info-container:      #003b8e;
+
+    /* Warning */
+    --md-sys-color-warning-container:      rgba(180, 35, 24, 0.07);
+    --md-sys-color-on-warning-container:   #b42318;
+
+    /* Elevation — light-mode shadows */
+    --md-elevation-1: 0 1px 3px rgba(9, 30, 66, 0.08), 0 4px 12px rgba(9, 30, 66, 0.06);
+    --md-elevation-2: 0 2px 6px rgba(9, 30, 66, 0.10), 0 8px 20px rgba(9, 30, 66, 0.08);
+    --md-elevation-3: 0 4px 10px rgba(9, 30, 66, 0.12), 0 12px 32px rgba(9, 30, 66, 0.10);
+
+    /* Typography */
+    --font-body:    Arial, 'Helvetica Neue', Helvetica, sans-serif;
+    --font-heading: Arial, 'Helvetica Neue', Helvetica, sans-serif;
 }

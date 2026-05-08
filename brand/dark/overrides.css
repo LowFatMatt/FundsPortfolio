@@ -1,5 +1,57 @@
-/* Dark brand-specific overrides (optional). */
+/* ==========================================================================
+   Brand: FundsPortfolio Dark (ark)
+   Maps dark-theme values to M3 system roles.
+   Primary: #58a6ff  |  Surface: #161b22  |  Background: #0d1117
+   ========================================================================== */
+:root {
+    /* Primary — GitHub-blue accent works on dark surfaces */
+    --md-sys-color-primary:                #58a6ff;
+    --md-sys-color-on-primary:             #0d1117;
+    --md-sys-color-primary-container:      #1f3a5f;
+    --md-sys-color-on-primary-container:   #d0e8ff;
 
-.brand-title {
-    text-shadow: 0 4px 18px rgba(0, 0, 0, 0.35);
+    /* Secondary = same as primary */
+    --md-sys-color-secondary:              #58a6ff;
+    --md-sys-color-on-secondary:           #0d1117;
+    --md-sys-color-secondary-container:    #1f3a5f;
+    --md-sys-color-on-secondary-container: #d0e8ff;
+
+    /* Surface roles */
+    --md-sys-color-surface:                #161b22;
+    --md-sys-color-surface-variant:        #0d1117;
+    --md-sys-color-on-surface:             #f0f6fc;
+    --md-sys-color-on-surface-variant:     #8b949e;
+
+    /* Outline */
+    --md-sys-color-outline:                rgba(48, 54, 61, 0.70);
+    --md-sys-color-outline-variant:        rgba(48, 54, 61, 0.40);
+
+    /* Error */
+    --md-sys-color-error:                  #f85149;
+    --md-sys-color-on-error:               #0d1117;
+    --md-sys-color-error-container:        rgba(248, 81, 73, 0.12);
+    --md-sys-color-on-error-container:     #ff7b72;
+
+    /* Success */
+    --md-sys-color-success:                #2ea043;
+    --md-sys-color-on-success:             #0d1117;
+    --md-sys-color-success-container:      rgba(46, 160, 67, 0.12);
+    --md-sys-color-on-success-container:   #3fb950;
+
+    /* Info */
+    --md-sys-color-info-container:         rgba(88, 166, 255, 0.10);
+    --md-sys-color-on-info-container:      #58a6ff;
+
+    /* Warning */
+    --md-sys-color-warning-container:      rgba(248, 81, 73, 0.10);
+    --md-sys-color-on-warning-container:   #ff7b72;
+
+    /* Elevation — dark-mode shadows */
+    --md-elevation-1: 0 1px 3px rgba(0,0,0,0.30), 0 4px 12px rgba(0,0,0,0.20);
+    --md-elevation-2: 0 2px 6px rgba(0,0,0,0.36), 0 8px 20px rgba(0,0,0,0.26);
+    --md-elevation-3: 0 4px 10px rgba(0,0,0,0.40), 0 12px 32px rgba(0,0,0,0.30);
+
+    /* Typography */
+    --font-body:    'Inter', system-ui, -apple-system, sans-serif;
+    --font-heading: 'Inter', system-ui, -apple-system, sans-serif;
 }
