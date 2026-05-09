@@ -47,6 +47,14 @@
   "ui.footer_contact": "Kontakt",
   "ui.footer_advice": "Beratung",
   "ui.footer_feedback": "Feedback",
+  "ui.risk_profile_defensive":    "Defensive",
+  "ui.risk_profile_balanced":     "Balanced",
+  "ui.risk_profile_opportunity":  "Growth-Oriented",
+  "ui.asset_class_equity":        "Equity",
+  "ui.asset_class_bond":          "Bond",
+  "ui.asset_class_mixed":         "Mixed",
+  "ui.class_core":                "Core",
+  "ui.class_satellite":           "Satellite",
   "ui.detail_classification": "Classification",
   "ui.detail_why_selected": "Why selected",
   "ui.detail_exp_ratio": "Exp. ratio",
@@ -55,5 +63,6 @@
   "errors.load_questionnaire": "Could not connect to server to load the questionnaire.",
   "errors.resume_invalid": "Please enter a valid Portfolio ID",
   "errors.resume_not_found": "Portfolio ID not found. It may have expired. Start fresh or try again.",
-  "errors.resume_failed": "Failed to load portfolio."
+  "errors.resume_failed": "Failed to load portfolio.",
+  "ui.badge_active_no_etf": "active (no ETF)"
 }

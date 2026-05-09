@@ -112,6 +112,10 @@
     "none": "Kein spezielles Thema – gut diversifiziert",
     "sustainability": "Nachhaltigkeit & Klima – saubere Energie, Umweltschutz",
     "technology": "Technologie & Innovation – KI, Halbleiter, Digitalisierung",
-    "healthcare": "Gesundheit & Life Sciences – Biotech, Medizintechnik, Pharma"
+    "healthcare": "Gesundheit & Life Sciences – Biotech, Medizintechnik, Pharma",
+    "commodities": "Rohstoffe – Edelmetalle, Energie, Agrarrohstoffe",
+    "defense": "Sicherheit & Verteidigung – Rüstung, Cybersicherheit",
+    "energy": "Energie – Öl, Gas und erneuerbare Energien",
+    "infrastructure": "Infrastruktur – Verkehr, Versorgung, Telekommunikation"
   }
 }

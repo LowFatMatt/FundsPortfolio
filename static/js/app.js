@@ -441,9 +441,10 @@ document.addEventListener('DOMContentLoaded', () => {
             displayPortId.textContent = portfolio.portfolio_id || t('ui.unknown_id', 'Unknown ID');
         }
 
-        // Risk profile
-        const riskLabel = portfolio.risk_profile || portfolio.user_answers?.risk_approach || 'Unknown';
-        if (scoreVal) scoreVal.textContent = riskLabel.replace(/_/g, ' ').toUpperCase();
+        // Risk profile — translated display name
+        const riskRaw   = portfolio.risk_profile || portfolio.user_answers?.risk_approach || '';
+        const riskLabel = t(`ui.risk_profile_${riskRaw.toLowerCase()}`, riskRaw.replace(/_/g, ' ').toUpperCase());
+        if (scoreVal) scoreVal.textContent = riskLabel;
 
         // Weighted fee
         if (weightedFeeVal) {
@@ -522,6 +523,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const stars    = scoreToStars(rec.quality_score);
             const assetCls = (rec.asset_class || 'other').toLowerCase();
             const badgeCls = { equity: 'badge--equity', bond: 'badge--bond', mixed: 'badge--mixed' }[assetCls] || '';
+            const assetLabel = t(`ui.asset_class_${assetCls}`, rec.asset_class || '—');
 
             // Main row
             const tr = document.createElement('tr');
@@ -531,7 +533,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div class="fund-isin">${escHtml(rec.isin || 'N/A')}</div>
                 </td>
                 <td><span class="star-rating" title="${t('ui.detail_quality_score', 'Quality score')}: ${rec.quality_score ?? '—'}">${stars}</span></td>
-                <td><span class="badge ${badgeCls}">${escHtml(rec.asset_class || '—')}</span></td>
+                <td><span class="badge ${badgeCls}">${escHtml(assetLabel)}</span></td>
                 <td><span class="fund-alloc">${(rec.allocation_percent || 0).toFixed(1)}%</span></td>
                 <td>
                     <button class="fund-expand-btn" aria-expanded="false" aria-label="${t('ui.detail_show', 'Show details')}" data-idx="${idx}">
@@ -551,10 +553,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const feeStr       = rec.yearly_fee != null ? `${Number(rec.yearly_fee).toFixed(2)}%` : 'N/A';
             const coreSatBadge = rec.core_satellite_class
-                ? `<span class="badge ${rec.core_satellite_class === 'satellite' ? 'badge--satellite' : 'badge--core'}">${rec.core_satellite_class}</span> `
+                ? `<span class="badge ${rec.core_satellite_class === 'satellite' ? 'badge--satellite' : 'badge--core'}">${t(`ui.class_${rec.core_satellite_class}`, rec.core_satellite_class)}</span> `
                 : '';
             const etfBadge = rec.etf_not_available
-                ? `<span class="badge badge--etf-fallback">active (no ETF)</span> `
+                ? `<span class="badge badge--etf-fallback">${t('ui.badge_active_no_etf', 'active (no ETF)')}</span> `
                 : '';
 
             const explanations = Array.isArray(rec.explanations) ? rec.explanations : [];

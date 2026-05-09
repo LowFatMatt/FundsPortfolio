@@ -47,6 +47,14 @@
   "ui.footer_contact": "Kontakt",
   "ui.footer_advice": "Beratung",
   "ui.footer_feedback": "Feedback",
+  "ui.risk_profile_defensive":    "Zurückhaltend",
+  "ui.risk_profile_balanced":     "Ausgewogen",
+  "ui.risk_profile_opportunity":  "Chancenorientiert",
+  "ui.asset_class_equity":        "Aktien",
+  "ui.asset_class_bond":          "Anleihen",
+  "ui.asset_class_mixed":         "Gemischt",
+  "ui.class_core":                "Kern",
+  "ui.class_satellite":           "Satellit",
   "ui.detail_classification": "Klassifizierung",
   "ui.detail_why_selected": "Auswahlbegründung",
   "ui.detail_exp_ratio": "Kostensatz",
@@ -55,5 +63,6 @@
   "errors.load_questionnaire": "Verbindung zum Server konnte nicht hergestellt werden.",
   "errors.resume_invalid": "Bitte geben Sie eine gültige Portfolio-ID ein.",
   "errors.resume_not_found": "Portfolio-ID nicht gefunden. Sie ist möglicherweise abgelaufen. Starten Sie neu oder versuchen Sie es erneut.",
-  "errors.resume_failed": "Portfolio konnte nicht geladen werden."
+  "errors.resume_failed": "Portfolio konnte nicht geladen werden.",
+  "ui.badge_active_no_etf": "Aktiv (kein ETF)"
 }
