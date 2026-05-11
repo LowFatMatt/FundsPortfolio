@@ -853,12 +853,17 @@ class DecisionEngine:
         trace: Dict[str, Any],
         language: Optional[str] = None,
     ) -> str:
+        risk_profile_label = self._t(
+            language,
+            f"decision.risk_profile.{risk_profile.lower()}",
+            risk_profile,
+        )
         parts = [
             self._t(
                 language,
                 "decision.summary.risk_profile",
                 "Risk profile: {risk_profile}.",
-            ).format(risk_profile=risk_profile),
+            ).format(risk_profile=risk_profile_label),
         ]
         weighted_fee = metrics.get("weighted_fee")
         if weighted_fee is not None:
