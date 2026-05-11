@@ -499,7 +499,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (assetClassSummary) {
             assetClassSummary.textContent = Object.entries(classMap)
                 .sort((a, b) => b[1] - a[1])
-                .map(([k, v]) => `${k} ${v.toFixed(0)}%`)
+                .map(([k, v]) => `${t(`ui.asset_class_${k}`, k)} ${v.toFixed(0)}%`)
                 .join(' · ') || '—';
         }
 

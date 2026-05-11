@@ -1,6 +1,9 @@
 {
   "decision.no_eligible": "No eligible funds after filtering.",
   "decision.summary.risk_profile": "Risk profile: {risk_profile}.",
+  "decision.risk_profile.defensive": "Defensive",
+  "decision.risk_profile.balanced": "Balanced",
+  "decision.risk_profile.opportunity": "Growth-Oriented",
   "decision.summary.weighted_fee": "Weighted fee estimate: {weighted_fee}%.",
   "decision.summary.esg": "ESG filters applied.",
   "decision.summary.etf_only": "ETF-only filter applied.",

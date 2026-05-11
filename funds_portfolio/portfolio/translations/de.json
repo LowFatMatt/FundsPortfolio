@@ -1,6 +1,9 @@
 {
   "decision.no_eligible": "Keine geeigneten Fonds nach den Filtern verfügbar.",
   "decision.summary.risk_profile": "Risikoprofil: {risk_profile}.",
+  "decision.risk_profile.defensive": "Zurückhaltend",
+  "decision.risk_profile.balanced": "Ausgewogen",
+  "decision.risk_profile.opportunity": "Chancenorientiert",
   "decision.summary.weighted_fee": "Geschätzte gewichtete Gebühren: {weighted_fee}%.",
   "decision.summary.esg": "ESG-Filter angewendet.",
   "decision.summary.etf_only": "Nur-ETF-Filter angewendet.",
