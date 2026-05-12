@@ -40,6 +40,14 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentLang        = 'en';
     let uiStrings          = {};
 
+    // Phase 2 — portfolio + chart state
+    let lastPortfolio      = null;     // most recent /api/portfolio response
+    let stressPeriodsCfg   = null;     // cached /api/config/stress-periods
+    const stressEnabled    = {};       // id -> bool (toggle state)
+    let selectedPerfPeriod = '10y';    // 1y | 3y | 5y | 10y | si
+    let perfFetchToken     = 0;        // race-guard for async fetches
+    let volFetchToken      = 0;
+
     // -------------------------------------------------------------------------
     // Bootstrap
     // -------------------------------------------------------------------------
@@ -487,29 +495,323 @@ document.addEventListener('DOMContentLoaded', () => {
 
         renderFundTable(portfolio.recommendations);
 
-        // Asset class + region summaries
-        const classMap  = {};
-        const regionMap = {};
-        portfolio.recommendations.forEach(rec => {
-            const cls = (rec.asset_class || 'other').toLowerCase();
-            classMap[cls] = (classMap[cls] || 0) + (rec.allocation_percent || 0);
-            // region not directly on rec — we don't have it in the response; skip for now
-        });
-
-        if (assetClassSummary) {
-            assetClassSummary.textContent = Object.entries(classMap)
-                .sort((a, b) => b[1] - a[1])
-                .map(([k, v]) => `${t(`ui.asset_class_${k}`, k)} ${v.toFixed(0)}%`)
-                .join(' · ') || '—';
-        }
+        // Persist for Phase-2 tabs
+        lastPortfolio       = portfolio;
+        currentPortfolioId  = portfolio.portfolio_id || currentPortfolioId;
 
         if (fundCount) {
             fundCount.textContent = `(${portfolio.recommendations.length})`;
         }
 
+        // Summary breakdowns (donuts + text summary)
+        renderBreakdowns(portfolio).catch(err => console.warn('breakdowns failed', err));
+
         // Switch to summary tab on fresh results
         const summaryTabBtn = document.querySelector('[data-tab="tab-summary"]');
         if (summaryTabBtn) switchTab(summaryTabBtn);
+    }
+
+    // -------------------------------------------------------------------------
+    // Phase 2 — breakdowns, performance, volatility
+    // -------------------------------------------------------------------------
+    async function fetchJson(url) {
+        const res = await fetch(url);
+        if (!res.ok) throw new Error(`${url} → ${res.status}`);
+        return res.json();
+    }
+
+    function aggregateBreakdownLocally(portfolio) {
+        // Fallback used when the portfolio_id-based endpoint isn't reachable
+        const asset = {};
+        const region = {};
+        let totalWeight = 0;
+        (portfolio.recommendations || []).forEach(rec => {
+            const w = (rec.allocation_percent || 0) / 100;
+            if (w <= 0) return;
+            totalWeight += w;
+            const ac = rec.asset_class_breakdown;
+            if (ac && Object.keys(ac).length) {
+                Object.entries(ac).forEach(([k, v]) => {
+                    asset[k] = (asset[k] || 0) + w * (v || 0);
+                });
+            } else {
+                const k = (rec.asset_class || 'other').toLowerCase();
+                asset[k] = (asset[k] || 0) + w;
+            }
+            const rb = rec.region_breakdown;
+            if (rb && Object.keys(rb).length) {
+                Object.entries(rb).forEach(([k, v]) => {
+                    region[k] = (region[k] || 0) + w * (v || 0);
+                });
+            } else {
+                const k = (rec.region || 'unknown').toLowerCase();
+                region[k] = (region[k] || 0) + w;
+            }
+        });
+        const norm = (m) => totalWeight > 0
+            ? Object.fromEntries(Object.entries(m).map(([k, v]) => [k, v / totalWeight]))
+            : m;
+        return { asset_class: norm(asset), region: norm(region) };
+    }
+
+    async function renderBreakdowns(portfolio) {
+        let breakdown;
+        if (portfolio.portfolio_id) {
+            try {
+                const resp = await fetchJson(`/api/portfolio/${portfolio.portfolio_id}/breakdown`);
+                breakdown = resp.breakdown;
+            } catch (err) {
+                console.warn('breakdown endpoint failed, computing locally:', err);
+            }
+        }
+        if (!breakdown) breakdown = aggregateBreakdownLocally(portfolio);
+
+        await window.FundsCharts.ensureChartJs();
+
+        const acEntries = Object.entries(breakdown.asset_class || {}).sort((a, b) => b[1] - a[1]);
+        const rEntries  = Object.entries(breakdown.region      || {}).sort((a, b) => b[1] - a[1]);
+
+        const acLabel = (k) => t(`ui.asset_class_${k}`, k);
+        const rLabel  = (k) => t(`ui.region_${k}`,      k.replace(/_/g, ' '));
+
+        window.FundsCharts.renderBreakdownDonut('chart-asset-classes', {
+            labels: acEntries.map(([k]) => k),
+            values: acEntries.map(([, v]) => v),
+            legendId: 'chart-asset-classes-legend',
+            formatLabel: acLabel,
+        });
+        window.FundsCharts.renderBreakdownDonut('chart-regions', {
+            labels: rEntries.map(([k]) => k),
+            values: rEntries.map(([, v]) => v),
+            legendId: 'chart-regions-legend',
+            formatLabel: rLabel,
+        });
+
+        if (assetClassSummary) {
+            assetClassSummary.textContent = acEntries.length
+                ? acEntries.map(([k, v]) => `${acLabel(k)} ${(v * 100).toFixed(0)}%`).join(' · ')
+                : '—';
+        }
+        if (regionSummary) {
+            regionSummary.textContent = rEntries.length
+                ? rEntries.map(([k, v]) => `${rLabel(k)} ${(v * 100).toFixed(0)}%`).join(' · ')
+                : '—';
+        }
+    }
+
+    async function ensureStressPeriodsLoaded() {
+        if (stressPeriodsCfg) return stressPeriodsCfg;
+        try {
+            const data = await fetchJson('/api/config/stress-periods');
+            stressPeriodsCfg = data.stress_periods || [];
+        } catch (err) {
+            console.warn('stress-periods config failed:', err);
+            stressPeriodsCfg = [];
+        }
+        stressPeriodsCfg.forEach(p => {
+            if (stressEnabled[p.id] === undefined) {
+                stressEnabled[p.id] = !!p.enabled_by_default;
+            }
+        });
+        return stressPeriodsCfg;
+    }
+
+    function renderStressToggles() {
+        const host = document.getElementById('stress-overlay-toggles');
+        if (!host) return;
+        host.innerHTML = '';
+        (stressPeriodsCfg || []).forEach(p => {
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'stress-toggle' + (stressEnabled[p.id] ? ' active' : '');
+            btn.dataset.id = p.id;
+            const label = t(p.i18n_key, p.id);
+            btn.innerHTML = `<span class="stress-swatch" style="background:${p.color || '#E53935'}"></span>${escHtml(label)}`;
+            btn.addEventListener('click', () => {
+                stressEnabled[p.id] = !stressEnabled[p.id];
+                btn.classList.toggle('active', stressEnabled[p.id]);
+                renderPerformanceTab().catch(err => console.warn(err));
+            });
+            host.appendChild(btn);
+        });
+    }
+
+    function bindPerfPeriodSelector() {
+        document.querySelectorAll('.perf-period').forEach(btn => {
+            if (btn.dataset._bound) return;
+            btn.dataset._bound = '1';
+            btn.addEventListener('click', () => {
+                selectedPerfPeriod = btn.dataset.period || '10y';
+                document.querySelectorAll('.perf-period').forEach(b => b.classList.toggle('active', b === btn));
+                renderPerformanceTab().catch(err => console.warn(err));
+            });
+        });
+    }
+
+    function periodToRange(period) {
+        const now  = new Date();
+        const iso  = (d) => d.toISOString().slice(0, 10);
+        const yrs = { '1y': 1, '3y': 3, '5y': 5, '10y': 10 };
+        if (yrs[period]) {
+            const from = new Date(now.getFullYear() - yrs[period], now.getMonth(), now.getDate());
+            return { from: iso(from), to: iso(now) };
+        }
+        return { from: null, to: null }; // since inception
+    }
+
+    async function renderPerformanceTab() {
+        const myToken = ++perfFetchToken;
+        await window.FundsCharts.ensureChartJs();
+        await ensureStressPeriodsLoaded();
+        renderStressToggles();
+        bindPerfPeriodSelector();
+
+        const notes = document.getElementById('performance-notes');
+        const tbody = document.getElementById('returns-table-body');
+
+        if (!lastPortfolio || !lastPortfolio.portfolio_id) {
+            if (notes) notes.textContent = t('ui.no_portfolio_loaded', 'No portfolio loaded.');
+            return;
+        }
+
+        const { from, to } = periodToRange(selectedPerfPeriod);
+        const qs = from && to ? `?from=${from}&to=${to}` : '';
+        let perf;
+        try {
+            perf = await fetchJson(`/api/portfolio/${lastPortfolio.portfolio_id}/performance${qs}`);
+        } catch (err) {
+            if (myToken !== perfFetchToken) return;
+            if (notes) notes.textContent = t('ui.no_data_available', 'No data available.');
+            window.FundsCharts.renderPerformanceChart('chart-performance', { portfolio: [], benchmark: null, stressBands: [] });
+            if (tbody) tbody.innerHTML = '';
+            return;
+        }
+        if (myToken !== perfFetchToken) return;
+
+        const stressBands = (stressPeriodsCfg || []).map(p => ({
+            id: p.id,
+            start: p.start,
+            end: p.end,
+            color: p.color,
+            label: t(p.i18n_key, p.id),
+            enabled: !!stressEnabled[p.id],
+        }));
+
+        window.FundsCharts.renderPerformanceChart('chart-performance', {
+            portfolio: perf.portfolio_series || [],
+            benchmark: perf.benchmark
+                ? { series: perf.benchmark_series || [], label: perf.benchmark.name || t('ui.benchmark', 'Benchmark') }
+                : null,
+            stressBands,
+            labels: { portfolio: t('ui.portfolio', 'Portfolio'), benchmark: t('ui.benchmark', 'Benchmark') },
+        });
+
+        if (notes) {
+            const parts = [];
+            if ((perf.notes || []).includes('clipped_to_shortest_history')) {
+                parts.push(t('ui.note_clipped_history', 'Some funds have shorter history; portfolio line uses the common window.'));
+            }
+            if ((perf.excluded_isins || []).length) {
+                parts.push(t('ui.note_excluded_funds', 'Excluded (no data in range): ') + perf.excluded_isins.join(', '));
+            }
+            if ((perf.portfolio_series || []).length === 0) {
+                parts.push(t('ui.no_data_available', 'No data available.'));
+            }
+            notes.textContent = parts.join(' ');
+        }
+
+        await renderReturnsTable();
+    }
+
+    async function renderReturnsTable() {
+        const tbody = document.getElementById('returns-table-body');
+        if (!tbody || !lastPortfolio?.recommendations?.length) return;
+        tbody.innerHTML = '';
+
+        const fmtPct = (v) => {
+            if (v == null) return `<span class="return-na">n/a</span>`;
+            const num = Number(v);
+            const cls = num >= 0 ? 'return-pos' : 'return-neg';
+            return `<span class="${cls}">${(num * 100).toFixed(2)}%</span>`;
+        };
+
+        await Promise.all(lastPortfolio.recommendations.map(async (rec) => {
+            const tr = document.createElement('tr');
+            let perf = null;
+            try {
+                const resp = await fetchJson(`/api/funds/${rec.isin}/performance`);
+                perf = resp.performance;
+            } catch (e) { /* missing → n/a */ }
+            const periods = (perf && perf.periods) || {};
+            tr.innerHTML = `
+                <td>${escHtml(rec.name || rec.isin)}</td>
+                <td>${fmtPct(periods['3m'])}</td>
+                <td>${fmtPct(periods['1y'])}</td>
+                <td>${fmtPct(periods['3y_pa'])}</td>
+                <td>${fmtPct(periods['5y_pa'])}</td>
+                <td>${fmtPct(periods['si_pa'])}</td>
+            `;
+            tbody.appendChild(tr);
+        }));
+    }
+
+    async function renderVolatilityTab() {
+        const myToken = ++volFetchToken;
+        await window.FundsCharts.ensureChartJs();
+
+        const tbody = document.getElementById('risk-table-body');
+        if (!lastPortfolio?.recommendations?.length) {
+            window.FundsCharts.renderVolatilityChart('chart-volatility', { rows: [] });
+            if (tbody) tbody.innerHTML = '';
+            return;
+        }
+
+        const rows = await Promise.all(lastPortfolio.recommendations.map(async (rec) => {
+            let risk = null;
+            try {
+                risk = await fetchJson(`/api/funds/${rec.isin}/risk`);
+            } catch (e) { /* missing */ }
+            const vol = (risk && risk.volatility) || {};
+            const rm  = (risk && risk.risk_metrics) || {};
+            return {
+                isin: rec.isin,
+                name: (rec.name || rec.isin).split(' ').slice(0, 4).join(' '),
+                vol_1y: vol['1y'] ?? null,
+                vol_3y: vol['3y'] ?? null,
+                vol_5y: vol['5y'] ?? null,
+                sharpe_3y: (rm.sharpe || {})['3y'] ?? null,
+                mdd_3y:    (rm.max_drawdown || {})['3y'] ?? null,
+            };
+        }));
+        if (myToken !== volFetchToken) return;
+
+        window.FundsCharts.renderVolatilityChart('chart-volatility', {
+            rows,
+            labels: {
+                vol_1y: t('ui.vol_1y', 'Vol 1Y'),
+                vol_3y: t('ui.vol_3y', 'Vol 3Y'),
+                vol_5y: t('ui.vol_5y', 'Vol 5Y'),
+            },
+        });
+
+        if (tbody) {
+            tbody.innerHTML = '';
+            const fmtPct = (v) => v == null
+                ? `<span class="return-na">n/a</span>`
+                : `${(v * 100).toFixed(2)}%`;
+            rows.forEach(r => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${escHtml(r.name)}</td>
+                    <td>${fmtPct(r.vol_1y)}</td>
+                    <td>${fmtPct(r.vol_3y)}</td>
+                    <td>${fmtPct(r.vol_5y)}</td>
+                    <td>${r.sharpe_3y == null ? '<span class="return-na">n/a</span>' : r.sharpe_3y.toFixed(2)}</td>
+                    <td>${r.mdd_3y == null ? '<span class="return-na">n/a</span>' : `<span class="return-neg">${(r.mdd_3y * 100).toFixed(1)}%</span>`}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
     }
 
     // -------------------------------------------------------------------------
@@ -611,6 +913,13 @@ document.addEventListener('DOMContentLoaded', () => {
         btn.classList.add('active');
         const panel = document.getElementById(btn.dataset.tab);
         if (panel) panel.classList.add('active');
+
+        const tabId = btn.dataset.tab;
+        if (tabId === 'tab-perf') {
+            renderPerformanceTab().catch(err => console.warn('perf tab render failed', err));
+        } else if (tabId === 'tab-vol') {
+            renderVolatilityTab().catch(err => console.warn('vol tab render failed', err));
+        }
     }
 
     // -------------------------------------------------------------------------
@@ -627,6 +936,13 @@ document.addEventListener('DOMContentLoaded', () => {
         if (decisionSummaryText)  decisionSummaryText.textContent = '';
         if (decisionFilters)      decisionFilters.innerHTML    = '';
         if (fundTableBody)        fundTableBody.innerHTML      = '';
+        const returnsBody = document.getElementById('returns-table-body');
+        const riskBody    = document.getElementById('risk-table-body');
+        const perfNotes   = document.getElementById('performance-notes');
+        if (returnsBody) returnsBody.innerHTML = '';
+        if (riskBody)    riskBody.innerHTML    = '';
+        if (perfNotes)   perfNotes.textContent = '';
+        lastPortfolio = null;
     }
 
     function resetApp() {

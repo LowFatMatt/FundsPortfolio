@@ -4864,7 +4864,8 @@
   ],
   "metadata": {
     "version": "1.0",
-    "last_updated": "2026-03-18",
+    "schema_version": 2,
+    "last_updated": "2026-05-11",
     "total_funds_shown": 197,
     "total_funds_in_db": 197,
     "uniform_schema_fields": [
@@ -4889,7 +4890,12 @@
       "notes",
       "source"
     ],
-    "notes": "This file was manually concatenated from 4 chunks. It may need refinement.",
+    "optional_schema_v2_fields": [
+      "asset_class_breakdown",
+      "region_breakdown",
+      "benchmark_id"
+    ],
+    "notes": "This file was manually concatenated from 4 chunks. Schema v2 adds optional asset_class_breakdown, region_breakdown, and benchmark_id fields per fund; time-series data lives in data/funds/{ISIN}.json.",
     "last_enriched": "2026-03-19"
   }
 }

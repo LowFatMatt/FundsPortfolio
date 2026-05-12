@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "stress_periods": [
+    {
+      "id": "covid_2020",
+      "start": "2020-02-15",
+      "end": "2020-04-30",
+      "i18n_key": "stress.covid_2020",
+      "color": "#E53935",
+      "enabled_by_default": true
+    },
+    {
+      "id": "inflation_2022",
+      "start": "2022-01-01",
+      "end": "2022-10-31",
+      "i18n_key": "stress.inflation_2022",
+      "color": "#FB8C00",
+      "enabled_by_default": true
+    },
+    {
+      "id": "rate_hikes_2023",
+      "start": "2023-03-01",
+      "end": "2023-05-31",
+      "i18n_key": "stress.rate_hikes_2023",
+      "color": "#FDD835",
+      "enabled_by_default": false
+    }
+  ]
+}

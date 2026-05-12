@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "as_of": null,
+  "default_by_asset_class": {
+    "equity": "msci_world",
+    "bond": "eur_agg_bond",
+    "mixed": "world_60_40"
+  },
+  "benchmarks": {
+    "msci_world": {
+      "id": "msci_world",
+      "name": "MSCI World (Net Total Return, EUR)",
+      "currency": "EUR",
+      "source": null,
+      "nav_series": []
+    },
+    "eur_agg_bond": {
+      "id": "eur_agg_bond",
+      "name": "Bloomberg Euro Aggregate Bond Index",
+      "currency": "EUR",
+      "source": null,
+      "nav_series": []
+    },
+    "world_60_40": {
+      "id": "world_60_40",
+      "name": "60/40 Global Equity / EUR Aggregate Bond",
+      "currency": "EUR",
+      "source": null,
+      "nav_series": []
+    }
+  }
+}

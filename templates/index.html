@@ -122,11 +122,10 @@
 
                 <!-- Tab bar -->
                 <div class="result-tabs" role="tablist">
-                    <button class="result-tab active" role="tab" data-tab="tab-summary"   data-i18n="ui.tab_summary">Summary</button>
-                    <button class="result-tab"        role="tab" data-tab="tab-prefs"     data-i18n="ui.tab_prefs">Preferences</button>
-                    <button class="result-tab"        role="tab" data-tab="tab-stress"    data-i18n="ui.tab_stress">Stress Test</button>
-                    <button class="result-tab"        role="tab" data-tab="tab-vol"       data-i18n="ui.tab_volatility">Volatility</button>
-                    <button class="result-tab"        role="tab" data-tab="tab-perf"      data-i18n="ui.tab_performance">Performance</button>
+                    <button class="result-tab active" role="tab" data-tab="tab-summary" data-i18n="ui.tab_summary">Summary</button>
+                    <button class="result-tab"        role="tab" data-tab="tab-prefs"   data-i18n="ui.tab_prefs">Preferences</button>
+                    <button class="result-tab"        role="tab" data-tab="tab-perf"    data-i18n="ui.tab_performance">Performance</button>
+                    <button class="result-tab"        role="tab" data-tab="tab-vol"     data-i18n="ui.tab_volatility">Volatility</button>
                 </div>
 
                 <!-- Tab: Summary -->
@@ -150,12 +149,18 @@
                                 <span class="summary-metric__label" data-i18n="ui.label_asset_classes">Asset Classes</span>
                                 <span id="asset-class-summary" class="summary-metric__sub text-secondary">—</span>
                             </div>
-                            <div class="chart-placeholder" id="chart-asset-classes" data-i18n="ui.chart_coming_soon">Chart coming soon</div>
+                            <div class="breakdown-chart">
+                                <canvas id="chart-asset-classes" height="180" aria-label="Asset class breakdown"></canvas>
+                                <div id="chart-asset-classes-legend" class="breakdown-legend"></div>
+                            </div>
                             <div class="summary-metric">
                                 <span class="summary-metric__label" data-i18n="ui.label_regions">Regions</span>
                                 <span id="region-summary" class="summary-metric__sub text-secondary">—</span>
                             </div>
-                            <div class="chart-placeholder" id="chart-regions" data-i18n="ui.chart_coming_soon">Chart coming soon</div>
+                            <div class="breakdown-chart">
+                                <canvas id="chart-regions" height="180" aria-label="Region breakdown"></canvas>
+                                <div id="chart-regions-legend" class="breakdown-legend"></div>
+                            </div>
                         </aside>
 
                         <!-- Right panel: fund table -->
@@ -196,19 +201,59 @@
                     </div>
                 </div>
 
-                <!-- Tab: Stress Test — placeholder -->
-                <div id="tab-stress" class="tab-panel" role="tabpanel">
-                    <div class="chart-placeholder" style="height:200px; margin-top:0.5rem;" data-i18n="ui.coming_soon_stress">Stress test results coming soon.</div>
-                </div>
-
-                <!-- Tab: Volatility — placeholder -->
-                <div id="tab-vol" class="tab-panel" role="tabpanel">
-                    <div class="chart-placeholder" style="height:200px; margin-top:0.5rem;" data-i18n="ui.coming_soon_vol">Volatility chart coming soon.</div>
-                </div>
-
-                <!-- Tab: Performance — placeholder -->
+                <!-- Tab: Performance -->
                 <div id="tab-perf" class="tab-panel" role="tabpanel">
-                    <div class="chart-placeholder" style="height:200px; margin-top:0.5rem;" data-i18n="ui.coming_soon_perf">Performance chart coming soon.</div>
+                    <div class="perf-controls">
+                        <div class="perf-period-selector" role="radiogroup" aria-label="Time range">
+                            <button class="perf-period" data-period="1y"  data-i18n="ui.period_1y">1Y</button>
+                            <button class="perf-period" data-period="3y"  data-i18n="ui.period_3y">3Y</button>
+                            <button class="perf-period" data-period="5y"  data-i18n="ui.period_5y">5Y</button>
+                            <button class="perf-period active" data-period="10y" data-i18n="ui.period_10y">10Y</button>
+                            <button class="perf-period" data-period="si"  data-i18n="ui.period_si">Since Inception</button>
+                        </div>
+                        <div id="stress-overlay-toggles" class="stress-overlay-toggles" aria-label="Stress period overlays"></div>
+                    </div>
+                    <div class="chart-frame">
+                        <canvas id="chart-performance" height="280" aria-label="Portfolio performance over time"></canvas>
+                    </div>
+                    <div id="performance-notes" class="chart-notes text-secondary"></div>
+                    <div class="returns-table-wrap">
+                        <table class="returns-table">
+                            <thead>
+                                <tr>
+                                    <th data-i18n="ui.col_fund">Fund</th>
+                                    <th data-i18n="ui.period_3m">3M</th>
+                                    <th data-i18n="ui.period_1y">1Y</th>
+                                    <th data-i18n="ui.period_3y_pa">3Y p.a.</th>
+                                    <th data-i18n="ui.period_5y_pa">5Y p.a.</th>
+                                    <th data-i18n="ui.period_si_pa">SI p.a.</th>
+                                </tr>
+                            </thead>
+                            <tbody id="returns-table-body"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Tab: Volatility -->
+                <div id="tab-vol" class="tab-panel" role="tabpanel">
+                    <div class="chart-frame">
+                        <canvas id="chart-volatility" height="280" aria-label="Volatility per fund"></canvas>
+                    </div>
+                    <div class="returns-table-wrap">
+                        <table class="returns-table">
+                            <thead>
+                                <tr>
+                                    <th data-i18n="ui.col_fund">Fund</th>
+                                    <th data-i18n="ui.vol_1y">Vol 1Y</th>
+                                    <th data-i18n="ui.vol_3y">Vol 3Y</th>
+                                    <th data-i18n="ui.vol_5y">Vol 5Y</th>
+                                    <th data-i18n="ui.sharpe_3y">Sharpe 3Y</th>
+                                    <th data-i18n="ui.mdd_3y">Max DD 3Y</th>
+                                </tr>
+                            </thead>
+                            <tbody id="risk-table-body"></tbody>
+                        </table>
+                    </div>
                 </div>
 
             </div><!-- /.md-card -->
@@ -259,6 +304,7 @@
 
 </div><!-- /.page-shell -->
 
+<script src="/static/js/charts.js?v={{ build_time | replace(' ', '_') | replace(':', '-') }}"></script>
 <script src="/static/js/app.js?v={{ build_time | replace(' ', '_') | replace(':', '-') }}"></script>
 </body>
 </html>

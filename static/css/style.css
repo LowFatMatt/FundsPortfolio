@@ -691,6 +691,144 @@ select option {
     color: var(--md-sys-color-on-surface-variant);
 }
 
+/* Phase 2: chart frames, period selector, stress overlay toggles, breakdown donuts */
+.chart-frame {
+    background: var(--md-sys-color-surface);
+    border: 1px solid var(--md-sys-color-outline-variant);
+    border-radius: var(--md-sys-shape-medium);
+    padding: 0.75rem;
+    margin-top: 0.5rem;
+}
+
+.perf-controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-top: 0.5rem;
+}
+
+.perf-period-selector {
+    display: inline-flex;
+    gap: 0.25rem;
+    background: var(--md-sys-color-surface-container);
+    padding: 0.25rem;
+    border-radius: var(--md-sys-shape-pill, 999px);
+}
+
+.perf-period {
+    border: none;
+    background: transparent;
+    color: var(--md-sys-color-on-surface-variant);
+    padding: 0.4rem 0.8rem;
+    border-radius: var(--md-sys-shape-pill, 999px);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.perf-period:hover { color: var(--md-sys-color-on-surface); }
+
+.perf-period.active {
+    background: var(--md-sys-color-primary);
+    color: var(--md-sys-color-on-primary);
+}
+
+.stress-overlay-toggles {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+}
+
+.stress-toggle {
+    border: 1px solid var(--md-sys-color-outline-variant);
+    background: var(--md-sys-color-surface);
+    color: var(--md-sys-color-on-surface-variant);
+    border-radius: var(--md-sys-shape-pill, 999px);
+    padding: 0.3rem 0.7rem;
+    font-size: 12px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+
+.stress-toggle .stress-swatch {
+    width: 0.6rem;
+    height: 0.6rem;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.stress-toggle.active {
+    background: color-mix(in srgb, var(--md-sys-color-primary) 14%, transparent);
+    border-color: var(--md-sys-color-primary);
+    color: var(--md-sys-color-on-surface);
+}
+
+.chart-notes {
+    margin-top: 0.4rem;
+    font-size: 12px;
+    min-height: 1.2em;
+}
+
+.returns-table-wrap {
+    margin-top: 0.75rem;
+    overflow-x: auto;
+    border: 1px solid var(--md-sys-color-outline-variant);
+    border-radius: var(--md-sys-shape-medium);
+}
+
+.returns-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+
+.returns-table th,
+.returns-table td {
+    padding: 0.5rem 0.75rem;
+    text-align: right;
+    border-bottom: 1px solid var(--md-sys-color-outline-variant);
+}
+
+.returns-table th:first-child,
+.returns-table td:first-child { text-align: left; }
+
+.returns-table tbody tr:last-child td { border-bottom: none; }
+
+.returns-table .return-pos { color: var(--md-sys-color-tertiary, #2ea043); }
+.returns-table .return-neg { color: var(--md-sys-color-error,    #f85149); }
+.returns-table .return-na  { color: var(--md-sys-color-on-surface-variant); }
+
+.breakdown-chart {
+    margin-top: 0.4rem;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.5rem;
+}
+
+.breakdown-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    font-size: 12px;
+    color: var(--md-sys-color-on-surface-variant);
+}
+
+.breakdown-legend .legend-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.breakdown-legend .legend-swatch {
+    width: 0.6rem;
+    height: 0.6rem;
+    border-radius: 2px;
+}
+
 /* --------------------------------------------------------------------------
    16. Fund Table
    -------------------------------------------------------------------------- */

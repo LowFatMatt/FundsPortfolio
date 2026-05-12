@@ -1,0 +1,24 @@
+# Data-provider configuration.
+#
+# Runtime is cache-first: the Flask app only ever uses json_file. Scrapers
+# defined here are offline ingestion jobs that write JSON files into the
+# json_file provider's timeseries_dir. Switching customers / data feeds
+# means re-running the appropriate scraper, not re-deploying the app.
+
+default: json_file
+
+providers:
+  json_file:
+    catalog_path: funds_database.json
+    timeseries_dir: data/funds/
+    benchmarks_path: data/benchmarks.json
+
+  # Offline ingestion configs — consumed by scripts/sync_*.py, not by Flask.
+  factsheetslive_provinzial:
+    type: scraper
+    base_url: https://provinzial-nord.stg.wt.factsheetslive.com/
+    detail_path: /produkt/{isin}
+    output_dir: data/funds/
+    user_agent: FundsPortfolio/1.0 (offline ingestion)
+    request_delay_seconds: 1.0
+    request_timeout_seconds: 15

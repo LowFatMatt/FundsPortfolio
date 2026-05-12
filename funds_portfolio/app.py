@@ -318,6 +318,138 @@ def create_app():
         funds = fm.get_all_funds()
         return jsonify({"funds": funds, "count": len(funds)}), 200
 
+    # ---- Phase 2: fund time-series & breakdowns ----
+    from funds_portfolio.config.stress_periods import list_stress_periods
+    from funds_portfolio.portfolio.aggregator import (
+        aggregate_portfolio_nav,
+        aggregate_breakdowns,
+    )
+
+    def _portfolio_dir_candidates() -> list:
+        import tempfile
+        return [
+            "/app/portfolios",
+            os.path.join(os.getcwd(), "portfolios"),
+            os.path.join(tempfile.gettempdir(), "portfolios"),
+        ]
+
+    def _load_portfolio(portfolio_id: str):
+        for base in _portfolio_dir_candidates():
+            port_file = os.path.join(base, f"{portfolio_id}.json")
+            if os.path.exists(port_file) and os.access(port_file, os.R_OK):
+                with open(port_file, "r", encoding="utf-8") as f:
+                    return json.load(f)
+        return None
+
+    @app.route("/api/funds/<isin>/performance", methods=["GET"])
+    def get_fund_performance(isin: str):
+        ts = fm.get_fund_timeseries(isin)
+        if not ts:
+            return jsonify({"error": "No performance data for ISIN", "isin": isin}), 404
+        return jsonify({
+            "isin": isin.upper(),
+            "as_of": ts.get("as_of"),
+            "currency": ts.get("currency"),
+            "performance": ts.get("performance") or {},
+        }), 200
+
+    @app.route("/api/funds/<isin>/risk", methods=["GET"])
+    def get_fund_risk(isin: str):
+        ts = fm.get_fund_timeseries(isin)
+        if not ts:
+            return jsonify({"error": "No risk data for ISIN", "isin": isin}), 404
+        return jsonify({
+            "isin": isin.upper(),
+            "as_of": ts.get("as_of"),
+            "volatility": ts.get("volatility") or {},
+            "risk_metrics": ts.get("risk_metrics") or {},
+        }), 200
+
+    @app.route("/api/funds/<isin>/breakdown", methods=["GET"])
+    def get_fund_breakdown(isin: str):
+        meta = fm.get_fund_by_isin(isin)
+        if not meta:
+            return jsonify({"error": "Fund not found", "isin": isin}), 404
+        ts = fm.get_fund_timeseries(isin) or {}
+        return jsonify({
+            "isin": isin.upper(),
+            "asset_class": meta.get("asset_class"),
+            "region": meta.get("region"),
+            "asset_class_breakdown": meta.get("asset_class_breakdown"),
+            "region_breakdown": meta.get("region_breakdown"),
+            "top_holdings": ts.get("top_holdings"),
+            "as_of": ts.get("as_of"),
+        }), 200
+
+    @app.route("/api/portfolio/<portfolio_id>/performance", methods=["GET"])
+    def get_portfolio_performance(portfolio_id: str):
+        portfolio = _load_portfolio(portfolio_id)
+        if portfolio is None:
+            return jsonify({"error": "Portfolio not found"}), 404
+        recommendations = portfolio.get("recommendations") or []
+        start = request.args.get("from")
+        end = request.args.get("to")
+
+        weighted_series = []
+        for rec in recommendations:
+            isin = rec.get("isin")
+            weight = (rec.get("allocation_percent") or 0.0) / 100.0
+            if not isin or weight <= 0:
+                continue
+            ts = fm.get_fund_timeseries(isin) or {}
+            nav_series = ((ts.get("performance") or {}).get("nav_series")) or []
+            weighted_series.append({"isin": isin, "weight": weight, "nav_series": nav_series})
+
+        # Pick benchmark by dominant asset_class in the portfolio
+        breakdown = aggregate_breakdowns(recommendations)
+        dominant_class = max(
+            (breakdown.get("asset_class") or {}).items(),
+            key=lambda kv: kv[1],
+            default=("equity", 0.0),
+        )[0]
+        benchmarks_cfg = fm.list_benchmarks()
+        defaults = benchmarks_cfg.get("default_by_asset_class") or {}
+        bench_id = defaults.get(dominant_class) or defaults.get("equity")
+        bench = fm.get_benchmark(bench_id) if bench_id else None
+        bench_nav = (bench or {}).get("nav_series") or []
+
+        agg = aggregate_portfolio_nav(weighted_series, bench_nav, start=start, end=end)
+        agg["benchmark"] = {"id": bench_id, "name": (bench or {}).get("name")} if bench_id else None
+        agg["portfolio_id"] = portfolio_id
+        return jsonify(agg), 200
+
+    @app.route("/api/portfolio/<portfolio_id>/breakdown", methods=["GET"])
+    def get_portfolio_breakdown(portfolio_id: str):
+        portfolio = _load_portfolio(portfolio_id)
+        if portfolio is None:
+            return jsonify({"error": "Portfolio not found"}), 404
+        recommendations = portfolio.get("recommendations") or []
+        return jsonify({
+            "portfolio_id": portfolio_id,
+            "breakdown": aggregate_breakdowns(recommendations),
+        }), 200
+
+    @app.route("/api/config/stress-periods", methods=["GET"])
+    def get_stress_periods():
+        return jsonify({"stress_periods": list_stress_periods()}), 200
+
+    @app.route("/api/config/benchmarks", methods=["GET"])
+    def get_benchmarks():
+        cfg = fm.list_benchmarks()
+        # Don't ship raw nav_series in the catalog endpoint — keep response small.
+        catalog = {
+            bid: {k: v for k, v in (entry or {}).items() if k != "nav_series"}
+            for bid, entry in (cfg.get("benchmarks") or {}).items()
+        }
+        return jsonify({
+            "benchmarks": catalog,
+            "default_by_asset_class": cfg.get("default_by_asset_class") or {},
+        }), 200
+
+    @app.route("/api/data/health", methods=["GET"])
+    def data_health():
+        return jsonify(fm.health()), 200
+
     # log template folder for debugging
     logging.getLogger("werkzeug").setLevel(logging.INFO)
     app.logger.info("template folder = %s", app.template_folder)
