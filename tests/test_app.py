@@ -4,14 +4,27 @@ import pytest
 from unittest.mock import MagicMock, patch
 
 from funds_portfolio.app import create_app
+from funds_portfolio.data.providers import reset_provider
+from funds_portfolio.data.fund_manager import reset_fund_manager
 
 
 @pytest.fixture
-def app():
-    """Create and configure test app"""
+def app(monkeypatch):
+    """Create and configure test app.
+
+    Force CUSTOMER=general so the test runs against the broad ETF-rich
+    universe, not whichever customer is currently activated at repo root.
+    Keeps assertions about fund counts and weighted-fee caps stable
+    across customer-profile switches.
+    """
+    monkeypatch.setenv("CUSTOMER", "general")
+    reset_provider()
+    reset_fund_manager()
     app = create_app()
     app.config["TESTING"] = True
-    return app
+    yield app
+    reset_provider()
+    reset_fund_manager()
 
 
 @pytest.fixture

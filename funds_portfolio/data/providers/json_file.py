@@ -78,22 +78,30 @@ class JsonFileProvider(DataProvider):
 
     def get_fund_timeseries(self, isin: str) -> Optional[Dict[str, Any]]:
         key = (isin or "").upper()
-        if key in self._timeseries_cache:
-            return self._timeseries_cache[key]
-
         path = os.path.join(self.timeseries_dir, f"{key}.json")
         if not os.path.exists(path):
-            self._timeseries_cache[key] = None
+            # No negative caching: a fund scraped after startup must be
+            # picked up on the next request, not the next container restart.
+            self._timeseries_cache.pop(key, None)
             return None
+
+        try:
+            mtime = os.path.getmtime(path)
+        except OSError:
+            mtime = None
+        cached = self._timeseries_cache.get(key)
+        if cached and cached.get("_mtime") == mtime:
+            return cached.get("data")
+
         try:
             with open(path, "r", encoding="utf-8") as f:
                 data = json.load(f)
-            self._timeseries_cache[key] = data
-            return data
         except (OSError, json.JSONDecodeError) as exc:
             logger.warning("Failed to load timeseries for %s: %s", key, exc)
-            self._timeseries_cache[key] = None
             return None
+
+        self._timeseries_cache[key] = {"_mtime": mtime, "data": data}
+        return data
 
     def _load_benchmarks(self) -> Dict[str, Any]:
         if self._benchmarks_cache is not None:

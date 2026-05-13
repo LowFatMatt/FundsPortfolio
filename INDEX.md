@@ -1,6 +1,6 @@
 # FundsPortfolio — Documentation Index
 
-**Status:** Working MVP — questionnaire-driven fund recommendation engine, fully implemented.
+**Status:** Phase 2.5 complete — questionnaire-driven recommender + Performance/Volatility charts + customer-specific fund universes. Next: Phase 3 (multi-customer architecture).
 
 ---
 
@@ -8,18 +8,24 @@
 
 | Component | File(s) | Notes |
 |-----------|---------|-------|
-| Flask app & API | `funds_portfolio/app.py` | All endpoints live here |
+| Flask app & API | `funds_portfolio/app.py` | All endpoints (Phase 1 core + Phase 2 charts/breakdowns/health) |
 | Decision engine | `funds_portfolio/portfolio/decision_engine.py` | Filter → score → select → allocate |
 | Portfolio optimizer | `funds_portfolio/portfolio/optimizer.py` | Weight allocation by risk profile |
 | Sharpe calculator | `funds_portfolio/portfolio/calculator.py` | Risk-adjusted return scoring |
-| Validator | `funds_portfolio/portfolio/validator.py` | Diversification, fee, count checks |
-| Fund data loader | `funds_portfolio/data/fund_manager.py` | Loads `funds_database.json` |
-| Price fetcher | `funds_portfolio/data/price_fetcher.py` | yfinance wrapper |
+| Validator | `funds_portfolio/portfolio/validator.py` | Diversification, fee, count checks (max_fee default 1.50%) |
+| Portfolio aggregator | `funds_portfolio/portfolio/aggregator.py` | Phase 2: weighted NAV + breakdown rollups |
+| Data-provider abstraction | `funds_portfolio/data/providers/` | Phase 2: `DataProvider` ABC + `JsonFileProvider` + `get_provider()` factory honouring `CUSTOMER` env var |
+| Fund manager (facade) | `funds_portfolio/data/fund_manager.py` | Read-only delegate over the configured provider |
+| Stress-period config | `funds_portfolio/config/stress_periods.py` | Reads `data/stress_periods.json` |
+| Price fetcher | `funds_portfolio/data/price_fetcher.py` | yfinance wrapper (legacy enrichment) |
 | Questionnaire loader | `funds_portfolio/questionnaire/loader.py` | Loads & validates user answers |
 | Portfolio model | `funds_portfolio/models/portfolio.py` | UUID persistence to disk |
-| Web UI | `templates/index.html` + `static/` | Questionnaire form + results display |
-| Branding system | `brand/` | JSON token-based theming (default + dark) |
-| i18n | `static/i18n/` | UI strings in `en.json` / `de.json` |
+| Web UI | `templates/index.html` + `static/` | M3-styled SPA, 4 result tabs (Summary / Preferences / Performance / Volatility) |
+| Chart helpers | `static/js/charts.js` | Lazy-loads Chart.js v4 + annotation + date-fns adapter from CDN |
+| Branding system | `brand/` | JSON token-based theming (default + dark); selected via `BRAND` env var |
+| i18n | `static/i18n/` | UI strings in `en.json` / `de.json` (incl. `stress.*`, period & vol labels) |
+| Scraper (offline) | `scripts/sync_factsheetslive.py` | Pulls per-ISIN data into `data/funds/{ISIN}.json` |
+| Customer catalog tools | `scripts/build_customer_catalog.py`, `scripts/select_customer.py` | Phase 2.5: build a customer-specific catalog and activate it |
 
 ---
 
@@ -27,10 +33,10 @@
 
 | Document | What it covers |
 |----------|---------------|
-| `README.md` | Quick start, API reference, project layout |
-| `MVP_README.md` | Detailed setup: Docker, KIID retrieval, testing |
-| `IMPLEMENTATION_SPEC.md` | Technical spec: algorithm, API contract, JSON schemas |
-| `FUND_SELECTION_LOGIC_SPEC_V2.md` | Fund selection logic v2: filter pipeline, scoring formula, Core-Satellite allocation, edge cases |
+| `README.md` | **Start here.** Quick start, current feature list, API reference, project layout |
+| `MVP_README.md` | Historical MVP-era guide (see banner at top of file) — Docker, KIID retrieval, original scope |
+| `IMPLEMENTATION_SPEC.md` | Technical spec: algorithm, API contract, JSON schemas — high-level still accurate, engine details superseded by V2 spec below |
+| `FUND_SELECTION_LOGIC_SPEC_V2.md` | Fund selection logic v2: filter pipeline, scoring formula, Core-Satellite allocation, edge cases (authoritative for the engine) |
 | `DEVOPS_GUIDE.md` | Docker + GitHub Actions complete guide |
 | `DEVOPS_README.md` | DevOps summary: design decisions, security checklist |
 | `GITHUB_ACTIONS_GUIDE.md` | CI/CD troubleshooting & best practices reference |
@@ -39,6 +45,13 @@
 | `I18N_GUIDE.md` | i18n structure, adding languages, fallback behaviour |
 | `CONTRIBUTING.md` | How to contribute, CLA, PR workflow |
 | `SECURITY.md` | Vulnerability reporting |
+
+**Plans (off-tree, in `~/.claude/plans/`)**
+
+| File | Status |
+|---|---|
+| `ok-then-on-spicy-parrot.md` | Phase 2.5 — Customer-specific catalog (Provinzial Nord). **Done.** |
+| `phase-3-multi-customer.md` | Phase 3 — Multi-customer architecture (profile.yaml, master registry, ingestion pipeline). **Next.** |
 
 ---
 
@@ -78,10 +91,21 @@ FundsPortfolio/
 │   └── dark/                     # Dark theme
 │
 ├── scripts/                      # Data utilities
-│   ├── fetch_kiids.py            # KIID URL retrieval + QS reports
-│   ├── import_csv_funds.py       # Import funds from CSV sources
-│   └── enrich_funds.py           # Fund data enrichment
+│   ├── fetch_kiids.py            # KIID URL retrieval + QS reports (legacy)
+│   ├── import_csv_funds.py       # Import funds from CSV sources (legacy)
+│   ├── enrich_funds.py           # Fund data enrichment (legacy)
+│   ├── sync_factsheetslive.py    # Phase 2: scrape per-ISIN data → data/funds/
+│   ├── build_customer_catalog.py # Phase 2.5: build a customer-specific catalog
+│   ├── select_customer.py        # Phase 2.5: activate a customer profile
+│   └── _german_labels.py         # Shared taxonomy helpers
 │
+├── data/                         # Phase 2 data layout
+│   ├── customers/{id}/           # Per-customer fund catalogs (general, provinzial_nord)
+│   │   └── funds_database.json
+│   ├── funds/{ISIN}.json         # Per-ISIN time-series (scraped, ~all 127 covered)
+│   ├── benchmarks.json           # App-level reference benchmarks
+│   └── stress_periods.json       # Performance-chart overlay config
+├── data_sources.yaml             # DataProvider config
 ├── tests/                        # pytest test suite
 │   └── test_*.py
 │

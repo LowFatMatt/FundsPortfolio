@@ -371,11 +371,13 @@ def create_app():
         if not meta:
             return jsonify({"error": "Fund not found", "isin": isin}), 404
         ts = fm.get_fund_timeseries(isin) or {}
+        # Timeseries file (populated by the scraper) wins over catalog hints
+        ac_breakdown = ts.get("asset_class_breakdown") or meta.get("asset_class_breakdown")
         return jsonify({
             "isin": isin.upper(),
             "asset_class": meta.get("asset_class"),
             "region": meta.get("region"),
-            "asset_class_breakdown": meta.get("asset_class_breakdown"),
+            "asset_class_breakdown": ac_breakdown,
             "region_breakdown": meta.get("region_breakdown"),
             "top_holdings": ts.get("top_holdings"),
             "as_of": ts.get("as_of"),
@@ -424,9 +426,21 @@ def create_app():
         if portfolio is None:
             return jsonify({"error": "Portfolio not found"}), 404
         recommendations = portfolio.get("recommendations") or []
+        # Enrich each rec with timeseries asset_class_breakdown when the
+        # catalog lacks one — the scraper populates this in data/funds/{ISIN}.json.
+        enriched = []
+        for rec in recommendations:
+            if rec.get("asset_class_breakdown"):
+                enriched.append(rec)
+                continue
+            ts = fm.get_fund_timeseries(rec.get("isin") or "") or {}
+            if ts.get("asset_class_breakdown"):
+                rec = dict(rec)
+                rec["asset_class_breakdown"] = ts["asset_class_breakdown"]
+            enriched.append(rec)
         return jsonify({
             "portfolio_id": portfolio_id,
-            "breakdown": aggregate_breakdowns(recommendations),
+            "breakdown": aggregate_breakdowns(enriched),
         }), 200
 
     @app.route("/api/config/stress-periods", methods=["GET"])

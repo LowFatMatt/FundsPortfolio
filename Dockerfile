@@ -12,7 +12,12 @@ COPY config/ ./config/
 COPY templates/ ./templates/
 COPY static/ ./static/
 COPY brand/ ./brand/
-COPY funds_database.json preferences_schema.json ./
+COPY funds_database.json preferences_schema.json data_sources.yaml ./
+
+# Phase 2: per-ISIN time-series, benchmarks, stress-period config.
+# In docker-compose this is overridden by a host bind mount so the scraper
+# can refresh data without rebuilding the image.
+COPY data/ ./data/
 
 # Create portfolios directory (will be mounted as volume in dev/prod)
 RUN mkdir -p /app/portfolios /app/logs

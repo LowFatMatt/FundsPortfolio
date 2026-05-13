@@ -1,0 +1,137 @@
+{
+  "isin": "DE000A403EK7",
+  "as_of": "2026-05-12",
+  "schema_version": 2,
+  "source": "factsheetslive",
+  "source_url": "https://provinzial-nord.stg.wt.factsheetslive.com/produkt/DE000A403EK7",
+  "currency": "EUR",
+  "fund_name": "Provinzial Aktien Welt",
+  "provinzial_fund_type": "Aktienfonds",
+  "ter": null,
+  "sri": null,
+  "performance": {
+    "periods": {
+      "3m": null,
+      "6m": null,
+      "ytd": 0.0087,
+      "1y": null,
+      "3y_pa": null,
+      "5y_pa": null,
+      "10y_pa": null,
+      "si_pa": 0.1285
+    },
+    "nav_series": [
+      {
+        "d": "2025-02-28",
+        "v": 100.0
+      },
+      {
+        "d": "2025-03-31",
+        "v": 97.5802
+      },
+      {
+        "d": "2025-04-30",
+        "v": 93.4507
+      },
+      {
+        "d": "2025-05-30",
+        "v": 99.3601
+      },
+      {
+        "d": "2025-06-30",
+        "v": 100.27
+      },
+      {
+        "d": "2025-07-31",
+        "v": 104.1596
+      },
+      {
+        "d": "2025-08-29",
+        "v": 104.4796
+      },
+      {
+        "d": "2025-09-30",
+        "v": 107.4593
+      },
+      {
+        "d": "2025-10-31",
+        "v": 111.6588
+      },
+      {
+        "d": "2025-11-28",
+        "v": 111.4289
+      },
+      {
+        "d": "2025-12-31",
+        "v": 110.9089
+      },
+      {
+        "d": "2026-01-29",
+        "v": 111.8688
+      }
+    ]
+  },
+  "volatility": {
+    "1y": null,
+    "3y": null,
+    "5y": null
+  },
+  "risk_metrics": {
+    "sharpe": {
+      "1y": null,
+      "3y": null,
+      "5y": null
+    },
+    "max_drawdown": {
+      "1y": null,
+      "3y": -0.1389,
+      "5y": -0.1389
+    }
+  },
+  "asset_class_breakdown": {
+    "equity": 0.9981,
+    "cash": 0.0016
+  },
+  "top_holdings": [
+    {
+      "name": "NVIDIA Corp.",
+      "weight": 0.053
+    },
+    {
+      "name": "Apple Inc.",
+      "weight": 0.045
+    },
+    {
+      "name": "Alphabet Inc.",
+      "weight": 0.043
+    },
+    {
+      "name": "Microsoft Corp.",
+      "weight": 0.036
+    },
+    {
+      "name": "Amazon.com Inc.",
+      "weight": 0.027
+    },
+    {
+      "name": "Meta Platforms Inc.",
+      "weight": 0.018
+    },
+    {
+      "name": "Broadcom Inc.",
+      "weight": 0.017
+    },
+    {
+      "name": "Tesla Inc.",
+      "weight": 0.014
+    },
+    {
+      "name": "Eli Lilly and Co.",
+      "weight": 0.01
+    },
+    {
+      "name": "JP Morgan Chanse & Co.",
+      "weight": 0.01
+    }
+  ]
+}

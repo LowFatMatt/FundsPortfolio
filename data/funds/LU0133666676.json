@@ -1,0 +1,146 @@
+{
+  "isin": "LU0133666676",
+  "as_of": "2026-05-12",
+  "schema_version": 2,
+  "source": "factsheetslive",
+  "source_url": "https://provinzial-nord.stg.wt.factsheetslive.com/produkt/LU0133666676",
+  "currency": "EUR",
+  "fund_name": "Deka-ConvergenceAktien CF",
+  "provinzial_fund_type": "Aktienfonds",
+  "ter": 0.0933,
+  "sri": 7,
+  "performance": {
+    "periods": {
+      "3m": -0.5813,
+      "6m": -0.5876,
+      "ytd": -0.5714,
+      "1y": -0.5023,
+      "3y_pa": null,
+      "5y_pa": null,
+      "10y_pa": null,
+      "si_pa": -0.4615
+    },
+    "nav_series": [
+      {
+        "d": "2021-01-29",
+        "v": 100.0
+      },
+      {
+        "d": "2021-02-26",
+        "v": 100.8548
+      },
+      {
+        "d": "2021-03-31",
+        "v": 103.8204
+      },
+      {
+        "d": "2021-04-30",
+        "v": 103.8088
+      },
+      {
+        "d": "2021-05-28",
+        "v": 111.1415
+      },
+      {
+        "d": "2021-06-30",
+        "v": 115.9737
+      },
+      {
+        "d": "2021-07-30",
+        "v": 116.2179
+      },
+      {
+        "d": "2021-08-31",
+        "v": 122.0736
+      },
+      {
+        "d": "2021-09-30",
+        "v": 126.3767
+      },
+      {
+        "d": "2021-10-29",
+        "v": 132.3719
+      },
+      {
+        "d": "2021-11-30",
+        "v": 118.0931
+      },
+      {
+        "d": "2021-12-30",
+        "v": 118.5722
+      },
+      {
+        "d": "2022-01-31",
+        "v": 112.9828
+      },
+      {
+        "d": "2022-02-28",
+        "v": 59.6676
+      },
+      {
+        "d": "2022-03-01",
+        "v": 50.8192
+      }
+    ]
+  },
+  "volatility": {
+    "1y": 0.4301,
+    "3y": null,
+    "5y": null
+  },
+  "risk_metrics": {
+    "sharpe": {
+      "1y": -1.16,
+      "3y": null,
+      "5y": null
+    },
+    "max_drawdown": {
+      "1y": null,
+      "3y": -0.6281,
+      "5y": -0.6281
+    }
+  },
+  "asset_class_breakdown": {},
+  "top_holdings": [
+    {
+      "name": "OTP Bank",
+      "weight": 0.0534
+    },
+    {
+      "name": "PKO Bank Polski",
+      "weight": 0.0505
+    },
+    {
+      "name": "Bim Birlesik Magazalar",
+      "weight": 0.048
+    },
+    {
+      "name": "OAO Gazprom",
+      "weight": 0.0469
+    },
+    {
+      "name": "Polski Koncern Naftowy Orlen",
+      "weight": 0.0385
+    },
+    {
+      "name": "CEZ",
+      "weight": 0.0384
+    },
+    {
+      "name": "Powszechny Zaklad Ubezpieczen",
+      "weight": 0.0372
+    },
+    {
+      "name": "Greek Org. of Football Prognost SA",
+      "weight": 0.0358
+    },
+    {
+      "name": "Turk Hava Yollari",
+      "weight": 0.0354
+    },
+    {
+      "name": "Akbank Türk A.S.",
+      "weight": 0.0347
+    }
+  ]
+}

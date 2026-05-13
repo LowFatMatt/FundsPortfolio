@@ -150,7 +150,9 @@
                                 <span id="asset-class-summary" class="summary-metric__sub text-secondary">—</span>
                             </div>
                             <div class="breakdown-chart">
-                                <canvas id="chart-asset-classes" height="180" aria-label="Asset class breakdown"></canvas>
+                                <div class="chart-canvas-wrap chart-canvas-wrap--donut">
+                                    <canvas id="chart-asset-classes" aria-label="Asset class breakdown"></canvas>
+                                </div>
                                 <div id="chart-asset-classes-legend" class="breakdown-legend"></div>
                             </div>
                             <div class="summary-metric">
@@ -158,7 +160,9 @@
                                 <span id="region-summary" class="summary-metric__sub text-secondary">—</span>
                             </div>
                             <div class="breakdown-chart">
-                                <canvas id="chart-regions" height="180" aria-label="Region breakdown"></canvas>
+                                <div class="chart-canvas-wrap chart-canvas-wrap--donut">
+                                    <canvas id="chart-regions" aria-label="Region breakdown"></canvas>
+                                </div>
                                 <div id="chart-regions-legend" class="breakdown-legend"></div>
                             </div>
                         </aside>
@@ -214,7 +218,9 @@
                         <div id="stress-overlay-toggles" class="stress-overlay-toggles" aria-label="Stress period overlays"></div>
                     </div>
                     <div class="chart-frame">
-                        <canvas id="chart-performance" height="280" aria-label="Portfolio performance over time"></canvas>
+                        <div class="chart-canvas-wrap chart-canvas-wrap--line">
+                            <canvas id="chart-performance" aria-label="Portfolio performance over time"></canvas>
+                        </div>
                     </div>
                     <div id="performance-notes" class="chart-notes text-secondary"></div>
                     <div class="returns-table-wrap">
@@ -237,7 +243,9 @@
                 <!-- Tab: Volatility -->
                 <div id="tab-vol" class="tab-panel" role="tabpanel">
                     <div class="chart-frame">
-                        <canvas id="chart-volatility" height="280" aria-label="Volatility per fund"></canvas>
+                        <div class="chart-canvas-wrap chart-canvas-wrap--bar">
+                            <canvas id="chart-volatility" aria-label="Volatility per fund"></canvas>
+                        </div>
                     </div>
                     <div class="returns-table-wrap">
                         <table class="returns-table">

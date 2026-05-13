@@ -679,18 +679,6 @@ select option {
     background: var(--md-sys-color-outline-variant);
 }
 
-.chart-placeholder {
-    background: color-mix(in srgb, var(--md-sys-color-primary) 6%, var(--md-sys-color-surface));
-    border: 1px dashed var(--md-sys-color-outline-variant);
-    border-radius: var(--md-sys-shape-medium);
-    height: 120px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: var(--md-typescale-body-medium-size);
-    color: var(--md-sys-color-on-surface-variant);
-}
-
 /* Phase 2: chart frames, period selector, stress overlay toggles, breakdown donuts */
 .chart-frame {
     background: var(--md-sys-color-surface);
@@ -698,6 +686,30 @@ select option {
     border-radius: var(--md-sys-shape-medium);
     padding: 0.75rem;
     margin-top: 0.5rem;
+}
+
+/* Fixed-height wrapper for every Chart.js canvas. Without this, a responsive
+   chart inside a flex/grid parent enters a resize loop: Chart.js grows the
+   canvas to fill the parent, the parent grows to fit the canvas, repeat
+   forever. The canonical Chart.js fix is a position:relative parent with a
+   pixel-fixed height; the canvas then fills that box and stops growing. */
+.chart-canvas-wrap {
+    position: relative;
+    width: 100%;
+}
+.chart-canvas-wrap > canvas {
+    display: block;
+    width: 100% !important;
+    height: 100% !important;
+}
+.chart-canvas-wrap--donut { height: 180px; }
+.chart-canvas-wrap--line  { height: 320px; }
+.chart-canvas-wrap--bar   { height: 320px; }
+
+@media (max-width: 600px) {
+    .chart-canvas-wrap--donut { height: 160px; }
+    .chart-canvas-wrap--line,
+    .chart-canvas-wrap--bar  { height: 260px; }
 }
 
 .perf-controls {

@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 class PortfolioValidator:
     """Validates portfolios against rules (diversification, fee caps, etc.)."""
 
-    def __init__(self, min_funds: int = 5, max_fee: float = 0.50):
+    def __init__(self, min_funds: int = 5, max_fee: float = 1.50):
         self.min_funds = min_funds
         self.max_fee = max_fee
 

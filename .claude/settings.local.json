@@ -11,7 +11,8 @@
       "Bash(python3 -c \"import json; data=json.load\\(open\\('/home/mrick/FundsPortfolio/funds_database.json'\\)\\); print\\(json.dumps\\(data['funds_database'][0], indent=2\\)\\)\")",
       "Bash(python3 -c ' *)",
       "Bash(python3 -c \"import json; d=json.load\\(open\\('/home/mrick/FundsPortfolio/funds_database.json'\\)\\); f=d['funds_database'][0]; print\\(list\\(f.keys\\(\\)\\)\\); print\\('count:', len\\(d['funds_database']\\)\\)\")",
-      "Bash(python -c ' *)"
+      "Bash(python -c ' *)",
+      "Bash(awk -F'\\\\t' '{print NF}')"
     ]
   }
 }

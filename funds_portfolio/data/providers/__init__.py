@@ -92,6 +92,22 @@ def get_provider(name: Optional[str] = None) -> DataProvider:
     timeseries_dir = _resolve(provider_cfg.get("timeseries_dir"), os.path.join("data", "funds"))
     benchmarks_path = _resolve(provider_cfg.get("benchmarks_path"), os.path.join("data", "benchmarks.json"))
 
+    # Customer-profile override: if CUSTOMER is set and that profile's catalog
+    # exists, prefer it over the configured / default catalog path. Falls back
+    # silently to the original path otherwise, so tests and legacy deploys are
+    # unaffected.
+    customer = os.getenv("CUSTOMER")
+    if customer:
+        customer_catalog = os.path.join(root, "data", "customers", customer, "funds_database.json")
+        if os.path.exists(customer_catalog):
+            logger.info("CUSTOMER=%s → using catalog %s", customer, customer_catalog)
+            catalog_path = customer_catalog
+        else:
+            logger.warning(
+                "CUSTOMER=%s set but %s does not exist; falling back to %s",
+                customer, customer_catalog, catalog_path,
+            )
+
     if chosen != "json_file":
         logger.warning(
             "Provider '%s' is not supported at runtime; falling back to json_file. "

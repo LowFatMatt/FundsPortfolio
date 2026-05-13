@@ -35,6 +35,12 @@ services:
       # Config files
       - ./funds_database.json:/app/funds_database.json:ro
       - ./preferences_schema.json:/app/preferences_schema.json:ro
+      - ./data_sources.yaml:/app/data_sources.yaml:ro
+
+      # Phase 2: per-ISIN time-series + benchmarks + stress-period config.
+      # Mounted read-only — the scraper writes to ./data on the host and
+      # the container picks up the new files on the next request.
+      - ./data:/app/data:ro
 
     # Keep container running, restart on failure
     restart: unless-stopped

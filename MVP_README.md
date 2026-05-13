@@ -1,14 +1,22 @@
 # FundsPortfolio MVP – Quick Start Guide
 
+> **Historical doc.** This describes the original MVP. The project has since
+> moved through Phase 1 (M3 GUI redesign), Phase 2 (Performance / Volatility
+> charts + data-provider abstraction + per-ISIN time-series scraper) and
+> Phase 2.5 (customer-specific fund universes under `data/customers/`).
+> For current state see **[README.md](README.md)** and **[INDEX.md](INDEX.md)**.
+> The Phase 3 plan is at `/home/mrick/.claude/plans/phase-3-multi-customer.md`.
+
 ## 📌 Overview
 
 **FundsPortfolio** is a portfolio recommendation engine that:
 1. Asks users 7 questions about investment goals, risk tolerance, and experience
-2. Recommends a diversified fund portfolio from a database of ~200 funds
+2. Recommends a diversified fund portfolio from a customer-specific universe (127 funds for Provinzial Nord; the 197-fund accumulated catalog is preserved as the `general` profile)
 3. Stores portfolio recommendations by UUID (anonymous, no personal data)
 4. Provides REST API for both GUI and machine access
+5. Surfaces Performance + Volatility charts driven by per-ISIN time-series data
 
-**Status:** Working MVP — decision engine, explainability, branding, i18n, CI, and Docker all implemented.
+**Status:** Phase 2.5 complete — see [README.md](README.md) for the current feature list and endpoint inventory.
 
 ---
 

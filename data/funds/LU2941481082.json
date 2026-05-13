@@ -1,0 +1,152 @@
+{
+  "isin": "LU2941481082",
+  "as_of": "2026-05-12",
+  "schema_version": 2,
+  "source": "factsheetslive",
+  "source_url": "https://provinzial-nord.stg.wt.factsheetslive.com/produkt/LU2941481082",
+  "currency": "EUR",
+  "fund_name": "Deka-Security and Defense CF",
+  "provinzial_fund_type": "Aktienfonds",
+  "ter": 0.0161,
+  "sri": 4,
+  "performance": {
+    "periods": {
+      "3m": -0.005,
+      "6m": -0.051,
+      "ytd": 0.0043,
+      "1y": 0.037,
+      "3y_pa": null,
+      "5y_pa": null,
+      "10y_pa": null,
+      "si_pa": 0.0279
+    },
+    "nav_series": [
+      {
+        "d": "2025-02-28",
+        "v": 100.0
+      },
+      {
+        "d": "2025-03-31",
+        "v": 96.6405
+      },
+      {
+        "d": "2025-04-30",
+        "v": 95.5273
+      },
+      {
+        "d": "2025-05-30",
+        "v": 104.92
+      },
+      {
+        "d": "2025-06-30",
+        "v": 104.7908
+      },
+      {
+        "d": "2025-07-31",
+        "v": 106.9476
+      },
+      {
+        "d": "2025-08-29",
+        "v": 104.8107
+      },
+      {
+        "d": "2025-09-30",
+        "v": 108.4982
+      },
+      {
+        "d": "2025-10-31",
+        "v": 109.343
+      },
+      {
+        "d": "2025-11-28",
+        "v": 102.2264
+      },
+      {
+        "d": "2025-12-30",
+        "v": 102.4749
+      },
+      {
+        "d": "2026-01-30",
+        "v": 104.0056
+      },
+      {
+        "d": "2026-02-27",
+        "v": 104.5324
+      },
+      {
+        "d": "2026-03-31",
+        "v": 96.5217
+      },
+      {
+        "d": "2026-04-30",
+        "v": 101.2293
+      },
+      {
+        "d": "2026-05-11",
+        "v": 102.9171
+      }
+    ]
+  },
+  "volatility": {
+    "1y": 0.1412,
+    "3y": null,
+    "5y": null
+  },
+  "risk_metrics": {
+    "sharpe": {
+      "1y": 0.12,
+      "3y": null,
+      "5y": null
+    },
+    "max_drawdown": {
+      "1y": null,
+      "3y": -0.1614,
+      "5y": -0.1614
+    }
+  },
+  "asset_class_breakdown": {
+    "equity": 1.0
+  },
+  "top_holdings": [
+    {
+      "name": "Palo Alto Networks, Inc",
+      "weight": 0.035
+    },
+    {
+      "name": "RTX Corp",
+      "weight": 0.033
+    },
+    {
+      "name": "Palantir Technologies Inc.",
+      "weight": 0.026
+    },
+    {
+      "name": "Broadcom Inc.",
+      "weight": 0.026
+    },
+    {
+      "name": "GE Aerospace",
+      "weight": 0.025
+    },
+    {
+      "name": "CROWDSTRIKE HOLDINGS INC - A",
+      "weight": 0.024
+    },
+    {
+      "name": "Rolls Royce",
+      "weight": 0.023
+    },
+    {
+      "name": "Rheinmetall AG",
+      "weight": 0.023
+    },
+    {
+      "name": "Northrop Grumman",
+      "weight": 0.023
+    },
+    {
+      "name": "Cloudflare",
+      "weight": 0.021
+    }
+  ]
+}

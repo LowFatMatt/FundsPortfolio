@@ -1,0 +1,172 @@
+{
+  "isin": "LU2790094101",
+  "as_of": "2026-05-12",
+  "schema_version": 2,
+  "source": "factsheetslive",
+  "source_url": "https://provinzial-nord.stg.wt.factsheetslive.com/produkt/LU2790094101",
+  "currency": "EUR",
+  "fund_name": "Deka-ConvergenceAktien II CF",
+  "provinzial_fund_type": "Aktienfonds",
+  "ter": null,
+  "sri": null,
+  "performance": {
+    "periods": {
+      "3m": 0.0271,
+      "6m": 0.1881,
+      "ytd": 0.1357,
+      "1y": 0.361,
+      "3y_pa": null,
+      "5y_pa": null,
+      "10y_pa": null,
+      "si_pa": 0.2524
+    },
+    "nav_series": [
+      {
+        "d": "2024-09-30",
+        "v": 100.0
+      },
+      {
+        "d": "2024-10-31",
+        "v": 93.9676
+      },
+      {
+        "d": "2024-11-29",
+        "v": 96.3676
+      },
+      {
+        "d": "2024-12-30",
+        "v": 99.4703
+      },
+      {
+        "d": "2025-01-31",
+        "v": 106.9081
+      },
+      {
+        "d": "2025-02-28",
+        "v": 108.6703
+      },
+      {
+        "d": "2025-03-31",
+        "v": 108.9189
+      },
+      {
+        "d": "2025-04-30",
+        "v": 107.427
+      },
+      {
+        "d": "2025-05-30",
+        "v": 111.2757
+      },
+      {
+        "d": "2025-06-30",
+        "v": 113.7081
+      },
+      {
+        "d": "2025-07-31",
+        "v": 122.1838
+      },
+      {
+        "d": "2025-08-29",
+        "v": 121.2541
+      },
+      {
+        "d": "2025-09-30",
+        "v": 120.9513
+      },
+      {
+        "d": "2025-10-31",
+        "v": 124.7351
+      },
+      {
+        "d": "2025-11-28",
+        "v": 126.9622
+      },
+      {
+        "d": "2025-12-30",
+        "v": 130.6563
+      },
+      {
+        "d": "2026-01-30",
+        "v": 145.7142
+      },
+      {
+        "d": "2026-02-27",
+        "v": 143.6757
+      },
+      {
+        "d": "2026-03-31",
+        "v": 131.9289
+      },
+      {
+        "d": "2026-04-30",
+        "v": 143.5969
+      },
+      {
+        "d": "2026-05-11",
+        "v": 148.3834
+      }
+    ]
+  },
+  "volatility": {
+    "1y": 0.1827,
+    "3y": null,
+    "5y": null
+  },
+  "risk_metrics": {
+    "sharpe": {
+      "1y": 1.84,
+      "3y": null,
+      "5y": null
+    },
+    "max_drawdown": {
+      "1y": null,
+      "3y": -0.1638,
+      "5y": -0.1638
+    }
+  },
+  "asset_class_breakdown": {
+    "equity": 1.0
+  },
+  "top_holdings": [
+    {
+      "name": "OTP Bank",
+      "weight": 0.104
+    },
+    {
+      "name": "PKO Bank Polski",
+      "weight": 0.093
+    },
+    {
+      "name": "Bank Polska Kasa Opieki S.A.",
+      "weight": 0.058
+    },
+    {
+      "name": "Pkn Orlen",
+      "weight": 0.054
+    },
+    {
+      "name": "National Bank of Greece",
+      "weight": 0.046
+    },
+    {
+      "name": "Powszechny Zaklad Ubezpieczen",
+      "weight": 0.043
+    },
+    {
+      "name": "Eurobank SA",
+      "weight": 0.039
+    },
+    {
+      "name": "Piraeus Bank",
+      "weight": 0.038
+    },
+    {
+      "name": "Aselsan Elektronik Sanayi",
+      "weight": 0.038
+    },
+    {
+      "name": "Alpha Bank",
+      "weight": 0.036
+    }
+  ]
+}

@@ -11,7 +11,8 @@
       "Bash(python -c 'import json,sys; json.load\\(open\\('\\\\''__TRACKED_VAR__'\\\\''\\)\\)')",
       "Bash(python scripts/sync_factsheetslive.py --help)",
       "Bash(ls -la /home/mrick/FundsPortfolio/portfolios/ 2>&1 | head -3 *)",
-      "Read(//tmp/portfolios/**)"
+      "Read(//tmp/portfolios/**)",
+      "Bash(python3)"
     ]
   }
 }

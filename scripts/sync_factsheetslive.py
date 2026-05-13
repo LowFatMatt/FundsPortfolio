@@ -24,13 +24,14 @@ Limitations:
 from __future__ import annotations
 
 import argparse
+import html as html_lib
 import json
 import logging
 import os
 import re
 import sys
 import time
-from datetime import datetime, timezone
+from datetime import datetime, timezone, date
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
 
@@ -41,6 +42,16 @@ try:
 except ImportError:
     print("ERROR: beautifulsoup4 is required. Install with: pip install beautifulsoup4")
     sys.exit(1)
+
+# Ensure the scripts/ dir is on sys.path so sibling helper modules import cleanly
+# whether this file is invoked as `python scripts/sync_factsheetslive.py` or
+# `python -m scripts.sync_factsheetslive` (the former adds scripts/ for us; the
+# latter adds the repo root and needs the explicit insertion).
+_HERE = os.path.dirname(os.path.abspath(__file__))
+if _HERE not in sys.path:
+    sys.path.insert(0, _HERE)
+
+from _german_labels import canonical_asset_class_from_breakdown_key as _canonical_asset_class  # noqa: E402
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 DEFAULT_OUTPUT_DIR = REPO_ROOT / "data" / "funds"
@@ -72,11 +83,11 @@ def _with_timeout(fn, timeout):
 
 # ---------- Parsing helpers ----------
 
-PERCENT_RE = re.compile(r"(-?\d+(?:[\.,]\d+)?)\s*%")
 SIGNED_NUM_RE = re.compile(r"(-?\d+(?:[\.,]\d+)?)")
 
 
 def _to_float(text: Optional[str]) -> Optional[float]:
+    """Parse a German-formatted number ('1,29' or '-5,25%') into a float."""
     if text is None:
         return None
     t = text.strip().replace("\xa0", "").replace(" ", "")
@@ -92,136 +103,250 @@ def _to_float(text: Optional[str]) -> Optional[float]:
 
 
 def _pct_to_frac(text: Optional[str]) -> Optional[float]:
-    """Parse a percentage string into a fraction (e.g. '1.29%' → 0.0129)."""
+    """Parse a percentage string into a fraction ('1,29%' → 0.0129)."""
     v = _to_float(text)
     if v is None:
         return None
     return round(v / 100.0, 6)
 
 
-def find_label_value(soup: BeautifulSoup, label_patterns: List[str]) -> Optional[str]:
+# --- Embedded JSON blobs (data-price-series, data-risiko-rendite) ---
+
+def _extract_data_attr_json(html: str, attr: str) -> Optional[Any]:
+    """Pull a JSON blob out of an HTML element attribute value."""
+    m = re.search(rf'{attr}="([^"]+)"', html)
+    if not m:
+        return None
+    try:
+        return json.loads(html_lib.unescape(m.group(1)))
+    except (ValueError, json.JSONDecodeError):
+        return None
+
+
+def extract_current_risk_rendite(html: str, isin: str) -> Optional[Dict[str, Any]]:
     """
-    Find a table row whose first cell matches one of the label patterns
-    (case-insensitive contains). Return the next sibling cell text, or None.
+    data-risiko-rendite is a list of {name, isin, performances, volatilities,
+    provinzialFundType, isCurrent}. Return the entry matching this ISIN
+    (or the isCurrent=True entry as a fallback).
+    """
+    blob = _extract_data_attr_json(html, "data-risiko-rendite")
+    if not isinstance(blob, list):
+        return None
+    target = isin.upper()
+    for entry in blob:
+        if (entry.get("isin") or "").upper() == target:
+            return entry
+    for entry in blob:
+        if entry.get("isCurrent"):
+            return entry
+    return None
+
+
+def extract_price_series_monthly(html: str) -> List[Dict[str, Any]]:
+    """
+    data-price-series is the full daily NAV history. Downsample to month-end
+    values and rebase so the first point equals 100.
+    """
+    blob = _extract_data_attr_json(html, "data-price-series")
+    if not isinstance(blob, list) or not blob:
+        return []
+    by_month: Dict[str, Tuple[str, float]] = {}
+    for point in blob:
+        d = point.get("date")
+        v = point.get("value")
+        if not d or v is None:
+            continue
+        try:
+            v = float(v)
+        except (TypeError, ValueError):
+            continue
+        try:
+            parsed = date.fromisoformat(d)
+        except ValueError:
+            continue
+        key = f"{parsed.year:04d}-{parsed.month:02d}"
+        existing = by_month.get(key)
+        if existing is None or d > existing[0]:
+            by_month[key] = (d, v)
+
+    series = [(d, v) for (d, v) in by_month.values()]
+    series.sort(key=lambda p: p[0])
+    if not series:
+        return []
+    base = series[0][1] or 1.0
+    return [{"d": d, "v": round(v / base * 100.0, 4)} for (d, v) in series]
+
+
+# --- HTML tables (performance row + risk metrics row-major) ---
+
+PERFORMANCE_HEADERS_TO_KEY = {
+    "3 monate":        "3m",
+    "6 monate":        "6m",
+    "lfd. jahr":       "ytd",
+    "1 jahr":          "1y",
+    "3 jahre p.a.":    "3y_pa",
+    "5 jahre p.a.":    "5y_pa",
+    "10 jahre p.a.":   "10y_pa",
+    "seit auflage p.a.":"si_pa",
+}
+
+
+def parse_performance_table(soup: BeautifulSoup) -> Dict[str, Optional[float]]:
+    """
+    Find the Wertentwicklung table whose <thead> has columns like
+    '3 Monate', '6 Monate', ..., 'seit Auflage p.a.' and the single tbody
+    row carries the values. Map by header → period key.
+    """
+    out = {k: None for k in PERFORMANCE_HEADERS_TO_KEY.values()}
+    for table in soup.find_all("table"):
+        headers = [th.get_text(strip=True).lower() for th in table.find_all("th")]
+        if not headers or "3 monate" not in headers:
+            continue
+        body_rows = table.find("tbody").find_all("tr") if table.find("tbody") else []
+        if not body_rows:
+            continue
+        values = [td.get_text(strip=True) for td in body_rows[0].find_all("td")]
+        for header, raw in zip(headers, values):
+            key = PERFORMANCE_HEADERS_TO_KEY.get(header.strip())
+            if key:
+                out[key] = _pct_to_frac(raw)
+        return out
+    return out
+
+
+def parse_risk_table(soup: BeautifulSoup) -> Tuple[Dict[str, Optional[float]], Dict[str, Optional[float]], Dict[str, Optional[float]]]:
+    """
+    Parse the 'Kennzahlen' table (row-major: row label = metric, columns =
+    1Y/3Y/5Y in order). Returns (volatility, sharpe, max_drawdown).
+    """
+    vol = {"1y": None, "3y": None, "5y": None}
+    sharpe = {"1y": None, "3y": None, "5y": None}
+    mdd = {"1y": None, "3y": None, "5y": None}
+    order = ("1y", "3y", "5y")
+
+    for table in soup.find_all("table"):
+        text_first_col = [
+            (row.find_all(["td", "th"])[0].get_text(strip=True).lower() if row.find_all(["td", "th"]) else "")
+            for row in table.find_all("tr")
+        ]
+        if not any("sharpe" in c for c in text_first_col):
+            continue
+        for row in table.find_all("tr"):
+            cells = row.find_all(["td", "th"])
+            if len(cells) < 4:
+                continue
+            label = cells[0].get_text(strip=True).lower()
+            values = [c.get_text(strip=True) for c in cells[1:4]]
+            if "volatil" in label:
+                for k, raw in zip(order, values):
+                    vol[k] = _pct_to_frac(raw)
+            elif "sharpe" in label:
+                for k, raw in zip(order, values):
+                    sharpe[k] = _to_float(raw)
+            elif "drawdown" in label or "max" in label:
+                for k, raw in zip(order, values):
+                    mdd[k] = _pct_to_frac(raw)
+        return vol, sharpe, mdd
+    return vol, sharpe, mdd
+
+
+# --- Allocation sections (asset class breakdown + top holdings) ---
+
+def _parse_allocation_section(soup: BeautifulSoup, heading_substr: str, limit: Optional[int] = None) -> List[Dict[str, Any]]:
+    """
+    Find a <details><summary>{heading}</summary><div class="portfolioallokation-content">...
+    that contains <div class="allocation-bar-row"> entries with label and value spans.
+    """
+    out: List[Dict[str, Any]] = []
+    for details in soup.find_all("details"):
+        summary = details.find("summary")
+        if not summary:
+            continue
+        if heading_substr.lower() not in summary.get_text(strip=True).lower():
+            continue
+        for row in details.find_all("div", class_="allocation-bar-row"):
+            label_el = row.find("span", class_="allocation-bar-label")
+            value_el = row.find("span", class_="allocation-bar-value")
+            if not label_el or not value_el:
+                continue
+            name = label_el.get_text(" ", strip=True)
+            weight = _pct_to_frac(value_el.get_text(strip=True))
+            if name and weight is not None:
+                out.append({"name": name, "weight": weight})
+            if limit and len(out) >= limit:
+                break
+        return out
+    return out
+
+
+def parse_asset_class_breakdown(soup: BeautifulSoup) -> Dict[str, float]:
+    """
+    Parse the 'Vermögensaufteilung' section into a normalized
+    {asset_class_key: weight} mapping. Provinzial labels are German
+    free-text; we collapse them into our canonical keys.
+    """
+    raw = _parse_allocation_section(soup, "Vermögensaufteilung")
+    if not raw:
+        return {}
+    bucketed: Dict[str, float] = {}
+    for entry in raw:
+        key = _canonical_asset_class(entry["name"])
+        bucketed[key] = round(bucketed.get(key, 0.0) + entry["weight"], 6)
+    return bucketed
+
+
+def parse_top_holdings(soup: BeautifulSoup, limit: int = 10) -> List[Dict[str, Any]]:
+    """Top 10 Positionen section (same allocation-bar markup)."""
+    return _parse_allocation_section(soup, "Top 10 Positionen", limit=limit)
+
+
+# --- Stammdaten table (label-then-value row layout) ---
+
+def _stammdaten_lookup(soup: BeautifulSoup, label_patterns: List[str]) -> Optional[str]:
+    """
+    Find a <tr> whose first cell text contains one of the patterns and
+    return the next cell's text.
     """
     for row in soup.find_all("tr"):
         cells = row.find_all(["td", "th"])
         if len(cells) < 2:
             continue
-        label = (cells[0].get_text(strip=True) or "").lower()
+        label = cells[0].get_text(" ", strip=True).lower()
         for pat in label_patterns:
             if pat.lower() in label:
                 return cells[1].get_text(" ", strip=True)
-    # Also try definition lists
-    for dt in soup.find_all("dt"):
-        label = (dt.get_text(strip=True) or "").lower()
-        for pat in label_patterns:
-            if pat.lower() in label:
-                dd = dt.find_next_sibling("dd")
-                if dd:
-                    return dd.get_text(" ", strip=True)
     return None
 
 
-def parse_performance(soup: BeautifulSoup) -> Dict[str, Optional[float]]:
-    """
-    Extract per-period performance returns. Looks for German and English labels.
-    Returns fractions (0.045 not 4.5).
-    """
-    mapping = [
-        ("3m",     ["3 Monate", "3 Months"]),
-        ("6m",     ["6 Monate", "6 Months"]),
-        ("ytd",    ["lfd. Jahr", "current year", "YTD", "Lfd. Jahr"]),
-        ("1y",     ["1 Jahr", "1 Year"]),
-        ("3y_pa",  ["3 Jahre p.a.", "3 Years p.a.", "3 Jahre"]),
-        ("5y_pa",  ["5 Jahre p.a.", "5 Years p.a.", "5 Jahre"]),
-        ("10y_pa", ["10 Jahre p.a.", "10 Years p.a.", "10 Jahre"]),
-        ("si_pa",  ["seit Auflage", "Since Inception"]),
-    ]
-    out: Dict[str, Optional[float]] = {}
-    for key, patterns in mapping:
-        out[key] = _pct_to_frac(find_label_value(soup, patterns))
-    return out
-
-
-def parse_volatility(soup: BeautifulSoup) -> Dict[str, Optional[float]]:
-    """
-    Volatility is typically in its own labeled section ("Volatilität").
-    Try to scope the search to that section first; fall back to global rows.
-    """
-    section = None
-    for header in soup.find_all(["h2", "h3", "h4", "div"]):
-        text = (header.get_text(strip=True) or "").lower()
-        if "volatil" in text:
-            section = header.find_parent() or header
-            break
-    target = section or soup
-    return {
-        "1y": _pct_to_frac(find_label_value(target, ["Volatilität 1 Jahr", "1 Year", "1 Jahr"])),
-        "3y": _pct_to_frac(find_label_value(target, ["Volatilität 3 Jahre", "3 Years", "3 Jahre"])),
-        "5y": _pct_to_frac(find_label_value(target, ["Volatilität 5 Jahre", "5 Years", "5 Jahre"])),
-    }
-
-
-def parse_risk_metrics(soup: BeautifulSoup) -> Dict[str, Dict[str, Optional[float]]]:
-    sharpe = {
-        "1y": _to_float(find_label_value(soup, ["Sharpe Ratio 1", "Sharpe 1"])),
-        "3y": _to_float(find_label_value(soup, ["Sharpe Ratio 3", "Sharpe 3"])),
-        "5y": _to_float(find_label_value(soup, ["Sharpe Ratio 5", "Sharpe 5"])),
-    }
-    mdd = {
-        "1y": _pct_to_frac(find_label_value(soup, ["Max. Drawdown 1", "Max Drawdown 1", "Max. Drawdown 1 Jahr"])),
-        "3y": _pct_to_frac(find_label_value(soup, ["Max. Drawdown 3", "Max Drawdown 3", "Max. Drawdown 3 Jahre"])),
-        "5y": _pct_to_frac(find_label_value(soup, ["Max. Drawdown 5", "Max Drawdown 5", "Max. Drawdown 5 Jahre"])),
-    }
-    return {"sharpe": sharpe, "max_drawdown": mdd}
-
-
-def parse_top_holdings(soup: BeautifulSoup, limit: int = 10) -> List[Dict[str, Any]]:
-    """Look for a holdings/positions table; return up to `limit` rows."""
-    candidates = []
-    for table in soup.find_all("table"):
-        caption = (table.find("caption").get_text(strip=True).lower()
-                   if table.find("caption") else "")
-        prev_header = table.find_previous(["h2", "h3", "h4"])
-        prev_text = (prev_header.get_text(strip=True).lower() if prev_header else "")
-        if "position" in caption or "holding" in caption or "position" in prev_text or "holding" in prev_text:
-            candidates.append(table)
-    if not candidates:
-        return []
-    holdings: List[Dict[str, Any]] = []
-    table = candidates[0]
-    for row in table.find_all("tr")[1:]:
-        cells = row.find_all(["td"])
-        if len(cells) < 2:
-            continue
-        name = cells[0].get_text(" ", strip=True)
-        weight_raw = cells[-1].get_text(" ", strip=True)
-        weight = _pct_to_frac(weight_raw)
-        if name and weight is not None:
-            holdings.append({"name": name, "weight": weight})
-        if len(holdings) >= limit:
-            break
-    return holdings
-
-
 def parse_currency_and_asof(soup: BeautifulSoup) -> Tuple[Optional[str], Optional[str]]:
-    """Extract fund currency + as-of date from Stammdaten."""
-    currency = find_label_value(soup, ["Fondswährung", "Fund Currency"])
+    currency = _stammdaten_lookup(soup, ["Fondswährung", "Fund Currency"])
     if currency:
         m = re.search(r"\b([A-Z]{3})\b", currency)
         currency = m.group(1) if m else currency.strip()[:3].upper()
-    as_of = find_label_value(soup, ["Stand", "as of", "TER (Stand"])
-    if as_of:
-        m = re.search(r"(\d{2}\.\d{2}\.\d{4}|\d{4}-\d{2}-\d{2})", as_of)
+    raw_as_of = _stammdaten_lookup(soup, ["TER (Stand", "Stand:"])
+    as_of: Optional[str] = None
+    if raw_as_of:
+        m = re.search(r"(\d{2}\.\d{2}\.\d{4}|\d{4}-\d{2}-\d{2})", raw_as_of)
         if m:
             raw = m.group(1)
             if "." in raw:
-                d, mth, y = raw.split(".")
-                as_of = f"{y}-{mth}-{d}"
+                dd, mm, yy = raw.split(".")
+                as_of = f"{yy}-{mm}-{dd}"
             else:
                 as_of = raw
     return currency, as_of
+
+
+def parse_ter_and_sri(soup: BeautifulSoup) -> Tuple[Optional[float], Optional[int]]:
+    ter_raw = _stammdaten_lookup(soup, ["TER", "Laufende Kosten"])
+    ter = _pct_to_frac(ter_raw) if ter_raw else None
+    sri_raw = _stammdaten_lookup(soup, ["Risikoklasse", "SRI", "SRRI"])
+    sri: Optional[int] = None
+    if sri_raw:
+        m = re.search(r"\b([1-7])\b", sri_raw)
+        if m:
+            sri = int(m.group(1))
+    return ter, sri
 
 
 # ---------- Pipeline ----------
@@ -242,24 +367,48 @@ def fetch_product(session: requests.Session, base_url: str, isin: str, detail_pa
 def build_fund_record(isin: str, html: str, source_url: str) -> Dict[str, Any]:
     soup = BeautifulSoup(html, "html.parser")
     currency, as_of = parse_currency_and_asof(soup)
-    perf_periods = parse_performance(soup)
-    vol          = parse_volatility(soup)
-    risk         = parse_risk_metrics(soup)
-    holdings     = parse_top_holdings(soup)
+    ter, sri = parse_ter_and_sri(soup)
 
-    record = {
+    # Performance: prefer the 8-column HTML table (covers 3m/6m/ytd/1y/3y_pa/5y_pa/10y_pa/si_pa);
+    # fall back to data-risiko-rendite for the periods it covers (ytd/1y/3y/5y/10y).
+    perf_periods = parse_performance_table(soup)
+    vol, sharpe, mdd = parse_risk_table(soup)
+
+    rr_entry = extract_current_risk_rendite(html, isin) or {}
+    rr_perf = rr_entry.get("performances") or {}
+    rr_vol  = rr_entry.get("volatilities") or {}
+    # data-risiko-rendite keys are ytd/1y/3y/5y/10y. Treat 3y/5y/10y as p.a. (matches table headers).
+    rr_mapping_perf = {"ytd": "ytd", "1y": "1y", "3y": "3y_pa", "5y": "5y_pa", "10y": "10y_pa"}
+    for src, dst in rr_mapping_perf.items():
+        if perf_periods.get(dst) is None and rr_perf.get(src) is not None:
+            perf_periods[dst] = round(float(rr_perf[src]), 6)
+    rr_mapping_vol = {"1y": "1y", "3y": "3y", "5y": "5y"}
+    for src, dst in rr_mapping_vol.items():
+        if vol.get(dst) is None and rr_vol.get(src) is not None:
+            vol[dst] = round(float(rr_vol[src]), 6)
+
+    nav_series = extract_price_series_monthly(html)
+    holdings   = parse_top_holdings(soup)
+    breakdown  = parse_asset_class_breakdown(soup)
+
+    record: Dict[str, Any] = {
         "isin": isin.upper(),
         "as_of": as_of or datetime.now(timezone.utc).date().isoformat(),
-        "schema_version": 1,
+        "schema_version": 2,
         "source": "factsheetslive",
         "source_url": source_url,
         "currency": currency or "EUR",
+        "fund_name": rr_entry.get("name"),
+        "provinzial_fund_type": rr_entry.get("provinzialFundType"),
+        "ter": ter,
+        "sri": sri,
         "performance": {
             "periods": perf_periods,
-            "nav_series": [],  # not derivable from the product page; needs a separate source
+            "nav_series": nav_series,
         },
         "volatility": vol,
-        "risk_metrics": risk,
+        "risk_metrics": {"sharpe": sharpe, "max_drawdown": mdd},
+        "asset_class_breakdown": breakdown,
         "top_holdings": holdings,
     }
     return record
@@ -280,7 +429,9 @@ def has_any_data(record: Dict[str, Any]) -> bool:
     return any(v is not None for v in perf.values()) \
         or any(v is not None for v in vol.values()) \
         or any(v is not None for d in rm.values() for v in (d or {}).values()) \
-        or bool(record.get("top_holdings"))
+        or bool(record.get("top_holdings")) \
+        or bool(record.get("asset_class_breakdown")) \
+        or bool((record.get("performance") or {}).get("nav_series"))
 
 
 def load_isins(catalog_path: Path, override_file: Optional[Path], sample: Optional[int]) -> List[str]:
@@ -395,11 +546,13 @@ def _summarise_present_fields(record: Dict[str, Any]) -> Dict[str, int]:
     vol  = record.get("volatility") or {}
     rm   = record.get("risk_metrics") or {}
     return {
-        "perf_periods": sum(1 for v in perf.values() if v is not None),
-        "volatility":   sum(1 for v in vol.values()  if v is not None),
-        "sharpe":       sum(1 for v in (rm.get("sharpe") or {}).values() if v is not None),
-        "max_dd":       sum(1 for v in (rm.get("max_drawdown") or {}).values() if v is not None),
-        "holdings":     len(record.get("top_holdings") or []),
+        "perf_periods":  sum(1 for v in perf.values() if v is not None),
+        "volatility":    sum(1 for v in vol.values()  if v is not None),
+        "sharpe":        sum(1 for v in (rm.get("sharpe") or {}).values() if v is not None),
+        "max_dd":        sum(1 for v in (rm.get("max_drawdown") or {}).values() if v is not None),
+        "holdings":      len(record.get("top_holdings") or []),
+        "nav_points":    len((record.get("performance") or {}).get("nav_series") or []),
+        "breakdown_keys": len(record.get("asset_class_breakdown") or {}),
     }
 
 
