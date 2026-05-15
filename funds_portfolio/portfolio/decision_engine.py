@@ -449,8 +449,10 @@ class DecisionEngine:
                 boosts["ESG"] = 5.0
 
         # Regional preference boost
-        preferred_regions = set(user_answers.get("preferred_regions") or [])
-        if preferred_regions and fund.get("region") in preferred_regions:
+        preferred_regions = {
+            str(r).lower() for r in (user_answers.get("preferred_regions") or [])
+        }
+        if preferred_regions and str(fund.get("region") or "").lower() in preferred_regions:
             boosts["Region"] = 3.0
 
         # Thematic preference boost
@@ -523,7 +525,9 @@ class DecisionEngine:
             preferred_themes = {
                 str(t).upper() for t in (user_answers.get("preferred_themes") or [])
             }
-            preferred_regions = set(user_answers.get("preferred_regions") or [])
+            preferred_regions = {
+                str(r).lower() for r in (user_answers.get("preferred_regions") or [])
+            }
 
         if preferred_themes and "NONE" not in preferred_themes:
             def _theme_match(f: Dict[str, Any]) -> bool:
@@ -549,8 +553,11 @@ class DecisionEngine:
                         selected.append(to_insert)
 
         # Edge case 3: Regional concentration cap — max 3 of 5 from same preferred region
+        def _region_match(f: Dict[str, Any]) -> bool:
+            return str(f.get("region") or "").lower() in preferred_regions
+
         if preferred_regions and len(selected) > 3:
-            regional = [f for f in selected if f.get("region") in preferred_regions]
+            regional = [f for f in selected if _region_match(f)]
             if len(regional) > 3:
                 # Keep top 3, preferring thematic matches so the user's theme
                 # preference is not sacrificed to the regional cap.
@@ -574,7 +581,7 @@ class DecisionEngine:
                         break
                     if f["isin"] in selected_isins:
                         continue
-                    if f.get("region") in preferred_regions:
+                    if _region_match(f):
                         continue  # already have 3
                     selected.append(f)
                     selected_isins.add(f["isin"])
@@ -659,11 +666,13 @@ class DecisionEngine:
                         weights[isin] += min(add, headroom)
 
         # Apply regional ×1.2 tilt
-        preferred_regions = set(user_answers.get("preferred_regions") or [])
+        preferred_regions = {
+            str(r).lower() for r in (user_answers.get("preferred_regions") or [])
+        }
         if preferred_regions:
             for f in selected:
                 isin = f["isin"]
-                if f.get("region") in preferred_regions:
+                if str(f.get("region") or "").lower() in preferred_regions:
                     _, w_max = self._tiered_bounds(
                         next(r for ff, r, s in ranked if ff["isin"] == isin),
                         isin in sat_isins,
@@ -728,8 +737,10 @@ class DecisionEngine:
                         "Meets your ESG requirement.",
                     )
                 )
-            preferred_regions = set(user_answers.get("preferred_regions") or [])
-            if preferred_regions and f.get("region") in preferred_regions:
+            preferred_regions = {
+                str(r).lower() for r in (user_answers.get("preferred_regions") or [])
+            }
+            if preferred_regions and str(f.get("region") or "").lower() in preferred_regions:
                 reasons.append(
                     self._t(
                         language,
