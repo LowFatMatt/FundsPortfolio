@@ -389,7 +389,6 @@ class QuestionnaireLoader:
                     "id": f"region_{value}",
                     "label": label,
                     "value": value,
-                    "optimizer_region": value.upper(),
                 }
             )
         return options
@@ -406,7 +405,6 @@ class QuestionnaireLoader:
                 "id": "theme_none",
                 "label": "No specific theme - just a well-diversified portfolio",
                 "value": "none",
-                "optimizer_theme": "NONE",
             }
         ]
 
@@ -421,7 +419,6 @@ class QuestionnaireLoader:
                     "id": f"theme_{value}",
                     "label": label,
                     "value": value,
-                    "optimizer_theme": theme,
                 }
             )
         return options

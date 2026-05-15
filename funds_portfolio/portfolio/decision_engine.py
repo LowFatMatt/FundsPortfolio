@@ -454,11 +454,13 @@ class DecisionEngine:
             boosts["Region"] = 3.0
 
         # Thematic preference boost
-        preferred_themes = set(user_answers.get("preferred_themes") or [])
+        preferred_themes = {
+            str(t).upper() for t in (user_answers.get("preferred_themes") or [])
+        }
         if (
             preferred_themes
-            and "none" not in preferred_themes
-            and fund.get("theme") in preferred_themes
+            and "NONE" not in preferred_themes
+            and str(fund.get("theme") or "").upper() in preferred_themes
         ):
             boosts["Theme"] = 3.0
 
@@ -518,20 +520,25 @@ class DecisionEngine:
         preferred_themes: set = set()
         preferred_regions: set = set()
         if user_answers:
-            preferred_themes = set(user_answers.get("preferred_themes") or [])
+            preferred_themes = {
+                str(t).upper() for t in (user_answers.get("preferred_themes") or [])
+            }
             preferred_regions = set(user_answers.get("preferred_regions") or [])
 
-        if preferred_themes and "none" not in preferred_themes:
-            has_theme = any(f.get("theme") in preferred_themes for f in selected)
+        if preferred_themes and "NONE" not in preferred_themes:
+            def _theme_match(f: Dict[str, Any]) -> bool:
+                return str(f.get("theme") or "").upper() in preferred_themes
+
+            has_theme = any(_theme_match(f) for f in selected)
             if not has_theme:
                 thematic_candidates = [
                     f for f in scored
-                    if f.get("theme") in preferred_themes and f not in selected
+                    if _theme_match(f) and f not in selected
                 ]
                 if thematic_candidates:
                     to_insert = thematic_candidates[0]
                     non_thematic = [
-                        f for f in selected if f.get("theme") not in preferred_themes
+                        f for f in selected if not _theme_match(f)
                     ]
                     if non_thematic:
                         worst = min(
@@ -545,10 +552,18 @@ class DecisionEngine:
         if preferred_regions and len(selected) > 3:
             regional = [f for f in selected if f.get("region") in preferred_regions]
             if len(regional) > 3:
-                # Keep top 3 by score, drop the rest and replace with non-regional
+                # Keep top 3, preferring thematic matches so the user's theme
+                # preference is not sacrificed to the regional cap.
+                def _theme_match_drop(f: Dict[str, Any]) -> bool:
+                    return str(f.get("theme") or "").upper() in preferred_themes
+
                 regional_sorted = sorted(
                     regional,
-                    key=lambda x: x.get("_scores", {}).get("final", 0),
+                    key=lambda x: (
+                        1 if (preferred_themes and "NONE" not in preferred_themes
+                              and _theme_match_drop(x)) else 0,
+                        x.get("_scores", {}).get("final", 0),
+                    ),
                     reverse=True,
                 )
                 to_drop = {f["isin"] for f in regional_sorted[3:]}
@@ -722,11 +737,13 @@ class DecisionEngine:
                         "Matches your regional preference.",
                     )
                 )
-            preferred_themes = set(user_answers.get("preferred_themes") or [])
+            preferred_themes = {
+                str(t).upper() for t in (user_answers.get("preferred_themes") or [])
+            }
             if (
                 preferred_themes
-                and "none" not in preferred_themes
-                and f.get("theme") in preferred_themes
+                and "NONE" not in preferred_themes
+                and str(f.get("theme") or "").upper() in preferred_themes
             ):
                 reasons.append(
                     self._t(

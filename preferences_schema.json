@@ -267,26 +267,22 @@
           {
             "id": "region_global",
             "label": "Global – spread across all major markets",
-            "value": "global",
-            "optimizer_region": "GLOBAL"
+            "value": "global"
           },
           {
             "id": "region_europe",
             "label": "Europe – focus on European markets",
-            "value": "europe",
-            "optimizer_region": "EUROPE"
+            "value": "europe"
           },
           {
             "id": "region_north_america",
             "label": "North America – US and Canadian markets",
-            "value": "north_america",
-            "optimizer_region": "NORTH_AMERICA"
+            "value": "north_america"
           },
           {
             "id": "region_emerging",
             "label": "Emerging Markets – high-growth developing economies",
-            "value": "emerging_markets",
-            "optimizer_region": "EMERGING_MARKETS"
+            "value": "emerging_markets"
           }
         ]
       },
@@ -301,26 +297,22 @@
           {
             "id": "theme_none",
             "label": "No specific theme – just a well-diversified portfolio",
-            "value": "none",
-            "optimizer_theme": "NONE"
+            "value": "none"
           },
           {
             "id": "theme_sustainability",
             "label": "Sustainability & Climate – clean energy, environmental protection",
-            "value": "sustainability",
-            "optimizer_theme": "SUSTAINABILITY"
+            "value": "sustainability"
           },
           {
             "id": "theme_technology",
             "label": "Technology & Innovation – AI, semiconductors, digitalisation",
-            "value": "technology",
-            "optimizer_theme": "TECHNOLOGY"
+            "value": "technology"
           },
           {
             "id": "theme_healthcare",
             "label": "Healthcare & Life Sciences – biotech, medical devices, pharma",
-            "value": "healthcare",
-            "optimizer_theme": "HEALTHCARE"
+            "value": "healthcare"
           }
         ]
       }
