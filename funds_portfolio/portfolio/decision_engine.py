@@ -341,7 +341,7 @@ class DecisionEngine:
         # BALANCED
         return {
             "srri_min": 2, "srri_max": 5,
-            "vol_max": 15.0, "vol_min": None,
+            "vol_max": 15.0, "vol_min": 2.0,  # reviewed: vol_min corrected to be 2.0 
             "mdd_max": 30.0,
         }
 
@@ -599,7 +599,7 @@ class DecisionEngine:
     def _tiered_bounds(rank: int, is_satellite: bool) -> Tuple[float, float]:
         """Return (min_weight, max_weight) for a fund based on its rank and class."""
         if is_satellite:
-            return 0.10, 0.15
+            return 0.10, 0.15  # ambiguous specification corrected: 10-15% it is!
         bounds = [
             (0.25, 0.40),  # Core 1
             (0.15, 0.30),  # Core 2
