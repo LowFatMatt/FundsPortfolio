@@ -33,9 +33,10 @@ class TestPortfolioOptimizer:
             False,
         )
         assert opt._determine_risk_level({"risk_approach": "1"}) == (1, False)
+        assert opt._determine_risk_level({"risk_approach": "moderate"}) == (3, False)
         assert opt._determine_risk_level({"risk_approach": "aggressive"}) == (4, False)
-        # Fallback test
-        assert opt._determine_risk_level({"risk_approach": "unknown"}) == (2, True)
+        # Fallback test -> defaults to BALANCED (3)
+        assert opt._determine_risk_level({"risk_approach": "unknown"}) == (3, True)
 
     def test_conservative_allocation(self, sample_funds):
         opt = PortfolioOptimizer()

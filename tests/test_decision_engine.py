@@ -137,6 +137,40 @@ def test_region_preference_boost_selects_matching_fund():
     assert recs[0]["isin"] == "BBB"
 
 
+def test_global_region_is_catch_all():
+    """'global' should boost any fund whose region is not an explicit region."""
+    engine = DecisionEngine(min_candidates=1, top_k=5, final_fund_count=1)
+    funds = [
+        _fund(
+            isin="AAA",
+            name="Eurozone Fund",
+            srri=4,
+            yearly_fee=0.2,
+            is_etf=True,
+            region="eurozone",  # not an explicit region -> covered by global
+            provider="provider-a",
+        ),
+        _fund(
+            isin="BBB",
+            name="Europe Fund",
+            srri=4,
+            yearly_fee=0.2,
+            is_etf=True,
+            region="europe",  # explicit region -> NOT covered by global
+            provider="provider-b",
+        ),
+    ]
+    answers = _base_answers()
+    answers["preferred_regions"] = ["global"]
+
+    result = engine.recommend(answers, funds)
+    recs = result["recommendations"]
+
+    # The eurozone (non-explicit) fund gets the regional boost; europe does not.
+    assert recs
+    assert recs[0]["isin"] == "AAA"
+
+
 def test_theme_preference_boost_selects_matching_fund():
     engine = DecisionEngine(min_candidates=1, top_k=5, final_fund_count=1)
     funds = [

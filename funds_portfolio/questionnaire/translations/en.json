@@ -1,53 +1,9 @@
 {
   "sections": {
-    "investment_goal": {
-      "name": "What is your main goal with this investment?",
-      "options": {
-        "wealth_building": "Build wealth for your dreams and aspirations",
-        "retirement": "Secure your retirement income",
-        "home_ownership": "Save for your own home",
-        "wealth_transfer": "Pass on wealth to the next generation"
-      }
-    },
-    "investment_duration": {
-      "name": "How long are you planning to invest for?",
-      "options": {
-        "short_term": "Up to 12 years",
-        "medium_term": "12 to 20 years",
-        "long_term": "Over 20 years"
-      }
-    },
-    "monthly_savings": {
-      "name": "How much can you save each month?",
-      "options": {
-        "micro": "€0 to €150",
-        "modest": "€150 to €300",
-        "moderate": "€300 to €500",
-        "substantial": "Over €500",
-        "no_answer": "Prefer not to say"
-      }
-    },
-    "investment_experience": {
-      "name": "Have you invested in any of these before?",
-      "options": {
-        "insurance": "Life insurance or pension plans",
-        "funds": "Investment funds (shares, bonds or mixed funds)",
-        "alternative": "Alternative investments",
-        "no_experience": "I'm new to this – and that's perfectly fine!"
-      }
-    },
-    "investment_knowledge": {
-      "name": "How would you describe your investment knowledge?",
-      "options": {
-        "confident": "Yes, I'm quite confident with investments",
-        "beginner": "No, I'm just starting out"
-      }
-    },
     "risk_approach": {
       "name": "Which investment approach appeals to you most?",
       "options": {
         "conservative": "Security matters most – I want steady, predictable growth",
-        "moderate_low": "I value security, but I'm also open to modest growth opportunities",
         "moderate": "I can accept some fluctuations for better returns, but I'd like some protection of my contributions",
         "aggressive": "I'm comfortable taking on risk for better growth prospects, and I accept potential losses"
       }
@@ -78,10 +34,12 @@
     "preferred_regions": {
       "name": "Which regions would you like to invest in?",
       "options": {
-        "region_global": "Global – spread across all major markets",
+        "region_germany": "Germany – German market focus",
         "region_europe": "Europe – focus on European markets",
         "region_north_america": "North America – US and Canadian markets",
-        "region_emerging": "Emerging Markets – high-growth developing economies"
+        "region_asia": "Asia – developed and emerging Asia",
+        "region_emerging": "Emerging Markets – high-growth developing economies",
+        "region_global": "Global – anything not covered by the regions above"
       }
     },
     "preferred_themes": {
@@ -90,24 +48,38 @@
         "theme_none": "No specific theme – just a well-diversified portfolio",
         "theme_sustainability": "Sustainability & Climate – clean energy, environmental protection",
         "theme_technology": "Technology & Innovation – AI, semiconductors, digitalisation",
-        "theme_healthcare": "Healthcare & Life Sciences – biotech, medical devices, pharma"
+        "theme_healthcare": "Healthcare & Life Sciences – biotech, medical devices, pharma",
+        "theme_commodities": "Commodities & Raw Materials – metals, energy, agriculture",
+        "theme_infrastructure": "Infrastructure – transport, utilities, communication networks",
+        "theme_defense": "Security & Defense – aerospace, defense, cybersecurity",
+        "theme_energy": "Energy – traditional and renewable energy producers",
+        "theme_megatrends": "Megatrends – broad structural growth trends",
+        "theme_water": "Water – water supply, treatment and efficiency",
+        "theme_ai_robotics": "AI & Robotics – artificial intelligence and automation",
+        "theme_dividends": "Dividends – stable, income-generating companies"
       }
     }
   },
   "regions": {
-    "global": "Global - spread across all major markets",
+    "germany": "Germany - German market focus",
     "europe": "Europe - focus on European markets",
     "north_america": "North America - US and Canadian markets",
-    "eurozone": "Eurozone - countries using the euro",
-    "united_kingdom": "United Kingdom - UK market focus",
-    "germany": "Germany - German market focus",
     "asia": "Asia - developed and emerging Asia",
-    "emerging_markets": "Emerging Markets - high-growth developing economies"
+    "emerging_markets": "Emerging Markets - high-growth developing economies",
+    "global": "Global - anything not covered by the regions above"
   },
   "themes": {
     "none": "No specific theme - just a well-diversified portfolio",
     "sustainability": "Sustainability & Climate - clean energy, environmental protection",
     "technology": "Technology & Innovation - AI, semiconductors, digitalisation",
-    "healthcare": "Healthcare & Life Sciences - biotech, medical devices, pharma"
+    "healthcare": "Healthcare & Life Sciences - biotech, medical devices, pharma",
+    "commodities": "Commodities & Raw Materials - metals, energy, agriculture",
+    "infrastructure": "Infrastructure - transport, utilities, communication networks",
+    "defense": "Security & Defense - aerospace, defense, cybersecurity",
+    "energy": "Energy - traditional and renewable energy producers",
+    "megatrends": "Megatrends - broad structural growth trends",
+    "water": "Water - water supply, treatment and efficiency",
+    "ai_robotics": "AI & Robotics - artificial intelligence and automation",
+    "dividends": "Dividends - stable, income-generating companies"
   }
 }

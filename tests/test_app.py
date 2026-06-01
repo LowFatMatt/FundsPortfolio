@@ -52,10 +52,6 @@ def test_create_portfolio_endpoint(mock_ticker, client):
 
     # Needs to be a valid response to pass validators and min 5 funds
     valid_answers = {
-        "investment_goal": "retirement",
-        "investment_duration": "20_plus_years",
-        "monthly_savings": "300_500",
-        "investment_knowledge": "experienced",
         "risk_approach": "moderate",
         "loss_tolerance": "high_loss_tolerance",
         "esg_preference": "no_requirement",
@@ -81,8 +77,12 @@ def test_create_portfolio_endpoint(mock_ticker, client):
 
 
 def test_create_portfolio_validation_error(client):
-    """Missing required fields should return 400 with details"""
-    invalid_answers = {"risk_approach": "moderate"}
+    """Invalid answer values should return 400 with details.
+
+    Missing fields are now auto-filled by apply_defaults, so a validation
+    error is only raised for an explicitly invalid value.
+    """
+    invalid_answers = {"risk_approach": "not_a_real_option"}
 
     response = client.post("/api/portfolio", json={"user_answers": invalid_answers})
     assert response.status_code == 400

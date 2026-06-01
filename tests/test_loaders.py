@@ -113,16 +113,16 @@ class TestQuestionnaireLoader:
 
         # Expected sections
         section_ids = [s["id"] for s in sections]
-        assert "investment_goal" in section_ids
         assert "risk_approach" in section_ids
         assert "loss_tolerance" in section_ids
+        assert "preferred_regions" in section_ids
 
     def test_get_section_by_id(self):
         """Test getting a specific section"""
         ql = QuestionnaireLoader(Q_SCHEMA_PATH)
-        section = ql.get_section_by_id("investment_goal")
+        section = ql.get_section_by_id("risk_approach")
         assert section is not None
-        assert section["id"] == "investment_goal"
+        assert section["id"] == "risk_approach"
         assert "options" in section
         assert len(section["options"]) > 0
 
@@ -131,10 +131,6 @@ class TestQuestionnaireLoader:
         ql = QuestionnaireLoader(Q_SCHEMA_PATH)
 
         valid_answers = {
-            "investment_goal": "retirement",
-            "investment_duration": "20_plus_years",
-            "monthly_savings": "300_500",
-            "investment_knowledge": "experienced",
             "risk_approach": "moderate",
             "loss_tolerance": "high_loss_tolerance",
             "esg_preference": "no_requirement",
@@ -151,7 +147,7 @@ class TestQuestionnaireLoader:
         ql = QuestionnaireLoader(Q_SCHEMA_PATH)
 
         invalid_answers = {
-            "investment_goal": "invalid_goal",
+            "esg_preference": "invalid_esg",
             "risk_approach": "unknown_approach",
         }
 
@@ -164,8 +160,8 @@ class TestQuestionnaireLoader:
         ql = QuestionnaireLoader(Q_SCHEMA_PATH)
 
         incomplete_answers = {
-            "investment_goal": "retirement"
-            # Missing many required fields
+            "esg_preference": "no_requirement"
+            # Missing risk_approach, loss_tolerance, etf_preference
         }
 
         is_valid, errors = ql.validate_answers(incomplete_answers)
@@ -195,13 +191,67 @@ class TestQuestionnaireLoader:
             "Aggressive answers should give high risk profile"
         )
 
+    def test_risk_approach_has_three_options(self):
+        """risk_approach should be reduced to conservative/moderate/aggressive."""
+        ql = QuestionnaireLoader(Q_SCHEMA_PATH)
+        section = ql.get_section_by_id("risk_approach")
+        values = {opt["value"] for opt in section["options"]}
+        assert values == {"conservative", "moderate", "aggressive"}
+
+    def test_apply_defaults_fills_missing(self):
+        """apply_defaults injects implicit answers for missing logic sections."""
+        ql = QuestionnaireLoader(Q_SCHEMA_PATH)
+        answers, applied = ql.apply_defaults({"risk_approach": "aggressive"})
+
+        # Existing answer preserved
+        assert answers["risk_approach"] == "aggressive"
+        # Missing logic-relevant sections filled with defaults
+        assert answers["loss_tolerance"] == "low_loss_tolerance"
+        assert answers["esg_preference"] == "no_requirement"
+        assert answers["etf_preference"] == "no_preference"
+        assert answers["preferred_regions"] == ["global"]
+        assert answers["preferred_themes"] == ["none"]
+        # The injected defaults are reported for logging
+        assert len(applied) == 5
+        assert all("default" in note for note in applied)
+
+    def test_apply_defaults_then_validates(self):
+        """Defaults should be sufficient to pass schema validation."""
+        ql = QuestionnaireLoader(Q_SCHEMA_PATH)
+        answers, _ = ql.apply_defaults({})
+        is_valid, errors = ql.validate_answers(answers)
+        assert is_valid, f"Defaulted answers should validate, got: {errors}"
+
+    def test_region_whitelist_exposes_gaps(self):
+        """Region options are the fixed canonical whitelist incl. zero-fund ones."""
+        ql = QuestionnaireLoader(Q_SCHEMA_PATH)
+        section = ql.get_section_by_id("preferred_regions")
+        values = [opt["value"] for opt in section["options"]]
+        assert values == [
+            "germany",
+            "europe",
+            "north_america",
+            "asia",
+            "emerging_markets",
+            "global",
+        ]
+
+    def test_theme_whitelist_exposes_new_themes(self):
+        """Theme options include new themes even with no backing funds."""
+        ql = QuestionnaireLoader(Q_SCHEMA_PATH)
+        section = ql.get_section_by_id("preferred_themes")
+        values = {opt["value"] for opt in section["options"]}
+        for new_theme in ("megatrends", "water", "ai_robotics", "dividends"):
+            assert new_theme in values
+        assert "none" in values
+
 
 class TestPortfolio:
     """Test Portfolio model"""
 
     def test_portfolio_creation(self):
         """Test creating a new portfolio"""
-        answers = {"investment_goal": "retirement", "risk_approach": "moderate"}
+        answers = {"risk_approach": "moderate", "loss_tolerance": "low_loss_tolerance"}
         portfolio = Portfolio(answers)
 
         assert portfolio.portfolio_id is not None

@@ -221,6 +221,9 @@ def create_app():
             if accept_lang:
                 lang = accept_lang.split(",")[0].strip().split("-")[0]
 
+        # 0. Inject implicit defaults for missing logic-relevant answers
+        user_answers, applied_defaults = ql.apply_defaults(user_answers)
+
         # 1. Validate answers
         valid, errors = ql.validate_answers(user_answers)
         if not valid:
@@ -261,6 +264,9 @@ def create_app():
         portfolio.set_risk_profile(result.get("risk_profile"))
         portfolio.set_explanations(result.get("explanations", {}))
         portfolio.set_decision_trace(result.get("decision_trace", {}))
+
+        for note in applied_defaults:
+            portfolio.add_log(note)
 
         if result.get("decision_trace", {}).get("used_fallback_risk"):
             portfolio.add_log(

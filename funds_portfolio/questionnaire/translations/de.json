@@ -1,53 +1,9 @@
 {
   "sections": {
-    "investment_goal": {
-      "name": "Was ist Ihr Hauptziel mit dieser Geldanlage?",
-      "options": {
-        "wealth_building": "Vermögensaufbau für Wünsche und Ziele",
-        "retirement": "Absicherung der Altersvorsorge",
-        "home_ownership": "Sparen für das eigene Zuhause",
-        "wealth_transfer": "Vermögen an die nächste Generation weitergeben"
-      }
-    },
-    "investment_duration": {
-      "name": "Wie lange möchten Sie anlegen?",
-      "options": {
-        "short_term": "Bis zu 12 Jahre",
-        "medium_term": "12 bis 20 Jahre",
-        "long_term": "Über 20 Jahre"
-      }
-    },
-    "monthly_savings": {
-      "name": "Wie viel können Sie monatlich sparen?",
-      "options": {
-        "micro": "0 € bis 150 €",
-        "modest": "150 € bis 300 €",
-        "moderate": "300 € bis 500 €",
-        "substantial": "Über 500 €",
-        "no_answer": "Lieber keine Angabe"
-      }
-    },
-    "investment_experience": {
-      "name": "Haben Sie bereits Erfahrung mit folgenden Anlageformen?",
-      "options": {
-        "insurance": "Lebensversicherung oder Rentenversicherung",
-        "funds": "Investmentfonds (Aktien-, Renten- oder Mischfonds)",
-        "alternative": "Alternative Investments",
-        "no_experience": "Noch keine Erfahrung – das ist völlig in Ordnung"
-      }
-    },
-    "investment_knowledge": {
-      "name": "Wie würden Sie Ihre Kenntnisse einschätzen?",
-      "options": {
-        "confident": "Ja, ich kenne mich gut aus",
-        "beginner": "Nein, ich bin noch Anfänger"
-      }
-    },
     "risk_approach": {
       "name": "Welcher Anlageansatz spricht Sie am meisten an?",
       "options": {
         "conservative": "Sicherheit ist mir am wichtigsten – lieber stetiges Wachstum",
-        "moderate_low": "Sicherheit ist mir wichtig, aber ich bin offen für moderate Chancen",
         "moderate": "Ich akzeptiere Schwankungen für bessere Renditen, möchte aber etwas Schutz",
         "aggressive": "Ich nehme Risiken in Kauf für bessere Wachstumschancen"
       }
@@ -81,10 +37,12 @@
       "name": "Welche Regionen möchten Sie bevorzugen?",
       "description": "Wählen Sie alles, was Sie interessiert. Wir nutzen dies, um regionale Schwerpunkte zu setzen und das Portfolio dennoch zu diversifizieren.",
       "options": {
-        "region_global": "Global – weltweit verteilt",
+        "region_germany": "Deutschland – Fokus auf den deutschen Markt",
         "region_europe": "Europa – Fokus auf europäische Märkte",
         "region_north_america": "Nordamerika – USA und Kanada",
-        "region_emerging": "Schwellenländer – wachstumsstark"
+        "region_asia": "Asien – entwickelte und aufstrebende Märkte",
+        "region_emerging": "Schwellenländer – wachstumsstark",
+        "region_global": "Global – alles, was nicht von den Regionen oben abgedeckt ist"
       }
     },
     "preferred_themes": {
@@ -94,19 +52,25 @@
         "theme_none": "Kein spezielles Thema – gut diversifiziert",
         "theme_sustainability": "Nachhaltigkeit & Klima – saubere Energie, Umweltschutz",
         "theme_technology": "Technologie & Innovation – KI, Halbleiter, Digitalisierung",
-        "theme_healthcare": "Gesundheit & Life Sciences – Biotech, Medizintechnik, Pharma"
+        "theme_healthcare": "Gesundheit & Life Sciences – Biotech, Medizintechnik, Pharma",
+        "theme_commodities": "Rohstoffe – Edelmetalle, Energie, Agrarrohstoffe",
+        "theme_infrastructure": "Infrastruktur – Verkehr, Versorgung, Telekommunikation",
+        "theme_defense": "Sicherheit & Verteidigung – Rüstung, Cybersicherheit",
+        "theme_energy": "Energie – Öl, Gas und erneuerbare Energien",
+        "theme_megatrends": "Megatrends – breite strukturelle Wachstumstrends",
+        "theme_water": "Wasser – Wasserversorgung, -aufbereitung und -effizienz",
+        "theme_ai_robotics": "KI & Robotik – künstliche Intelligenz und Automatisierung",
+        "theme_dividends": "Dividenden – stabile, ertragsstarke Unternehmen"
       }
     }
   },
   "regions": {
-    "global": "Global – weltweit verteilt",
+    "germany": "Deutschland – Fokus auf den deutschen Markt",
     "europe": "Europa – Fokus auf europäische Märkte",
     "north_america": "Nordamerika – USA und Kanada",
-    "eurozone": "Eurozone – Länder mit Euro",
-    "united_kingdom": "Vereinigtes Königreich – UK‑Fokus",
-    "germany": "Deutschland – Fokus auf den deutschen Markt",
     "asia": "Asien – entwickelte und aufstrebende Märkte",
-    "emerging_markets": "Schwellenländer – wachstumsstark"
+    "emerging_markets": "Schwellenländer – wachstumsstark",
+    "global": "Global – alles, was nicht von den Regionen oben abgedeckt ist"
   },
   "themes": {
     "none": "Kein spezielles Thema – gut diversifiziert",
@@ -114,8 +78,12 @@
     "technology": "Technologie & Innovation – KI, Halbleiter, Digitalisierung",
     "healthcare": "Gesundheit & Life Sciences – Biotech, Medizintechnik, Pharma",
     "commodities": "Rohstoffe – Edelmetalle, Energie, Agrarrohstoffe",
+    "infrastructure": "Infrastruktur – Verkehr, Versorgung, Telekommunikation",
     "defense": "Sicherheit & Verteidigung – Rüstung, Cybersicherheit",
     "energy": "Energie – Öl, Gas und erneuerbare Energien",
-    "infrastructure": "Infrastruktur – Verkehr, Versorgung, Telekommunikation"
+    "megatrends": "Megatrends – breite strukturelle Wachstumstrends",
+    "water": "Wasser – Wasserversorgung, -aufbereitung und -effizienz",
+    "ai_robotics": "KI & Robotik – künstliche Intelligenz und Automatisierung",
+    "dividends": "Dividenden – stabile, ertragsstarke Unternehmen"
   }
 }

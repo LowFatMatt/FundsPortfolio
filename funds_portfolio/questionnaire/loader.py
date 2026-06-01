@@ -174,6 +174,44 @@ class QuestionnaireLoader:
 
         return translated
 
+    # Sections the decision engine actually consumes, with the implicit default
+    # applied when the answer is missing. Keeps API tests resilient to partial
+    # payloads; the chosen defaults represent the least-constraining option.
+    LOGIC_RELEVANT_DEFAULTS: Dict[str, object] = {
+        "risk_approach": "conservative",
+        "loss_tolerance": "low_loss_tolerance",
+        "esg_preference": "no_requirement",
+        "etf_preference": "no_preference",
+        "preferred_regions": ["global"],
+        "preferred_themes": ["none"],
+    }
+
+    def apply_defaults(self, user_answers: Dict) -> tuple[Dict, List[str]]:
+        """Fill missing logic-relevant answers with their implicit defaults.
+
+        Returns a (answers, applied) tuple where ``answers`` is a copy of the
+        input with defaults injected for any missing logic-relevant section,
+        and ``applied`` is a list of human-readable notes describing each
+        implicit answer that was added (for logging / server_logs).
+        """
+        answers = dict(user_answers or {})
+        applied: List[str] = []
+
+        for section_id, default_value in self.LOGIC_RELEVANT_DEFAULTS.items():
+            if section_id in answers:
+                continue
+            value = (
+                list(default_value)
+                if isinstance(default_value, list)
+                else default_value
+            )
+            answers[section_id] = value
+            applied.append(
+                f'No answer for "{section_id}" - applied default "{value}"'
+            )
+
+        return answers, applied
+
     def validate_answers(self, user_answers: Dict) -> tuple[bool, List[str]]:
         """
         Validate user answers against questionnaire schema.
@@ -351,74 +389,90 @@ class QuestionnaireLoader:
                 return
 
     def _build_region_options(self, counts: Counter) -> List[Dict]:
-        if not counts:
-            return []
+        """Emit the fixed canonical region whitelist.
 
+        Options are always returned in the canonical order regardless of how
+        many funds back each region, so empty categories (e.g. north_america
+        with no funds) stay visible as deliberate test/coverage signals.
+        Translation files override these labels at serve time.
+        """
         label_map = {
-            "global": "Global - spread across all major markets",
+            "germany": "Germany - German market focus",
             "europe": "Europe - focus on European markets",
             "north_america": "North America - US and Canadian markets",
-            "eurozone": "Eurozone - countries using the euro",
-            "united_kingdom": "United Kingdom - UK market focus",
-            "germany": "Germany - German market focus",
             "asia": "Asia - developed and emerging Asia",
             "emerging_markets": "Emerging Markets - high-growth developing economies",
+            "global": "Global - anything not covered by the regions above",
         }
 
-        preferred_order = [
-            "global",
+        canonical_regions = [
+            "germany",
             "europe",
             "north_america",
-            "eurozone",
-            "united_kingdom",
-            "germany",
             "asia",
             "emerging_markets",
+            "global",
         ]
 
-        remaining = [r for r in counts.keys() if r not in preferred_order]
-        remaining.sort(key=lambda r: (-counts[r], r))
-
-        ordered = [r for r in preferred_order if r in counts] + remaining
-
         options = []
-        for value in ordered:
-            label = label_map.get(value, value.replace("_", " ").title())
+        for value in canonical_regions:
             options.append(
                 {
                     "id": f"region_{value}",
-                    "label": label,
+                    "label": label_map[value],
                     "value": value,
+                    "fund_count": counts.get(value, 0),
                 }
             )
         return options
 
     def _build_theme_options(self, counts: Counter) -> List[Dict]:
+        """Emit the fixed canonical theme whitelist.
+
+        Like regions, all canonical themes are always returned regardless of
+        fund counts so that newly-introduced themes with no backing funds yet
+        (e.g. megatrends, water, ai_robotics, dividends) surface as gaps.
+        DB tag names are kept verbatim (commodities, defense, ...).
+        Translation files override these labels at serve time.
+        """
         label_map = {
-            "SUSTAINABILITY": "Sustainability & Climate - clean energy, environmental protection",
-            "TECHNOLOGY": "Technology & Innovation - AI, semiconductors, digitalisation",
-            "HEALTHCARE": "Healthcare & Life Sciences - biotech, medical devices, pharma",
+            "none": "No specific theme - just a well-diversified portfolio",
+            "sustainability": "Sustainability & Climate - clean energy, environmental protection",
+            "technology": "Technology & Innovation - AI, semiconductors, digitalisation",
+            "healthcare": "Healthcare & Life Sciences - biotech, medical devices, pharma",
+            "commodities": "Commodities & Raw Materials - metals, energy, agriculture",
+            "infrastructure": "Infrastructure - transport, utilities, communication networks",
+            "defense": "Security & Defense - aerospace, defense, cybersecurity",
+            "energy": "Energy - traditional and renewable energy producers",
+            "megatrends": "Megatrends - broad structural growth trends",
+            "water": "Water - water supply, treatment and efficiency",
+            "ai_robotics": "AI & Robotics - artificial intelligence and automation",
+            "dividends": "Dividends - stable, income-generating companies",
         }
 
-        options = [
-            {
-                "id": "theme_none",
-                "label": "No specific theme - just a well-diversified portfolio",
-                "value": "none",
-            }
+        canonical_themes = [
+            "none",
+            "sustainability",
+            "technology",
+            "healthcare",
+            "commodities",
+            "infrastructure",
+            "defense",
+            "energy",
+            "megatrends",
+            "water",
+            "ai_robotics",
+            "dividends",
         ]
 
-        themes = [t for t in counts.keys() if t and t.upper() != "NONE"]
-        themes.sort(key=lambda t: (-counts[t], t))
-
-        for theme in themes:
-            value = theme.lower()
-            label = label_map.get(theme, theme.replace("_", " ").title())
+        options = []
+        for value in canonical_themes:
             options.append(
                 {
                     "id": f"theme_{value}",
-                    "label": label,
+                    "label": label_map[value],
                     "value": value,
+                    "fund_count": counts.get(value.upper(), 0),
                 }
             )
         return options

@@ -29,8 +29,6 @@ class PortfolioOptimizer:
         approach = str(user_answers.get("risk_approach", "")).lower()
         if approach == "conservative" or approach == "1":
             return 1, False
-        if approach == "moderate_low" or approach == "2":
-            return 2, False
         if approach == "moderate" or approach == "3":
             return 3, False
         if approach == "aggressive" or approach == "4":
@@ -38,9 +36,9 @@ class PortfolioOptimizer:
 
         # Default fallback
         logger.warning(
-            "Unrecognized risk approach '%s', defaulting to 2 (moderate low)", approach
+            "Unrecognized risk approach '%s', defaulting to 3 (balanced)", approach
         )
-        return 2, True
+        return 3, True
 
     def optimize_portfolio(
         self, user_answers: Dict, enriched_funds: List[Dict]

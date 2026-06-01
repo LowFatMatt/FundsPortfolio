@@ -41,6 +41,31 @@ SRRI_VOL_PROXY: Dict[int, float] = {
     7: 30.0,
 }
 
+# Explicit (non-catch-all) regions. "global" is treated as a catch-all that
+# matches any fund whose region is NOT one of these.
+EXPLICIT_REGIONS: set = {
+    "germany",
+    "europe",
+    "north_america",
+    "asia",
+    "emerging_markets",
+}
+
+
+def _region_matches(fund_region: str, preferred: set) -> bool:
+    """Return True if a fund's region satisfies the user's preferred regions.
+
+    A fund matches when its region is explicitly preferred, or when the user
+    selected "global" and the fund's region is not one of the explicit regions
+    (i.e. "global" means "anything not covered by the named regions").
+    """
+    region = str(fund_region or "").lower()
+    if region in preferred:
+        return True
+    if "global" in preferred and region not in EXPLICIT_REGIONS:
+        return True
+    return False
+
 
 class DecisionEngine:
     """
@@ -228,7 +253,6 @@ class DecisionEngine:
 
         base = {
             "conservative": 1,
-            "moderate_low": 2,
             "moderate": 3,
             "aggressive": 4,
         }.get(approach)
@@ -452,7 +476,7 @@ class DecisionEngine:
         preferred_regions = {
             str(r).lower() for r in (user_answers.get("preferred_regions") or [])
         }
-        if preferred_regions and str(fund.get("region") or "").lower() in preferred_regions:
+        if preferred_regions and _region_matches(fund.get("region"), preferred_regions):
             boosts["Region"] = 3.0
 
         # Thematic preference boost
@@ -554,7 +578,7 @@ class DecisionEngine:
 
         # Edge case 3: Regional concentration cap — max 3 of 5 from same preferred region
         def _region_match(f: Dict[str, Any]) -> bool:
-            return str(f.get("region") or "").lower() in preferred_regions
+            return _region_matches(f.get("region"), preferred_regions)
 
         if preferred_regions and len(selected) > 3:
             regional = [f for f in selected if _region_match(f)]
