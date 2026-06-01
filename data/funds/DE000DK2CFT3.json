@@ -1,24 +1,26 @@
 {
   "isin": "DE000DK2CFT3",
-  "as_of": "2026-05-12",
+  "as_of": "2026-06-01",
   "schema_version": 2,
   "source": "factsheetslive",
   "source_url": "https://provinzial-nord.stg.wt.factsheetslive.com/produkt/DE000DK2CFT3",
   "currency": "EUR",
   "fund_name": "Deka-BasisAnlage offensiv",
   "provinzial_fund_type": "Vermögensverwaltende Fonds",
+  "region": "global",
+  "theme": "NONE",
   "ter": 0.0168,
   "sri": 3,
   "performance": {
     "periods": {
-      "3m": 0.0462,
-      "6m": 0.0765,
-      "ytd": 0.0727,
-      "1y": 0.2066,
-      "3y_pa": 0.1216,
-      "5y_pa": 0.0694,
-      "10y_pa": 0.0798,
-      "si_pa": 0.0822
+      "3m": 0.0579,
+      "6m": 0.1043,
+      "ytd": 0.1011,
+      "1y": 0.2017,
+      "3y_pa": 0.1252,
+      "5y_pa": 0.0763,
+      "10y_pa": 0.0793,
+      "si_pa": 0.0839
     },
     "nav_series": [
       {
@@ -682,21 +684,21 @@
         "v": 294.086
       },
       {
-        "d": "2026-05-11",
-        "v": 303.19
+        "d": "2026-05-29",
+        "v": 311.2362
       }
     ]
   },
   "volatility": {
-    "1y": 0.1073,
-    "3y": 0.1136,
-    "5y": 0.1142
+    "1y": 0.1062,
+    "3y": 0.1138,
+    "5y": 0.1141
   },
   "risk_metrics": {
     "sharpe": {
-      "1y": 1.71,
-      "3y": 0.79,
-      "5y": 0.44
+      "1y": 1.7,
+      "3y": 0.82,
+      "5y": 0.49
     },
     "max_drawdown": {
       "1y": null,
@@ -705,29 +707,29 @@
     }
   },
   "asset_class_breakdown": {
-    "equity": 0.9476,
-    "other": 0.0524
+    "equity": 0.995,
+    "other": 0.005
   },
   "top_holdings": [
     {
-      "name": "State Street SPDR S&P 500 Leaders UCITS ETF (Acc)",
-      "weight": 0.0781
+      "name": "Nordea-2 BetaPlus Enh Emerging Markets Sustainable Equity Fund - BI - USD",
+      "weight": 0.0779
+    },
+    {
+      "name": "iShares MSCI Europe SRI UCITS ETF EUR (Acc) Share Class",
+      "weight": 0.0775
     },
     {
       "name": "T. Rowe Price Funds SICAV - US Equity Fund I (EUR) 10 acc",
-      "weight": 0.0774
-    },
-    {
-      "name": "Nordea-2 BetaPlus Enh Emerging Markets Sustainable Equity Fund - BI - USD",
       "weight": 0.0755
     },
     {
       "name": "Deka MSCI USA Climate Change ESG CTB UCITS ETF",
-      "weight": 0.0732
+      "weight": 0.074
     },
     {
-      "name": "ABN AMRO Funds - Parnassus US ESG Equities D EUR Cap",
-      "weight": 0.0725
+      "name": "State Street SPDR S&P 500 Leaders UCITS ETF (Acc)",
+      "weight": 0.0728
     }
   ]
 }

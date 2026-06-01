@@ -1,24 +1,26 @@
 {
   "isin": "LU1211644858",
-  "as_of": "2026-05-12",
+  "as_of": "2026-06-01",
   "schema_version": 2,
   "source": "factsheetslive",
   "source_url": "https://provinzial-nord.stg.wt.factsheetslive.com/produkt/LU1211644858",
   "currency": "EUR",
   "fund_name": "Deka-GlobalStrategie Garant 80 KR",
   "provinzial_fund_type": "Wertsicherungsfonds",
+  "region": "global",
+  "theme": "NONE",
   "ter": 0.0137,
   "sri": 3,
   "performance": {
     "periods": {
-      "3m": 0.0273,
-      "6m": 0.0536,
-      "ytd": 0.0579,
-      "1y": 0.1805,
-      "3y_pa": 0.1145,
-      "5y_pa": 0.0589,
-      "10y_pa": 0.0489,
-      "si_pa": 0.0483
+      "3m": 0.0346,
+      "6m": 0.0829,
+      "ytd": 0.0824,
+      "1y": 0.1795,
+      "3y_pa": 0.1197,
+      "5y_pa": 0.063,
+      "10y_pa": 0.0506,
+      "si_pa": 0.0503
     },
     "nav_series": [
       {
@@ -514,21 +516,21 @@
         "v": 160.2946
       },
       {
-        "d": "2026-05-11",
-        "v": 164.264
+        "d": "2026-05-29",
+        "v": 168.0648
       }
     ]
   },
   "volatility": {
-    "1y": 0.0927,
-    "3y": 0.0962,
-    "5y": 0.093
+    "1y": 0.0928,
+    "3y": 0.0965,
+    "5y": 0.0932
   },
   "risk_metrics": {
     "sharpe": {
       "1y": 1.71,
-      "3y": 0.86,
-      "5y": 0.43
+      "3y": 0.92,
+      "5y": 0.47
     },
     "max_drawdown": {
       "1y": null,

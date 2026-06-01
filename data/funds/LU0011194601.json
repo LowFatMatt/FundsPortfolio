@@ -1,24 +1,26 @@
 {
   "isin": "LU0011194601",
-  "as_of": "2026-05-12",
+  "as_of": "2026-06-01",
   "schema_version": 2,
   "source": "factsheetslive",
   "source_url": "https://provinzial-nord.stg.wt.factsheetslive.com/produkt/LU0011194601",
   "currency": "EUR",
   "fund_name": "DekaLux-Bond A",
   "provinzial_fund_type": "Renten/Geldmarktfonds",
+  "region": "europe",
+  "theme": "NONE",
   "ter": 0.0098,
   "sri": 3,
   "performance": {
     "periods": {
-      "3m": -0.005,
-      "6m": 0.0099,
-      "ytd": 0.0099,
-      "1y": 0.0081,
-      "3y_pa": 0.0177,
-      "5y_pa": -0.0349,
-      "10y_pa": -0.0079,
-      "si_pa": 0.0146
+      "3m": -0.0053,
+      "6m": 0.014,
+      "ytd": 0.0148,
+      "1y": 0.0112,
+      "3y_pa": 0.0242,
+      "5y_pa": -0.0342,
+      "10y_pa": -0.0078,
+      "si_pa": 0.0149
     },
     "nav_series": [
       {
@@ -762,44 +764,40 @@
         "v": 124.5497
       },
       {
-        "d": "2026-05-11",
-        "v": 125.7145
+        "d": "2026-05-29",
+        "v": 126.3194
       }
     ]
   },
   "volatility": {
-    "1y": 0.0456,
-    "3y": 0.0513,
-    "5y": 0.063
+    "1y": 0.0448,
+    "3y": 0.0503,
+    "5y": 0.0631
   },
   "risk_metrics": {
     "sharpe": {
-      "1y": -0.24,
-      "3y": -0.21,
-      "5y": -0.83
+      "1y": -0.17,
+      "3y": -0.09,
+      "5y": -0.82
     },
     "max_drawdown": {
       "1y": null,
-      "3y": -0.0565,
+      "3y": -0.0467,
       "5y": -0.2721
     }
   },
   "asset_class_breakdown": {
-    "bond": 0.9474,
-    "other": 0.0526
+    "bond": 0.8207,
+    "other": 0.1793
   },
   "top_holdings": [
-    {
-      "name": "Ungarn Notes 11/28",
-      "weight": 0.0344
-    },
     {
       "name": "Kownigreich Daenemark Anl. 24/35",
       "weight": 0.0325
     },
     {
       "name": "Koenigreich Norwegen Anl. 23/33",
-      "weight": 0.0242
+      "weight": 0.0249
     },
     {
       "name": "Königreich Dänemark Anl. 07/39",
@@ -807,27 +805,31 @@
     },
     {
       "name": "Koenigreich Norwegen Anl. 25/35",
-      "weight": 0.0164
+      "weight": 0.0168
     },
     {
       "name": "Kreditanst.f.Wiederaufbau MTN 23/33",
-      "weight": 0.0146
+      "weight": 0.0147
     },
     {
       "name": "Großbritannien Treasury Stock 21/46",
-      "weight": 0.0141
+      "weight": 0.0138
+    },
+    {
+      "name": "Ungarn Bonds S.2035/A 23/35",
+      "weight": 0.0131
     },
     {
       "name": "Republik Polen Bonds S.DS1033 22/33",
-      "weight": 0.0124
-    },
-    {
-      "name": "Koenigreich Spanien Bonos 23/39",
-      "weight": 0.012
+      "weight": 0.0126
     },
     {
       "name": "Koenigreich Spanien Obligaciones 05/37",
       "weight": 0.0116
+    },
+    {
+      "name": "Republik Irland Treasury Bonds 26/36",
+      "weight": 0.0115
     }
   ]
 }

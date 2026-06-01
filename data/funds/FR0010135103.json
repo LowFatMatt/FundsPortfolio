@@ -1,23 +1,25 @@
 {
   "isin": "FR0010135103",
-  "as_of": "2026-05-12",
+  "as_of": "2026-06-01",
   "schema_version": 2,
   "source": "factsheetslive",
   "source_url": "https://provinzial-nord.stg.wt.factsheetslive.com/produkt/FR0010135103",
   "currency": "EUR",
   "fund_name": "Carmignac Patrimoine A EUR Acc",
   "provinzial_fund_type": "Mischfonds",
+  "region": "global",
+  "theme": "NONE",
   "ter": 0.018,
   "sri": 3,
   "performance": {
     "periods": {
-      "3m": 0.0299,
-      "6m": 0.0425,
-      "ytd": 0.039,
-      "1y": 0.1299,
-      "3y_pa": 0.0831,
-      "5y_pa": 0.0235,
-      "10y_pa": 0.0292,
+      "3m": 0.0213,
+      "6m": 0.0487,
+      "ytd": 0.0423,
+      "1y": 0.1088,
+      "3y_pa": 0.0902,
+      "5y_pa": 0.0234,
+      "10y_pa": 0.0284,
       "si_pa": 0.0671
     },
     "nav_series": [
@@ -1774,21 +1776,21 @@
         "v": 1057.1706
       },
       {
-        "d": "2026-05-07",
-        "v": 1064.2829
+        "d": "2026-05-28",
+        "v": 1067.6314
       }
     ]
   },
   "volatility": {
-    "1y": 0.0512,
-    "3y": 0.0578,
-    "5y": 0.0615
+    "1y": 0.0496,
+    "3y": 0.0575,
+    "5y": 0.0614
   },
   "risk_metrics": {
     "sharpe": {
-      "1y": 2.12,
-      "3y": 0.91,
-      "5y": 0.08
+      "1y": 1.77,
+      "3y": 1.04,
+      "5y": 0.07
     },
     "max_drawdown": {
       "1y": null,
@@ -1797,51 +1799,50 @@
     }
   },
   "asset_class_breakdown": {
-    "equity": 0.384,
-    "bond": 0.42,
-    "other": 0.145,
-    "cash": 0.051
+    "equity": 0.4197,
+    "bond": 0.4086,
+    "other": 0.1717
   },
   "top_holdings": [
     {
       "name": "Taiwan Semiconductor Manufact.",
-      "weight": 0.049
+      "weight": 0.0549
     },
     {
       "name": "BUONI POLIENNALI DEL TES SR UNSECURED 11/28 1",
-      "weight": 0.0358
+      "weight": 0.0349
     },
     {
       "name": "Nvidia Corp.",
-      "weight": 0.0323
+      "weight": 0.032
     },
     {
       "name": "BUONI POLIENNALI DEL TES SR UNSECURED 06/30 1.6",
-      "weight": 0.0298
+      "weight": 0.0292
     },
     {
       "name": "USA 0.12% 15/07/2030",
-      "weight": 0.0236
+      "weight": 0.0228
     },
     {
       "name": "MercadoLibre, Inc.",
-      "weight": 0.0229
+      "weight": 0.0225
     },
     {
       "name": "UBS Group AG",
-      "weight": 0.0201
-    },
-    {
-      "name": "S&P GLOBAL INC",
-      "weight": 0.0184
+      "weight": 0.0212
     },
     {
       "name": "Cencora Inc.",
-      "weight": 0.0176
+      "weight": 0.0204
     },
     {
-      "name": "1.3% Japan 3/2063",
-      "weight": 0.0168
+      "name": "Amazon.com Inc.",
+      "weight": 0.0196
+    },
+    {
+      "name": "McKesson Corp.",
+      "weight": 0.0179
     }
   ]
 }

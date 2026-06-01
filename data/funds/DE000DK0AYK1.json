@@ -1,23 +1,25 @@
 {
   "isin": "DE000DK0AYK1",
-  "as_of": "2026-05-12",
+  "as_of": "2026-06-01",
   "schema_version": 2,
   "source": "factsheetslive",
   "source_url": "https://provinzial-nord.stg.wt.factsheetslive.com/produkt/DE000DK0AYK1",
   "currency": "EUR",
   "fund_name": "Deka-RentenReal",
   "provinzial_fund_type": "Renten/Geldmarktfonds",
+  "region": "global",
+  "theme": "NONE",
   "ter": 0.011,
   "sri": 2,
   "performance": {
     "periods": {
-      "3m": 0.0022,
-      "6m": 0.0041,
-      "ytd": 0.008,
-      "1y": 0.0175,
-      "3y_pa": 0.0141,
+      "3m": -0.0041,
+      "6m": 0.0013,
+      "ytd": 0.0074,
+      "1y": 0.0165,
+      "3y_pa": 0.0173,
       "5y_pa": -0.0087,
-      "10y_pa": -0.0137,
+      "10y_pa": -0.0134,
       "si_pa": -0.0078
     },
     "nav_series": [
@@ -950,47 +952,48 @@
         "v": 84.1885
       },
       {
-        "d": "2026-05-11",
-        "v": 84.2687
+        "d": "2026-05-29",
+        "v": 84.2153
       }
     ]
   },
   "volatility": {
-    "1y": 0.0279,
-    "3y": 0.0362,
+    "1y": 0.0272,
+    "3y": 0.0357,
     "5y": 0.0428
   },
   "risk_metrics": {
     "sharpe": {
-      "1y": -0.06,
-      "3y": -0.4,
+      "1y": -0.09,
+      "3y": -0.31,
       "5y": -0.63
     },
     "max_drawdown": {
       "1y": null,
-      "3y": -0.045,
+      "3y": -0.0358,
       "5y": -0.1537
     }
   },
   "asset_class_breakdown": {
-    "bond": 1.0007
+    "bond": 0.9875,
+    "other": 0.0125
   },
   "top_holdings": [
     {
       "name": "U.S. Treasury Inflation-Prot. Secs 23/28",
-      "weight": 0.1162
-    },
-    {
-      "name": "U.S. Treasury Inflation-Prot. Secs 24/29",
-      "weight": 0.0724
+      "weight": 0.1104
     },
     {
       "name": "U.S. Treasury Inflation-Prot. Secs 20/30",
       "weight": 0.0646
     },
     {
+      "name": "U.S. Treasury Inflation-Prot. Secs 24/29",
+      "weight": 0.0616
+    },
+    {
       "name": "U.S. Treasury Inflation-Prot. Secs 22/32",
-      "weight": 0.0458
+      "weight": 0.0459
     },
     {
       "name": "U.S. Treasury Inflation-Ind. Notes 23/33",
@@ -1002,19 +1005,19 @@
     },
     {
       "name": "Großbritannien Inflation-Ind. Lkd.Treas.St. 11/29",
-      "weight": 0.0321
-    },
-    {
-      "name": "Republik Italien Inflation-Ind. Lkd B.T.P. 19/30",
-      "weight": 0.0311
+      "weight": 0.0325
     },
     {
       "name": "Rep. Frankreich Inflation-Ind.-Lkd OAT 10/27",
-      "weight": 0.0305
+      "weight": 0.0309
     },
     {
-      "name": "Großbritannien Inflation-Ind. Lkd.Treas.St. 08/32",
-      "weight": 0.0282
+      "name": "Rep. Frankreich Inflation-Ind.-Lkd OAT 14/30",
+      "weight": 0.028
+    },
+    {
+      "name": "Republik Italien Inflation-Ind. Lkd B.T.P. 25/31",
+      "weight": 0.0262
     }
   ]
 }

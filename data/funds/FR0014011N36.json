@@ -1,12 +1,14 @@
 {
   "isin": "FR0014011N36",
-  "as_of": "2026-05-12",
+  "as_of": "2026-06-01",
   "schema_version": 2,
   "source": "factsheetslive",
   "source_url": "https://provinzial-nord.stg.wt.factsheetslive.com/produkt/FR0014011N36",
   "currency": "EUR",
   "fund_name": "WorldGuard 90 Portfolio Fund",
   "provinzial_fund_type": "Wertsicherungsfonds",
+  "region": "global",
+  "theme": "NONE",
   "ter": null,
   "sri": null,
   "performance": {

@@ -1,24 +1,26 @@
 {
   "isin": "LU0089640097",
-  "as_of": "2026-05-12",
+  "as_of": "2026-06-01",
   "schema_version": 2,
   "source": "factsheetslive",
   "source_url": "https://provinzial-nord.stg.wt.factsheetslive.com/produkt/LU0089640097",
   "currency": "EUR",
   "fund_name": "JPMorgan Funds - Euroland Equity A (dist) - EUR",
   "provinzial_fund_type": "Aktienfonds",
+  "region": "europe",
+  "theme": "NONE",
   "ter": 0.0173,
   "sri": 4,
   "performance": {
     "periods": {
-      "3m": -0.0034,
-      "6m": 0.082,
-      "ytd": 0.0473,
-      "1y": 0.1784,
-      "3y_pa": 0.1513,
-      "5y_pa": 0.1091,
-      "10y_pa": 0.0957,
-      "si_pa": 0.0758
+      "3m": 0.004,
+      "6m": 0.1043,
+      "ytd": 0.0706,
+      "1y": 0.1735,
+      "3y_pa": 0.1633,
+      "5y_pa": 0.1068,
+      "10y_pa": 0.0928,
+      "si_pa": 0.0763
     },
     "nav_series": [
       {
@@ -1822,21 +1824,21 @@
         "v": 1511.678
       },
       {
-        "d": "2026-05-11",
-        "v": 1544.1132
+        "d": "2026-05-29",
+        "v": 1578.3504
       }
     ]
   },
   "volatility": {
-    "1y": 0.1524,
-    "3y": 0.1483,
-    "5y": 0.1643
+    "1y": 0.1553,
+    "3y": 0.1488,
+    "5y": 0.1646
   },
   "risk_metrics": {
     "sharpe": {
-      "1y": 1.02,
-      "3y": 0.8,
-      "5y": 0.54
+      "1y": 0.98,
+      "3y": 0.88,
+      "5y": 0.52
     },
     "max_drawdown": {
       "1y": null,
@@ -1845,49 +1847,45 @@
     }
   },
   "asset_class_breakdown": {
-    "equity": 0.973,
-    "other": 0.027
+    "equity": 0.971,
+    "other": 0.029
   },
   "top_holdings": [
     {
       "name": "ASML Holding N.V.",
-      "weight": 0.077
+      "weight": 0.083
     },
     {
       "name": "Banco Santander",
-      "weight": 0.038
-    },
-    {
-      "name": "Siemens AG",
       "weight": 0.036
     },
     {
-      "name": "UniCredit S.p.A.",
-      "weight": 0.03
-    },
-    {
-      "name": "Safran SA",
-      "weight": 0.027
+      "name": "Siemens AG",
+      "weight": 0.035
     },
     {
       "name": "Siemens Energy AG",
-      "weight": 0.027
-    },
-    {
-      "name": "Allianz SE",
-      "weight": 0.026
-    },
-    {
-      "name": "LVMH Moët Henn. L. Vuitton SE",
-      "weight": 0.025
+      "weight": 0.029
     },
     {
       "name": "Engie S.A.",
-      "weight": 0.025
+      "weight": 0.027
+    },
+    {
+      "name": "UniCredit S.p.A.",
+      "weight": 0.026
+    },
+    {
+      "name": "Safran SA",
+      "weight": 0.024
+    },
+    {
+      "name": "Allianz SE",
+      "weight": 0.022
     },
     {
       "name": "Intesa Sanpaolo S.p.A.",
-      "weight": 0.024
+      "weight": 0.022
     }
   ]
 }

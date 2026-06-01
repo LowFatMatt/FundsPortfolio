@@ -1,24 +1,26 @@
 {
   "isin": "LU0098472607",
-  "as_of": "2026-05-12",
+  "as_of": "2026-06-01",
   "schema_version": 2,
   "source": "factsheetslive",
   "source_url": "https://provinzial-nord.stg.wt.factsheetslive.com/produkt/LU0098472607",
   "currency": "EUR",
   "fund_name": "DekaStruktur: Chance",
   "provinzial_fund_type": "Vermögensverwaltende Fonds",
+  "region": "global",
+  "theme": "NONE",
   "ter": 0.0164,
   "sri": 3,
   "performance": {
     "periods": {
-      "3m": 0.03,
-      "6m": 0.0652,
-      "ytd": 0.0587,
-      "1y": 0.1842,
-      "3y_pa": 0.1086,
-      "5y_pa": 0.0613,
+      "3m": 0.038,
+      "6m": 0.0878,
+      "ytd": 0.0824,
+      "1y": 0.1796,
+      "3y_pa": 0.1135,
+      "5y_pa": 0.0669,
       "10y_pa": null,
-      "si_pa": 0.0696
+      "si_pa": 0.0733
     },
     "nav_series": [
       {
@@ -278,21 +280,21 @@
         "v": 141.3205
       },
       {
-        "d": "2026-05-11",
-        "v": 144.7619
+        "d": "2026-05-29",
+        "v": 147.9979
       }
     ]
   },
   "volatility": {
-    "1y": 0.0731,
-    "3y": 0.0821,
+    "1y": 0.0727,
+    "3y": 0.0822,
     "5y": 0.0884
   },
   "risk_metrics": {
     "sharpe": {
-      "1y": 2.21,
-      "3y": 0.94,
-      "5y": 0.47
+      "1y": 2.18,
+      "3y": 1.0,
+      "5y": 0.53
     },
     "max_drawdown": {
       "1y": null,
@@ -301,31 +303,31 @@
     }
   },
   "asset_class_breakdown": {
-    "equity": 0.7154,
-    "other": 0.2168,
-    "commodities": 0.0575,
-    "bond": 0.0103
+    "equity": 0.7093,
+    "other": 0.206,
+    "commodities": 0.0747,
+    "bond": 0.01
   },
   "top_holdings": [
     {
       "name": "IFM-Invest: Aktien USA",
-      "weight": 0.1484
+      "weight": 0.1505
     },
     {
       "name": "IFM-Invest: Aktien Europa",
-      "weight": 0.1006
+      "weight": 0.1001
     },
     {
       "name": "Deka-SektorInvest VTIA",
-      "weight": 0.0588
+      "weight": 0.06
     },
     {
       "name": "Deka MSCI Europe UCITS ETF",
-      "weight": 0.0582
+      "weight": 0.0573
     },
     {
       "name": "DekaLux-Japan Flex Hedged Euro E (A)",
-      "weight": 0.0407
+      "weight": 0.041
     }
   ]
 }

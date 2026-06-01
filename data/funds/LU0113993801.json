@@ -1,24 +1,26 @@
 {
   "isin": "LU0113993801",
-  "as_of": "2026-05-12",
+  "as_of": "2026-06-01",
   "schema_version": 2,
   "source": "factsheetslive",
   "source_url": "https://provinzial-nord.stg.wt.factsheetslive.com/produkt/LU0113993801",
   "currency": "EUR",
   "fund_name": "Janus Henderson Emerging Markets Fund A2 EUR",
   "provinzial_fund_type": "Aktienfonds",
+  "region": "emerging_markets",
+  "theme": "NONE",
   "ter": 0.0176,
   "sri": 4,
   "performance": {
     "periods": {
-      "3m": 0.1813,
-      "6m": 0.2281,
-      "ytd": 0.2205,
-      "1y": 0.4774,
-      "3y_pa": 0.1864,
-      "5y_pa": 0.0543,
-      "10y_pa": 0.0646,
-      "si_pa": 0.0569
+      "3m": 0.1411,
+      "6m": 0.3065,
+      "ytd": 0.2662,
+      "1y": 0.4896,
+      "3y_pa": 0.1872,
+      "5y_pa": 0.059,
+      "10y_pa": 0.0659,
+      "si_pa": 0.0582
     },
     "nav_series": [
       {
@@ -1226,21 +1228,21 @@
         "v": 382.964
       },
       {
-        "d": "2026-05-08",
-        "v": 412.376
+        "d": "2026-05-28",
+        "v": 427.848
       }
     ]
   },
   "volatility": {
-    "1y": 0.1911,
-    "3y": 0.1628,
-    "5y": 0.1622
+    "1y": 0.1944,
+    "3y": 0.165,
+    "5y": 0.163
   },
   "risk_metrics": {
     "sharpe": {
-      "1y": 2.35,
-      "3y": 0.94,
-      "5y": 0.22
+      "1y": 2.37,
+      "3y": 0.93,
+      "5y": 0.24
     },
     "max_drawdown": {
       "1y": null,
@@ -1249,49 +1251,49 @@
     }
   },
   "asset_class_breakdown": {
-    "equity": 0.8692,
-    "other": 0.1308
+    "equity": 0.8982,
+    "other": 0.1018
   },
   "top_holdings": [
     {
-      "name": "Taiwan Semiconductor Manufact.",
-      "weight": 0.099
-    },
-    {
       "name": "Samsung Electronics Co. Ltd.",
-      "weight": 0.0844
+      "weight": 0.0978
     },
     {
-      "name": "TENCENT ORD",
-      "weight": 0.0571
+      "name": "Taiwan Semiconductor Manufact.",
+      "weight": 0.0957
     },
     {
       "name": "Hynix Sem.",
-      "weight": 0.053
-    },
-    {
-      "name": "Aia Group Ltd",
-      "weight": 0.0385
-    },
-    {
-      "name": "Accton Technology Corp.",
-      "weight": 0.0353
+      "weight": 0.0761
     },
     {
       "name": "Delta Electronics Inc.",
-      "weight": 0.0353
+      "weight": 0.0498
     },
     {
-      "name": "Alibaba Group Holding, Ltd.",
-      "weight": 0.0328
+      "name": "Accton Technology Corp.",
+      "weight": 0.0471
     },
     {
-      "name": "Credicorp",
-      "weight": 0.0304
+      "name": "TENCENT ORD",
+      "weight": 0.0454
+    },
+    {
+      "name": "Aia Group Ltd",
+      "weight": 0.0329
     },
     {
       "name": "Hon Hai Precision Industry Co. Ltd.",
-      "weight": 0.0299
+      "weight": 0.0304
+    },
+    {
+      "name": "Alibaba Group Holding, Ltd.",
+      "weight": 0.0296
+    },
+    {
+      "name": "Contemporary Amperex Technology",
+      "weight": 0.0256
     }
   ]
 }

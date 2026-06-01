@@ -1,24 +1,26 @@
 {
   "isin": "DE000A0KEYM4",
-  "as_of": "2026-05-12",
+  "as_of": "2026-06-01",
   "schema_version": 2,
   "source": "factsheetslive",
   "source_url": "https://provinzial-nord.stg.wt.factsheetslive.com/produkt/DE000A0KEYM4",
   "currency": "EUR",
   "fund_name": "LBBW Global Warming R",
   "provinzial_fund_type": "Aktienfonds",
+  "region": "global",
+  "theme": "sustainability",
   "ter": 0.0173,
   "sri": 5,
   "performance": {
     "periods": {
-      "3m": 0.0508,
-      "6m": 0.0542,
-      "ytd": 0.0509,
-      "1y": 0.144,
-      "3y_pa": 0.1514,
-      "5y_pa": 0.0926,
-      "10y_pa": 0.1171,
-      "si_pa": 0.0822
+      "3m": 0.0755,
+      "6m": 0.0695,
+      "ytd": 0.0712,
+      "1y": 0.1348,
+      "3y_pa": 0.1393,
+      "5y_pa": 0.0974,
+      "10y_pa": 0.1142,
+      "si_pa": 0.0831
     },
     "nav_series": [
       {
@@ -950,21 +952,21 @@
         "v": 437.6657
       },
       {
-        "d": "2026-05-08",
-        "v": 445.0881
+        "d": "2026-05-28",
+        "v": 453.6689
       }
     ]
   },
   "volatility": {
-    "1y": 0.1577,
-    "3y": 0.1574,
-    "5y": 0.1708
+    "1y": 0.1524,
+    "3y": 0.1559,
+    "5y": 0.17
   },
   "risk_metrics": {
     "sharpe": {
-      "1y": 0.78,
-      "3y": 0.76,
-      "5y": 0.43
+      "1y": 0.74,
+      "3y": 0.69,
+      "5y": 0.45
     },
     "max_drawdown": {
       "1y": null,

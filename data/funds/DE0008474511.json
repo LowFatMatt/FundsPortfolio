@@ -1,24 +1,26 @@
 {
   "isin": "DE0008474511",
-  "as_of": "2026-05-12",
+  "as_of": "2026-06-01",
   "schema_version": 2,
   "source": "factsheetslive",
   "source_url": "https://provinzial-nord.stg.wt.factsheetslive.com/produkt/DE0008474511",
   "currency": "EUR",
   "fund_name": "AriDeka CF",
   "provinzial_fund_type": "Aktienfonds",
+  "region": "europe",
+  "theme": "NONE",
   "ter": 0.0144,
   "sri": 4,
   "performance": {
     "periods": {
-      "3m": -0.0041,
-      "6m": 0.0608,
-      "ytd": 0.039,
-      "1y": 0.12,
-      "3y_pa": 0.1005,
-      "5y_pa": 0.0761,
-      "10y_pa": 0.0721,
-      "si_pa": 0.0594
+      "3m": -0.0028,
+      "6m": 0.0922,
+      "ytd": 0.0656,
+      "1y": 0.1139,
+      "3y_pa": 0.116,
+      "5y_pa": 0.0755,
+      "10y_pa": 0.0694,
+      "si_pa": 0.0597
     },
     "nav_series": [
       {
@@ -3106,21 +3108,21 @@
         "v": 4019.7099
       },
       {
-        "d": "2026-05-11",
-        "v": 4081.8167
+        "d": "2026-05-29",
+        "v": 4186.3964
       }
     ]
   },
   "volatility": {
-    "1y": 0.1384,
-    "3y": 0.1322,
-    "5y": 0.1418
+    "1y": 0.1395,
+    "3y": 0.1326,
+    "5y": 0.1419
   },
   "risk_metrics": {
     "sharpe": {
-      "1y": 0.71,
-      "3y": 0.53,
-      "5y": 0.4
+      "1y": 0.67,
+      "3y": 0.64,
+      "5y": 0.39
     },
     "max_drawdown": {
       "1y": null,
@@ -3129,49 +3131,49 @@
     }
   },
   "asset_class_breakdown": {
-    "equity": 0.9622,
-    "other": 0.0378
+    "equity": 0.9673,
+    "other": 0.0327
   },
   "top_holdings": [
     {
       "name": "ASML Holding N.V.",
-      "weight": 0.0391
+      "weight": 0.0406
     },
     {
       "name": "BAWAG Group AG",
-      "weight": 0.0238
+      "weight": 0.026
     },
     {
       "name": "Enel SPA",
-      "weight": 0.0207
-    },
-    {
-      "name": "TotalEnergies SE",
-      "weight": 0.0204
-    },
-    {
-      "name": "AstraZeneca, PLC",
-      "weight": 0.02
-    },
-    {
-      "name": "Intesa Sanpaolo S.p.A.",
-      "weight": 0.0182
+      "weight": 0.0196
     },
     {
       "name": "Schneider Electric SE",
-      "weight": 0.0173
+      "weight": 0.0194
+    },
+    {
+      "name": "Intesa Sanpaolo S.p.A.",
+      "weight": 0.0192
+    },
+    {
+      "name": "TotalEnergies SE",
+      "weight": 0.0181
+    },
+    {
+      "name": "AstraZeneca, PLC",
+      "weight": 0.018
     },
     {
       "name": "Banco Santander",
-      "weight": 0.0161
+      "weight": 0.0166
     },
     {
-      "name": "Sanofi",
-      "weight": 0.0154
+      "name": "Industria De Diseno Textil S.A.",
+      "weight": 0.0148
     },
     {
-      "name": "Vinci SA",
-      "weight": 0.0152
+      "name": "Prysmian",
+      "weight": 0.0145
     }
   ]
 }

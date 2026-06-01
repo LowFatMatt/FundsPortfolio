@@ -1,24 +1,26 @@
 {
   "isin": "DE0008474560",
-  "as_of": "2026-05-12",
+  "as_of": "2026-06-01",
   "schema_version": 2,
   "source": "factsheetslive",
   "source_url": "https://provinzial-nord.stg.wt.factsheetslive.com/produkt/DE0008474560",
   "currency": "EUR",
   "fund_name": "DekaRent-international CF",
   "provinzial_fund_type": "Renten/Geldmarktfonds",
+  "region": "global",
+  "theme": "NONE",
   "ter": 0.0107,
   "sri": 3,
   "performance": {
     "periods": {
-      "3m": -0.0053,
-      "6m": -0.0102,
-      "ytd": 0.0004,
-      "1y": -0.0201,
-      "3y_pa": 0.0025,
-      "5y_pa": -0.0244,
-      "10y_pa": -0.0073,
-      "si_pa": 0.0507
+      "3m": -0.0108,
+      "6m": -0.0032,
+      "ytd": 0.0069,
+      "1y": -0.0149,
+      "3y_pa": 0.008,
+      "5y_pa": -0.0229,
+      "10y_pa": -0.0074,
+      "si_pa": 0.0508
     },
     "nav_series": [
       {
@@ -2734,21 +2736,21 @@
         "v": 1625.3068
       },
       {
-        "d": "2026-05-11",
-        "v": 1639.1438
+        "d": "2026-05-29",
+        "v": 1649.7875
       }
     ]
   },
   "volatility": {
-    "1y": 0.0424,
-    "3y": 0.0493,
-    "5y": 0.0528
+    "1y": 0.042,
+    "3y": 0.049,
+    "5y": 0.0529
   },
   "risk_metrics": {
     "sharpe": {
-      "1y": -0.91,
-      "3y": -0.52,
-      "5y": -0.8
+      "1y": -0.8,
+      "3y": -0.41,
+      "5y": -0.77
     },
     "max_drawdown": {
       "1y": null,
@@ -2757,49 +2759,49 @@
     }
   },
   "asset_class_breakdown": {
-    "bond": 0.9198,
-    "other": 0.0802
+    "bond": 0.9785,
+    "other": 0.0215
   },
   "top_holdings": [
     {
       "name": "Japan Bonds 25/54",
-      "weight": 0.026
+      "weight": 0.0258
     },
     {
       "name": "Government of New Zealand Bonds 23/54",
-      "weight": 0.0244
+      "weight": 0.0255
     },
     {
       "name": "Mexiko Bonos 09/29",
-      "weight": 0.0186
+      "weight": 0.0196
     },
     {
       "name": "Brasilien Nota S.NTN-F 20/31",
-      "weight": 0.0178
-    },
-    {
-      "name": "Bundesrep.Deutschland Anl. 25/35",
-      "weight": 0.0177
+      "weight": 0.0192
     },
     {
       "name": "Brasilien Nota S.NTNF 24/35",
-      "weight": 0.017
+      "weight": 0.0184
+    },
+    {
+      "name": "Bundesrep.Deutschland Anl. 25/35",
+      "weight": 0.0181
     },
     {
       "name": "Ungarn Bonds S.2035/A 23/35",
-      "weight": 0.0153
+      "weight": 0.018
     },
     {
       "name": "Tschechien Bonds 22/35",
-      "weight": 0.0148
+      "weight": 0.0152
     },
     {
       "name": "U.S. Treasury Notes 25/28",
-      "weight": 0.0136
+      "weight": 0.0137
     },
     {
       "name": "Europaeische Union MTN 24/31",
-      "weight": 0.0125
+      "weight": 0.0129
     }
   ]
 }

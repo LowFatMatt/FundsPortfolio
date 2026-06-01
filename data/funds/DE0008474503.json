@@ -1,24 +1,26 @@
 {
   "isin": "DE0008474503",
-  "as_of": "2026-05-12",
+  "as_of": "2026-06-01",
   "schema_version": 2,
   "source": "factsheetslive",
   "source_url": "https://provinzial-nord.stg.wt.factsheetslive.com/produkt/DE0008474503",
   "currency": "EUR",
   "fund_name": "DekaFonds CF",
   "provinzial_fund_type": "Aktienfonds",
+  "region": "germany",
+  "theme": "NONE",
   "ter": 0.0144,
   "sri": 4,
   "performance": {
     "periods": {
-      "3m": -0.026,
-      "6m": 0.0211,
-      "ytd": -0.0077,
-      "1y": 0.024,
-      "3y_pa": 0.1055,
-      "5y_pa": 0.06,
-      "10y_pa": 0.0644,
-      "si_pa": 0.0705
+      "3m": 0.017,
+      "6m": 0.0806,
+      "ytd": 0.0474,
+      "1y": 0.0438,
+      "3y_pa": 0.1284,
+      "5y_pa": 0.0642,
+      "10y_pa": 0.0669,
+      "si_pa": 0.0713
     },
     "nav_series": [
       {
@@ -3206,21 +3208,21 @@
         "v": 8906.8505
       },
       {
-        "d": "2026-05-11",
-        "v": 9039.5645
+        "d": "2026-05-29",
+        "v": 9541.5957
       }
     ]
   },
   "volatility": {
-    "1y": 0.1667,
-    "3y": 0.1523,
-    "5y": 0.1689
+    "1y": 0.1697,
+    "3y": 0.1533,
+    "5y": 0.1694
   },
   "risk_metrics": {
     "sharpe": {
-      "1y": 0.03,
-      "3y": 0.49,
-      "5y": 0.24
+      "1y": 0.14,
+      "3y": 0.63,
+      "5y": 0.26
     },
     "max_drawdown": {
       "1y": null,
@@ -3229,17 +3231,17 @@
     }
   },
   "asset_class_breakdown": {
-    "equity": 0.9526,
-    "other": 0.0474
+    "equity": 0.9453,
+    "other": 0.0547
   },
   "top_holdings": [
     {
       "name": "Siemens Energy AG",
-      "weight": 0.0726
+      "weight": 0.0835
     },
     {
       "name": "Siemens AG",
-      "weight": 0.0705
+      "weight": 0.0789
     },
     {
       "name": "Allianz SE",
@@ -3247,31 +3249,31 @@
     },
     {
       "name": "Airbus SE",
-      "weight": 0.0618
+      "weight": 0.0633
     },
     {
       "name": "Deutsche Telekom",
-      "weight": 0.0471
-    },
-    {
-      "name": "Rheinmetall AG",
-      "weight": 0.0351
-    },
-    {
-      "name": "Fresenius SE & Co KGAA",
-      "weight": 0.0327
-    },
-    {
-      "name": "SAP",
-      "weight": 0.0317
-    },
-    {
-      "name": "Deutsche Bank",
-      "weight": 0.0307
+      "weight": 0.0371
     },
     {
       "name": "Infineon Technologies AG",
-      "weight": 0.0302
+      "weight": 0.0355
+    },
+    {
+      "name": "Rheinmetall AG",
+      "weight": 0.0299
+    },
+    {
+      "name": "Deutsche Bank",
+      "weight": 0.0282
+    },
+    {
+      "name": "Fresenius SE & Co KGAA",
+      "weight": 0.0279
+    },
+    {
+      "name": "SAP",
+      "weight": 0.0248
     }
   ]
 }

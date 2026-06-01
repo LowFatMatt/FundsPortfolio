@@ -1,24 +1,26 @@
 {
   "isin": "LU2531392699",
-  "as_of": "2026-05-12",
+  "as_of": "2026-06-01",
   "schema_version": 2,
   "source": "factsheetslive",
   "source_url": "https://provinzial-nord.stg.wt.factsheetslive.com/produkt/LU2531392699",
   "currency": "EUR",
   "fund_name": "SK UnnaKamen Impact Invest",
   "provinzial_fund_type": "Bankspezifische Fonds",
+  "region": "global",
+  "theme": "NONE",
   "ter": 0.0159,
   "sri": 3,
   "performance": {
     "periods": {
-      "3m": 0.0226,
-      "6m": 0.0288,
-      "ytd": 0.0434,
-      "1y": 0.059,
+      "3m": 0.0344,
+      "6m": 0.0572,
+      "ytd": 0.0686,
+      "1y": 0.0681,
       "3y_pa": null,
       "5y_pa": null,
       "10y_pa": null,
-      "si_pa": 0.0528
+      "si_pa": 0.061
     },
     "nav_series": [
       {
@@ -150,19 +152,19 @@
         "v": 116.4967
       },
       {
-        "d": "2026-05-11",
-        "v": 118.3617
+        "d": "2026-05-29",
+        "v": 121.2159
       }
     ]
   },
   "volatility": {
-    "1y": 0.0823,
+    "1y": 0.084,
     "3y": null,
     "5y": null
   },
   "risk_metrics": {
     "sharpe": {
-      "1y": 0.47,
+      "1y": 0.58,
       "3y": null,
       "5y": null
     },

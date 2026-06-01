@@ -1,24 +1,26 @@
 {
   "isin": "LU0323578145",
-  "as_of": "2026-05-12",
+  "as_of": "2026-06-01",
   "schema_version": 2,
   "source": "factsheetslive",
   "source_url": "https://provinzial-nord.stg.wt.factsheetslive.com/produkt/LU0323578145",
   "currency": "EUR",
   "fund_name": "Flossbach von Storch - Multi Asset - Balanced - R",
   "provinzial_fund_type": "Mischfonds",
+  "region": "global",
+  "theme": "NONE",
   "ter": 0.0161,
   "sri": 3,
   "performance": {
     "periods": {
-      "3m": null,
-      "6m": null,
-      "ytd": -0.0213,
-      "1y": -0.5152,
-      "3y_pa": -0.1738,
-      "5y_pa": -0.1169,
-      "10y_pa": -0.04,
-      "si_pa": -0.0012
+      "3m": -0.0262,
+      "6m": -0.5324,
+      "ytd": -0.0138,
+      "1y": null,
+      "3y_pa": -0.174,
+      "5y_pa": -0.1178,
+      "10y_pa": -0.0404,
+      "si_pa": -0.0007
     },
     "nav_series": [
       {
@@ -894,19 +896,19 @@
         "v": 96.7698
       },
       {
-        "d": "2026-05-11",
-        "v": 97.3933
+        "d": "2026-05-29",
+        "v": 98.1383
       }
     ]
   },
   "volatility": {
-    "1y": 0.5289,
-    "3y": 0.3079,
-    "5y": 0.2439
+    "1y": null,
+    "3y": 0.3082,
+    "5y": 0.244
   },
   "risk_metrics": {
     "sharpe": {
-      "1y": -0.99,
+      "1y": null,
       "3y": -0.64,
       "5y": -0.55
     },

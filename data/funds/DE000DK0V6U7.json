@@ -1,24 +1,26 @@
 {
   "isin": "DE000DK0V6U7",
-  "as_of": "2026-05-12",
+  "as_of": "2026-06-01",
   "schema_version": 2,
   "source": "factsheetslive",
   "source_url": "https://provinzial-nord.stg.wt.factsheetslive.com/produkt/DE000DK0V6U7",
   "currency": "EUR",
   "fund_name": "Deka-Perspektive Dynamisch CF",
   "provinzial_fund_type": "Mischfonds",
+  "region": "global",
+  "theme": "NONE",
   "ter": 0.0148,
   "sri": 3,
   "performance": {
     "periods": {
-      "3m": 0.0043,
-      "6m": 0.0218,
-      "ytd": 0.023,
-      "1y": 0.1765,
-      "3y_pa": 0.1045,
-      "5y_pa": 0.0447,
+      "3m": 0.0219,
+      "6m": 0.0396,
+      "ytd": 0.0424,
+      "1y": 0.1635,
+      "3y_pa": 0.1136,
+      "5y_pa": 0.047,
       "10y_pa": null,
-      "si_pa": 0.0418
+      "si_pa": 0.0452
     },
     "nav_series": [
       {
@@ -262,21 +264,21 @@
         "v": 121.9035
       },
       {
-        "d": "2026-05-11",
-        "v": 123.4498
+        "d": "2026-05-29",
+        "v": 125.7904
       }
     ]
   },
   "volatility": {
-    "1y": 0.0918,
+    "1y": 0.0893,
     "3y": 0.1062,
-    "5y": 0.1204
+    "5y": 0.1206
   },
   "risk_metrics": {
     "sharpe": {
-      "1y": 1.68,
-      "3y": 0.69,
-      "5y": 0.21
+      "1y": 1.6,
+      "3y": 0.78,
+      "5y": 0.23
     },
     "max_drawdown": {
       "1y": null,
@@ -285,51 +287,51 @@
     }
   },
   "asset_class_breakdown": {
-    "equity": 0.6223,
-    "other": 0.1798,
-    "commodities": 0.1033,
-    "bond": 0.0946
+    "equity": 0.6688,
+    "other": 0.1735,
+    "bond": 0.0886,
+    "commodities": 0.0691
   },
   "top_holdings": [
     {
       "name": "Bundesrep.Deutschland Anl. Gruene 23/33",
-      "weight": 0.0834
-    },
-    {
-      "name": "Invesco Physical Markets PLC",
-      "weight": 0.0468
+      "weight": 0.0784
     },
     {
       "name": "Alphabet, Inc. - Class A",
-      "weight": 0.0456
-    },
-    {
-      "name": "Nvidia Corp.",
-      "weight": 0.0443
+      "weight": 0.0527
     },
     {
       "name": "Amazon.com Inc.",
-      "weight": 0.0428
+      "weight": 0.0507
+    },
+    {
+      "name": "Nvidia Corp.",
+      "weight": 0.0505
     },
     {
       "name": "Microsoft Corp.",
-      "weight": 0.0418
+      "weight": 0.0489
     },
     {
-      "name": "Apple Inc.",
-      "weight": 0.0359
+      "name": "Invesco Physical Markets PLC",
+      "weight": 0.0439
     },
     {
       "name": "Broadcom Inc.",
-      "weight": 0.0302
+      "weight": 0.0375
+    },
+    {
+      "name": "Apple Inc.",
+      "weight": 0.0364
     },
     {
       "name": "Meta Platforms Inc.",
-      "weight": 0.0244
+      "weight": 0.0267
     },
     {
       "name": "Taiwan Semiconductor Manufact.",
-      "weight": 0.0218
+      "weight": 0.0241
     }
   ]
 }

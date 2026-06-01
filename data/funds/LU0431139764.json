@@ -1,24 +1,26 @@
 {
   "isin": "LU0431139764",
-  "as_of": "2026-05-12",
+  "as_of": "2026-06-01",
   "schema_version": 2,
   "source": "factsheetslive",
   "source_url": "https://provinzial-nord.stg.wt.factsheetslive.com/produkt/LU0431139764",
   "currency": "EUR",
   "fund_name": "Ethna-AKTIV (T)",
   "provinzial_fund_type": "Mischfonds",
+  "region": "global",
+  "theme": "NONE",
   "ter": 0.019,
   "sri": 3,
   "performance": {
     "periods": {
-      "3m": 0.0342,
-      "6m": 0.0558,
-      "ytd": 0.0537,
-      "1y": 0.159,
-      "3y_pa": 0.0848,
-      "5y_pa": 0.0499,
-      "10y_pa": 0.0343,
-      "si_pa": 0.0393
+      "3m": 0.0359,
+      "6m": 0.0748,
+      "ytd": 0.0663,
+      "1y": 0.1445,
+      "3y_pa": 0.0852,
+      "5y_pa": 0.0511,
+      "10y_pa": 0.0358,
+      "si_pa": 0.0399
     },
     "nav_series": [
       {
@@ -830,19 +832,19 @@
         "v": 181.9518
       },
       {
-        "d": "2026-05-11",
-        "v": 187.7906
+        "d": "2026-05-29",
+        "v": 190.0427
       }
     ]
   },
   "volatility": {
-    "1y": 0.0713,
-    "3y": 0.0695,
-    "5y": 0.0607
+    "1y": 0.0745,
+    "3y": 0.0706,
+    "5y": 0.0617
   },
   "risk_metrics": {
     "sharpe": {
-      "1y": 1.92,
+      "1y": 1.66,
       "3y": 0.78,
       "5y": 0.51
     },

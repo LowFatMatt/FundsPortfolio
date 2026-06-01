@@ -1,24 +1,26 @@
 {
   "isin": "LU0703711118",
-  "as_of": "2026-05-12",
+  "as_of": "2026-06-01",
   "schema_version": 2,
   "source": "factsheetslive",
   "source_url": "https://provinzial-nord.stg.wt.factsheetslive.com/produkt/LU0703711118",
   "currency": "EUR",
   "fund_name": "Deka-ESG Balance CF (A)",
   "provinzial_fund_type": "Mischfonds",
+  "region": "global",
+  "theme": "NONE",
   "ter": 0.0122,
   "sri": 2,
   "performance": {
     "periods": {
-      "3m": 0.007,
-      "6m": 0.0195,
-      "ytd": 0.018,
-      "1y": 0.0815,
-      "3y_pa": 0.0637,
-      "5y_pa": 0.0294,
-      "10y_pa": 0.024,
-      "si_pa": 0.0273
+      "3m": 0.0171,
+      "6m": 0.034,
+      "ytd": 0.0335,
+      "1y": 0.0827,
+      "3y_pa": 0.0689,
+      "5y_pa": 0.0321,
+      "10y_pa": 0.0249,
+      "si_pa": 0.0283
     },
     "nav_series": [
       {
@@ -714,21 +716,21 @@
         "v": 145.4398
       },
       {
-        "d": "2026-05-11",
-        "v": 147.4069
+        "d": "2026-05-29",
+        "v": 149.6453
       }
     ]
   },
   "volatility": {
-    "1y": 0.0503,
-    "3y": 0.05,
-    "5y": 0.0478
+    "1y": 0.0506,
+    "3y": 0.0503,
+    "5y": 0.0479
   },
   "risk_metrics": {
     "sharpe": {
-      "1y": 1.21,
-      "3y": 0.68,
-      "5y": 0.22
+      "1y": 1.24,
+      "3y": 0.78,
+      "5y": 0.27
     },
     "max_drawdown": {
       "1y": null,
@@ -737,51 +739,51 @@
     }
   },
   "asset_class_breakdown": {
-    "bond": 0.5715,
-    "equity": 0.365,
-    "commodities": 0.0346,
-    "other": 0.0289
+    "bond": 0.5138,
+    "equity": 0.347,
+    "other": 0.1074,
+    "commodities": 0.0318
   },
   "top_holdings": [
     {
       "name": "Koenigreich Spanien Bonos 23/39",
-      "weight": 0.0333
-    },
-    {
-      "name": "Republik Italien B.T.P. 13/44",
-      "weight": 0.0281
+      "weight": 0.0325
     },
     {
       "name": "Nvidia Corp.",
-      "weight": 0.025
+      "weight": 0.0277
+    },
+    {
+      "name": "Republik Italien B.T.P. 13/44",
+      "weight": 0.0275
+    },
+    {
+      "name": "Republik Italien B.T.P. 02/33",
+      "weight": 0.0239
     },
     {
       "name": "Apple Inc.",
-      "weight": 0.0226
-    },
-    {
-      "name": "Republik Oesterreich MTN 23/33",
-      "weight": 0.0212
-    },
-    {
-      "name": "Land Nordrhein-Westfalen MT Landessch.R.1471 18/28",
-      "weight": 0.0204
-    },
-    {
-      "name": "Koenigreich Spanien Obl. 01/32",
-      "weight": 0.0191
-    },
-    {
-      "name": "Land Niedersachsen Landessch. Ausg.884 18/28",
-      "weight": 0.0179
-    },
-    {
-      "name": "Microsoft Corp.",
-      "weight": 0.0162
+      "weight": 0.0217
     },
     {
       "name": "Bundesrep.Deutschland Anl. 10/1942",
-      "weight": 0.0162
+      "weight": 0.0209
+    },
+    {
+      "name": "Republik Oesterreich MTN 23/33",
+      "weight": 0.0207
+    },
+    {
+      "name": "Land Nordrhein-Westfalen MT Landessch.R.1471 18/28",
+      "weight": 0.0199
+    },
+    {
+      "name": "Koenigreich Spanien Obl. 01/32",
+      "weight": 0.0186
+    },
+    {
+      "name": "Land Niedersachsen Landessch. Ausg.884 18/28",
+      "weight": 0.0174
     }
   ]
 }

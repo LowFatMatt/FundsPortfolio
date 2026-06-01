@@ -1,24 +1,26 @@
 {
   "isin": "LU0252633754",
-  "as_of": "2026-05-12",
+  "as_of": "2026-06-01",
   "schema_version": 2,
   "source": "factsheetslive",
   "source_url": "https://provinzial-nord.stg.wt.factsheetslive.com/produkt/LU0252633754",
   "currency": "EUR",
   "fund_name": "Amundi DAX III UCITS ETF Acc",
   "provinzial_fund_type": "Aktienfonds",
+  "region": "germany",
+  "theme": "NONE",
   "ter": 0.0015,
   "sri": 4,
   "performance": {
     "periods": {
-      "3m": -0.0186,
-      "6m": 0.029,
-      "ytd": -0.0095,
-      "1y": 0.036,
-      "3y_pa": 0.145,
-      "5y_pa": 0.0897,
-      "10y_pa": 0.0887,
-      "si_pa": 0.0705
+      "3m": -0.0107,
+      "6m": 0.0485,
+      "ytd": 0.0207,
+      "1y": 0.0389,
+      "3y_pa": 0.1563,
+      "5y_pa": 0.0947,
+      "10y_pa": 0.0875,
+      "si_pa": 0.0719
     },
     "nav_series": [
       {
@@ -974,25 +976,25 @@
         "v": 370.9523
       },
       {
-        "d": "2026-04-29",
-        "v": 391.5292
+        "d": "2026-04-30",
+        "v": 396.9303
       },
       {
-        "d": "2026-05-08",
-        "v": 397.0838
+        "d": "2026-05-28",
+        "v": 409.1745
       }
     ]
   },
   "volatility": {
-    "1y": 0.1553,
-    "3y": 0.1515,
-    "5y": 0.1708
+    "1y": 0.1599,
+    "3y": 0.1531,
+    "5y": 0.1714
   },
   "risk_metrics": {
     "sharpe": {
-      "1y": 0.11,
-      "3y": 0.74,
-      "5y": 0.41
+      "1y": 0.12,
+      "3y": 0.81,
+      "5y": 0.43
     },
     "max_drawdown": {
       "1y": null,
@@ -1006,43 +1008,43 @@
   "top_holdings": [
     {
       "name": "Siemens AG",
-      "weight": 0.0956
+      "weight": 0.1098
     },
     {
-      "name": "SAP SE",
-      "weight": 0.095
+      "name": "SAP",
+      "weight": 0.0879
     },
     {
       "name": "Allianz SE",
-      "weight": 0.0862
-    },
-    {
-      "name": "Deutsche Telekom",
-      "weight": 0.072
+      "weight": 0.0877
     },
     {
       "name": "Siemens Energy AG",
-      "weight": 0.0696
+      "weight": 0.0827
     },
     {
       "name": "Airbus SE",
-      "weight": 0.0594
+      "weight": 0.061
     },
     {
-      "name": "!Münchener Rück AG",
-      "weight": 0.0443
-    },
-    {
-      "name": "Rheinmetall AG",
-      "weight": 0.0416
+      "name": "Deutsche Telekom",
+      "weight": 0.0575
     },
     {
       "name": "Infineon Technologies AG",
-      "weight": 0.0309
+      "weight": 0.0442
+    },
+    {
+      "name": "Münchener Rück AG",
+      "weight": 0.0395
+    },
+    {
+      "name": "Rheinmetall AG",
+      "weight": 0.0374
     },
     {
       "name": "Deutsche Bank",
-      "weight": 0.0303
+      "weight": 0.03
     }
   ]
 }

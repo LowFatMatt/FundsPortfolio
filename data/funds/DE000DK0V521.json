@@ -1,24 +1,26 @@
 {
   "isin": "DE000DK0V521",
-  "as_of": "2026-05-12",
+  "as_of": "2026-06-01",
   "schema_version": 2,
   "source": "factsheetslive",
   "source_url": "https://provinzial-nord.stg.wt.factsheetslive.com/produkt/DE000DK0V521",
   "currency": "EUR",
   "fund_name": "Deka-ESG DividendenStrategie CF (A)",
   "provinzial_fund_type": "Aktienfonds",
+  "region": "global",
+  "theme": "dividends",
   "ter": 0.0143,
   "sri": 3,
   "performance": {
     "periods": {
-      "3m": -0.005,
-      "6m": 0.0435,
-      "ytd": 0.0356,
-      "1y": 0.124,
-      "3y_pa": 0.1011,
-      "5y_pa": 0.0727,
+      "3m": 0.0021,
+      "6m": 0.0643,
+      "ytd": 0.0593,
+      "1y": 0.1244,
+      "3y_pa": 0.1124,
+      "5y_pa": 0.0754,
       "10y_pa": null,
-      "si_pa": 0.0964
+      "si_pa": 0.0999
     },
     "nav_series": [
       {
@@ -290,21 +292,21 @@
         "v": 170.6303
       },
       {
-        "d": "2026-05-11",
-        "v": 173.5296
+        "d": "2026-05-29",
+        "v": 177.487
       }
     ]
   },
   "volatility": {
-    "1y": 0.0922,
-    "3y": 0.1062,
-    "5y": 0.1087
+    "1y": 0.0923,
+    "3y": 0.1064,
+    "5y": 0.1088
   },
   "risk_metrics": {
     "sharpe": {
-      "1y": 1.12,
-      "3y": 0.66,
-      "5y": 0.49
+      "1y": 1.13,
+      "3y": 0.76,
+      "5y": 0.51
     },
     "max_drawdown": {
       "1y": null,
@@ -313,49 +315,49 @@
     }
   },
   "asset_class_breakdown": {
-    "equity": 0.8034,
-    "other": 0.1966
+    "equity": 0.8277,
+    "other": 0.1723
   },
   "top_holdings": [
     {
       "name": "Microsoft Corp.",
-      "weight": 0.0171
-    },
-    {
-      "name": "Johnson & Johnson",
-      "weight": 0.0154
+      "weight": 0.0212
     },
     {
       "name": "Taiwan Semiconductor Manufact. ADR",
-      "weight": 0.0145
+      "weight": 0.0187
     },
     {
-      "name": "Cisco Systems, Inc.",
-      "weight": 0.0136
-    },
-    {
-      "name": "Exelon",
-      "weight": 0.0121
-    },
-    {
-      "name": "Taiwan Semiconductor Manufact.",
-      "weight": 0.0116
-    },
-    {
-      "name": "AstraZeneca, PLC",
-      "weight": 0.0116
+      "name": "Broadcom Inc.",
+      "weight": 0.0175
     },
     {
       "name": "Samsung Electronics Co. Ltd.",
-      "weight": 0.0112
+      "weight": 0.0171
     },
     {
-      "name": "Unilever PLC",
-      "weight": 0.0111
+      "name": "Cisco Systems, Inc.",
+      "weight": 0.0147
     },
     {
-      "name": "Coca Cola",
-      "weight": 0.0108
+      "name": "Alphabet, Inc. - Class A",
+      "weight": 0.0138
+    },
+    {
+      "name": "Taiwan Semiconductor Manufact.",
+      "weight": 0.0133
+    },
+    {
+      "name": "Nvidia Corp.",
+      "weight": 0.0128
+    },
+    {
+      "name": "Texas Instruments",
+      "weight": 0.0124
+    },
+    {
+      "name": "Vinci SA",
+      "weight": 0.0116
     }
   ]
 }

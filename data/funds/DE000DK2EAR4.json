@@ -1,24 +1,26 @@
 {
   "isin": "DE000DK2EAR4",
-  "as_of": "2026-05-12",
+  "as_of": "2026-06-01",
   "schema_version": 2,
   "source": "factsheetslive",
   "source_url": "https://provinzial-nord.stg.wt.factsheetslive.com/produkt/DE000DK2EAR4",
   "currency": "EUR",
   "fund_name": "Deka-BasisStrategie Flexibel CF",
   "provinzial_fund_type": "Mischfonds",
+  "region": "global",
+  "theme": "NONE",
   "ter": 0.0145,
   "sri": 3,
   "performance": {
     "periods": {
-      "3m": 0.0226,
-      "6m": 0.0646,
-      "ytd": 0.0626,
-      "1y": 0.1712,
-      "3y_pa": 0.1135,
-      "5y_pa": 0.0435,
-      "10y_pa": 0.0422,
-      "si_pa": 0.039
+      "3m": 0.0223,
+      "6m": 0.0849,
+      "ytd": 0.0775,
+      "1y": 0.1658,
+      "3y_pa": 0.1148,
+      "5y_pa": 0.0451,
+      "10y_pa": 0.0428,
+      "si_pa": 0.0401
     },
     "nav_series": [
       {
@@ -578,21 +580,21 @@
         "v": 151.8063
       },
       {
-        "d": "2026-05-11",
-        "v": 154.5211
+        "d": "2026-05-29",
+        "v": 156.684
       }
     ]
   },
   "volatility": {
-    "1y": 0.0726,
-    "3y": 0.0801,
-    "5y": 0.0867
+    "1y": 0.0738,
+    "3y": 0.0806,
+    "5y": 0.087
   },
   "risk_metrics": {
     "sharpe": {
-      "1y": 2.05,
-      "3y": 1.03,
-      "5y": 0.28
+      "1y": 1.96,
+      "3y": 1.04,
+      "5y": 0.3
     },
     "max_drawdown": {
       "1y": null,
@@ -601,50 +603,50 @@
     }
   },
   "asset_class_breakdown": {
-    "equity": 0.5921,
-    "bond": 0.4451,
-    "commodities": 0.0504
+    "equity": 0.6456,
+    "bond": 0.4081,
+    "commodities": 0.048
   },
   "top_holdings": [
     {
       "name": "Bundesrep.Deutschland Bundesobl. S.191 25/30",
-      "weight": 0.0739
+      "weight": 0.0684
     },
     {
       "name": "Invesco Physical Markets PLC",
-      "weight": 0.0382
+      "weight": 0.0363
     },
     {
       "name": "Nvidia Corp.",
-      "weight": 0.0236
+      "weight": 0.028
     },
     {
       "name": "Apple Inc.",
-      "weight": 0.0213
+      "weight": 0.0218
     },
     {
       "name": "Microsoft Corp.",
-      "weight": 0.0153
+      "weight": 0.0169
     },
     {
       "name": "Amazon.com Inc.",
-      "weight": 0.0114
+      "weight": 0.0139
     },
     {
       "name": "Alphabet, Inc. - Class A",
+      "weight": 0.0115
+    },
+    {
+      "name": "Broadcom Inc.",
+      "weight": 0.0106
+    },
+    {
+      "name": "Alphabet, Inc. - Class C",
       "weight": 0.0096
     },
     {
       "name": "Bundesrep.Deutschland Bundesschatzanw. 25/27",
-      "weight": 0.0091
-    },
-    {
-      "name": "Broadcom Inc.",
-      "weight": 0.0082
-    },
-    {
-      "name": "Alphabet, Inc. - Class C",
-      "weight": 0.008
+      "weight": 0.0087
     }
   ]
 }

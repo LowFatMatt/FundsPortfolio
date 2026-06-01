@@ -1,24 +1,26 @@
 {
   "isin": "LU0185900775",
-  "as_of": "2026-05-12",
+  "as_of": "2026-06-01",
   "schema_version": 2,
   "source": "factsheetslive",
   "source_url": "https://provinzial-nord.stg.wt.factsheetslive.com/produkt/LU0185900775",
   "currency": "EUR",
   "fund_name": "DekaStruktur: 4 Wachstum",
   "provinzial_fund_type": "Vermögensverwaltende Fonds",
+  "region": "global",
+  "theme": "NONE",
   "ter": 0.0149,
   "sri": 3,
   "performance": {
     "periods": {
-      "3m": 0.0132,
-      "6m": 0.0444,
-      "ytd": 0.0374,
-      "1y": 0.1347,
-      "3y_pa": 0.0925,
-      "5y_pa": 0.0398,
-      "10y_pa": 0.017,
-      "si_pa": 0.0135
+      "3m": 0.017,
+      "6m": 0.0572,
+      "ytd": 0.0529,
+      "1y": 0.1312,
+      "3y_pa": 0.0972,
+      "5y_pa": 0.0431,
+      "10y_pa": 0.0184,
+      "si_pa": 0.0144
     },
     "nav_series": [
       {
@@ -762,21 +764,21 @@
         "v": 117.5948
       },
       {
-        "d": "2026-05-11",
-        "v": 119.6352
+        "d": "2026-05-29",
+        "v": 121.4262
       }
     ]
   },
   "volatility": {
-    "1y": 0.058,
-    "3y": 0.0647,
-    "5y": 0.07
+    "1y": 0.0581,
+    "3y": 0.0649,
+    "5y": 0.0702
   },
   "risk_metrics": {
     "sharpe": {
-      "1y": 1.95,
-      "3y": 0.95,
-      "5y": 0.3
+      "1y": 1.9,
+      "3y": 1.03,
+      "5y": 0.34
     },
     "max_drawdown": {
       "1y": null,
@@ -785,31 +787,31 @@
     }
   },
   "asset_class_breakdown": {
-    "equity": 0.4652,
-    "bond": 0.3158,
-    "other": 0.1666,
-    "commodities": 0.0524
+    "equity": 0.4665,
+    "bond": 0.3124,
+    "other": 0.1561,
+    "commodities": 0.065
   },
   "top_holdings": [
     {
       "name": "IFM-Invest: Vermögensmanagement Aktien",
-      "weight": 0.1872
+      "weight": 0.1905
     },
     {
       "name": "IFM-Invest: Renten Europa",
-      "weight": 0.1214
+      "weight": 0.1204
     },
     {
       "name": "Deka-Multimanager Renten",
-      "weight": 0.0904
+      "weight": 0.0894
     },
     {
       "name": "Deka MSCI Europe UCITS ETF",
-      "weight": 0.0558
+      "weight": 0.0542
     },
     {
-      "name": "Deka-Institutionell Renten Europa",
-      "weight": 0.0405
+      "name": "Deka-SektorInvest VTIA",
+      "weight": 0.04
     }
   ]
 }

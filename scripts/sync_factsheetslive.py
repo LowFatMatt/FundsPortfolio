@@ -51,7 +51,11 @@ _HERE = os.path.dirname(os.path.abspath(__file__))
 if _HERE not in sys.path:
     sys.path.insert(0, _HERE)
 
-from _german_labels import canonical_asset_class_from_breakdown_key as _canonical_asset_class  # noqa: E402
+from _german_labels import (  # noqa: E402
+    canonical_asset_class_from_breakdown_key as _canonical_asset_class,
+    region_from_german as _region_from_german,
+    theme_from_german as _theme_from_german,
+)
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 DEFAULT_OUTPUT_DIR = REPO_ROOT / "data" / "funds"
@@ -337,6 +341,17 @@ def parse_currency_and_asof(soup: BeautifulSoup) -> Tuple[Optional[str], Optiona
     return currency, as_of
 
 
+def parse_region_theme(soup: BeautifulSoup) -> Tuple[str, str]:
+    """
+    Read the Stammdaten 'Region' and 'Thema' rows and map the German free-text
+    to our canonical region/theme keys. Region defaults to 'global', theme to
+    'NONE' when the page leaves the field blank or shows a dash.
+    """
+    region_raw = _stammdaten_lookup(soup, ["Region"])
+    theme_raw = _stammdaten_lookup(soup, ["Thema", "Anlagethema"])
+    return _region_from_german(region_raw), _theme_from_german(theme_raw)
+
+
 def parse_ter_and_sri(soup: BeautifulSoup) -> Tuple[Optional[float], Optional[int]]:
     ter_raw = _stammdaten_lookup(soup, ["TER", "Laufende Kosten"])
     ter = _pct_to_frac(ter_raw) if ter_raw else None
@@ -368,6 +383,7 @@ def build_fund_record(isin: str, html: str, source_url: str) -> Dict[str, Any]:
     soup = BeautifulSoup(html, "html.parser")
     currency, as_of = parse_currency_and_asof(soup)
     ter, sri = parse_ter_and_sri(soup)
+    region, theme = parse_region_theme(soup)
 
     # Performance: prefer the 8-column HTML table (covers 3m/6m/ytd/1y/3y_pa/5y_pa/10y_pa/si_pa);
     # fall back to data-risiko-rendite for the periods it covers (ytd/1y/3y/5y/10y).
@@ -400,6 +416,8 @@ def build_fund_record(isin: str, html: str, source_url: str) -> Dict[str, Any]:
         "currency": currency or "EUR",
         "fund_name": rr_entry.get("name"),
         "provinzial_fund_type": rr_entry.get("provinzialFundType"),
+        "region": region,
+        "theme": theme,
         "ter": ter,
         "sri": sri,
         "performance": {
@@ -553,6 +571,8 @@ def _summarise_present_fields(record: Dict[str, Any]) -> Dict[str, int]:
         "holdings":      len(record.get("top_holdings") or []),
         "nav_points":    len((record.get("performance") or {}).get("nav_series") or []),
         "breakdown_keys": len(record.get("asset_class_breakdown") or {}),
+        "region":        0 if record.get("region") in (None, "global") else 1,
+        "theme":         0 if record.get("theme") in (None, "NONE") else 1,
     }
 
 

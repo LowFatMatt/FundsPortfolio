@@ -1,24 +1,26 @@
 {
   "isin": "IE00B4L5Y983",
-  "as_of": "2026-05-12",
+  "as_of": "2026-06-01",
   "schema_version": 2,
   "source": "factsheetslive",
   "source_url": "https://provinzial-nord.stg.wt.factsheetslive.com/produkt/IE00B4L5Y983",
   "currency": "USD",
   "fund_name": "iShares Core MSCI World UCITS ETF USD Acc",
   "provinzial_fund_type": "Aktienfonds",
+  "region": "global",
+  "theme": "NONE",
   "ter": 0.002,
   "sri": 4,
   "performance": {
     "periods": {
-      "3m": 0.0552,
-      "6m": 0.1074,
-      "ytd": 0.0792,
-      "1y": 0.3002,
-      "3y_pa": 0.2074,
-      "5y_pa": 0.115,
-      "10y_pa": 0.1313,
-      "si_pa": 0.1107
+      "3m": 0.0728,
+      "6m": 0.1138,
+      "ytd": 0.1049,
+      "1y": 0.2751,
+      "3y_pa": 0.2195,
+      "5y_pa": 0.1203,
+      "10y_pa": 0.1316,
+      "si_pa": 0.1119
     },
     "nav_series": [
       {
@@ -822,21 +824,21 @@
         "v": 555.5067
       },
       {
-        "d": "2026-05-08",
-        "v": 567.2656
+        "d": "2026-05-29",
+        "v": 580.7365
       }
     ]
   },
   "volatility": {
-    "1y": 0.113,
+    "1y": 0.1107,
     "3y": 0.1265,
-    "5y": 0.1456
+    "5y": 0.1453
   },
   "risk_metrics": {
     "sharpe": {
-      "1y": 2.44,
-      "3y": 1.37,
-      "5y": 0.65
+      "1y": 2.28,
+      "3y": 1.47,
+      "5y": 0.69
     },
     "max_drawdown": {
       "1y": null,
@@ -845,50 +847,50 @@
     }
   },
   "asset_class_breakdown": {
-    "equity": 0.9962,
-    "other": 0.0036,
-    "cash": 0.0002
+    "equity": 0.9943,
+    "other": 0.0049,
+    "cash": 0.0008
   },
   "top_holdings": [
     {
       "name": "Nvidia Corp.",
-      "weight": 0.053
+      "weight": 0.0554
     },
     {
       "name": "Apple Inc.",
-      "weight": 0.0467
+      "weight": 0.0455
     },
     {
       "name": "Microsoft Corp.",
-      "weight": 0.0327
+      "weight": 0.0329
     },
     {
       "name": "Amazon.com Inc.",
-      "weight": 0.0251
+      "weight": 0.0291
     },
     {
       "name": "Alphabet, Inc. - Class A",
-      "weight": 0.0209
-    },
-    {
-      "name": "Alphabet, Inc. - Class C",
-      "weight": 0.0175
+      "weight": 0.0256
     },
     {
       "name": "Broadcom Inc.",
-      "weight": 0.0174
+      "weight": 0.0215
+    },
+    {
+      "name": "Alphabet, Inc. - Class C",
+      "weight": 0.0212
     },
     {
       "name": "Meta Platforms Inc.",
-      "weight": 0.0156
+      "weight": 0.0152
     },
     {
       "name": "Tesla Inc.",
-      "weight": 0.0132
+      "weight": 0.0123
     },
     {
       "name": "JPMorgan Chase & Co.",
-      "weight": 0.01
+      "weight": 0.0097
     }
   ]
 }

@@ -1,24 +1,26 @@
 {
   "isin": "DE000ETFL623",
-  "as_of": "2026-05-12",
+  "as_of": "2026-06-01",
   "schema_version": 2,
   "source": "factsheetslive",
   "source_url": "https://provinzial-nord.stg.wt.factsheetslive.com/produkt/DE000ETFL623",
   "currency": "EUR",
   "fund_name": "Deka Nasdaq-100® UCITS ETF",
   "provinzial_fund_type": "Aktienfonds",
+  "region": "north_america",
+  "theme": "NONE",
   "ter": 0.0025,
   "sri": 5,
   "performance": {
     "periods": {
-      "3m": 0.1703,
-      "6m": 0.1472,
-      "ytd": 0.1466,
-      "1y": 0.3978,
+      "3m": 0.2275,
+      "6m": 0.1845,
+      "ytd": 0.1986,
+      "1y": 0.3778,
       "3y_pa": null,
       "5y_pa": null,
       "10y_pa": null,
-      "si_pa": 0.2477
+      "si_pa": 0.2629
     },
     "nav_series": [
       {
@@ -146,19 +148,19 @@
         "v": 172.6521
       },
       {
-        "d": "2026-05-08",
-        "v": 183.1826
+        "d": "2026-05-28",
+        "v": 191.489
       }
     ]
   },
   "volatility": {
-    "1y": 0.1715,
+    "1y": 0.1606,
     "3y": null,
     "5y": null
   },
   "risk_metrics": {
     "sharpe": {
-      "1y": 2.17,
+      "1y": 2.19,
       "3y": null,
       "5y": null
     },
@@ -169,49 +171,49 @@
     }
   },
   "asset_class_breakdown": {
-    "equity": 0.9988,
-    "other": 0.0012
+    "equity": 0.9998,
+    "other": 0.0002
   },
   "top_holdings": [
     {
       "name": "Nvidia Corp.",
-      "weight": 0.0889
+      "weight": 0.0869
     },
     {
       "name": "Apple Inc.",
-      "weight": 0.0734
+      "weight": 0.0764
     },
     {
       "name": "Microsoft Corp.",
-      "weight": 0.0612
+      "weight": 0.0563
     },
     {
       "name": "Amazon.com Inc.",
-      "weight": 0.049
-    },
-    {
-      "name": "Meta Platforms Inc.",
-      "weight": 0.0403
-    },
-    {
-      "name": "Alphabet, Inc. - Class A",
-      "weight": 0.0376
+      "weight": 0.0458
     },
     {
       "name": "Tesla Inc.",
-      "weight": 0.0365
+      "weight": 0.038
     },
     {
-      "name": "Alphabet, Inc. - Class C",
-      "weight": 0.035
+      "name": "Meta Platforms Inc.",
+      "weight": 0.0346
     },
     {
       "name": "!Wal-Mart Stores",
-      "weight": 0.0308
+      "weight": 0.0344
+    },
+    {
+      "name": "Alphabet, Inc. - Class A",
+      "weight": 0.0343
+    },
+    {
+      "name": "Alphabet, Inc. - Class C",
+      "weight": 0.032
     },
     {
       "name": "Broadcom Inc.",
-      "weight": 0.03
+      "weight": 0.0301
     }
   ]
 }

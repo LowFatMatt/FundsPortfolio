@@ -1,24 +1,26 @@
 {
   "isin": "LU0323578657",
-  "as_of": "2026-05-12",
+  "as_of": "2026-06-01",
   "schema_version": 2,
   "source": "factsheetslive",
   "source_url": "https://provinzial-nord.stg.wt.factsheetslive.com/produkt/LU0323578657",
   "currency": "EUR",
   "fund_name": "Flossbach von Storch SICAV - Multiple Opportunities - R",
   "provinzial_fund_type": "Mischfonds",
+  "region": "global",
+  "theme": "NONE",
   "ter": 0.0162,
   "sri": 3,
   "performance": {
     "periods": {
-      "3m": null,
-      "6m": -0.0093,
-      "ytd": -0.0268,
-      "1y": 0.006,
-      "3y_pa": 0.0476,
-      "5y_pa": 0.0226,
-      "10y_pa": 0.0453,
-      "si_pa": 0.0694
+      "3m": -0.0272,
+      "6m": -0.0096,
+      "ytd": -0.0149,
+      "1y": 0.0099,
+      "3y_pa": 0.0503,
+      "5y_pa": 0.0227,
+      "10y_pa": 0.0454,
+      "si_pa": 0.0699
     },
     "nav_series": [
       {
@@ -898,8 +900,8 @@
         "v": 356.715
       },
       {
-        "d": "2026-01-16",
-        "v": 365.5952
+        "d": "2026-01-30",
+        "v": 359.6488
       },
       {
         "d": "2026-02-27",
@@ -914,20 +916,20 @@
         "v": 344.7773
       },
       {
-        "d": "2026-05-11",
-        "v": 347.1603
+        "d": "2026-05-29",
+        "v": 351.4093
       }
     ]
   },
   "volatility": {
-    "1y": 0.0703,
-    "3y": 0.0674,
-    "5y": 0.0936
+    "1y": 0.0719,
+    "3y": 0.0682,
+    "5y": 0.094
   },
   "risk_metrics": {
     "sharpe": {
-      "1y": -0.18,
-      "3y": 0.27,
+      "1y": -0.13,
+      "3y": 0.31,
       "5y": 0.04
     },
     "max_drawdown": {
@@ -937,52 +939,52 @@
     }
   },
   "asset_class_breakdown": {
-    "equity": 0.692,
-    "cash": 0.0948,
-    "other": 0.0936,
-    "bond": 0.0386,
-    "derivatives": 0.0019
+    "equity": 0.7334,
+    "cash": 0.0903,
+    "other": 0.0866,
+    "bond": 0.0385,
+    "derivatives": -0.0057
   },
   "top_holdings": [
     {
       "name": "DEUTSCHE BÖRSE",
-      "weight": 0.0411
+      "weight": 0.0324
     },
     {
       "name": "ADIDAS",
-      "weight": 0.0273
+      "weight": 0.0304
     },
     {
-      "name": "MERCEDES-BENZ GROUP",
-      "weight": 0.0256
+      "name": "AMAZON.COM",
+      "weight": 0.0286
+    },
+    {
+      "name": "ALPHABET - CLASS A",
+      "weight": 0.0268
     },
     {
       "name": "UNILEVER",
       "weight": 0.0253
     },
     {
-      "name": "RECKITT BENCKISER GROUP",
-      "weight": 0.0253
+      "name": "MICROSOFT",
+      "weight": 0.0248
     },
     {
-      "name": "ALPHABET - CLASS A",
-      "weight": 0.0239
+      "name": "MERCEDES-BENZ GROUP",
+      "weight": 0.0241
     },
     {
       "name": "NESTLE",
-      "weight": 0.0235
+      "weight": 0.0236
     },
     {
-      "name": "AMAZON.COM",
-      "weight": 0.0232
+      "name": "RECKITT BENCKISER GROUP",
+      "weight": 0.0229
     },
     {
       "name": "DIAGEO",
-      "weight": 0.0224
-    },
-    {
-      "name": "BMW ST",
-      "weight": 0.0222
+      "weight": 0.0228
     }
   ]
 }

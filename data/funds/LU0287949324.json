@@ -1,24 +1,26 @@
 {
   "isin": "LU0287949324",
-  "as_of": "2026-05-12",
+  "as_of": "2026-06-01",
   "schema_version": 2,
   "source": "factsheetslive",
   "source_url": "https://provinzial-nord.stg.wt.factsheetslive.com/produkt/LU0287949324",
   "currency": "EUR",
   "fund_name": "Deka-ZielGarant 2030-2033",
   "provinzial_fund_type": "Vermögensverwaltende Fonds",
+  "region": "global",
+  "theme": "NONE",
   "ter": 0.0014,
   "sri": 3,
   "performance": {
     "periods": {
-      "3m": -0.0082,
-      "6m": -0.0024,
-      "ytd": 0.0003,
-      "1y": 0.007,
-      "3y_pa": 0.0287,
-      "5y_pa": -0.021,
+      "3m": -0.0106,
+      "6m": -0.0016,
+      "ytd": 0.0023,
+      "1y": 0.0092,
+      "3y_pa": 0.0315,
+      "5y_pa": -0.0206,
       "10y_pa": -0.0036,
-      "si_pa": 0.0174
+      "si_pa": 0.0175
     },
     "nav_series": [
       {
@@ -682,25 +684,25 @@
         "v": 124.3571
       },
       {
-        "d": "2026-05-11",
-        "v": 124.9694
+        "d": "2026-05-29",
+        "v": 125.2143
       }
     ]
   },
   "volatility": {
-    "1y": 0.0253,
-    "3y": 0.0383,
-    "5y": 0.0547
+    "1y": 0.0247,
+    "3y": 0.0376,
+    "5y": 0.0546
   },
   "risk_metrics": {
     "sharpe": {
-      "1y": -0.48,
-      "3y": -0.01,
+      "1y": -0.4,
+      "3y": 0.07,
       "5y": -0.71
     },
     "max_drawdown": {
       "1y": null,
-      "3y": -0.03,
+      "3y": -0.0294,
       "5y": -0.2175
     }
   },

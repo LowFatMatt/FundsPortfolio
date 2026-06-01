@@ -1,24 +1,26 @@
 {
   "isin": "LU0249486092",
-  "as_of": "2026-05-12",
+  "as_of": "2026-06-01",
   "schema_version": 2,
   "source": "factsheetslive",
   "source_url": "https://provinzial-nord.stg.wt.factsheetslive.com/produkt/LU0249486092",
   "currency": "EUR",
   "fund_name": "Deka-FlexZins CF",
   "provinzial_fund_type": "Renten/Geldmarktfonds",
-  "ter": 0.0038,
+  "region": "global",
+  "theme": "NONE",
+  "ter": 0.0049,
   "sri": 2,
   "performance": {
     "periods": {
-      "3m": -0.0031,
-      "6m": 0.0045,
-      "ytd": 0.0037,
-      "1y": 0.0012,
-      "3y_pa": 0.0178,
-      "5y_pa": 0.0087,
+      "3m": 0.0001,
+      "6m": 0.0077,
+      "ytd": 0.0079,
+      "1y": 0.0022,
+      "3y_pa": 0.0189,
+      "5y_pa": 0.0097,
       "10y_pa": null,
-      "si_pa": 0.008
+      "si_pa": 0.0088
     },
     "nav_series": [
       {
@@ -278,21 +280,21 @@
         "v": 104.1208
       },
       {
-        "d": "2026-05-11",
-        "v": 104.406
+        "d": "2026-05-29",
+        "v": 104.8441
       }
     ]
   },
   "volatility": {
     "1y": 0.0264,
-    "3y": 0.0232,
-    "5y": 0.0189
+    "3y": 0.0233,
+    "5y": 0.019
   },
   "risk_metrics": {
     "sharpe": {
-      "1y": -0.67,
-      "3y": -0.47,
-      "5y": -0.51
+      "1y": -0.63,
+      "3y": -0.41,
+      "5y": -0.47
     },
     "max_drawdown": {
       "1y": null,
@@ -300,6 +302,50 @@
       "5y": -0.0365
     }
   },
-  "asset_class_breakdown": {},
-  "top_holdings": []
+  "asset_class_breakdown": {
+    "bond": 0.9878,
+    "other": 0.0122
+  },
+  "top_holdings": [
+    {
+      "name": "Stellantis N.V. MTN 25/31",
+      "weight": 0.0131
+    },
+    {
+      "name": "BNP Paribas S.A. FLR Preferred MTN 25/31",
+      "weight": 0.0112
+    },
+    {
+      "name": "Bque Fédérative du Cr. Mutuel Non-Pref. MTN 23/30",
+      "weight": 0.0112
+    },
+    {
+      "name": "ING Groep N.V. FLR MTN 25/31",
+      "weight": 0.0086
+    },
+    {
+      "name": "Morgan Stanley FLR MTN 25/31",
+      "weight": 0.0082
+    },
+    {
+      "name": "Belfius Bank S.A. Non-Pref. MTN 25/31",
+      "weight": 0.0082
+    },
+    {
+      "name": "Nykredit Realkredit A/S Non-Preferred MTN 25/30",
+      "weight": 0.0073
+    },
+    {
+      "name": "JPMorgan Chase & Co. FLR MTN 23/31",
+      "weight": 0.0073
+    },
+    {
+      "name": "Commerzbank AG FLR MTN S.1031 24/31",
+      "weight": 0.0072
+    },
+    {
+      "name": "Suez S.A. MTN 22/30",
+      "weight": 0.0071
+    }
+  ]
 }

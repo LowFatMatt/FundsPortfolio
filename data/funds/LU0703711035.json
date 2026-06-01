@@ -1,24 +1,26 @@
 {
   "isin": "LU0703711035",
-  "as_of": "2026-05-12",
+  "as_of": "2026-06-01",
   "schema_version": 2,
   "source": "factsheetslive",
   "source_url": "https://provinzial-nord.stg.wt.factsheetslive.com/produkt/LU0703711035",
   "currency": "EUR",
   "fund_name": "Deka-ESG Renten CF (A)",
   "provinzial_fund_type": "Renten/Geldmarktfonds",
+  "region": "global",
+  "theme": "NONE",
   "ter": 0.0092,
   "sri": 2,
   "performance": {
     "periods": {
-      "3m": -0.0102,
-      "6m": -0.0029,
-      "ytd": -0.0016,
-      "1y": 0.0192,
-      "3y_pa": 0.0431,
-      "5y_pa": 0.0032,
-      "10y_pa": 0.0198,
-      "si_pa": 0.0367
+      "3m": -0.0084,
+      "6m": 0.0017,
+      "ytd": 0.0037,
+      "1y": 0.0208,
+      "3y_pa": 0.0447,
+      "5y_pa": 0.0043,
+      "10y_pa": 0.0201,
+      "si_pa": 0.037
     },
     "nav_series": [
       {
@@ -714,21 +716,21 @@
         "v": 167.2081
       },
       {
-        "d": "2026-05-11",
-        "v": 167.9956
+        "d": "2026-05-29",
+        "v": 168.8798
       }
     ]
   },
   "volatility": {
-    "1y": 0.026,
-    "3y": 0.0292,
-    "5y": 0.034
+    "1y": 0.0258,
+    "3y": 0.0291,
+    "5y": 0.0341
   },
   "risk_metrics": {
     "sharpe": {
-      "1y": 0.0,
-      "3y": 0.47,
-      "5y": -0.44
+      "1y": 0.06,
+      "3y": 0.53,
+      "5y": -0.42
     },
     "max_drawdown": {
       "1y": null,
@@ -737,24 +739,20 @@
     }
   },
   "asset_class_breakdown": {
-    "bond": 0.9712,
-    "other": 0.0288
+    "bond": 0.9707,
+    "other": 0.0293
   },
   "top_holdings": [
-    {
-      "name": "DSV Finance B.V. MTN 24/30",
-      "weight": 0.0027
-    },
     {
       "name": "mBank S.A. FLR Non-Pref. MTN 23/27",
       "weight": 0.0024
     },
     {
-      "name": "Bque Fédérative du Cr. Mutuel Pref. MTN 24/31",
+      "name": "Lloyds Banking Group PLC FLR MTN 24/32",
       "weight": 0.0023
     },
     {
-      "name": "Lloyds Banking Group PLC FLR MTN 24/32",
+      "name": "Bque Fédérative du Cr. Mutuel Pref. MTN 24/31",
       "weight": 0.0023
     },
     {
@@ -780,6 +778,10 @@
     {
       "name": "Bankinter S.A. FLR Pref. MTN 25/33",
       "weight": 0.0019
+    },
+    {
+      "name": "Coöperatieve Rabobank U.A. Non-Preferred MTN 25/35",
+      "weight": 0.0018
     }
   ]
 }

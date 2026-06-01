@@ -1,24 +1,26 @@
 {
   "isin": "LU0350482435",
-  "as_of": "2026-05-12",
+  "as_of": "2026-06-01",
   "schema_version": 2,
   "source": "factsheetslive",
   "source_url": "https://provinzial-nord.stg.wt.factsheetslive.com/produkt/LU0350482435",
   "currency": "EUR",
   "fund_name": "DekaLuxTeam-EmergingMarkets",
   "provinzial_fund_type": "Aktienfonds",
+  "region": "emerging_markets",
+  "theme": "NONE",
   "ter": 0.0188,
   "sri": 4,
   "performance": {
     "periods": {
-      "3m": 0.1434,
-      "6m": 0.2617,
-      "ytd": 0.2764,
-      "1y": 0.5536,
-      "3y_pa": 0.1859,
-      "5y_pa": 0.0525,
-      "10y_pa": 0.0936,
-      "si_pa": 0.0515
+      "3m": 0.1177,
+      "6m": 0.3159,
+      "ytd": 0.3055,
+      "1y": 0.5496,
+      "3y_pa": 0.1915,
+      "5y_pa": 0.0528,
+      "10y_pa": 0.0919,
+      "si_pa": 0.0527
     },
     "nav_series": [
       {
@@ -882,21 +884,21 @@
         "v": 255.777
       },
       {
-        "d": "2026-05-11",
-        "v": 273.9886
+        "d": "2026-05-29",
+        "v": 280.2432
       }
     ]
   },
   "volatility": {
-    "1y": 0.1761,
-    "3y": 0.1587,
-    "5y": 0.1623
+    "1y": 0.1779,
+    "3y": 0.161,
+    "5y": 0.1635
   },
   "risk_metrics": {
     "sharpe": {
-      "1y": 2.98,
-      "3y": 0.96,
-      "5y": 0.21
+      "1y": 2.95,
+      "3y": 0.98,
+      "5y": 0.2
     },
     "max_drawdown": {
       "1y": null,
@@ -905,49 +907,49 @@
     }
   },
   "asset_class_breakdown": {
-    "equity": 0.9961,
-    "other": 0.0039
+    "equity": 0.9921,
+    "other": 0.0079
   },
   "top_holdings": [
     {
       "name": "Taiwan Semiconductor Manufact.",
-      "weight": 0.0974
-    },
-    {
-      "name": "Tencent Holdings Ltd.",
-      "weight": 0.0542
+      "weight": 0.0957
     },
     {
       "name": "Samsung Electronics Co. Ltd.",
-      "weight": 0.0467
+      "weight": 0.0547
     },
     {
       "name": "SK Hynix Inc. (ADR)",
-      "weight": 0.0375
+      "weight": 0.0531
+    },
+    {
+      "name": "Tencent Holdings Ltd.",
+      "weight": 0.0452
     },
     {
       "name": "Delta Electronics Inc.",
-      "weight": 0.0239
+      "weight": 0.0316
     },
     {
-      "name": "Credicorp",
-      "weight": 0.0196
-    },
-    {
-      "name": "Zijin Mining Group",
-      "weight": 0.0191
-    },
-    {
-      "name": "Grupo Financiero Banorte SAB",
-      "weight": 0.0186
-    },
-    {
-      "name": "Alibaba Group Holding, Ltd.",
-      "weight": 0.0183
+      "name": "ASE Technology Holding Co Ltd",
+      "weight": 0.0203
     },
     {
       "name": "Hana Financial",
-      "weight": 0.0183
+      "weight": 0.0193
+    },
+    {
+      "name": "Zijin Mining Group",
+      "weight": 0.0181
+    },
+    {
+      "name": "Elite Material",
+      "weight": 0.0176
+    },
+    {
+      "name": "Petrochina",
+      "weight": 0.0174
     }
   ]
 }

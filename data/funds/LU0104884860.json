@@ -1,24 +1,26 @@
 {
   "isin": "LU0104884860",
-  "as_of": "2026-05-12",
+  "as_of": "2026-06-01",
   "schema_version": 2,
   "source": "factsheetslive",
   "source_url": "https://provinzial-nord.stg.wt.factsheetslive.com/produkt/LU0104884860",
   "currency": "EUR",
   "fund_name": "Pictet - Water-P EUR",
   "provinzial_fund_type": "Aktienfonds",
+  "region": "global",
+  "theme": "water",
   "ter": 0.0199,
   "sri": 4,
   "performance": {
     "periods": {
-      "3m": -0.0876,
-      "6m": -0.0535,
-      "ytd": -0.0334,
-      "1y": -0.0279,
-      "3y_pa": 0.0309,
-      "5y_pa": 0.0252,
-      "10y_pa": 0.0694,
-      "si_pa": 0.0624
+      "3m": -0.0951,
+      "6m": -0.0783,
+      "ytd": -0.0554,
+      "1y": -0.0687,
+      "3y_pa": 0.0285,
+      "5y_pa": 0.0186,
+      "10y_pa": 0.063,
+      "si_pa": 0.0613
     },
     "nav_series": [
       {
@@ -1286,21 +1288,21 @@
         "v": 510.003
       },
       {
-        "d": "2026-05-11",
-        "v": 493.0841
+        "d": "2026-05-29",
+        "v": 481.8683
       }
     ]
   },
   "volatility": {
-    "1y": 0.1345,
-    "3y": 0.1368,
-    "5y": 0.1475
+    "1y": 0.1318,
+    "3y": 0.1366,
+    "5y": 0.1476
   },
   "risk_metrics": {
     "sharpe": {
-      "1y": -0.34,
-      "3y": 0.01,
-      "5y": 0.04
+      "1y": -0.66,
+      "3y": 0.0,
+      "5y": 0.0
     },
     "max_drawdown": {
       "1y": null,
@@ -1309,49 +1311,49 @@
     }
   },
   "asset_class_breakdown": {
-    "equity": 0.9891,
-    "other": 0.0109
+    "equity": 0.9871,
+    "other": 0.0129
   },
   "top_holdings": [
     {
-      "name": "Cia de Saneamento Basico do Estado",
-      "weight": 0.0539
-    },
-    {
       "name": "Ferguson Enterprises Inc",
-      "weight": 0.0478
+      "weight": 0.0525
     },
     {
-      "name": "Parker Hannifin Corp",
-      "weight": 0.047
+      "name": "Cia de Saneamento Basico do Estado",
+      "weight": 0.0496
+    },
+    {
+      "name": "Parker-Hannifin",
+      "weight": 0.0457
     },
     {
       "name": "Veolia Environnement",
-      "weight": 0.0426
+      "weight": 0.0457
     },
     {
       "name": "Thermo Fisher Scientific, Inc.",
-      "weight": 0.0364
-    },
-    {
-      "name": "Xylem Inc.",
-      "weight": 0.0358
-    },
-    {
-      "name": "Pentair",
-      "weight": 0.0347
-    },
-    {
-      "name": "Core & Main Inc.",
-      "weight": 0.0334
+      "weight": 0.034
     },
     {
       "name": "Advanced Drainage Systems",
-      "weight": 0.0322
+      "weight": 0.0335
     },
     {
       "name": "Clean Harbors Inc.",
-      "weight": 0.0313
+      "weight": 0.0327
+    },
+    {
+      "name": "Core & Main Inc.",
+      "weight": 0.0326
+    },
+    {
+      "name": "Pentair Finance",
+      "weight": 0.0308
+    },
+    {
+      "name": "United Utilities",
+      "weight": 0.0305
     }
   ]
 }

@@ -1,12 +1,14 @@
 {
   "isin": "LU0800346016",
-  "as_of": "2026-05-12",
+  "as_of": "2026-06-01",
   "schema_version": 2,
   "source": "factsheetslive",
   "source_url": "https://provinzial-nord.stg.wt.factsheetslive.com/produkt/LU0800346016",
   "currency": "EUR",
   "fund_name": "ÖkoWorld Growing Markets 2.0 C EUR",
   "provinzial_fund_type": "Aktienfonds",
+  "region": "emerging_markets",
+  "theme": "NONE",
   "ter": 0.0225,
   "sri": 4,
   "performance": {
@@ -697,48 +699,49 @@
     }
   },
   "asset_class_breakdown": {
-    "equity": 1.0165
+    "equity": 0.9857,
+    "other": 0.0143
   },
   "top_holdings": [
     {
+      "name": "Bizlink",
+      "weight": 0.0371
+    },
+    {
       "name": "Cury Construtora e Incorporadora S.A.",
-      "weight": 0.0376
+      "weight": 0.0368
     },
     {
       "name": "Zoomlion Heavy Industry Science+Tech",
-      "weight": 0.0319
-    },
-    {
-      "name": "Kokusai Electric Corp.",
-      "weight": 0.0317
+      "weight": 0.0302
     },
     {
       "name": "Tokyo Electron",
-      "weight": 0.0312
+      "weight": 0.0296
     },
     {
-      "name": "Saci Falabella",
-      "weight": 0.0303
-    },
-    {
-      "name": "Bizlink",
-      "weight": 0.0269
-    },
-    {
-      "name": "Absa Group",
-      "weight": 0.0254
-    },
-    {
-      "name": "Hynix Sem.",
-      "weight": 0.0253
-    },
-    {
-      "name": "Taiwan Semiconductor Manufact. ADR",
-      "weight": 0.0241
+      "name": "Kokusai Electric Corp.",
+      "weight": 0.0276
     },
     {
       "name": "INNOVENT BIOLOGICS INC",
+      "weight": 0.0265
+    },
+    {
+      "name": "Yangtze Optical Fibre and Cable JSC Ltd",
+      "weight": 0.0251
+    },
+    {
+      "name": "Absa Group",
+      "weight": 0.0235
+    },
+    {
+      "name": "Taiwan Semiconductor Manufact. ADR",
       "weight": 0.0232
+    },
+    {
+      "name": "Cia de Saneamento Basico do Estado de Sao Paulo AD",
+      "weight": 0.023
     }
   ]
 }

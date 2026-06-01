@@ -1,24 +1,26 @@
 {
   "isin": "LU0137266473",
-  "as_of": "2026-05-12",
+  "as_of": "2026-06-01",
   "schema_version": 2,
   "source": "factsheetslive",
   "source_url": "https://provinzial-nord.stg.wt.factsheetslive.com/produkt/LU0137266473",
   "currency": "EUR",
   "fund_name": "Deka-ZukunftInvest",
   "provinzial_fund_type": "Vermögensverwaltende Fonds",
+  "region": "global",
+  "theme": "NONE",
   "ter": 0.0239,
   "sri": 4,
   "performance": {
     "periods": {
-      "3m": 0.0538,
-      "6m": 0.0362,
-      "ytd": 0.0294,
-      "1y": 0.2121,
-      "3y_pa": 0.1184,
-      "5y_pa": 0.0314,
-      "10y_pa": 0.0747,
-      "si_pa": 0.0756
+      "3m": 0.0805,
+      "6m": 0.0544,
+      "ytd": 0.0664,
+      "1y": 0.2093,
+      "3y_pa": 0.1174,
+      "5y_pa": 0.0353,
+      "10y_pa": 0.0739,
+      "si_pa": 0.0782
     },
     "nav_series": [
       {
@@ -654,21 +656,21 @@
         "v": 248.0217
       },
       {
-        "d": "2026-05-11",
-        "v": 254.6288
+        "d": "2026-05-29",
+        "v": 263.7689
       }
     ]
   },
   "volatility": {
-    "1y": 0.1014,
+    "1y": 0.0998,
     "3y": 0.1231,
-    "5y": 0.1447
+    "5y": 0.1446
   },
   "risk_metrics": {
     "sharpe": {
-      "1y": 1.86,
-      "3y": 0.71,
-      "5y": 0.09
+      "1y": 1.88,
+      "3y": 0.7,
+      "5y": 0.11
     },
     "max_drawdown": {
       "1y": null,
@@ -681,24 +683,24 @@
   },
   "top_holdings": [
     {
-      "name": "Janus Henderson Global Life Sciences Fund I2 EUR",
-      "weight": 0.0846
-    },
-    {
-      "name": "Janus Henderson Horizon Fund - Biotechnology Fund H2 EUR Acc",
-      "weight": 0.0677
-    },
-    {
-      "name": "Polar Capital Biotechnology Fund I USD",
-      "weight": 0.0672
-    },
-    {
       "name": "Xtrackers MSCI USA Information Technology UCITS ETF 1D",
-      "weight": 0.0583
+      "weight": 0.083
+    },
+    {
+      "name": "Janus Henderson Global Life Sciences Fund I2 EUR",
+      "weight": 0.079
     },
     {
       "name": "iShares Nasdaq US Biotechnology UCITS ETF USD (Acc) Share Class",
-      "weight": 0.0557
+      "weight": 0.0756
+    },
+    {
+      "name": "Janus Henderson Horizon Fund - Biotechnology Fund H2 EUR Acc",
+      "weight": 0.0668
+    },
+    {
+      "name": "Polar Capital Biotechnology Fund I USD",
+      "weight": 0.0562
     }
   ]
 }

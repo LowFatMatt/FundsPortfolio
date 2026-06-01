@@ -18,15 +18,17 @@
       "esg_label": "SFDR_ARTICLE_8",
       "theme": "NONE",
       "srri": 3,
-      "sharpe_ratio": 0.16,
+      "sharpe_ratio": 0.13,
+      "volatility": 7.15,
+      "max_drawdown": 10.55,
       "esg_article_8": true,
       "esg_article_9": false,
       "notes": "Name corrected from 'Funds' to 'Fonds'. Provider corrected from 'Acatis' to 'Acatis Investment'.",
       "source": "provinzial_nord_universe",
       "asset_class_breakdown": {
-        "equity": 0.632,
-        "bond": 0.2447,
-        "other": 0.1233
+        "equity": 0.6867,
+        "bond": 0.2589,
+        "other": 0.0544
       },
       "region_breakdown": null,
       "benchmark_id": null
@@ -39,7 +41,7 @@
       "url": null,
       "kiid_url": null,
       "asset_class": "equity",
-      "region": "global",
+      "region": "germany",
       "categories": [
         "equity"
       ],
@@ -49,7 +51,9 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": 0.74,
+      "sharpe_ratio": 0.81,
+      "volatility": 15.31,
+      "max_drawdown": 16.02,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Imported from customer universe; enriched from per-ISIN scrape + general profile.",
@@ -68,7 +72,7 @@
       "url": null,
       "kiid_url": null,
       "asset_class": "bond",
-      "region": "global",
+      "region": "europe",
       "categories": [
         "fixed_income"
       ],
@@ -79,6 +83,8 @@
       "theme": "NONE",
       "srri": 3,
       "sharpe_ratio": -0.08,
+      "volatility": 5.69,
+      "max_drawdown": 5.25,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Imported from customer universe; enriched from per-ISIN scrape + general profile.",
@@ -105,9 +111,11 @@
       "yearly_fee": 2.08,
       "is_etf": false,
       "esg_label": "SFDR_ARTICLE_8",
-      "theme": "SUSTAINABILITY",
+      "theme": "sustainability",
       "srri": 4,
-      "sharpe_ratio": 0.76,
+      "sharpe_ratio": 0.82,
+      "volatility": 11.58,
+      "max_drawdown": 16.24,
       "esg_article_8": true,
       "esg_article_9": false,
       "notes": "Imported from customer universe; enriched from per-ISIN scrape + general profile.",
@@ -138,15 +146,17 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 3,
-      "sharpe_ratio": 1.15,
+      "sharpe_ratio": 1.22,
+      "volatility": 8.27,
+      "max_drawdown": 13.5,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Provider corrected: ARERO is the fund name, DWS is the KVG. TER 0.50%. ARERO = Aktien, Renten, Rohstoffe.",
       "source": "provinzial_nord_universe",
       "asset_class_breakdown": {
-        "equity": 0.569,
-        "bond": 0.375,
-        "other": 0.056
+        "equity": 0.589,
+        "bond": 0.354,
+        "other": 0.057
       },
       "region_breakdown": null,
       "benchmark_id": null
@@ -169,14 +179,16 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": 0.53,
+      "sharpe_ratio": 0.64,
+      "volatility": 13.26,
+      "max_drawdown": 15.75,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Imported from customer universe; enriched from per-ISIN scrape + general profile.",
       "source": "provinzial_nord_universe",
       "asset_class_breakdown": {
-        "equity": 0.9622,
-        "other": 0.0378
+        "equity": 0.9673,
+        "other": 0.0327
       },
       "region_breakdown": null,
       "benchmark_id": null
@@ -193,13 +205,15 @@
       "categories": [
         "fixed_income"
       ],
-      "risk_level": null,
-      "yearly_fee": null,
+      "risk_level": 1,
+      "yearly_fee": 0.93,
       "is_etf": false,
       "esg_label": "LOW",
       "theme": "NONE",
-      "srri": null,
-      "sharpe_ratio": 0.67,
+      "srri": 2,
+      "sharpe_ratio": 0.83,
+      "volatility": 2.81,
+      "max_drawdown": 2.68,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Imported from customer universe; enriched from per-ISIN scrape + general profile.",
@@ -224,13 +238,15 @@
       "categories": [
         "balanced"
       ],
-      "risk_level": null,
-      "yearly_fee": null,
+      "risk_level": 2,
+      "yearly_fee": 1.6,
       "is_etf": false,
       "esg_label": "LOW",
       "theme": "NONE",
-      "srri": null,
-      "sharpe_ratio": 0.61,
+      "srri": 3,
+      "sharpe_ratio": 0.69,
+      "volatility": 7.1,
+      "max_drawdown": 11.47,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Imported from customer universe; enriched from per-ISIN scrape + general profile.",
@@ -262,9 +278,11 @@
       "yearly_fee": 2.09,
       "is_etf": false,
       "esg_label": "LOW",
-      "theme": "COMMODITIES",
+      "theme": "commodities",
       "srri": 5,
-      "sharpe_ratio": 1.2,
+      "sharpe_ratio": 1.14,
+      "volatility": 31.06,
+      "max_drawdown": 27.57,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Region corrected from 'emerging_markets' to 'global'. Provider corrected from 'BGF' to 'BlackRock'.",
@@ -294,9 +312,11 @@
       "yearly_fee": 2.06,
       "is_etf": false,
       "esg_label": "LOW",
-      "theme": "COMMODITIES",
+      "theme": "commodities",
       "srri": 5,
-      "sharpe_ratio": 0.7,
+      "sharpe_ratio": 0.75,
+      "volatility": 24.1,
+      "max_drawdown": 24.42,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Provider corrected from 'BGF' to 'BlackRock'. Theme corrected to COMMODITIES.",
@@ -316,7 +336,7 @@
       "url": null,
       "kiid_url": null,
       "asset_class": "equity",
-      "region": "global",
+      "region": "europe",
       "categories": [
         "equity"
       ],
@@ -327,6 +347,8 @@
       "theme": "NONE",
       "srri": 4,
       "sharpe_ratio": 0.94,
+      "volatility": 14.6,
+      "max_drawdown": 16.46,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Imported from customer universe; enriched from per-ISIN scrape + general profile.",
@@ -356,14 +378,16 @@
       "esg_label": "SFDR_ARTICLE_8",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": 1.37,
+      "sharpe_ratio": 1.33,
+      "volatility": 13.62,
+      "max_drawdown": 19.79,
       "esg_article_8": true,
       "esg_article_9": false,
       "notes": "TER 2.06% (includes perf. fee component). Flagship global equity fund since 1989.",
       "source": "provinzial_nord_universe",
       "asset_class_breakdown": {
-        "equity": 0.9689,
-        "other": 0.0311
+        "equity": 0.9688,
+        "other": 0.0312
       },
       "region_breakdown": null,
       "benchmark_id": null
@@ -386,16 +410,17 @@
       "esg_label": "SFDR_ARTICLE_8",
       "theme": "NONE",
       "srri": 3,
-      "sharpe_ratio": 0.91,
+      "sharpe_ratio": 1.04,
+      "volatility": 5.75,
+      "max_drawdown": 5.4,
       "esg_article_8": true,
       "esg_article_9": false,
       "notes": "TER approx 1.50% (ongoing charges). Flagship balanced fund.",
       "source": "provinzial_nord_universe",
       "asset_class_breakdown": {
-        "equity": 0.384,
-        "bond": 0.42,
-        "other": 0.145,
-        "cash": 0.051
+        "equity": 0.4197,
+        "bond": 0.4086,
+        "other": 0.1717
       },
       "region_breakdown": null,
       "benchmark_id": null
@@ -419,15 +444,17 @@
       "esg_label": "SFDR_ARTICLE_8",
       "theme": "NONE",
       "srri": 3,
-      "sharpe_ratio": 0.98,
+      "sharpe_ratio": 0.91,
+      "volatility": 7.53,
+      "max_drawdown": 7.45,
       "esg_article_8": true,
       "esg_article_9": false,
       "notes": "Region corrected from 'global' to 'emerging_markets'.",
       "source": "provinzial_nord_universe",
       "asset_class_breakdown": {
-        "bond": 0.4344,
-        "equity": 0.3875,
-        "other": 0.1781
+        "equity": 0.435,
+        "bond": 0.4177,
+        "other": 0.1473
       },
       "region_breakdown": null,
       "benchmark_id": null
@@ -451,7 +478,9 @@
       "esg_label": "SFDR_ARTICLE_8",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": 0.2,
+      "sharpe_ratio": 0.25,
+      "volatility": 15.0,
+      "max_drawdown": 19.52,
       "esg_article_8": true,
       "esg_article_9": false,
       "notes": "Provider corrected from 'CT (Lux)' to 'Columbia Threadneedle'.",
@@ -483,6 +512,8 @@
       "theme": "NONE",
       "srri": 4,
       "sharpe_ratio": 0.1,
+      "volatility": 16.08,
+      "max_drawdown": 29.09,
       "esg_article_8": true,
       "esg_article_9": false,
       "notes": "Provider corrected from 'CT (Lux)' to 'Columbia Threadneedle'.",
@@ -512,16 +543,18 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 2,
-      "sharpe_ratio": 0.82,
+      "sharpe_ratio": 0.86,
+      "volatility": 4.42,
+      "max_drawdown": 6.52,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Imported from customer universe; enriched from per-ISIN scrape + general profile.",
       "source": "provinzial_nord_universe",
       "asset_class_breakdown": {
-        "bond": 0.46,
-        "equity": 0.307,
-        "other": 0.193,
-        "commodities": 0.04
+        "other": 0.39,
+        "equity": 0.3,
+        "bond": 0.26,
+        "commodities": 0.05
       },
       "region_breakdown": null,
       "benchmark_id": null
@@ -544,14 +577,16 @@
       "esg_label": "SFDR_ARTICLE_8",
       "theme": "NONE",
       "srri": 3,
-      "sharpe_ratio": 0.79,
+      "sharpe_ratio": 0.82,
+      "volatility": 11.38,
+      "max_drawdown": 18.38,
       "esg_article_8": true,
       "esg_article_9": false,
       "notes": "Imported from customer universe; enriched from per-ISIN scrape + general profile.",
       "source": "provinzial_nord_universe",
       "asset_class_breakdown": {
-        "equity": 0.9476,
-        "other": 0.0524
+        "equity": 0.995,
+        "other": 0.005
       },
       "region_breakdown": null,
       "benchmark_id": null
@@ -574,15 +609,17 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 3,
-      "sharpe_ratio": 1.03,
+      "sharpe_ratio": 1.04,
+      "volatility": 8.06,
+      "max_drawdown": 12.78,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Imported from customer universe; enriched from per-ISIN scrape + general profile.",
       "source": "provinzial_nord_universe",
       "asset_class_breakdown": {
-        "equity": 0.5921,
-        "bond": 0.4451,
-        "commodities": 0.0504
+        "equity": 0.6456,
+        "bond": 0.4081,
+        "commodities": 0.048
       },
       "region_breakdown": null,
       "benchmark_id": null
@@ -595,7 +632,7 @@
       "url": null,
       "kiid_url": null,
       "asset_class": "equity",
-      "region": "global",
+      "region": "europe",
       "categories": [
         "equity"
       ],
@@ -605,7 +642,9 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 7,
-      "sharpe_ratio": null,
+      "sharpe_ratio": -1.16,
+      "volatility": 43.01,
+      "max_drawdown": 62.81,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Imported from customer universe; enriched from per-ISIN scrape + general profile.",
@@ -622,7 +661,7 @@
       "url": null,
       "kiid_url": null,
       "asset_class": "equity",
-      "region": "global",
+      "region": "europe",
       "categories": [
         "equity"
       ],
@@ -632,7 +671,9 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": null,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 1.8,
+      "volatility": 17.67,
+      "max_drawdown": 16.38,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Imported from customer universe; enriched from per-ISIN scrape + general profile.",
@@ -662,7 +703,9 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": 0.75,
+      "sharpe_ratio": 0.81,
+      "volatility": 15.2,
+      "max_drawdown": 16.01,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Region corrected from 'global' to 'germany'. TER 0.15%.",
@@ -690,16 +733,18 @@
       "yearly_fee": 1.44,
       "is_etf": false,
       "esg_label": "LOW",
-      "theme": "NONE",
+      "theme": "dividends",
       "srri": 3,
-      "sharpe_ratio": 0.77,
+      "sharpe_ratio": 0.88,
+      "volatility": 10.41,
+      "max_drawdown": 15.09,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "TER 1.46%. Distributing fund, global dividend stocks. AUM ~2 billion EUR.",
       "source": "provinzial_nord_universe",
       "asset_class_breakdown": {
-        "equity": 0.8101,
-        "other": 0.1899
+        "equity": 0.8379,
+        "other": 0.1621
       },
       "region_breakdown": null,
       "benchmark_id": null
@@ -720,16 +765,18 @@
       "yearly_fee": 1.49,
       "is_etf": false,
       "esg_label": "SFDR_ARTICLE_8",
-      "theme": "SUSTAINABILITY",
+      "theme": "sustainability",
       "srri": 4,
-      "sharpe_ratio": 0.8,
+      "sharpe_ratio": 0.82,
+      "volatility": 14.17,
+      "max_drawdown": 21.54,
       "esg_article_8": true,
       "esg_article_9": false,
       "notes": "Imported from customer universe; enriched from per-ISIN scrape + general profile.",
       "source": "provinzial_nord_universe",
       "asset_class_breakdown": {
-        "equity": 0.9417,
-        "other": 0.0583
+        "equity": 0.9782,
+        "other": 0.0218
       },
       "region_breakdown": null,
       "benchmark_id": null
@@ -750,14 +797,18 @@
       "yearly_fee": 1.51,
       "is_etf": false,
       "esg_label": "SFDR_ARTICLE_8",
-      "theme": "SUSTAINABILITY",
+      "theme": "sustainability",
       "srri": 4,
-      "sharpe_ratio": 0.36,
+      "sharpe_ratio": 0.47,
+      "volatility": 13.2,
+      "max_drawdown": 15.5,
       "esg_article_8": true,
       "esg_article_9": false,
       "notes": "Imported from customer universe; enriched from per-ISIN scrape + general profile.",
       "source": "provinzial_nord_universe",
-      "asset_class_breakdown": null,
+      "asset_class_breakdown": {
+        "equity": 1.0
+      },
       "region_breakdown": null,
       "benchmark_id": null
     },
@@ -777,18 +828,20 @@
       "yearly_fee": 1.22,
       "is_etf": false,
       "esg_label": "SFDR_ARTICLE_8",
-      "theme": "SUSTAINABILITY",
+      "theme": "sustainability",
       "srri": 2,
-      "sharpe_ratio": 0.68,
+      "sharpe_ratio": 0.78,
+      "volatility": 5.03,
+      "max_drawdown": 7.35,
       "esg_article_8": true,
       "esg_article_9": false,
       "notes": "Imported from customer universe; enriched from per-ISIN scrape + general profile.",
       "source": "provinzial_nord_universe",
       "asset_class_breakdown": {
-        "bond": 0.5715,
-        "equity": 0.365,
-        "commodities": 0.0346,
-        "other": 0.0289
+        "bond": 0.5138,
+        "equity": 0.347,
+        "other": 0.1074,
+        "commodities": 0.0318
       },
       "region_breakdown": null,
       "benchmark_id": null
@@ -809,16 +862,18 @@
       "yearly_fee": 0.63,
       "is_etf": false,
       "esg_label": "SFDR_ARTICLE_8",
-      "theme": "SUSTAINABILITY",
+      "theme": "sustainability",
       "srri": 2,
-      "sharpe_ratio": 0.59,
+      "sharpe_ratio": 0.72,
+      "volatility": 1.26,
+      "max_drawdown": 1.48,
       "esg_article_8": true,
       "esg_article_9": false,
       "notes": "Imported from customer universe; enriched from per-ISIN scrape + general profile.",
       "source": "provinzial_nord_universe",
       "asset_class_breakdown": {
-        "bond": 0.9685,
-        "other": 0.0315
+        "bond": 0.9723,
+        "other": 0.0277
       },
       "region_breakdown": null,
       "benchmark_id": null
@@ -840,16 +895,18 @@
       "yearly_fee": 1.43,
       "is_etf": false,
       "esg_label": "SFDR_ARTICLE_8",
-      "theme": "SUSTAINABILITY",
+      "theme": "dividends",
       "srri": 3,
-      "sharpe_ratio": 0.66,
+      "sharpe_ratio": 0.76,
+      "volatility": 10.64,
+      "max_drawdown": 15.01,
       "esg_article_8": true,
       "esg_article_9": false,
       "notes": "Imported from customer universe; enriched from per-ISIN scrape + general profile.",
       "source": "provinzial_nord_universe",
       "asset_class_breakdown": {
-        "equity": 0.8034,
-        "other": 0.1966
+        "equity": 0.8277,
+        "other": 0.1723
       },
       "region_breakdown": null,
       "benchmark_id": null
@@ -871,16 +928,18 @@
       "yearly_fee": 1.5,
       "is_etf": false,
       "esg_label": "SFDR_ARTICLE_8",
-      "theme": "HEALTHCARE",
+      "theme": "healthcare",
       "srri": 4,
-      "sharpe_ratio": -0.33,
+      "sharpe_ratio": -0.16,
+      "volatility": 13.7,
+      "max_drawdown": 23.77,
       "esg_article_8": true,
       "esg_article_9": false,
       "notes": "Imported from customer universe; enriched from per-ISIN scrape + general profile.",
       "source": "provinzial_nord_universe",
       "asset_class_breakdown": {
-        "equity": 0.9934,
-        "other": 0.0066
+        "equity": 0.9961,
+        "other": 0.0039
       },
       "region_breakdown": null,
       "benchmark_id": null
@@ -901,16 +960,18 @@
       "yearly_fee": 1.44,
       "is_etf": false,
       "esg_label": "SFDR_ARTICLE_8",
-      "theme": "SUSTAINABILITY",
+      "theme": "sustainability",
       "srri": 4,
-      "sharpe_ratio": 1.09,
+      "sharpe_ratio": 1.03,
+      "volatility": 14.29,
+      "max_drawdown": 22.17,
       "esg_article_8": true,
       "esg_article_9": false,
       "notes": "Imported from customer universe; enriched from per-ISIN scrape + general profile.",
       "source": "provinzial_nord_universe",
       "asset_class_breakdown": {
-        "equity": 0.9134,
-        "other": 0.0866
+        "equity": 0.9142,
+        "other": 0.0858
       },
       "region_breakdown": null,
       "benchmark_id": null
@@ -931,16 +992,18 @@
       "yearly_fee": 0.92,
       "is_etf": false,
       "esg_label": "SFDR_ARTICLE_8",
-      "theme": "SUSTAINABILITY",
+      "theme": "sustainability",
       "srri": 2,
-      "sharpe_ratio": 0.47,
+      "sharpe_ratio": 0.53,
+      "volatility": 2.91,
+      "max_drawdown": 2.79,
       "esg_article_8": true,
       "esg_article_9": false,
       "notes": "Imported from customer universe; enriched from per-ISIN scrape + general profile.",
       "source": "provinzial_nord_universe",
       "asset_class_breakdown": {
-        "bond": 0.9712,
-        "other": 0.0288
+        "bond": 0.9707,
+        "other": 0.0293
       },
       "region_breakdown": null,
       "benchmark_id": null
@@ -963,7 +1026,9 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 2,
-      "sharpe_ratio": 0.3,
+      "sharpe_ratio": 0.37,
+      "volatility": 2.68,
+      "max_drawdown": 2.7,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Name/provider corrected: was 'Nordea 1 Flexible Fixed Income'. DE ISIN = Allianz Rentenfonds. kiid_url corrected.",
@@ -992,14 +1057,16 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 2,
-      "sharpe_ratio": 4.51,
+      "sharpe_ratio": 4.46,
+      "volatility": 0.48,
+      "max_drawdown": 0.31,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Imported from customer universe; enriched from per-ISIN scrape + general profile.",
       "source": "provinzial_nord_universe",
       "asset_class_breakdown": {
-        "bond": 0.9794,
-        "other": 0.0206
+        "bond": 0.9885,
+        "other": 0.0115
       },
       "region_breakdown": null,
       "benchmark_id": null
@@ -1022,16 +1089,17 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 2,
-      "sharpe_ratio": 0.03,
+      "sharpe_ratio": 0.15,
+      "volatility": 4.56,
+      "max_drawdown": 5.55,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Region corrected from 'global' to 'europe'.",
       "source": "provinzial_nord_universe",
       "asset_class_breakdown": {
-        "bond": 0.7237,
-        "equity": 0.195,
-        "other": 0.0602,
-        "commodities": 0.0211
+        "bond": 0.7887,
+        "equity": 0.209,
+        "other": 0.0023
       },
       "region_breakdown": null,
       "benchmark_id": null
@@ -1044,7 +1112,7 @@
       "url": null,
       "kiid_url": null,
       "asset_class": "bond",
-      "region": "global",
+      "region": "europe",
       "categories": [
         "fixed_income"
       ],
@@ -1054,14 +1122,16 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 3,
-      "sharpe_ratio": -0.1,
+      "sharpe_ratio": 0.06,
+      "volatility": 5.31,
+      "max_drawdown": 5.16,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Imported from customer universe; enriched from per-ISIN scrape + general profile.",
       "source": "provinzial_nord_universe",
       "asset_class_breakdown": {
-        "bond": 0.9504,
-        "other": 0.0496
+        "bond": 0.9477,
+        "other": 0.0523
       },
       "region_breakdown": null,
       "benchmark_id": null
@@ -1084,7 +1154,9 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 3,
-      "sharpe_ratio": 0.539746,
+      "sharpe_ratio": 0.6,
+      "volatility": 10.44,
+      "max_drawdown": 11.28,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Region corrected from 'global' to 'europe'.",
@@ -1113,7 +1185,9 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 3,
-      "sharpe_ratio": 0.26,
+      "sharpe_ratio": 0.4,
+      "volatility": 6.84,
+      "max_drawdown": 6.01,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Region corrected from 'global' to 'europe'.",
@@ -1132,7 +1206,7 @@
       "url": "https://www.deka-etf.de/etf/deka-euro-stoxx-50-ucits-etf",
       "kiid_url": "https://www.justetf.com/en/etf-profile.html?isin=DE000ETFL029",
       "asset_class": "equity",
-      "region": "eurozone",
+      "region": "europe",
       "categories": [
         "etf",
         "eurozone_equity"
@@ -1143,7 +1217,9 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": 0.68,
+      "sharpe_ratio": 0.74,
+      "volatility": 15.33,
+      "max_drawdown": 16.38,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Region corrected from 'global' to 'eurozone'. TER 0.15%.",
@@ -1173,14 +1249,16 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 2,
-      "sharpe_ratio": -0.27,
+      "sharpe_ratio": -0.14,
+      "volatility": 0.59,
+      "max_drawdown": 0.56,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Imported from customer universe; enriched from per-ISIN scrape + general profile.",
       "source": "provinzial_nord_universe",
       "asset_class_breakdown": {
-        "bond": 0.957,
-        "other": 0.043
+        "bond": 0.9602,
+        "other": 0.0398
       },
       "region_breakdown": null,
       "benchmark_id": null
@@ -1203,12 +1281,17 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 2,
-      "sharpe_ratio": -0.47,
+      "sharpe_ratio": -0.41,
+      "volatility": 2.33,
+      "max_drawdown": 2.35,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Imported from customer universe; enriched from per-ISIN scrape + general profile.",
       "source": "provinzial_nord_universe",
-      "asset_class_breakdown": null,
+      "asset_class_breakdown": {
+        "bond": 0.9878,
+        "other": 0.0122
+      },
       "region_breakdown": null,
       "benchmark_id": null
     },
@@ -1230,14 +1313,16 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": 0.49,
+      "sharpe_ratio": 0.63,
+      "volatility": 15.33,
+      "max_drawdown": 17.05,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Imported from customer universe; enriched from per-ISIN scrape + general profile.",
       "source": "provinzial_nord_universe",
       "asset_class_breakdown": {
-        "equity": 0.9526,
-        "other": 0.0474
+        "equity": 0.9453,
+        "other": 0.0547
       },
       "region_breakdown": null,
       "benchmark_id": null
@@ -1260,7 +1345,9 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 3,
-      "sharpe_ratio": 0.59,
+      "sharpe_ratio": 0.67,
+      "volatility": 5.84,
+      "max_drawdown": 9.68,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Imported from customer universe; enriched from per-ISIN scrape + general profile.",
@@ -1289,16 +1376,17 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 2,
-      "sharpe_ratio": 0.37,
+      "sharpe_ratio": 0.48,
+      "volatility": 4.6,
+      "max_drawdown": 6.78,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Imported from customer universe; enriched from per-ISIN scrape + general profile.",
       "source": "provinzial_nord_universe",
       "asset_class_breakdown": {
-        "bond": 0.7402,
-        "equity": 0.2382,
-        "commodities": 0.0211,
-        "other": 0.0005
+        "bond": 0.837,
+        "equity": 0.254,
+        "commodities": 0.0002
       },
       "region_breakdown": null,
       "benchmark_id": null
@@ -1321,14 +1409,16 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": 1.2,
+      "sharpe_ratio": 1.15,
+      "volatility": 14.09,
+      "max_drawdown": 22.26,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Imported from customer universe; enriched from per-ISIN scrape + general profile.",
       "source": "provinzial_nord_universe",
       "asset_class_breakdown": {
-        "equity": 0.9882,
-        "other": 0.0118
+        "equity": 0.9818,
+        "other": 0.0182
       },
       "region_breakdown": null,
       "benchmark_id": null
@@ -1352,14 +1442,16 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 3,
-      "sharpe_ratio": 0.550846,
+      "sharpe_ratio": 0.49,
+      "volatility": 9.45,
+      "max_drawdown": 12.45,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Imported from customer universe; enriched from per-ISIN scrape + general profile.",
       "source": "provinzial_nord_universe",
       "asset_class_breakdown": {
-        "equity": 0.9922,
-        "other": 0.0078
+        "equity": 0.9809,
+        "other": 0.0191
       },
       "region_breakdown": null,
       "benchmark_id": null
@@ -1382,14 +1474,16 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": 0.92,
+      "sharpe_ratio": 0.9,
+      "volatility": 18.01,
+      "max_drawdown": 25.97,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Imported from customer universe; enriched from per-ISIN scrape + general profile.",
       "source": "provinzial_nord_universe",
       "asset_class_breakdown": {
-        "equity": 0.983,
-        "other": 0.017
+        "equity": 0.9893,
+        "other": 0.0107
       },
       "region_breakdown": null,
       "benchmark_id": null
@@ -1412,7 +1506,9 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 3,
-      "sharpe_ratio": 0.491483,
+      "sharpe_ratio": 0.92,
+      "volatility": 9.65,
+      "max_drawdown": 13.97,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Imported from customer universe; enriched from per-ISIN scrape + general profile.",
@@ -1442,14 +1538,16 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 2,
-      "sharpe_ratio": 0.37,
+      "sharpe_ratio": 0.52,
+      "volatility": 3.41,
+      "max_drawdown": 2.93,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Asset class corrected from 'equity' to 'bond'. Region corrected to 'europe'. TER 0.20%.",
       "source": "provinzial_nord_universe",
       "asset_class_breakdown": {
-        "bond": 0.9996,
-        "other": 0.0004
+        "bond": 0.9984,
+        "other": 0.0016
       },
       "region_breakdown": null,
       "benchmark_id": null
@@ -1462,7 +1560,7 @@
       "url": null,
       "kiid_url": null,
       "asset_class": "real_estate",
-      "region": "global",
+      "region": "europe",
       "categories": [
         "real_estate"
       ],
@@ -1472,7 +1570,9 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 2,
-      "sharpe_ratio": -1.58,
+      "sharpe_ratio": -1.61,
+      "volatility": 0.29,
+      "max_drawdown": 0.06,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Imported from customer universe; enriched from per-ISIN scrape + general profile.",
@@ -1501,16 +1601,18 @@
       "yearly_fee": 1.52,
       "is_etf": false,
       "esg_label": "SFDR_ARTICLE_8",
-      "theme": "SUSTAINABILITY",
+      "theme": "sustainability",
       "srri": 4,
-      "sharpe_ratio": 0.03,
+      "sharpe_ratio": 0.11,
+      "volatility": 13.22,
+      "max_drawdown": 20.98,
       "esg_article_8": true,
       "esg_article_9": false,
       "notes": "Imported from customer universe; enriched from per-ISIN scrape + general profile.",
       "source": "provinzial_nord_universe",
       "asset_class_breakdown": {
-        "equity": 0.9918,
-        "other": 0.0082
+        "equity": 0.9692,
+        "other": 0.0308
       },
       "region_breakdown": null,
       "benchmark_id": null
@@ -1532,16 +1634,18 @@
       "yearly_fee": 1.5,
       "is_etf": false,
       "esg_label": "LOW",
-      "theme": "TECHNOLOGY",
+      "theme": "technology",
       "srri": 4,
-      "sharpe_ratio": 0.83,
+      "sharpe_ratio": 0.76,
+      "volatility": 18.97,
+      "max_drawdown": 28.09,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Theme corrected to TECHNOLOGY. Industrie 4.0 = tech/automation theme.",
       "source": "provinzial_nord_universe",
       "asset_class_breakdown": {
-        "equity": 0.915,
-        "other": 0.085
+        "equity": 0.9892,
+        "other": 0.0108
       },
       "region_breakdown": null,
       "benchmark_id": null
@@ -1564,9 +1668,11 @@
       "yearly_fee": 1.52,
       "is_etf": false,
       "esg_label": "LOW",
-      "theme": "TECHNOLOGY",
+      "theme": "technology",
       "srri": 5,
-      "sharpe_ratio": 1.07,
+      "sharpe_ratio": 0.99,
+      "volatility": 21.17,
+      "max_drawdown": 29.89,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Theme corrected to TECHNOLOGY. AI theme fund.",
@@ -1595,14 +1701,16 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 3,
-      "sharpe_ratio": -0.21,
+      "sharpe_ratio": -0.09,
+      "volatility": 5.03,
+      "max_drawdown": 4.67,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Imported from customer universe; enriched from per-ISIN scrape + general profile.",
       "source": "provinzial_nord_universe",
       "asset_class_breakdown": {
-        "bond": 0.9474,
-        "other": 0.0526
+        "bond": 0.8207,
+        "other": 0.1793
       },
       "region_breakdown": null,
       "benchmark_id": null
@@ -1623,16 +1731,18 @@
       "yearly_fee": 1.55,
       "is_etf": false,
       "esg_label": "LOW",
-      "theme": "NONE",
+      "theme": "commodities",
       "srri": 4,
-      "sharpe_ratio": 0.91,
+      "sharpe_ratio": 0.98,
+      "volatility": 17.97,
+      "max_drawdown": 21.28,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Imported from customer universe; enriched from per-ISIN scrape + general profile.",
       "source": "provinzial_nord_universe",
       "asset_class_breakdown": {
-        "equity": 0.9629,
-        "other": 0.0371
+        "equity": 0.9667,
+        "other": 0.0333
       },
       "region_breakdown": null,
       "benchmark_id": null
@@ -1655,14 +1765,16 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": 0.86,
+      "sharpe_ratio": 0.94,
+      "volatility": 17.65,
+      "max_drawdown": 21.42,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Imported from customer universe; enriched from per-ISIN scrape + general profile.",
       "source": "provinzial_nord_universe",
       "asset_class_breakdown": {
-        "equity": 0.9888,
-        "other": 0.0112
+        "equity": 0.9926,
+        "other": 0.0074
       },
       "region_breakdown": null,
       "benchmark_id": null
@@ -1675,7 +1787,7 @@
       "url": null,
       "kiid_url": null,
       "asset_class": "equity",
-      "region": "global",
+      "region": "emerging_markets",
       "categories": [
         "equity"
       ],
@@ -1685,14 +1797,16 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": 0.96,
+      "sharpe_ratio": 0.98,
+      "volatility": 16.1,
+      "max_drawdown": 18.56,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Imported from customer universe; enriched from per-ISIN scrape + general profile.",
       "source": "provinzial_nord_universe",
       "asset_class_breakdown": {
-        "equity": 0.9961,
-        "other": 0.0039
+        "equity": 0.9921,
+        "other": 0.0079
       },
       "region_breakdown": null,
       "benchmark_id": null
@@ -1713,16 +1827,18 @@
       "yearly_fee": 1.44,
       "is_etf": false,
       "esg_label": "LOW",
-      "theme": "NONE",
+      "theme": "megatrends",
       "srri": 4,
-      "sharpe_ratio": 0.89,
+      "sharpe_ratio": 0.91,
+      "volatility": 13.93,
+      "max_drawdown": 20.97,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Category corrected from global_equity to thematic_equity.",
       "source": "provinzial_nord_universe",
       "asset_class_breakdown": {
-        "equity": 0.9727,
-        "other": 0.0273
+        "equity": 0.9929,
+        "other": 0.0071
       },
       "region_breakdown": null,
       "benchmark_id": null
@@ -1745,16 +1861,18 @@
       "yearly_fee": 0.26,
       "is_etf": true,
       "esg_label": "SFDR_ARTICLE_9",
-      "theme": "SUSTAINABILITY",
+      "theme": "sustainability",
       "srri": 4,
-      "sharpe_ratio": 0.41,
+      "sharpe_ratio": 0.49,
+      "volatility": 12.99,
+      "max_drawdown": 17.39,
       "esg_article_8": false,
       "esg_article_9": true,
       "notes": "Region corrected from 'global' to 'europe'. TER 0.25%.",
       "source": "provinzial_nord_universe",
       "asset_class_breakdown": {
-        "equity": 0.9946,
-        "other": 0.0054
+        "equity": 0.9945,
+        "other": 0.0055
       },
       "region_breakdown": null,
       "benchmark_id": null
@@ -1777,16 +1895,18 @@
       "yearly_fee": 0.26,
       "is_etf": true,
       "esg_label": "SFDR_ARTICLE_9",
-      "theme": "SUSTAINABILITY",
+      "theme": "sustainability",
       "srri": 4,
-      "sharpe_ratio": 1.15,
+      "sharpe_ratio": 1.12,
+      "volatility": 15.06,
+      "max_drawdown": 22.84,
       "esg_article_8": false,
       "esg_article_9": true,
       "notes": "TER 0.26%.",
       "source": "provinzial_nord_universe",
       "asset_class_breakdown": {
-        "equity": 0.9991,
-        "other": 0.0009
+        "equity": 0.9994,
+        "other": 0.0006
       },
       "region_breakdown": null,
       "benchmark_id": null
@@ -1811,14 +1931,16 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": 1.12,
+      "sharpe_ratio": 1.13,
+      "volatility": 12.65,
+      "max_drawdown": 20.28,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "TER 0.31%.",
       "source": "provinzial_nord_universe",
       "asset_class_breakdown": {
-        "equity": 0.9998,
-        "other": 0.0002
+        "equity": 0.9993,
+        "other": 0.0007
       },
       "region_breakdown": null,
       "benchmark_id": null
@@ -1842,15 +1964,16 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 2,
-      "sharpe_ratio": 0.88,
+      "sharpe_ratio": 0.85,
+      "volatility": 4.54,
+      "max_drawdown": 5.23,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Imported from customer universe; enriched from per-ISIN scrape + general profile.",
       "source": "provinzial_nord_universe",
       "asset_class_breakdown": {
-        "bond": 0.7191,
-        "other": 0.1456,
-        "equity": 0.1353
+        "bond": 0.7875,
+        "equity": 0.2799
       },
       "region_breakdown": null,
       "benchmark_id": null
@@ -1874,13 +1997,14 @@
       "theme": "NONE",
       "srri": 3,
       "sharpe_ratio": 0.49,
+      "volatility": 6.03,
+      "max_drawdown": 10.43,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Imported from customer universe; enriched from per-ISIN scrape + general profile.",
       "source": "provinzial_nord_universe",
       "asset_class_breakdown": {
-        "other": 1.99,
-        "bond": 0.01
+        "other": 1.0
       },
       "region_breakdown": null,
       "benchmark_id": null
@@ -1893,7 +2017,7 @@
       "url": null,
       "kiid_url": null,
       "asset_class": "equity",
-      "region": "global",
+      "region": "north_america",
       "categories": [
         "equity"
       ],
@@ -1903,14 +2027,16 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 5,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 2.19,
+      "volatility": 16.06,
+      "max_drawdown": 26.3,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Imported from customer universe; enriched from per-ISIN scrape + general profile.",
       "source": "provinzial_nord_universe",
       "asset_class_breakdown": {
-        "equity": 0.9988,
-        "other": 0.0012
+        "equity": 0.9998,
+        "other": 0.0002
       },
       "region_breakdown": null,
       "benchmark_id": null
@@ -1934,6 +2060,8 @@
       "theme": "NONE",
       "srri": 2,
       "sharpe_ratio": 0.36,
+      "volatility": 2.57,
+      "max_drawdown": 7.28,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Imported from customer universe; enriched from per-ISIN scrape + general profile.",
@@ -1964,7 +2092,9 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 3,
-      "sharpe_ratio": 0.53,
+      "sharpe_ratio": 0.55,
+      "volatility": 3.79,
+      "max_drawdown": 6.39,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Imported from customer universe; enriched from per-ISIN scrape + general profile.",
@@ -1995,16 +2125,18 @@
       "esg_label": "SFDR_ARTICLE_8",
       "theme": "NONE",
       "srri": 3,
-      "sharpe_ratio": 0.69,
+      "sharpe_ratio": 0.78,
+      "volatility": 10.62,
+      "max_drawdown": 15.06,
       "esg_article_8": true,
       "esg_article_9": false,
       "notes": "Imported from customer universe; enriched from per-ISIN scrape + general profile.",
       "source": "provinzial_nord_universe",
       "asset_class_breakdown": {
-        "equity": 0.6223,
-        "other": 0.1798,
-        "commodities": 0.1033,
-        "bond": 0.0946
+        "equity": 0.6688,
+        "other": 0.1735,
+        "bond": 0.0886,
+        "commodities": 0.0691
       },
       "region_breakdown": null,
       "benchmark_id": null
@@ -2027,13 +2159,16 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 2,
-      "sharpe_ratio": -0.4,
+      "sharpe_ratio": -0.31,
+      "volatility": 3.57,
+      "max_drawdown": 3.58,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Imported from customer universe; enriched from per-ISIN scrape + general profile.",
       "source": "provinzial_nord_universe",
       "asset_class_breakdown": {
-        "bond": 1.0007
+        "bond": 0.9875,
+        "other": 0.0125
       },
       "region_breakdown": null,
       "benchmark_id": null
@@ -2056,14 +2191,16 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 3,
-      "sharpe_ratio": -0.52,
+      "sharpe_ratio": -0.41,
+      "volatility": 4.9,
+      "max_drawdown": 6.16,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Imported from customer universe; enriched from per-ISIN scrape + general profile.",
       "source": "provinzial_nord_universe",
       "asset_class_breakdown": {
-        "bond": 0.9198,
-        "other": 0.0802
+        "bond": 0.9785,
+        "other": 0.0215
       },
       "region_breakdown": null,
       "benchmark_id": null
@@ -2086,17 +2223,19 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 2,
-      "sharpe_ratio": 0.08,
+      "sharpe_ratio": 0.22,
+      "volatility": 2.83,
+      "max_drawdown": 2.87,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Imported from customer universe; enriched from per-ISIN scrape + general profile.",
       "source": "provinzial_nord_universe",
       "asset_class_breakdown": {
-        "bond": 0.4935,
-        "real_estate": 0.2285,
-        "other": 0.209,
-        "equity": 0.0585,
-        "commodities": 0.0105
+        "other": 0.3144,
+        "bond": 0.2971,
+        "real_estate": 0.2294,
+        "equity": 0.1585,
+        "commodities": 0.0006
       },
       "region_breakdown": null,
       "benchmark_id": null
@@ -2109,7 +2248,7 @@
       "url": null,
       "kiid_url": null,
       "asset_class": "equity",
-      "region": "global",
+      "region": "north_america",
       "categories": [
         "equity"
       ],
@@ -2119,14 +2258,15 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 1.91,
+      "volatility": 12.0,
+      "max_drawdown": 22.52,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Imported from customer universe; enriched from per-ISIN scrape + general profile.",
       "source": "provinzial_nord_universe",
       "asset_class_breakdown": {
-        "equity": 0.9993,
-        "other": 0.0007
+        "equity": 1.0005
       },
       "region_breakdown": null,
       "benchmark_id": null
@@ -2148,9 +2288,11 @@
       "yearly_fee": 1.61,
       "is_etf": false,
       "esg_label": "LOW",
-      "theme": "DEFENSE",
+      "theme": "defense",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.2,
+      "volatility": 14.41,
+      "max_drawdown": 16.14,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Theme corrected to DEFENSE.",
@@ -2179,15 +2321,17 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 2,
-      "sharpe_ratio": 0.34,
+      "sharpe_ratio": 0.47,
+      "volatility": 3.53,
+      "max_drawdown": 4.8,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Imported from customer universe; enriched from per-ISIN scrape + general profile.",
       "source": "provinzial_nord_universe",
       "asset_class_breakdown": {
-        "bond": 0.6994,
-        "equity": 0.2422,
-        "other": 0.0584
+        "bond": 0.6354,
+        "equity": 0.2279,
+        "other": 0.1367
       },
       "region_breakdown": null,
       "benchmark_id": null
@@ -2210,16 +2354,18 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 3,
-      "sharpe_ratio": 0.93,
+      "sharpe_ratio": 0.99,
+      "volatility": 8.22,
+      "max_drawdown": 13.73,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Imported from customer universe; enriched from per-ISIN scrape + general profile.",
       "source": "provinzial_nord_universe",
       "asset_class_breakdown": {
-        "equity": 0.7139,
-        "other": 0.2185,
-        "commodities": 0.0573,
-        "bond": 0.0103
+        "equity": 0.7082,
+        "other": 0.2072,
+        "commodities": 0.0746,
+        "bond": 0.01
       },
       "region_breakdown": null,
       "benchmark_id": null
@@ -2242,14 +2388,16 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 3,
-      "sharpe_ratio": 0.81,
+      "sharpe_ratio": 0.85,
+      "volatility": 10.25,
+      "max_drawdown": 17.79,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Imported from customer universe; enriched from per-ISIN scrape + general profile.",
       "source": "provinzial_nord_universe",
       "asset_class_breakdown": {
-        "equity": 0.8143,
-        "other": 0.1857
+        "equity": 0.8526,
+        "other": 0.1474
       },
       "region_breakdown": null,
       "benchmark_id": null
@@ -2272,16 +2420,18 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 3,
-      "sharpe_ratio": 0.93,
+      "sharpe_ratio": 0.99,
+      "volatility": 8.2,
+      "max_drawdown": 13.84,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Imported from customer universe; enriched from per-ISIN scrape + general profile.",
       "source": "provinzial_nord_universe",
       "asset_class_breakdown": {
-        "equity": 0.7152,
-        "other": 0.217,
-        "commodities": 0.0575,
-        "bond": 0.0103
+        "equity": 0.7078,
+        "other": 0.2086,
+        "commodities": 0.0736,
+        "bond": 0.01
       },
       "region_breakdown": null,
       "benchmark_id": null
@@ -2304,14 +2454,16 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 3,
-      "sharpe_ratio": 0.8,
+      "sharpe_ratio": 0.84,
+      "volatility": 10.25,
+      "max_drawdown": 17.81,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Imported from customer universe; enriched from per-ISIN scrape + general profile.",
       "source": "provinzial_nord_universe",
       "asset_class_breakdown": {
-        "equity": 0.8134,
-        "other": 0.1866
+        "equity": 0.8528,
+        "other": 0.1472
       },
       "region_breakdown": null,
       "benchmark_id": null
@@ -2334,16 +2486,18 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 3,
-      "sharpe_ratio": 0.93,
+      "sharpe_ratio": 0.99,
+      "volatility": 8.19,
+      "max_drawdown": 13.81,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Imported from customer universe; enriched from per-ISIN scrape + general profile.",
       "source": "provinzial_nord_universe",
       "asset_class_breakdown": {
-        "equity": 0.7155,
-        "other": 0.2166,
-        "commodities": 0.0576,
-        "bond": 0.0103
+        "equity": 0.7073,
+        "other": 0.209,
+        "commodities": 0.0737,
+        "bond": 0.01
       },
       "region_breakdown": null,
       "benchmark_id": null
@@ -2366,14 +2520,16 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 3,
-      "sharpe_ratio": 0.8,
+      "sharpe_ratio": 0.84,
+      "volatility": 10.26,
+      "max_drawdown": 17.89,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Imported from customer universe; enriched from per-ISIN scrape + general profile.",
       "source": "provinzial_nord_universe",
       "asset_class_breakdown": {
-        "equity": 0.818,
-        "other": 0.182
+        "equity": 0.8535,
+        "other": 0.1465
       },
       "region_breakdown": null,
       "benchmark_id": null
@@ -2396,16 +2552,18 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 2,
-      "sharpe_ratio": 0.87,
+      "sharpe_ratio": 0.95,
+      "volatility": 4.1,
+      "max_drawdown": 5.36,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Imported from customer universe; enriched from per-ISIN scrape + general profile.",
       "source": "provinzial_nord_universe",
       "asset_class_breakdown": {
-        "bond": 0.5785,
-        "equity": 0.228,
-        "other": 0.1631,
-        "commodities": 0.0304
+        "bond": 0.5771,
+        "equity": 0.2291,
+        "other": 0.1535,
+        "commodities": 0.0403
       },
       "region_breakdown": null,
       "benchmark_id": null
@@ -2428,16 +2586,18 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 3,
-      "sharpe_ratio": 0.95,
+      "sharpe_ratio": 1.03,
+      "volatility": 6.49,
+      "max_drawdown": 9.84,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Imported from customer universe; enriched from per-ISIN scrape + general profile.",
       "source": "provinzial_nord_universe",
       "asset_class_breakdown": {
-        "equity": 0.4652,
-        "bond": 0.3158,
-        "other": 0.1666,
-        "commodities": 0.0524
+        "equity": 0.4665,
+        "bond": 0.3124,
+        "other": 0.1561,
+        "commodities": 0.065
       },
       "region_breakdown": null,
       "benchmark_id": null
@@ -2460,16 +2620,17 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 3,
-      "sharpe_ratio": 0.96,
+      "sharpe_ratio": 1.02,
+      "volatility": 8.2,
+      "max_drawdown": 13.66,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Imported from customer universe; enriched from per-ISIN scrape + general profile.",
       "source": "provinzial_nord_universe",
       "asset_class_breakdown": {
-        "equity": 0.495,
-        "other": 0.437,
-        "commodities": 0.058,
-        "bond": 0.01
+        "equity": 0.709,
+        "other": 0.217,
+        "commodities": 0.074
       },
       "region_breakdown": null,
       "benchmark_id": null
@@ -2492,14 +2653,16 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 3,
-      "sharpe_ratio": 0.84,
+      "sharpe_ratio": 0.87,
+      "volatility": 10.21,
+      "max_drawdown": 17.77,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Imported from customer universe; enriched from per-ISIN scrape + general profile.",
       "source": "provinzial_nord_universe",
       "asset_class_breakdown": {
-        "equity": 0.816,
-        "other": 0.184
+        "equity": 0.854,
+        "other": 0.146
       },
       "region_breakdown": null,
       "benchmark_id": null
@@ -2522,16 +2685,18 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 2,
-      "sharpe_ratio": 0.85,
+      "sharpe_ratio": 0.94,
+      "volatility": 4.1,
+      "max_drawdown": 5.31,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Imported from customer universe; enriched from per-ISIN scrape + general profile.",
       "source": "provinzial_nord_universe",
       "asset_class_breakdown": {
         "bond": 0.5782,
-        "equity": 0.2282,
-        "other": 0.1631,
-        "commodities": 0.0305
+        "equity": 0.2297,
+        "other": 0.1517,
+        "commodities": 0.0404
       },
       "region_breakdown": null,
       "benchmark_id": null
@@ -2554,16 +2719,18 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 3,
-      "sharpe_ratio": 0.96,
+      "sharpe_ratio": 1.03,
+      "volatility": 6.48,
+      "max_drawdown": 9.69,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Imported from customer universe; enriched from per-ISIN scrape + general profile.",
       "source": "provinzial_nord_universe",
       "asset_class_breakdown": {
-        "equity": 0.466,
-        "bond": 0.316,
-        "other": 0.1658,
-        "commodities": 0.0522
+        "equity": 0.4659,
+        "bond": 0.3138,
+        "other": 0.1554,
+        "commodities": 0.0649
       },
       "region_breakdown": null,
       "benchmark_id": null
@@ -2586,16 +2753,18 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 3,
-      "sharpe_ratio": 0.94,
+      "sharpe_ratio": 1.0,
+      "volatility": 8.22,
+      "max_drawdown": 13.7,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Imported from customer universe; enriched from per-ISIN scrape + general profile.",
       "source": "provinzial_nord_universe",
       "asset_class_breakdown": {
-        "equity": 0.7154,
-        "other": 0.2168,
-        "commodities": 0.0575,
-        "bond": 0.0103
+        "equity": 0.7093,
+        "other": 0.206,
+        "commodities": 0.0747,
+        "bond": 0.01
       },
       "region_breakdown": null,
       "benchmark_id": null
@@ -2618,14 +2787,16 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 2,
-      "sharpe_ratio": 0.18,
+      "sharpe_ratio": 0.31,
+      "volatility": 1.41,
+      "max_drawdown": 1.65,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Imported from customer universe; enriched from per-ISIN scrape + general profile.",
       "source": "provinzial_nord_universe",
       "asset_class_breakdown": {
-        "bond": 0.9789,
-        "other": 0.0211
+        "bond": 0.9944,
+        "other": 0.0056
       },
       "region_breakdown": null,
       "benchmark_id": null
@@ -2647,16 +2818,18 @@
       "yearly_fee": 1.7,
       "is_etf": false,
       "esg_label": "SFDR_ARTICLE_8",
-      "theme": "SUSTAINABILITY",
+      "theme": "sustainability",
       "srri": 4,
-      "sharpe_ratio": 0.53,
+      "sharpe_ratio": 0.5,
+      "volatility": 15.97,
+      "max_drawdown": 21.42,
       "esg_article_8": true,
       "esg_article_9": false,
       "notes": "UmweltInvest = Environmental Investment.",
       "source": "provinzial_nord_universe",
       "asset_class_breakdown": {
-        "equity": 0.9864,
-        "other": 0.0136
+        "equity": 0.9976,
+        "other": 0.0024
       },
       "region_breakdown": null,
       "benchmark_id": null
@@ -2679,14 +2852,16 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": 0.19,
+      "sharpe_ratio": 0.35,
+      "volatility": 14.6,
+      "max_drawdown": 17.97,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Imported from customer universe; enriched from per-ISIN scrape + general profile.",
       "source": "provinzial_nord_universe",
       "asset_class_breakdown": {
-        "equity": 0.9217,
-        "other": 0.0783
+        "equity": 0.9257,
+        "other": 0.0743
       },
       "region_breakdown": null,
       "benchmark_id": null
@@ -2709,7 +2884,9 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 2,
-      "sharpe_ratio": -0.06,
+      "sharpe_ratio": 0.1,
+      "volatility": 1.18,
+      "max_drawdown": 1.11,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Imported from customer universe; enriched from per-ISIN scrape + general profile.",
@@ -2738,7 +2915,9 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 3,
-      "sharpe_ratio": -0.01,
+      "sharpe_ratio": 0.07,
+      "volatility": 3.76,
+      "max_drawdown": 2.94,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Imported from customer universe; enriched from per-ISIN scrape + general profile.",
@@ -2767,7 +2946,9 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 3,
-      "sharpe_ratio": -0.19,
+      "sharpe_ratio": -0.15,
+      "volatility": 6.2,
+      "max_drawdown": 5.99,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Imported from customer universe; enriched from per-ISIN scrape + general profile.",
@@ -2796,7 +2977,9 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 3,
-      "sharpe_ratio": -0.27,
+      "sharpe_ratio": -0.24,
+      "volatility": 8.35,
+      "max_drawdown": 9.02,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Imported from customer universe; enriched from per-ISIN scrape + general profile.",
@@ -2825,7 +3008,9 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": -0.31,
+      "sharpe_ratio": -0.3,
+      "volatility": 10.57,
+      "max_drawdown": 12.15,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Imported from customer universe; enriched from per-ISIN scrape + general profile.",
@@ -2855,6 +3040,8 @@
       "theme": "NONE",
       "srri": 4,
       "sharpe_ratio": -0.33,
+      "volatility": 12.45,
+      "max_drawdown": 16.15,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Imported from customer universe; enriched from per-ISIN scrape + general profile.",
@@ -2884,6 +3071,8 @@
       "theme": "NONE",
       "srri": 4,
       "sharpe_ratio": -0.39,
+      "volatility": 14.19,
+      "max_drawdown": 20.12,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Imported from customer universe; enriched from per-ISIN scrape + general profile.",
@@ -2912,7 +3101,9 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": 0.71,
+      "sharpe_ratio": 0.7,
+      "volatility": 12.31,
+      "max_drawdown": 23.84,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Imported from customer universe; enriched from per-ISIN scrape + general profile.",
@@ -2942,6 +3133,8 @@
       "theme": "NONE",
       "srri": 3,
       "sharpe_ratio": 0.78,
+      "volatility": 7.06,
+      "max_drawdown": 9.18,
       "esg_article_8": true,
       "esg_article_9": false,
       "notes": "Provider corrected from 'Ethna' to 'ETHENEA Independent Investors'.",
@@ -2971,9 +3164,11 @@
       "yearly_fee": 1.89,
       "is_etf": false,
       "esg_label": "SFDR_ARTICLE_8",
-      "theme": "TECHNOLOGY",
+      "theme": "technology",
       "srri": 4,
-      "sharpe_ratio": 1.22,
+      "sharpe_ratio": 1.19,
+      "volatility": 16.54,
+      "max_drawdown": 25.87,
       "esg_article_8": true,
       "esg_article_9": false,
       "notes": "Provider expanded to 'Fidelity International'.",
@@ -3001,17 +3196,19 @@
       "yearly_fee": 1.02,
       "is_etf": false,
       "esg_label": "SFDR_ARTICLE_8",
-      "theme": "NONE",
+      "theme": "water",
       "srri": 2,
-      "sharpe_ratio": -0.03,
+      "sharpe_ratio": 0.08,
+      "volatility": 4.91,
+      "max_drawdown": 4.79,
       "esg_article_8": true,
       "esg_article_9": false,
       "notes": "Provider corrected from 'Flossbach' to 'Flossbach von Storch'.",
       "source": "provinzial_nord_universe",
       "asset_class_breakdown": {
-        "bond": 0.9699,
-        "cash": 0.0411,
-        "derivatives": -0.011
+        "bond": 0.9617,
+        "cash": 0.0457,
+        "derivatives": -0.0073
       },
       "region_breakdown": null,
       "benchmark_id": null
@@ -3035,6 +3232,8 @@
       "theme": "NONE",
       "srri": 3,
       "sharpe_ratio": -0.64,
+      "volatility": 30.82,
+      "max_drawdown": 54.61,
       "esg_article_8": true,
       "esg_article_9": false,
       "notes": "Provider corrected from 'Flossbach'.",
@@ -3067,7 +3266,9 @@
       "esg_label": "SFDR_ARTICLE_8",
       "theme": "NONE",
       "srri": 3,
-      "sharpe_ratio": -0.67,
+      "sharpe_ratio": 0.62,
+      "volatility": 6.82,
+      "max_drawdown": 9.09,
       "esg_article_8": true,
       "esg_article_9": false,
       "notes": "Provider corrected from 'Flossbach'.",
@@ -3100,17 +3301,19 @@
       "esg_label": "SFDR_ARTICLE_8",
       "theme": "NONE",
       "srri": 3,
-      "sharpe_ratio": 0.27,
+      "sharpe_ratio": 0.31,
+      "volatility": 6.82,
+      "max_drawdown": 9.58,
       "esg_article_8": true,
       "esg_article_9": false,
       "notes": "Provider corrected from 'Flossbach'.",
       "source": "provinzial_nord_universe",
       "asset_class_breakdown": {
-        "equity": 0.692,
-        "cash": 0.0948,
-        "other": 0.0936,
-        "bond": 0.0386,
-        "derivatives": 0.0019
+        "equity": 0.7334,
+        "cash": 0.0903,
+        "other": 0.0866,
+        "bond": 0.0385,
+        "derivatives": -0.0057
       },
       "region_breakdown": null,
       "benchmark_id": null
@@ -3123,7 +3326,7 @@
       "url": null,
       "kiid_url": null,
       "asset_class": "equity",
-      "region": "global",
+      "region": "north_america",
       "categories": [
         "equity"
       ],
@@ -3134,6 +3337,8 @@
       "theme": "NONE",
       "srri": 4,
       "sharpe_ratio": 0.69,
+      "volatility": 16.24,
+      "max_drawdown": 24.42,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Imported from customer universe; enriched from per-ISIN scrape + general profile.",
@@ -3163,6 +3368,8 @@
       "theme": "NONE",
       "srri": 4,
       "sharpe_ratio": 1.25,
+      "volatility": 14.21,
+      "max_drawdown": 19.53,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Imported from customer universe; enriched from per-ISIN scrape + general profile.",
@@ -3193,15 +3400,17 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": 0.815448,
+      "sharpe_ratio": 1.47,
+      "volatility": 12.65,
+      "max_drawdown": 16.54,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Corrected: was mislabelled as 'iShares MSCI USA'. Tracks MSCI World (23 dev. markets). TER 0.20%.",
       "source": "provinzial_nord_universe",
       "asset_class_breakdown": {
-        "equity": 0.9962,
-        "other": 0.0036,
-        "cash": 0.0002
+        "equity": 0.9943,
+        "other": 0.0049,
+        "cash": 0.0008
       },
       "region_breakdown": null,
       "benchmark_id": null
@@ -3225,14 +3434,16 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": 1.24,
+      "sharpe_ratio": 1.34,
+      "volatility": 16.22,
+      "max_drawdown": 15.56,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Name corrected to include 'IMI'. Region corrected from 'global' to 'emerging_markets'. TER 0.18%.",
       "source": "provinzial_nord_universe",
       "asset_class_breakdown": {
-        "equity": 0.995,
-        "other": 0.005
+        "equity": 0.9955,
+        "other": 0.0045
       },
       "region_breakdown": null,
       "benchmark_id": null
@@ -3245,7 +3456,7 @@
       "url": null,
       "kiid_url": null,
       "asset_class": "equity",
-      "region": "global",
+      "region": "emerging_markets",
       "categories": [
         "equity"
       ],
@@ -3255,14 +3466,16 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": 0.94,
+      "sharpe_ratio": 0.93,
+      "volatility": 16.5,
+      "max_drawdown": 20.89,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Imported from customer universe; enriched from per-ISIN scrape + general profile.",
       "source": "provinzial_nord_universe",
       "asset_class_breakdown": {
-        "equity": 0.8692,
-        "other": 0.1308
+        "equity": 0.8982,
+        "other": 0.1018
       },
       "region_breakdown": null,
       "benchmark_id": null
@@ -3275,7 +3488,7 @@
       "url": null,
       "kiid_url": null,
       "asset_class": "equity",
-      "region": "eurozone",
+      "region": "europe",
       "categories": [
         "eurozone_equity"
       ],
@@ -3285,14 +3498,16 @@
       "esg_label": "SFDR_ARTICLE_8",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": 0.8,
+      "sharpe_ratio": 0.88,
+      "volatility": 14.88,
+      "max_drawdown": 15.2,
       "esg_article_8": true,
       "esg_article_9": false,
       "notes": "Provider corrected from 'JPM Euroland' to 'JPMorgan Asset Management'.",
       "source": "provinzial_nord_universe",
       "asset_class_breakdown": {
-        "equity": 0.973,
-        "other": 0.027
+        "equity": 0.971,
+        "other": 0.029
       },
       "region_breakdown": null,
       "benchmark_id": null
@@ -3305,7 +3520,7 @@
       "url": null,
       "kiid_url": null,
       "asset_class": "equity",
-      "region": "global",
+      "region": "europe",
       "categories": [
         "equity"
       ],
@@ -3315,14 +3530,16 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": 1.37,
+      "sharpe_ratio": 1.48,
+      "volatility": 12.64,
+      "max_drawdown": 14.5,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Imported from customer universe; enriched from per-ISIN scrape + general profile.",
       "source": "provinzial_nord_universe",
       "asset_class_breakdown": {
-        "equity": 0.939,
-        "other": 0.061
+        "equity": 0.972,
+        "other": 0.028
       },
       "region_breakdown": null,
       "benchmark_id": null
@@ -3344,15 +3561,18 @@
       "yearly_fee": 1.71,
       "is_etf": false,
       "esg_label": "SFDR_ARTICLE_8",
-      "theme": "INFRASTRUCTURE",
+      "theme": "infrastructure",
       "srri": 4,
-      "sharpe_ratio": 0.02,
+      "sharpe_ratio": 0.12,
+      "volatility": 11.15,
+      "max_drawdown": 15.88,
       "esg_article_8": true,
       "esg_article_9": false,
       "notes": "Provider corrected. Theme corrected to INFRASTRUCTURE.",
       "source": "provinzial_nord_universe",
       "asset_class_breakdown": {
-        "equity": 1.0
+        "equity": 0.9826,
+        "other": 0.0174
       },
       "region_breakdown": null,
       "benchmark_id": null
@@ -3374,9 +3594,11 @@
       "yearly_fee": 1.73,
       "is_etf": false,
       "esg_label": "SFDR_ARTICLE_8",
-      "theme": "SUSTAINABILITY",
+      "theme": "sustainability",
       "srri": 5,
-      "sharpe_ratio": 0.76,
+      "sharpe_ratio": 0.69,
+      "volatility": 15.59,
+      "max_drawdown": 22.99,
       "esg_article_8": true,
       "esg_article_9": false,
       "notes": "Provider corrected from 'LBBW Global' to 'LBBW Asset Management'.",
@@ -3407,14 +3629,16 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": 1.04,
+      "sharpe_ratio": 1.11,
+      "volatility": 13.25,
+      "max_drawdown": 19.55,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Imported from customer universe; enriched from per-ISIN scrape + general profile.",
       "source": "provinzial_nord_universe",
       "asset_class_breakdown": {
-        "equity": 0.9631,
-        "other": 0.0369
+        "equity": 0.9524,
+        "other": 0.0476
       },
       "region_breakdown": null,
       "benchmark_id": null
@@ -3435,15 +3659,18 @@
       "yearly_fee": 2.25,
       "is_etf": false,
       "esg_label": "SFDR_ARTICLE_9",
-      "theme": "SUSTAINABILITY",
+      "theme": "sustainability",
       "srri": 4,
       "sharpe_ratio": 0.51,
+      "volatility": 16.3,
+      "max_drawdown": 25.94,
       "esg_article_8": false,
       "esg_article_9": true,
       "notes": "Theme corrected to SUSTAINABILITY (Article 9).",
       "source": "provinzial_nord_universe",
       "asset_class_breakdown": {
-        "equity": 1.0165
+        "equity": 0.9857,
+        "other": 0.0143
       },
       "region_breakdown": null,
       "benchmark_id": null
@@ -3464,9 +3691,11 @@
       "yearly_fee": 2.18,
       "is_etf": false,
       "esg_label": "SFDR_ARTICLE_9",
-      "theme": "SUSTAINABILITY",
+      "theme": "sustainability",
       "srri": 4,
       "sharpe_ratio": 0.19,
+      "volatility": 13.7,
+      "max_drawdown": 21.8,
       "esg_article_8": false,
       "esg_article_9": true,
       "notes": "Theme corrected to SUSTAINABILITY (Article 9 fund).",
@@ -3495,16 +3724,18 @@
       "yearly_fee": 1.99,
       "is_etf": false,
       "esg_label": "SFDR_ARTICLE_9",
-      "theme": "SUSTAINABILITY",
+      "theme": "water",
       "srri": 4,
-      "sharpe_ratio": 0.01,
+      "sharpe_ratio": 0.0,
+      "volatility": 13.66,
+      "max_drawdown": 19.71,
       "esg_article_8": false,
       "esg_article_9": true,
       "notes": "Provider expanded. Water theme fund.",
       "source": "provinzial_nord_universe",
       "asset_class_breakdown": {
-        "equity": 0.9891,
-        "other": 0.0109
+        "equity": 0.9871,
+        "other": 0.0129
       },
       "region_breakdown": null,
       "benchmark_id": null
@@ -3522,12 +3753,14 @@
         "global_equity"
       ],
       "risk_level": 4,
-      "yearly_fee": null,
+      "yearly_fee": 0.19,
       "is_etf": false,
       "esg_label": "SFDR_ARTICLE_8",
       "theme": "NONE",
-      "srri": 5,
-      "sharpe_ratio": null,
+      "srri": 4,
+      "sharpe_ratio": 2.08,
+      "volatility": 10.12,
+      "max_drawdown": 13.89,
       "esg_article_8": true,
       "esg_article_9": false,
       "notes": "Imported from customer universe; enriched from per-ISIN scrape + general profile.",
@@ -3547,7 +3780,7 @@
       "url": null,
       "kiid_url": null,
       "asset_class": "bond",
-      "region": "global",
+      "region": "europe",
       "categories": [
         "fixed_income"
       ],
@@ -3557,14 +3790,15 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 3,
-      "sharpe_ratio": 0.12,
+      "sharpe_ratio": 0.16,
+      "volatility": 4.84,
+      "max_drawdown": 3.72,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Imported from customer universe; enriched from per-ISIN scrape + general profile.",
       "source": "provinzial_nord_universe",
       "asset_class_breakdown": {
-        "bond": 0.9939,
-        "other": 0.0061
+        "bond": 1.0045
       },
       "region_breakdown": null,
       "benchmark_id": null
@@ -3586,9 +3820,11 @@
       "yearly_fee": 1.59,
       "is_etf": false,
       "esg_label": "SFDR_ARTICLE_8",
-      "theme": "SUSTAINABILITY",
+      "theme": "sustainability",
       "srri": 3,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.58,
+      "volatility": 8.4,
+      "max_drawdown": 13.39,
       "esg_article_8": true,
       "esg_article_9": false,
       "notes": "Provider corrected from 'SK' to 'Sparkasse UnnaKamen'.",
@@ -3617,9 +3853,11 @@
       "yearly_fee": 1.95,
       "is_etf": false,
       "esg_label": "SFDR_ARTICLE_9",
-      "theme": "SUSTAINABILITY",
+      "theme": "sustainability",
       "srri": 4,
-      "sharpe_ratio": 0.99,
+      "sharpe_ratio": 0.97,
+      "volatility": 14.43,
+      "max_drawdown": 21.12,
       "esg_article_8": false,
       "esg_article_9": true,
       "notes": "Theme corrected to SUSTAINABILITY (Article 9).",
@@ -3647,9 +3885,11 @@
       "yearly_fee": 1.5,
       "is_etf": false,
       "esg_label": "SFDR_ARTICLE_9",
-      "theme": "SUSTAINABILITY",
+      "theme": "sustainability",
       "srri": 3,
-      "sharpe_ratio": 0.94,
+      "sharpe_ratio": 0.96,
+      "volatility": 7.28,
+      "max_drawdown": 10.98,
       "esg_article_8": false,
       "esg_article_9": true,
       "notes": "Theme corrected to SUSTAINABILITY (Article 9). Provider expanded.",
@@ -3679,9 +3919,11 @@
       "yearly_fee": 1.66,
       "is_etf": false,
       "esg_label": "SFDR_ARTICLE_8",
-      "theme": "ENERGY",
+      "theme": "infrastructure",
       "srri": 4,
       "sharpe_ratio": 1.17,
+      "volatility": 19.0,
+      "max_drawdown": 30.41,
       "esg_article_8": true,
       "esg_article_9": false,
       "notes": "Provider corrected from 'TBF Smart' to 'TBF Global Asset Management'. Theme corrected to ENERGY.",
@@ -3712,15 +3954,17 @@
       "esg_label": "SFDR_ARTICLE_8",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": 0.89,
+      "sharpe_ratio": 1.02,
+      "volatility": 17.39,
+      "max_drawdown": 17.95,
       "esg_article_8": true,
       "esg_article_9": false,
       "notes": "Provider corrected to 'Franklin Templeton'.",
       "source": "provinzial_nord_universe",
       "asset_class_breakdown": {
-        "equity": 0.9559,
-        "other": 0.0349,
-        "bond": 0.0092
+        "equity": 0.9463,
+        "other": 0.0403,
+        "bond": 0.0134
       },
       "region_breakdown": null,
       "benchmark_id": null
@@ -3744,13 +3988,15 @@
       "theme": "NONE",
       "srri": 3,
       "sharpe_ratio": -0.43,
+      "volatility": 6.23,
+      "max_drawdown": 10.07,
       "esg_article_8": true,
       "esg_article_9": false,
       "notes": "Provider corrected from 'Templeton' to 'Franklin Templeton'.",
       "source": "provinzial_nord_universe",
       "asset_class_breakdown": {
-        "bond": 0.7995,
-        "other": 0.2005
+        "bond": 0.8094,
+        "other": 0.1906
       },
       "region_breakdown": null,
       "benchmark_id": null
@@ -3773,14 +4019,17 @@
       "esg_label": "SFDR_ARTICLE_8",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": 0.52,
+      "sharpe_ratio": 0.57,
+      "volatility": 13.7,
+      "max_drawdown": 18.7,
       "esg_article_8": true,
       "esg_article_9": false,
       "notes": "Provider corrected to 'Franklin Templeton'.",
       "source": "provinzial_nord_universe",
       "asset_class_breakdown": {
-        "equity": 0.9143,
-        "other": 0.0857
+        "equity": 0.8938,
+        "other": 0.0614,
+        "bond": 0.0448
       },
       "region_breakdown": null,
       "benchmark_id": null
@@ -3793,7 +4042,7 @@
       "url": null,
       "kiid_url": null,
       "asset_class": "bond",
-      "region": "global",
+      "region": "emerging_markets",
       "categories": [
         "global_bonds"
       ],
@@ -3803,14 +4052,15 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 2,
-      "sharpe_ratio": 0.49,
+      "sharpe_ratio": 0.52,
+      "volatility": 4.53,
+      "max_drawdown": 7.64,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Provider corrected: 'WeltZins-Invest' is the fund name, not the provider.",
       "source": "provinzial_nord_universe",
       "asset_class_breakdown": {
-        "bond": 0.999,
-        "other": 0.001
+        "bond": 1.0032
       },
       "region_breakdown": null,
       "benchmark_id": null
@@ -3834,6 +4084,8 @@
       "theme": "NONE",
       "srri": 5,
       "sharpe_ratio": 0.816186,
+      "volatility": null,
+      "max_drawdown": 6.03,
       "esg_article_8": true,
       "esg_article_9": false,
       "notes": "Provider corrected: 'WorldGuard 80' is the fund name; Amundi is the provider.",
@@ -3861,6 +4113,8 @@
       "theme": "NONE",
       "srri": 4,
       "sharpe_ratio": 0.637892,
+      "volatility": null,
+      "max_drawdown": 1.97,
       "esg_article_8": true,
       "esg_article_9": false,
       "notes": "Provider corrected from 'WorldGuard 90' to 'Amundi'.",
@@ -3875,8 +4129,8 @@
     "schema_version": 2,
     "customer_id": "provinzial_nord",
     "source_file": "notes/Provi-Listing.tsv",
-    "built_at": "2026-05-12",
-    "last_updated": "2026-05-12",
+    "built_at": "2026-06-01",
+    "last_updated": "2026-06-01",
     "total_funds_shown": 127,
     "total_funds_in_db": 127,
     "uniform_schema_fields": [
@@ -3898,6 +4152,8 @@
       "theme",
       "srri",
       "sharpe_ratio",
+      "volatility",
+      "max_drawdown",
       "notes",
       "source"
     ],

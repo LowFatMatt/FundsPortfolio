@@ -1,24 +1,26 @@
 {
   "isin": "DE0005896872",
-  "as_of": "2026-05-12",
+  "as_of": "2026-06-01",
   "schema_version": 2,
   "source": "factsheetslive",
   "source_url": "https://provinzial-nord.stg.wt.factsheetslive.com/produkt/DE0005896872",
   "currency": "EUR",
   "fund_name": "Deka-Europa Balance CF",
   "provinzial_fund_type": "Mischfonds",
+  "region": "europe",
+  "theme": "NONE",
   "ter": 0.011,
   "sri": 2,
   "performance": {
     "periods": {
-      "3m": -0.0184,
-      "6m": 0.0012,
-      "ytd": -0.0009,
-      "1y": 0.0269,
-      "3y_pa": 0.0304,
-      "5y_pa": 0.0025,
-      "10y_pa": 0.0086,
-      "si_pa": 0.025
+      "3m": -0.02,
+      "6m": 0.0103,
+      "ytd": 0.0075,
+      "1y": 0.0265,
+      "3y_pa": 0.0359,
+      "5y_pa": 0.003,
+      "10y_pa": 0.0085,
+      "si_pa": 0.0253
     },
     "nav_series": [
       {
@@ -1118,20 +1120,20 @@
         "v": 176.3948
       },
       {
-        "d": "2026-05-11",
-        "v": 177.3332
+        "d": "2026-05-29",
+        "v": 178.8218
       }
     ]
   },
   "volatility": {
-    "1y": 0.0501,
-    "3y": 0.0454,
-    "5y": 0.0421
+    "1y": 0.0507,
+    "3y": 0.0456,
+    "5y": 0.0422
   },
   "risk_metrics": {
     "sharpe": {
-      "1y": 0.15,
-      "3y": 0.03,
+      "1y": 0.14,
+      "3y": 0.15,
       "5y": -0.37
     },
     "max_drawdown": {
@@ -1141,51 +1143,50 @@
     }
   },
   "asset_class_breakdown": {
-    "bond": 0.7237,
-    "equity": 0.195,
-    "other": 0.0602,
-    "commodities": 0.0211
+    "bond": 0.7887,
+    "equity": 0.209,
+    "other": 0.0023
   },
   "top_holdings": [
     {
       "name": "Bundesrep.Deutschland Anl. 25/35",
-      "weight": 0.0878
+      "weight": 0.0877
     },
     {
       "name": "Republik Italien B.T.P. 24/34",
-      "weight": 0.0853
+      "weight": 0.086
     },
     {
       "name": "Konsortium HB,HH,MV,RP,SH Laender. 25/35",
       "weight": 0.0392
     },
     {
+      "name": "Rep. Frankreich OAT 25/35",
+      "weight": 0.0295
+    },
+    {
       "name": "Niederlande EO-Anl. 2017(27)",
-      "weight": 0.0291
+      "weight": 0.0292
+    },
+    {
+      "name": "Republik Italien B.T.P. 22/33",
+      "weight": 0.0234
     },
     {
       "name": "Freie u.Hansestadt Hamburg Landessch. Ausg.4 21/31",
       "weight": 0.0233
     },
     {
-      "name": "Republik Italien B.T.P. 22/33",
-      "weight": 0.0232
+      "name": "Agence Française Développement MTN 24/34",
+      "weight": 0.019
     },
     {
       "name": "Sparkasse Hannover Hyp.-Pfe. R.1 17/27",
       "weight": 0.0189
     },
     {
-      "name": "Agence Française Développement MTN 24/34",
-      "weight": 0.0189
-    },
-    {
       "name": "1% Belgien 2015/22.06.2031",
       "weight": 0.0178
-    },
-    {
-      "name": "DZ HYP AG MTN Hyp.-Pfe. R.361 15/27 [WL]",
-      "weight": 0.0154
     }
   ]
 }

@@ -1,24 +1,26 @@
 {
   "isin": "LU0348413229",
-  "as_of": "2026-05-12",
+  "as_of": "2026-06-01",
   "schema_version": 2,
   "source": "factsheetslive",
   "source_url": "https://provinzial-nord.stg.wt.factsheetslive.com/produkt/LU0348413229",
   "currency": "EUR",
   "fund_name": "Deka-ESG Gesundheit CF",
   "provinzial_fund_type": "Aktienfonds",
+  "region": "global",
+  "theme": "healthcare",
   "ter": 0.015,
   "sri": 4,
   "performance": {
     "periods": {
-      "3m": -0.0595,
-      "6m": -0.0425,
-      "ytd": -0.0779,
-      "1y": 0.0023,
-      "3y_pa": -0.0168,
-      "5y_pa": 0.0202,
-      "10y_pa": 0.0555,
-      "si_pa": 0.0868
+      "3m": -0.025,
+      "6m": -0.0513,
+      "ytd": -0.0299,
+      "1y": 0.072,
+      "3y_pa": 0.0066,
+      "5y_pa": 0.0302,
+      "10y_pa": 0.0573,
+      "si_pa": 0.0896
     },
     "nav_series": [
       {
@@ -866,21 +868,21 @@
         "v": 470.2672
       },
       {
-        "d": "2026-05-11",
-        "v": 470.9706
+        "d": "2026-05-29",
+        "v": 495.4539
       }
     ]
   },
   "volatility": {
-    "1y": 0.1436,
-    "3y": 0.1361,
-    "5y": 0.1344
+    "1y": 0.1372,
+    "3y": 0.137,
+    "5y": 0.135
   },
   "risk_metrics": {
     "sharpe": {
-      "1y": -0.12,
-      "3y": -0.33,
-      "5y": 0.01
+      "1y": 0.38,
+      "3y": -0.16,
+      "5y": 0.08
     },
     "max_drawdown": {
       "1y": null,
@@ -889,49 +891,49 @@
     }
   },
   "asset_class_breakdown": {
-    "equity": 0.9934,
-    "other": 0.0066
+    "equity": 0.9961,
+    "other": 0.0039
   },
   "top_holdings": [
     {
       "name": "Eli Lilly & Co.",
-      "weight": 0.0884
+      "weight": 0.0851
     },
     {
       "name": "AstraZeneca, PLC",
-      "weight": 0.062
-    },
-    {
-      "name": "Johnson & Johnson",
-      "weight": 0.0552
-    },
-    {
-      "name": "AbbVie, Inc.",
-      "weight": 0.049
-    },
-    {
-      "name": "Merck & Co. Inc.",
-      "weight": 0.0441
-    },
-    {
-      "name": "Roche Holding AG PS",
-      "weight": 0.0391
+      "weight": 0.0596
     },
     {
       "name": "Unitedhealth Group, Inc.",
-      "weight": 0.0371
+      "weight": 0.0527
+    },
+    {
+      "name": "Johnson & Johnson",
+      "weight": 0.0519
+    },
+    {
+      "name": "AbbVie, Inc.",
+      "weight": 0.0472
+    },
+    {
+      "name": "Merck & Co. Inc.",
+      "weight": 0.0413
+    },
+    {
+      "name": "Roche Holding AG PS",
+      "weight": 0.0398
     },
     {
       "name": "Bristol Myers Squibb",
-      "weight": 0.0269
+      "weight": 0.0262
     },
     {
-      "name": "Gilead Sciences",
-      "weight": 0.0267
+      "name": "Thermo Fisher Scientific, Inc.",
+      "weight": 0.026
     },
     {
       "name": "Boston Scientific Corp.",
-      "weight": 0.0258
+      "weight": 0.026
     }
   ]
 }

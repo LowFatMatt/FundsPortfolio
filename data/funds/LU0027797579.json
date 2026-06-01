@@ -1,24 +1,26 @@
 {
   "isin": "LU0027797579",
-  "as_of": "2026-05-12",
+  "as_of": "2026-06-01",
   "schema_version": 2,
   "source": "factsheetslive",
   "source_url": "https://provinzial-nord.stg.wt.factsheetslive.com/produkt/LU0027797579",
   "currency": "EUR",
   "fund_name": "Deka-Flex: Euro Klasse C",
   "provinzial_fund_type": "Renten/Geldmarktfonds",
+  "region": "global",
+  "theme": "NONE",
   "ter": 0.0075,
   "sri": 2,
   "performance": {
     "periods": {
-      "3m": 0.0029,
-      "6m": 0.0077,
-      "ytd": 0.0061,
-      "1y": 0.0187,
-      "3y_pa": 0.0273,
-      "5y_pa": 0.0129,
-      "10y_pa": 0.0089,
-      "si_pa": 0.0092
+      "3m": 0.0034,
+      "6m": 0.0091,
+      "ytd": 0.0081,
+      "1y": 0.019,
+      "3y_pa": 0.0279,
+      "5y_pa": 0.0134,
+      "10y_pa": 0.0091,
+      "si_pa": 0.0094
     },
     "nav_series": [
       {
@@ -514,21 +516,21 @@
         "v": 109.0207
       },
       {
-        "d": "2026-05-11",
-        "v": 109.268
+        "d": "2026-05-29",
+        "v": 109.4894
       }
     ]
   },
   "volatility": {
-    "1y": 0.0049,
+    "1y": 0.005,
     "3y": 0.0059,
-    "5y": 0.0065
+    "5y": 0.0066
   },
   "risk_metrics": {
     "sharpe": {
-      "1y": -0.12,
-      "3y": -0.27,
-      "5y": -0.84
+      "1y": -0.02,
+      "3y": -0.14,
+      "5y": -0.8
     },
     "max_drawdown": {
       "1y": null,
@@ -537,49 +539,49 @@
     }
   },
   "asset_class_breakdown": {
-    "bond": 0.957,
-    "other": 0.043
+    "bond": 0.9602,
+    "other": 0.0398
   },
   "top_holdings": [
     {
       "name": "Republik Italien B.T.P. 22/28",
-      "weight": 0.0225
+      "weight": 0.0215
     },
     {
-      "name": "Rep. Frankreich OAT 22/28",
+      "name": "Norddeutsche Landesbank -GZ- MTN IHS 25/28",
+      "weight": 0.0185
+    },
+    {
+      "name": "Tschechien Bonds S.100 17/27",
       "weight": 0.0184
     },
     {
-      "name": "DZ HYP AG MTN Hyp.-Pfe. R.1239 21/26",
+      "name": "Rep. Frankreich OAT 22/28",
+      "weight": 0.0177
+    },
+    {
+      "name": "Koenigreich Spanien Bonos 24/27",
       "weight": 0.0141
     },
     {
       "name": "Republik Lettland MTN 16/26",
-      "weight": 0.0141
+      "weight": 0.0136
+    },
+    {
+      "name": "DZ HYP AG MTN Hyp.-Pfe. R.1239 21/26",
+      "weight": 0.0136
     },
     {
       "name": "Bundesrep.Deutschland Anl.v.2017 (2027)",
-      "weight": 0.014
+      "weight": 0.0135
     },
     {
-      "name": "Deutsche Bank S.A.E. Cédulas Hipotec. 23/26",
-      "weight": 0.0136
-    },
-    {
-      "name": "Nationale-Nederl. Bank NV MT Mortg.Cov. Bds 23/26",
-      "weight": 0.0136
-    },
-    {
-      "name": "Fraport AG Ffm.Airport.Ser.AG IHS 20/27",
+      "name": "Société Générale SFH S.A. MT Obl.Fin.Hab. 17/27",
       "weight": 0.0134
     },
     {
-      "name": "LVMH Moet Henn. L. Vuitton SE MTN 24/27",
-      "weight": 0.0106
-    },
-    {
-      "name": "Comun. Autónoma de Aragón Obl. 13/27",
-      "weight": 0.0101
+      "name": "Nationale-Nederl. Bank NV MT Mortg.Cov. Bds 23/26",
+      "weight": 0.0132
     }
   ]
 }

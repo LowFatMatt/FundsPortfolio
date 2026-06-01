@@ -1,12 +1,14 @@
 {
   "isin": "LU1287023342",
-  "as_of": "2026-05-12",
+  "as_of": "2026-06-01",
   "schema_version": 2,
   "source": "factsheetslive",
   "source_url": "https://provinzial-nord.stg.wt.factsheetslive.com/produkt/LU1287023342",
   "currency": "EUR",
   "fund_name": "Amundi Euro Highest Rated Macro-Weighted Government Bond UCITS ETF Acc",
   "provinzial_fund_type": "Renten/Geldmarktfonds",
+  "region": "europe",
+  "theme": "NONE",
   "ter": 0.0017,
   "sri": 3,
   "performance": {

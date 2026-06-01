@@ -1,24 +1,26 @@
 {
   "isin": "LU0140354605",
-  "as_of": "2026-05-12",
+  "as_of": "2026-06-01",
   "schema_version": 2,
   "source": "factsheetslive",
   "source_url": "https://provinzial-nord.stg.wt.factsheetslive.com/produkt/LU0140354605",
   "currency": "EUR",
   "fund_name": "Deka-EuroFlex-Plus TF",
   "provinzial_fund_type": "Renten/Geldmarktfonds",
+  "region": "global",
+  "theme": "NONE",
   "ter": 0.0101,
   "sri": 2,
   "performance": {
     "periods": {
-      "3m": 0.0051,
-      "6m": 0.014,
-      "ytd": 0.0092,
-      "1y": 0.0325,
-      "3y_pa": 0.0514,
-      "5y_pa": 0.0271,
+      "3m": 0.0066,
+      "6m": 0.0145,
+      "ytd": 0.0114,
+      "1y": 0.0318,
+      "3y_pa": 0.0508,
+      "5y_pa": 0.0275,
       "10y_pa": 0.0171,
-      "si_pa": 0.0166
+      "si_pa": 0.0168
     },
     "nav_series": [
       {
@@ -514,21 +516,21 @@
         "v": 119.0435
       },
       {
-        "d": "2026-05-11",
-        "v": 119.1743
+        "d": "2026-05-29",
+        "v": 119.4361
       }
     ]
   },
   "volatility": {
-    "1y": 0.0037,
+    "1y": 0.0038,
     "3y": 0.0048,
     "5y": 0.0115
   },
   "risk_metrics": {
     "sharpe": {
-      "1y": 3.49,
-      "3y": 4.51,
-      "5y": 0.73
+      "1y": 3.35,
+      "3y": 4.46,
+      "5y": 0.74
     },
     "max_drawdown": {
       "1y": null,
@@ -537,49 +539,49 @@
     }
   },
   "asset_class_breakdown": {
-    "bond": 0.9794,
-    "other": 0.0206
+    "bond": 0.9885,
+    "other": 0.0115
   },
   "top_holdings": [
     {
       "name": "Aurium CLO VII DAC FLR Nts 25/38 Cl.CR Reg.S",
-      "weight": 0.0241
+      "weight": 0.0239
     },
     {
       "name": "Dutch Property Fin. 2022-2 BV FLR Notes 22/62 Cl.B",
+      "weight": 0.0239
+    },
+    {
+      "name": "CIFC Europ. Fund. CLO VIII DAC FLR Nts 26/39 A R.S",
       "weight": 0.0238
     },
     {
       "name": "Bridgepoint CLO 3 DAC FLR Nts 21/36 A Reg.S",
-      "weight": 0.0237
+      "weight": 0.0238
     },
     {
       "name": "Madison Park Euro Fdg XXI DAC FLR Nts 25/39 A R.S",
-      "weight": 0.0236
+      "weight": 0.0238
     },
     {
       "name": "Fidelity Gr.Harb.CLO 8 DAC FLR Nts 26/40 Cl.B R.S",
-      "weight": 0.0216
+      "weight": 0.0219
     },
     {
       "name": "Sound Point EO CLO 11 Fdg DAC FLR Nts 24/37 A R.S",
-      "weight": 0.019
-    },
-    {
-      "name": "Capital Four CLO II DAC FLR Notes 21/34 Cl.C Reg.S",
-      "weight": 0.0166
+      "weight": 0.0191
     },
     {
       "name": "Domi 2024-1 B.V. FLR Notes 24/56 Cl.B",
-      "weight": 0.0165
+      "weight": 0.0167
     },
     {
-      "name": "ICG Euro CLO 2025-1 DAC FLR Nts 25/38 Cl.C R.S",
-      "weight": 0.0162
-    },
-    {
-      "name": "Aqueduct Europ CLO 12 DAC FLR Nts 25/38 Cl.B R.S",
+      "name": "AlbaCore EURO CLO VI DAC FLR Nts 25/37 Cl.C R.S",
       "weight": 0.0161
+    },
+    {
+      "name": "Trinitas Euro CLO IX DAC FLR Nts 25/39 Cl.C R.S",
+      "weight": 0.016
     }
   ]
 }

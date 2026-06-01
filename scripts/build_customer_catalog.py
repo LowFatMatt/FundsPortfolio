@@ -37,7 +37,7 @@ import re
 import sys
 from datetime import date
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, Tuple
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 
@@ -179,6 +179,18 @@ def read_per_isin(isin: str) -> Optional[Dict[str, Any]]:
 
 # ---------- record builder ----------
 
+def _best_horizon(d: Optional[Dict[str, Any]], order: Tuple[str, ...] = ("3y", "5y", "1y")) -> Optional[float]:
+    """Return the first non-null value from a {horizon: value} dict, preferring
+    longer (more stable) horizons but falling back to shorter ones."""
+    if not d:
+        return None
+    for key in order:
+        v = d.get(key)
+        if v is not None:
+            return v
+    return None
+
+
 def build_record(
     row: Dict[str, Any],
     general_profile: Dict[str, Dict[str, Any]],
@@ -206,14 +218,41 @@ def build_record(
     if yearly_fee is None and ts.get("ter") is not None:
         yearly_fee = round(ts["ter"] * 100.0, 4)
 
-    srri = row.get("sri") if row.get("sri") is not None else gp.get("srri")
+    # SRI / risk class: the factsheet "Risikoklasse (SRI)" is authoritative;
+    # fall back to the customer listing, then the general profile.
+    srri = ts.get("sri")
+    if srri is None:
+        srri = row.get("sri") if row.get("sri") is not None else gp.get("srri")
     risk_level = gp.get("risk_level")
     if risk_level is None and srri is not None:
         risk_level = max(1, min(5, srri - 1))
 
-    sharpe = gp.get("sharpe_ratio")
+    # Risk metrics: prefer the factsheet scrape (best available horizon) over
+    # the general-profile guess / yfinance. Sharpe is a plain ratio; volatility
+    # and max_drawdown are scraped as fractions and converted to the DB's
+    # percent convention (max_drawdown stored as a positive percent).
+    ts_rm = ts.get("risk_metrics") or {}
+    sharpe = _best_horizon(ts_rm.get("sharpe"))
     if sharpe is None:
-        sharpe = ((ts.get("risk_metrics") or {}).get("sharpe") or {}).get("3y")
+        sharpe = gp.get("sharpe_ratio")
+
+    ts_vol = _best_horizon(ts.get("volatility"))
+    volatility = round(ts_vol * 100.0, 4) if ts_vol is not None else gp.get("volatility")
+
+    ts_mdd = _best_horizon(ts_rm.get("max_drawdown"))
+    max_drawdown = round(abs(ts_mdd) * 100.0, 4) if ts_mdd is not None else gp.get("max_drawdown")
+
+    # Region / theme: factsheet wins. Treat the scrape's defaults ('global' /
+    # 'NONE') as "no value" so a curated general-profile value isn't clobbered
+    # by a page that simply left the field blank.
+    ts_region = ts.get("region")
+    region = ts_region if ts_region and ts_region != "global" else gp.get("region", "global")
+    ts_theme = ts.get("theme")
+    theme = ts_theme if ts_theme and ts_theme != "NONE" else gp.get("theme", "NONE")
+    # Normalize real themes to lowercase canonical (the general profile uses an
+    # older UPPERCASE convention); keep the 'NONE' sentinel distinct.
+    if theme and theme != "NONE":
+        theme = theme.lower()
 
     provider = gp.get("provider") or provider_from_name(name)
     if not provider and ts.get("fund_name"):
@@ -233,15 +272,17 @@ def build_record(
         "url":               gp.get("url"),
         "kiid_url":          gp.get("kiid_url"),
         "asset_class":       asset_class,
-        "region":            gp.get("region", "global"),
+        "region":            region,
         "categories":        categories,
         "risk_level":        risk_level,
         "yearly_fee":        yearly_fee,
         "is_etf":            bool(gp.get("is_etf")) or is_etf_from_name(name),
         "esg_label":         gp.get("esg_label", "LOW"),
-        "theme":             gp.get("theme", "NONE"),
+        "theme":             theme,
         "srri":              srri,
         "sharpe_ratio":      sharpe,
+        "volatility":        volatility,
+        "max_drawdown":      max_drawdown,
         "esg_article_8":     bool(gp.get("esg_article_8", False)),
         "esg_article_9":     bool(gp.get("esg_article_9", False)),
         "notes":             gp.get("notes") or "Imported from customer universe; enriched from per-ISIN scrape + general profile.",
@@ -325,7 +366,8 @@ def main(argv: Optional[List[str]] = None) -> int:
                 "isin", "ticker", "name", "provider", "url", "kiid_url",
                 "asset_class", "region", "categories", "risk_level",
                 "yearly_fee", "is_etf", "esg_article_8", "esg_article_9",
-                "esg_label", "theme", "srri", "sharpe_ratio", "notes", "source",
+                "esg_label", "theme", "srri", "sharpe_ratio", "volatility",
+                "max_drawdown", "notes", "source",
             ],
             "optional_schema_v2_fields": [
                 "asset_class_breakdown", "region_breakdown", "benchmark_id",

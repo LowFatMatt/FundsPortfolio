@@ -1,24 +1,26 @@
 {
   "isin": "LU0107368036",
-  "as_of": "2026-05-12",
+  "as_of": "2026-06-01",
   "schema_version": 2,
   "source": "factsheetslive",
   "source_url": "https://provinzial-nord.stg.wt.factsheetslive.com/produkt/LU0107368036",
   "currency": "EUR",
   "fund_name": "Deka-ESG BasisStrategie Renten CF",
   "provinzial_fund_type": "Renten/Geldmarktfonds",
-  "ter": 0.0063,
+  "region": "global",
+  "theme": "NONE",
+  "ter": 0.0061,
   "sri": 2,
   "performance": {
     "periods": {
-      "3m": -0.0034,
-      "6m": 0.0036,
-      "ytd": 0.0025,
-      "1y": 0.0218,
-      "3y_pa": 0.0366,
-      "5y_pa": 0.0204,
-      "10y_pa": 0.01,
-      "si_pa": 0.0211
+      "3m": -0.0018,
+      "6m": 0.0062,
+      "ytd": 0.0059,
+      "1y": 0.0222,
+      "3y_pa": 0.0381,
+      "5y_pa": 0.0214,
+      "10y_pa": 0.0103,
+      "si_pa": 0.0212
     },
     "nav_series": [
       {
@@ -1282,21 +1284,21 @@
         "v": 172.1243
       },
       {
-        "d": "2026-05-11",
-        "v": 172.5752
+        "d": "2026-05-29",
+        "v": 173.1597
       }
     ]
   },
   "volatility": {
     "1y": 0.0128,
     "3y": 0.0126,
-    "5y": 0.0128
+    "5y": 0.0129
   },
   "risk_metrics": {
     "sharpe": {
-      "1y": 0.2,
-      "3y": 0.59,
-      "5y": 0.15
+      "1y": 0.24,
+      "3y": 0.72,
+      "5y": 0.2
     },
     "max_drawdown": {
       "1y": null,
@@ -1305,8 +1307,8 @@
     }
   },
   "asset_class_breakdown": {
-    "bond": 0.9685,
-    "other": 0.0315
+    "bond": 0.9723,
+    "other": 0.0277
   },
   "top_holdings": [
     {
@@ -1314,40 +1316,40 @@
       "weight": 0.0092
     },
     {
-      "name": "Amazon.com Inc. Notes 26/30",
-      "weight": 0.007
-    },
-    {
       "name": "European Investment Bank MTN 23/28",
-      "weight": 0.0069
-    },
-    {
-      "name": "NatWest Markets PLC MTN 26/31",
-      "weight": 0.0056
+      "weight": 0.0068
     },
     {
       "name": "Europaeische Union MTN 25/28",
       "weight": 0.0053
     },
     {
-      "name": "ASB Bank Ltd. MTN 25/30",
-      "weight": 0.005
-    },
-    {
-      "name": "Global Switch Finance B.V. MTN 20/30",
-      "weight": 0.0048
-    },
-    {
       "name": "Corning Inc. Notes 23/26",
       "weight": 0.0047
     },
     {
-      "name": "Sandoz Finance B.V. Notes 23/27",
+      "name": "Global Switch Finance B.V. MTN 20/30",
       "weight": 0.0047
     },
     {
       "name": "Jyske Bank A/S FLR MTN 24/29",
       "weight": 0.0046
+    },
+    {
+      "name": "Sandoz Finance B.V. Notes 23/27",
+      "weight": 0.0045
+    },
+    {
+      "name": "DNB Bank ASA FLR MTN 25/31",
+      "weight": 0.0045
+    },
+    {
+      "name": "Hamburger Sparkasse AG IHS R.923 25/31",
+      "weight": 0.0044
+    },
+    {
+      "name": "Bank of Cyprus PCL FLR Pref. MTN 24/29",
+      "weight": 0.0044
     }
   ]
 }

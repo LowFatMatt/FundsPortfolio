@@ -1,24 +1,26 @@
 {
   "isin": "DE000DK2J8N2",
-  "as_of": "2026-05-12",
+  "as_of": "2026-06-01",
   "schema_version": 2,
   "source": "factsheetslive",
   "source_url": "https://provinzial-nord.stg.wt.factsheetslive.com/produkt/DE000DK2J8N2",
   "currency": "EUR",
   "fund_name": "Deka-Global Balance CF",
   "provinzial_fund_type": "Mischfonds",
+  "region": "global",
+  "theme": "NONE",
   "ter": 0.0116,
   "sri": 2,
   "performance": {
     "periods": {
-      "3m": -0.0034,
-      "6m": 0.0147,
-      "ytd": 0.0135,
-      "1y": 0.0606,
-      "3y_pa": 0.0465,
-      "5y_pa": 0.0176,
+      "3m": -0.0058,
+      "6m": 0.0227,
+      "ytd": 0.0219,
+      "1y": 0.0596,
+      "3y_pa": 0.0514,
+      "5y_pa": 0.0189,
       "10y_pa": null,
-      "si_pa": 0.0176
+      "si_pa": 0.0184
     },
     "nav_series": [
       {
@@ -482,21 +484,21 @@
         "v": 117.202
       },
       {
-        "d": "2026-05-11",
-        "v": 118.4672
+        "d": "2026-05-29",
+        "v": 119.4513
       }
     ]
   },
   "volatility": {
-    "1y": 0.0443,
-    "3y": 0.0458,
-    "5y": 0.0426
+    "1y": 0.045,
+    "3y": 0.046,
+    "5y": 0.0429
   },
   "risk_metrics": {
     "sharpe": {
-      "1y": 0.91,
-      "3y": 0.37,
-      "5y": -0.02
+      "1y": 0.89,
+      "3y": 0.48,
+      "5y": 0.0
     },
     "max_drawdown": {
       "1y": null,
@@ -505,47 +507,42 @@
     }
   },
   "asset_class_breakdown": {
-    "bond": 0.7402,
-    "equity": 0.2382,
-    "commodities": 0.0211,
-    "other": 0.0005
+    "bond": 0.837,
+    "equity": 0.254,
+    "commodities": 0.0002
   },
   "top_holdings": [
     {
       "name": "U.S. Treasury Notes 24/34",
-      "weight": 0.1754
+      "weight": 0.1706
     },
     {
       "name": "Bundesrep.Deutschland Anl. 25/35",
-      "weight": 0.118
+      "weight": 0.1168
     },
     {
       "name": "Rep. Frankreich OAT 17/34",
-      "weight": 0.0821
+      "weight": 0.1019
     },
     {
       "name": "Republik Italien Zero B.O.T. 23/34",
-      "weight": 0.0743
+      "weight": 0.0742
     },
     {
       "name": "Land Schleswig-Holstein Landessch. Ausg.1 21/26",
-      "weight": 0.0472
+      "weight": 0.0469
     },
     {
       "name": "Republik Österreich Bundesanl. 17/27",
-      "weight": 0.047
+      "weight": 0.0465
     },
     {
       "name": "Bundesrep.Deutschland Bundesschatzanw. 24/26",
-      "weight": 0.0365
+      "weight": 0.0362
     },
     {
       "name": "Niederlande EO-Anl. 2017(27)",
-      "weight": 0.0294
-    },
-    {
-      "name": "Invesco Physical Markets PLC",
-      "weight": 0.0101
+      "weight": 0.0292
     },
     {
       "name": "Koenigreich Spanien Obligaciones 25/35",

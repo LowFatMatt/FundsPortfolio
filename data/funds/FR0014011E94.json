@@ -1,12 +1,14 @@
 {
   "isin": "FR0014011E94",
-  "as_of": "2026-05-12",
+  "as_of": "2026-06-01",
   "schema_version": 2,
   "source": "factsheetslive",
   "source_url": "https://provinzial-nord.stg.wt.factsheetslive.com/produkt/FR0014011E94",
   "currency": "EUR",
   "fund_name": "WorldGuard 80 Portfolio Fund",
   "provinzial_fund_type": "Wertsicherungsfonds",
+  "region": "global",
+  "theme": "NONE",
   "ter": null,
   "sri": null,
   "performance": {

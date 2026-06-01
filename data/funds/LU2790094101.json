@@ -1,24 +1,26 @@
 {
   "isin": "LU2790094101",
-  "as_of": "2026-05-12",
+  "as_of": "2026-06-01",
   "schema_version": 2,
   "source": "factsheetslive",
   "source_url": "https://provinzial-nord.stg.wt.factsheetslive.com/produkt/LU2790094101",
   "currency": "EUR",
   "fund_name": "Deka-ConvergenceAktien II CF",
   "provinzial_fund_type": "Aktienfonds",
+  "region": "europe",
+  "theme": "NONE",
   "ter": null,
   "sri": null,
   "performance": {
     "periods": {
-      "3m": 0.0271,
-      "6m": 0.1881,
-      "ytd": 0.1357,
-      "1y": 0.361,
+      "3m": 0.0392,
+      "6m": 0.176,
+      "ytd": 0.1427,
+      "1y": 0.3418,
       "3y_pa": null,
       "5y_pa": null,
       "10y_pa": null,
-      "si_pa": 0.2524
+      "si_pa": 0.2489
     },
     "nav_series": [
       {
@@ -102,19 +104,19 @@
         "v": 143.5969
       },
       {
-        "d": "2026-05-11",
-        "v": 148.3834
+        "d": "2026-05-29",
+        "v": 149.307
       }
     ]
   },
   "volatility": {
-    "1y": 0.1827,
+    "1y": 0.1767,
     "3y": null,
     "5y": null
   },
   "risk_metrics": {
     "sharpe": {
-      "1y": 1.84,
+      "1y": 1.8,
       "3y": null,
       "5y": null
     },
@@ -130,43 +132,43 @@
   "top_holdings": [
     {
       "name": "OTP Bank",
-      "weight": 0.104
+      "weight": 0.086
     },
     {
       "name": "PKO Bank Polski",
-      "weight": 0.093
+      "weight": 0.081
     },
     {
-      "name": "Bank Polska Kasa Opieki S.A.",
-      "weight": 0.058
-    },
-    {
-      "name": "Pkn Orlen",
-      "weight": 0.054
-    },
-    {
-      "name": "National Bank of Greece",
-      "weight": 0.046
-    },
-    {
-      "name": "Powszechny Zaklad Ubezpieczen",
-      "weight": 0.043
-    },
-    {
-      "name": "Eurobank SA",
-      "weight": 0.039
-    },
-    {
-      "name": "Piraeus Bank",
-      "weight": 0.038
+      "name": "PKN ORLEN.",
+      "weight": 0.075
     },
     {
       "name": "Aselsan Elektronik Sanayi",
-      "weight": 0.038
+      "weight": 0.045
     },
     {
-      "name": "Alpha Bank",
-      "weight": 0.036
+      "name": "National Bank of Greece",
+      "weight": 0.044
+    },
+    {
+      "name": "Bank Polska Kasa Opieki S.A.",
+      "weight": 0.041
+    },
+    {
+      "name": "Eurobank SA",
+      "weight": 0.04
+    },
+    {
+      "name": "Piraeus Bank",
+      "weight": 0.037
+    },
+    {
+      "name": "Powszechny Zaklad Ubezpieczen",
+      "weight": 0.037
+    },
+    {
+      "name": "KGHM Polska Miedz",
+      "weight": 0.03
     }
   ]
 }

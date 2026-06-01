@@ -1,24 +1,26 @@
 {
   "isin": "DE000A0RC5F0",
-  "as_of": "2026-05-12",
+  "as_of": "2026-06-01",
   "schema_version": 2,
   "source": "factsheetslive",
   "source_url": "https://provinzial-nord.stg.wt.factsheetslive.com/produkt/DE000A0RC5F0",
   "currency": "EUR",
   "fund_name": "Berenberg Multi Asset Balanced R D",
   "provinzial_fund_type": "Mischfonds",
-  "ter": null,
-  "sri": null,
+  "region": "global",
+  "theme": "NONE",
+  "ter": 0.016,
+  "sri": 3,
   "performance": {
     "periods": {
-      "3m": 0.0062,
-      "6m": 0.0715,
-      "ytd": 0.0366,
-      "1y": 0.1399,
-      "3y_pa": 0.0731,
-      "5y_pa": 0.0268,
-      "10y_pa": 0.0481,
-      "si_pa": 0.0421
+      "3m": -0.004,
+      "6m": 0.0594,
+      "ytd": 0.048,
+      "1y": 0.1392,
+      "3y_pa": 0.079,
+      "5y_pa": 0.0284,
+      "10y_pa": 0.0471,
+      "si_pa": 0.0426
     },
     "nav_series": [
       {
@@ -846,21 +848,21 @@
         "v": 200.4397
       },
       {
-        "d": "2026-05-08",
-        "v": 202.6799
+        "d": "2026-05-28",
+        "v": 204.9201
       }
     ]
   },
   "volatility": {
-    "1y": 0.0783,
-    "3y": 0.0707,
-    "5y": 0.0798
+    "1y": 0.0788,
+    "3y": 0.071,
+    "5y": 0.0795
   },
   "risk_metrics": {
     "sharpe": {
-      "1y": 1.51,
-      "3y": 0.61,
-      "5y": 0.1
+      "1y": 1.49,
+      "3y": 0.69,
+      "5y": 0.12
     },
     "max_drawdown": {
       "1y": null,

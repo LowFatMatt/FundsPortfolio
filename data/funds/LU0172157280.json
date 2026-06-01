@@ -1,24 +1,26 @@
 {
   "isin": "LU0172157280",
-  "as_of": "2026-05-12",
+  "as_of": "2026-06-01",
   "schema_version": 2,
   "source": "factsheetslive",
   "source_url": "https://provinzial-nord.stg.wt.factsheetslive.com/produkt/LU0172157280",
   "currency": "EUR",
   "fund_name": "BlackRock Global Funds - World Mining Fund A2 EUR",
   "provinzial_fund_type": "Aktienfonds",
+  "region": "global",
+  "theme": "commodities",
   "ter": 0.0206,
   "sri": 5,
   "performance": {
     "periods": {
-      "3m": 0.0143,
-      "6m": 0.3564,
-      "ytd": 0.2115,
-      "1y": 0.8304,
-      "3y_pa": 0.2,
-      "5y_pa": 0.1151,
-      "10y_pa": 0.1558,
-      "si_pa": 0.0899
+      "3m": -0.0529,
+      "6m": 0.2763,
+      "ytd": 0.1954,
+      "1y": 0.7801,
+      "3y_pa": 0.2149,
+      "5y_pa": 0.1212,
+      "10y_pa": 0.1564,
+      "si_pa": 0.0891
     },
     "nav_series": [
       {
@@ -1226,21 +1228,21 @@
         "v": 703.9695
       },
       {
-        "d": "2026-05-11",
-        "v": 757.3283
+        "d": "2026-05-29",
+        "v": 747.2519
       }
     ]
   },
   "volatility": {
-    "1y": 0.2742,
-    "3y": 0.237,
-    "5y": 0.2557
+    "1y": 0.286,
+    "3y": 0.241,
+    "5y": 0.2567
   },
   "risk_metrics": {
     "sharpe": {
-      "1y": 2.9,
-      "3y": 0.7,
-      "5y": 0.37
+      "1y": 2.63,
+      "3y": 0.75,
+      "5y": 0.39
     },
     "max_drawdown": {
       "1y": null,

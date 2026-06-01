@@ -1,12 +1,14 @@
 {
   "isin": "LU0061928585",
-  "as_of": "2026-05-12",
+  "as_of": "2026-06-01",
   "schema_version": 2,
   "source": "factsheetslive",
   "source_url": "https://provinzial-nord.stg.wt.factsheetslive.com/produkt/LU0061928585",
   "currency": "EUR",
   "fund_name": "ÖkoWorld ÖkoVision Classic C",
   "provinzial_fund_type": "Aktienfonds",
+  "region": "global",
+  "theme": "NONE",
   "ter": 0.0218,
   "sri": 4,
   "performance": {

@@ -1,24 +1,26 @@
 {
   "isin": "DE000DK2J662",
-  "as_of": "2026-05-12",
+  "as_of": "2026-06-01",
   "schema_version": 2,
   "source": "factsheetslive",
   "source_url": "https://provinzial-nord.stg.wt.factsheetslive.com/produkt/DE000DK2J662",
   "currency": "EUR",
   "fund_name": "Deka-Multi Asset Income CF (A)",
   "provinzial_fund_type": "Mischfonds",
+  "region": "global",
+  "theme": "NONE",
   "ter": 0.0133,
   "sri": 2,
   "performance": {
     "periods": {
-      "3m": -0.0103,
-      "6m": 0.0212,
-      "ytd": 0.0166,
-      "1y": 0.0649,
-      "3y_pa": 0.0704,
-      "5y_pa": 0.0209,
-      "10y_pa": 0.0225,
-      "si_pa": 0.021
+      "3m": -0.0113,
+      "6m": 0.0217,
+      "ytd": 0.0216,
+      "1y": 0.0648,
+      "3y_pa": 0.0683,
+      "5y_pa": 0.0217,
+      "10y_pa": 0.0227,
+      "si_pa": 0.0214
     },
     "nav_series": [
       {
@@ -538,21 +540,21 @@
         "v": 126.8274
       },
       {
-        "d": "2026-05-11",
-        "v": 127.1808
+        "d": "2026-05-29",
+        "v": 127.814
       }
     ]
   },
   "volatility": {
-    "1y": 0.0364,
-    "3y": 0.0455,
-    "5y": 0.0542
+    "1y": 0.0367,
+    "3y": 0.0454,
+    "5y": 0.0544
   },
   "risk_metrics": {
     "sharpe": {
       "1y": 1.23,
-      "3y": 0.88,
-      "5y": 0.04
+      "3y": 0.85,
+      "5y": 0.05
     },
     "max_drawdown": {
       "1y": null,
@@ -561,50 +563,49 @@
     }
   },
   "asset_class_breakdown": {
-    "bond": 0.7191,
-    "other": 0.1456,
-    "equity": 0.1353
+    "bond": 0.7875,
+    "equity": 0.2799
   },
   "top_holdings": [
     {
       "name": "DBR 6.25% 04JAN30 00",
-      "weight": 0.1123
+      "weight": 0.1137
     },
     {
       "name": "BUNDESREPUBLIK DEUTSCHLAND 5.5% 04/01/2031",
-      "weight": 0.0895
-    },
-    {
-      "name": "Bundesrep.Deutschland Anl. 26/36",
-      "weight": 0.041
-    },
-    {
-      "name": "United States of America Notes 24/26",
-      "weight": 0.0408
-    },
-    {
-      "name": "U.S. Treasury Bonds 99/29",
-      "weight": 0.0397
+      "weight": 0.0905
     },
     {
       "name": "Koenigreich Spanien Obligaciones 05/37",
-      "weight": 0.0243
+      "weight": 0.0492
     },
     {
       "name": "Spanien EO-Bonos 2009(41)",
-      "weight": 0.0206
+      "weight": 0.047
+    },
+    {
+      "name": "Bundesrep.Deutschland Anl. 26/36",
+      "weight": 0.0414
+    },
+    {
+      "name": "U.S. Treasury Bonds 99/29",
+      "weight": 0.0395
+    },
+    {
+      "name": "United States of America Notes 26/36",
+      "weight": 0.0254
+    },
+    {
+      "name": "U.S. Treasury Bonds 21/41",
+      "weight": 0.0218
     },
     {
       "name": "Bundesrep. Deutschland 6.5% 2027-07-04",
-      "weight": 0.0201
+      "weight": 0.0204
     },
     {
-      "name": "Nissan Motor Co. Ltd. EO-Notes 2020(20/28) Reg.S",
-      "weight": 0.0049
-    },
-    {
-      "name": "RCI Banque S.A. MTN 23/29",
-      "weight": 0.0048
+      "name": "U.S. Treasury Notes 24/26",
+      "weight": 0.0203
     }
   ]
 }

@@ -1,24 +1,26 @@
 {
   "isin": "DE000DK2CFQ9",
-  "as_of": "2026-05-12",
+  "as_of": "2026-06-01",
   "schema_version": 2,
   "source": "factsheetslive",
   "source_url": "https://provinzial-nord.stg.wt.factsheetslive.com/produkt/DE000DK2CFQ9",
   "currency": "EUR",
   "fund_name": "Deka-BasisAnlage moderat",
   "provinzial_fund_type": "Vermögensverwaltende Fonds",
+  "region": "global",
+  "theme": "NONE",
   "ter": 0.0123,
   "sri": 2,
   "performance": {
     "periods": {
-      "3m": 0.0058,
-      "6m": 0.0261,
-      "ytd": 0.0237,
-      "1y": 0.0773,
-      "3y_pa": 0.0659,
-      "5y_pa": 0.0317,
-      "10y_pa": 0.0179,
-      "si_pa": 0.0203
+      "3m": 0.0,
+      "6m": 0.0279,
+      "ytd": 0.0291,
+      "1y": 0.0743,
+      "3y_pa": 0.0678,
+      "5y_pa": 0.0331,
+      "10y_pa": 0.0183,
+      "si_pa": 0.0206
     },
     "nav_series": [
       {
@@ -682,21 +684,21 @@
         "v": 130.9751
       },
       {
-        "d": "2026-05-11",
-        "v": 132.6107
+        "d": "2026-05-29",
+        "v": 133.3162
       }
     ]
   },
   "volatility": {
-    "1y": 0.0422,
-    "3y": 0.044,
-    "5y": 0.0447
+    "1y": 0.042,
+    "3y": 0.0442,
+    "5y": 0.0448
   },
   "risk_metrics": {
     "sharpe": {
-      "1y": 1.35,
-      "3y": 0.82,
-      "5y": 0.29
+      "1y": 1.3,
+      "3y": 0.86,
+      "5y": 0.31
     },
     "max_drawdown": {
       "1y": null,
@@ -705,10 +707,10 @@
     }
   },
   "asset_class_breakdown": {
-    "bond": 0.46,
-    "equity": 0.307,
-    "other": 0.193,
-    "commodities": 0.04
+    "other": 0.39,
+    "equity": 0.3,
+    "bond": 0.26,
+    "commodities": 0.05
   },
   "top_holdings": [
     {
@@ -717,19 +719,19 @@
     },
     {
       "name": "iShares $ Treasury Bond 3-7ye UCITS ETF USD (Acc) Share Class",
-      "weight": 0.0382
+      "weight": 0.04
     },
     {
-      "name": "Deka US Treasury 7-10 UCITS ETF",
-      "weight": 0.0373
+      "name": "iShares MSCI Europe SRI UCITS ETF EUR (Acc) Share Class",
+      "weight": 0.0378
     },
     {
       "name": "IQAM OptionsprämienStrategie Protect I",
-      "weight": 0.0367
+      "weight": 0.036
     },
     {
-      "name": "Deka Deutsche Boerse EUROGOV® Germany 1-3 UCITS ETF",
-      "weight": 0.0355
+      "name": "Deka US Treasury 7-10 UCITS ETF",
+      "weight": 0.0357
     }
   ]
 }

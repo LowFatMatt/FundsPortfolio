@@ -1,24 +1,26 @@
 {
   "isin": "DE000DK0ECS2",
-  "as_of": "2026-05-12",
+  "as_of": "2026-06-01",
   "schema_version": 2,
   "source": "factsheetslive",
   "source_url": "https://provinzial-nord.stg.wt.factsheetslive.com/produkt/DE000DK0ECS2",
   "currency": "EUR",
   "fund_name": "Deka-UmweltInvest CF",
   "provinzial_fund_type": "Aktienfonds",
+  "region": "global",
+  "theme": "sustainability",
   "ter": 0.017,
   "sri": 4,
   "performance": {
     "periods": {
-      "3m": 0.0541,
-      "6m": 0.1227,
-      "ytd": 0.1299,
-      "1y": 0.2719,
-      "3y_pa": 0.1167,
-      "5y_pa": 0.0537,
-      "10y_pa": 0.1056,
-      "si_pa": 0.0535
+      "3m": 0.0495,
+      "6m": 0.1337,
+      "ytd": 0.1346,
+      "1y": 0.2301,
+      "3y_pa": 0.1102,
+      "5y_pa": 0.0475,
+      "10y_pa": 0.1018,
+      "si_pa": 0.0536
     },
     "nav_series": [
       {
@@ -954,21 +956,21 @@
         "v": 266.7843
       },
       {
-        "d": "2026-05-11",
-        "v": 274.2789
+        "d": "2026-05-29",
+        "v": 275.4243
       }
     ]
   },
   "volatility": {
-    "1y": 0.1421,
-    "3y": 0.1598,
+    "1y": 0.1439,
+    "3y": 0.1597,
     "5y": 0.1707
   },
   "risk_metrics": {
     "sharpe": {
-      "1y": 1.74,
-      "3y": 0.53,
-      "5y": 0.2
+      "1y": 1.45,
+      "3y": 0.5,
+      "5y": 0.16
     },
     "max_drawdown": {
       "1y": null,
@@ -977,49 +979,49 @@
     }
   },
   "asset_class_breakdown": {
-    "equity": 0.9864,
-    "other": 0.0136
+    "equity": 0.9976,
+    "other": 0.0024
   },
   "top_holdings": [
     {
       "name": "Siemens Energy AG",
-      "weight": 0.0567
+      "weight": 0.0605
     },
     {
       "name": "Quanta Services",
-      "weight": 0.0466
-    },
-    {
-      "name": "SSE PLC",
-      "weight": 0.0358
+      "weight": 0.0429
     },
     {
       "name": "Prysmian",
-      "weight": 0.0351
+      "weight": 0.0373
     },
     {
       "name": "GE Vernova Inc",
-      "weight": 0.0306
+      "weight": 0.033
     },
     {
-      "name": "E.ON SE",
-      "weight": 0.0273
+      "name": "SSE PLC",
+      "weight": 0.0261
     },
     {
-      "name": "Iberdrola, S.A.",
-      "weight": 0.0258
-    },
-    {
-      "name": "Xylem Inc.",
-      "weight": 0.0242
+      "name": "Veolia Environnement",
+      "weight": 0.0257
     },
     {
       "name": "Eaton Corp.",
-      "weight": 0.0238
+      "weight": 0.0255
     },
     {
-      "name": "Enel SPA",
-      "weight": 0.0225
+      "name": "E.ON SE",
+      "weight": 0.025
+    },
+    {
+      "name": "Xylem Inc.",
+      "weight": 0.0215
+    },
+    {
+      "name": "Iberdrola, S.A.",
+      "weight": 0.0215
     }
   ]
 }

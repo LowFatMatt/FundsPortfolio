@@ -1,24 +1,26 @@
 {
   "isin": "DE0009809566",
-  "as_of": "2026-05-12",
+  "as_of": "2026-06-01",
   "schema_version": 2,
   "source": "factsheetslive",
   "source_url": "https://provinzial-nord.stg.wt.factsheetslive.com/produkt/DE0009809566",
   "currency": "EUR",
   "fund_name": "Deka-ImmobilienEuropa",
   "provinzial_fund_type": "Immobilienfonds",
+  "region": "europe",
+  "theme": "NONE",
   "ter": 0.0291,
   "sri": 2,
   "performance": {
     "periods": {
-      "3m": 0.0063,
-      "6m": 0.0109,
-      "ytd": 0.0078,
+      "3m": 0.0076,
+      "6m": 0.0124,
+      "ytd": 0.0097,
       "1y": 0.0225,
-      "3y_pa": 0.024,
-      "5y_pa": 0.0217,
-      "10y_pa": 0.0249,
-      "si_pa": 0.0311
+      "3y_pa": 0.0239,
+      "5y_pa": 0.022,
+      "10y_pa": 0.025,
+      "si_pa": 0.0312
     },
     "nav_series": [
       {
@@ -1334,20 +1336,20 @@
         "v": 230.0359
       },
       {
-        "d": "2026-05-11",
-        "v": 230.1803
+        "d": "2026-05-29",
+        "v": 230.6136
       }
     ]
   },
   "volatility": {
-    "1y": 0.0027,
-    "3y": 0.003,
+    "1y": 0.0028,
+    "3y": 0.0029,
     "5y": 0.0101
   },
   "risk_metrics": {
     "sharpe": {
-      "1y": 1.2,
-      "3y": -1.58,
+      "1y": 1.23,
+      "3y": -1.61,
       "5y": 0.31
     },
     "max_drawdown": {

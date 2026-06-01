@@ -1,24 +1,26 @@
 {
   "isin": "LU0208341965",
-  "as_of": "2026-05-12",
+  "as_of": "2026-06-01",
   "schema_version": 2,
   "source": "factsheetslive",
   "source_url": "https://provinzial-nord.stg.wt.factsheetslive.com/produkt/LU0208341965",
   "currency": "EUR",
   "fund_name": "Swisscanto (LU) Portfolio Fund Sustainable Balanced (EUR) AA",
   "provinzial_fund_type": "Mischfonds",
+  "region": "global",
+  "theme": "NONE",
   "ter": 0.015,
   "sri": 3,
   "performance": {
     "periods": {
-      "3m": 0.059,
-      "6m": 0.0791,
-      "ytd": 0.0822,
-      "1y": 0.1821,
-      "3y_pa": 0.0989,
-      "5y_pa": 0.042,
-      "10y_pa": 0.0573,
-      "si_pa": 0.047
+      "3m": 0.0583,
+      "6m": 0.0922,
+      "ytd": 0.1013,
+      "1y": 0.1767,
+      "3y_pa": 0.1006,
+      "5y_pa": 0.0462,
+      "10y_pa": 0.0566,
+      "si_pa": 0.0477
     },
     "nav_series": [
       {
@@ -1038,21 +1040,21 @@
         "v": 259.6519
       },
       {
-        "d": "2026-05-08",
-        "v": 264.8022
+        "d": "2026-05-28",
+        "v": 269.4873
       }
     ]
   },
   "volatility": {
-    "1y": 0.0706,
-    "3y": 0.0726,
+    "1y": 0.0693,
+    "3y": 0.0728,
     "5y": 0.0773
   },
   "risk_metrics": {
     "sharpe": {
-      "1y": 2.26,
-      "3y": 0.94,
-      "5y": 0.3
+      "1y": 2.23,
+      "3y": 0.96,
+      "5y": 0.35
     },
     "max_drawdown": {
       "1y": null,

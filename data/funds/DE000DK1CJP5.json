@@ -1,24 +1,26 @@
 {
   "isin": "DE000DK1CJP5",
-  "as_of": "2026-05-12",
+  "as_of": "2026-06-01",
   "schema_version": 2,
   "source": "factsheetslive",
   "source_url": "https://provinzial-nord.stg.wt.factsheetslive.com/produkt/DE000DK1CJP5",
   "currency": "EUR",
   "fund_name": "DekaStruktur: 5 Chance",
   "provinzial_fund_type": "Vermögensverwaltende Fonds",
+  "region": "global",
+  "theme": "NONE",
   "ter": 0.0157,
   "sri": 3,
   "performance": {
     "periods": {
-      "3m": 0.0315,
-      "6m": 0.0668,
-      "ytd": 0.0605,
-      "1y": 0.182,
-      "3y_pa": 0.1099,
-      "5y_pa": 0.0617,
-      "10y_pa": 0.064,
-      "si_pa": 0.0594
+      "3m": 0.0394,
+      "6m": 0.0895,
+      "ytd": 0.0839,
+      "1y": 0.1821,
+      "3y_pa": 0.1148,
+      "5y_pa": 0.0673,
+      "10y_pa": 0.0641,
+      "si_pa": 0.0605
     },
     "nav_series": [
       {
@@ -838,21 +840,21 @@
         "v": 270.4617
       },
       {
-        "d": "2026-05-11",
-        "v": 277.103
+        "d": "2026-05-29",
+        "v": 283.2244
       }
     ]
   },
   "volatility": {
-    "1y": 0.0727,
-    "3y": 0.0818,
+    "1y": 0.0724,
+    "3y": 0.082,
     "5y": 0.0879
   },
   "risk_metrics": {
     "sharpe": {
-      "1y": 2.2,
-      "3y": 0.96,
-      "5y": 0.48
+      "1y": 2.22,
+      "3y": 1.02,
+      "5y": 0.54
     },
     "max_drawdown": {
       "1y": null,
@@ -861,31 +863,30 @@
     }
   },
   "asset_class_breakdown": {
-    "equity": 0.495,
-    "other": 0.437,
-    "commodities": 0.058,
-    "bond": 0.01
+    "equity": 0.709,
+    "other": 0.217,
+    "commodities": 0.074
   },
   "top_holdings": [
     {
       "name": "IFM-Invest: Aktien USA",
-      "weight": 0.1484
+      "weight": 0.1501
     },
     {
       "name": "IFM-Invest: Aktien Europa",
-      "weight": 0.0999
-    },
-    {
-      "name": "Deka MSCI Europe UCITS ETF",
-      "weight": 0.0577
+      "weight": 0.0998
     },
     {
       "name": "Deka-SektorInvest VTIA",
-      "weight": 0.0576
+      "weight": 0.06
     },
     {
-      "name": "Deka-US Aktien Core I",
-      "weight": 0.0401
+      "name": "Deka MSCI Europe UCITS ETF",
+      "weight": 0.0573
+    },
+    {
+      "name": "DekaLux-Japan Flex Hedged Euro E (A)",
+      "weight": 0.0405
     }
   ]
 }

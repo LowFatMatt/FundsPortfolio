@@ -1,24 +1,26 @@
 {
   "isin": "DE000DK091G0",
-  "as_of": "2026-05-12",
+  "as_of": "2026-06-01",
   "schema_version": 2,
   "source": "factsheetslive",
   "source_url": "https://provinzial-nord.stg.wt.factsheetslive.com/produkt/DE000DK091G0",
   "currency": "EUR",
   "fund_name": "Deka-EuropaBond CF",
   "provinzial_fund_type": "Renten/Geldmarktfonds",
+  "region": "europe",
+  "theme": "NONE",
   "ter": 0.0094,
   "sri": 3,
   "performance": {
     "periods": {
-      "3m": 0.0019,
-      "6m": 0.0226,
-      "ytd": 0.0188,
-      "1y": 0.0311,
-      "3y_pa": 0.0234,
-      "5y_pa": -0.0307,
-      "10y_pa": -0.006,
-      "si_pa": 0.0047
+      "3m": 0.0018,
+      "6m": 0.0265,
+      "ytd": 0.0238,
+      "1y": 0.0303,
+      "3y_pa": 0.0318,
+      "5y_pa": -0.0301,
+      "10y_pa": -0.0062,
+      "si_pa": 0.005
     },
     "nav_series": [
       {
@@ -654,72 +656,72 @@
         "v": 104.0438
       },
       {
-        "d": "2026-05-11",
-        "v": 105.3594
+        "d": "2026-05-29",
+        "v": 105.8811
       }
     ]
   },
   "volatility": {
-    "1y": 0.0485,
-    "3y": 0.0545,
-    "5y": 0.066
+    "1y": 0.0486,
+    "3y": 0.0531,
+    "5y": 0.0662
   },
   "risk_metrics": {
     "sharpe": {
-      "1y": 0.24,
-      "3y": -0.1,
+      "1y": 0.23,
+      "3y": 0.06,
       "5y": -0.73
     },
     "max_drawdown": {
       "1y": null,
-      "3y": -0.0638,
+      "3y": -0.0516,
       "5y": -0.2832
     }
   },
   "asset_class_breakdown": {
-    "bond": 0.9504,
-    "other": 0.0496
+    "bond": 0.9477,
+    "other": 0.0523
   },
   "top_holdings": [
     {
       "name": "Republik Polen Bonds S.DS0432 21/32",
-      "weight": 0.0307
+      "weight": 0.0298
     },
     {
       "name": "Koenigreich Norwegen Anl. 25/35",
-      "weight": 0.0277
+      "weight": 0.028
     },
     {
       "name": "Kownigreich Daenemark Anl. 24/35",
-      "weight": 0.0274
+      "weight": 0.0269
     },
     {
       "name": "UKT 3.5% 22Jan45",
-      "weight": 0.0244
+      "weight": 0.0237
     },
     {
       "name": "Ungarn Bonds S.2035/A 23/35",
-      "weight": 0.0192
+      "weight": 0.0216
     },
     {
       "name": "Koenigreich Norwegen Anl. 23/33",
-      "weight": 0.0179
-    },
-    {
-      "name": "Ungarn Notes 11/28",
-      "weight": 0.017
+      "weight": 0.0181
     },
     {
       "name": "MFB Magyar Fejlesztesi Bk Zrt. Notes 17/27",
-      "weight": 0.0168
+      "weight": 0.0178
     },
     {
       "name": "Republik Polen Bonds S.0429 08/29",
-      "weight": 0.0162
+      "weight": 0.0152
     },
     {
       "name": "Großbritannien Treasury Stock 21/46",
-      "weight": 0.0143
+      "weight": 0.0138
+    },
+    {
+      "name": "Republik Polen Bonds S.DS1033 22/33",
+      "weight": 0.0135
     }
   ]
 }

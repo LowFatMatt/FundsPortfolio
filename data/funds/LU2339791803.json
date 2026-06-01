@@ -1,24 +1,26 @@
 {
   "isin": "LU2339791803",
-  "as_of": "2026-05-12",
+  "as_of": "2026-06-01",
   "schema_version": 2,
   "source": "factsheetslive",
   "source_url": "https://provinzial-nord.stg.wt.factsheetslive.com/produkt/LU2339791803",
   "currency": "EUR",
   "fund_name": "Deka-Künstliche Intelligenz CF",
   "provinzial_fund_type": "Aktienfonds",
+  "region": "global",
+  "theme": "technology",
   "ter": 0.0152,
   "sri": 5,
   "performance": {
     "periods": {
-      "3m": 0.1977,
-      "6m": 0.1271,
-      "ytd": 0.194,
-      "1y": 0.3736,
-      "3y_pa": 0.2639,
+      "3m": 0.2551,
+      "6m": 0.2715,
+      "ytd": 0.2698,
+      "1y": 0.3869,
+      "3y_pa": 0.2448,
       "5y_pa": null,
       "10y_pa": null,
-      "si_pa": 0.095
+      "si_pa": 0.1078
     },
     "nav_series": [
       {
@@ -254,20 +256,20 @@
         "v": 142.8569
       },
       {
-        "d": "2026-05-11",
-        "v": 154.3703
+        "d": "2026-05-29",
+        "v": 164.1693
       }
     ]
   },
   "volatility": {
-    "1y": 0.197,
-    "3y": 0.2132,
+    "1y": 0.1974,
+    "3y": 0.2117,
     "5y": null
   },
   "risk_metrics": {
     "sharpe": {
-      "1y": 1.76,
-      "3y": 1.07,
+      "1y": 1.84,
+      "3y": 0.99,
       "5y": null
     },
     "max_drawdown": {
@@ -286,39 +288,39 @@
     },
     {
       "name": "Nvidia Corp.",
-      "weight": 0.05
-    },
-    {
-      "name": "Microsoft Corp.",
-      "weight": 0.046
+      "weight": 0.066
     },
     {
       "name": "Alphabet, Inc. - Class A",
-      "weight": 0.035
+      "weight": 0.053
+    },
+    {
+      "name": "Microsoft Corp.",
+      "weight": 0.044
     },
     {
       "name": "Amazon.com Inc.",
-      "weight": 0.033
+      "weight": 0.037
+    },
+    {
+      "name": "Advanced Mic. Dev",
+      "weight": 0.031
     },
     {
       "name": "Samsung Electronics Co. Ltd.",
-      "weight": 0.028
+      "weight": 0.031
     },
     {
-      "name": "ASML Holding N.V.",
-      "weight": 0.027
+      "name": "Meta Platforms Inc.",
+      "weight": 0.03
     },
     {
       "name": "Broadcom Inc.",
-      "weight": 0.024
-    },
-    {
-      "name": "GE Vernova Inc",
-      "weight": 0.024
+      "weight": 0.029
     },
     {
       "name": "KLA Corp.",
-      "weight": 0.023
+      "weight": 0.025
     }
   ]
 }

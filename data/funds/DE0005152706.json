@@ -1,24 +1,26 @@
 {
   "isin": "DE0005152706",
-  "as_of": "2026-05-12",
+  "as_of": "2026-06-01",
   "schema_version": 2,
   "source": "factsheetslive",
   "source_url": "https://provinzial-nord.stg.wt.factsheetslive.com/produkt/DE0005152706",
   "currency": "EUR",
   "fund_name": "Deka-MegaTrends CF",
   "provinzial_fund_type": "Aktienfonds",
+  "region": "global",
+  "theme": "megatrends",
   "ter": 0.0144,
   "sri": 4,
   "performance": {
     "periods": {
-      "3m": 0.0594,
-      "6m": 0.0637,
-      "ytd": 0.0713,
-      "1y": 0.2323,
-      "3y_pa": 0.1567,
-      "5y_pa": 0.102,
-      "10y_pa": 0.1225,
-      "si_pa": 0.1174
+      "3m": 0.085,
+      "6m": 0.106,
+      "ytd": 0.1026,
+      "1y": 0.2286,
+      "3y_pa": 0.1589,
+      "5y_pa": 0.1055,
+      "10y_pa": 0.1217,
+      "si_pa": 0.1191
     },
     "nav_series": [
       {
@@ -774,21 +776,21 @@
         "v": 538.9945
       },
       {
-        "d": "2026-05-11",
-        "v": 556.4827
+        "d": "2026-05-29",
+        "v": 572.715
       }
     ]
   },
   "volatility": {
-    "1y": 0.1138,
-    "3y": 0.1395,
-    "5y": 0.1454
+    "1y": 0.1114,
+    "3y": 0.1393,
+    "5y": 0.1455
   },
   "risk_metrics": {
     "sharpe": {
-      "1y": 1.84,
-      "3y": 0.89,
-      "5y": 0.56
+      "1y": 1.86,
+      "3y": 0.91,
+      "5y": 0.58
     },
     "max_drawdown": {
       "1y": null,
@@ -797,49 +799,49 @@
     }
   },
   "asset_class_breakdown": {
-    "equity": 0.9727,
-    "other": 0.0273
+    "equity": 0.9929,
+    "other": 0.0071
   },
   "top_holdings": [
     {
       "name": "Nvidia Corp.",
-      "weight": 0.0555
+      "weight": 0.0642
     },
     {
       "name": "Apple Inc.",
-      "weight": 0.049
+      "weight": 0.0497
     },
     {
       "name": "Alphabet, Inc. - Class A",
-      "weight": 0.041
+      "weight": 0.0484
     },
     {
       "name": "Microsoft Corp.",
-      "weight": 0.0324
+      "weight": 0.0386
     },
     {
       "name": "Amazon.com Inc.",
-      "weight": 0.029
+      "weight": 0.0338
     },
     {
       "name": "Broadcom Inc.",
-      "weight": 0.0171
+      "weight": 0.021
     },
     {
       "name": "Meta Platforms Inc.",
-      "weight": 0.0164
-    },
-    {
-      "name": "Tesla Inc.",
-      "weight": 0.0152
-    },
-    {
-      "name": "Exxon Mobil Corp.",
-      "weight": 0.0136
+      "weight": 0.0194
     },
     {
       "name": "JPMorgan Chase & Co.",
-      "weight": 0.0136
+      "weight": 0.0147
+    },
+    {
+      "name": "Tesla Inc.",
+      "weight": 0.0142
+    },
+    {
+      "name": "Exxon Mobil Corp.",
+      "weight": 0.0115
     }
   ]
 }

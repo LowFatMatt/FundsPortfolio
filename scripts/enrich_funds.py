@@ -315,6 +315,88 @@ def _enrich_fee(
     return None, fund.get("kiid_status")
 
 
+def _best_horizon(d: Optional[Dict], order=("3y", "5y", "1y")) -> Optional[float]:
+    """First non-null value from a {horizon: value} dict, preferring longer
+    (more stable) horizons and falling back to shorter ones."""
+    if not d:
+        return None
+    for key in order:
+        v = d.get(key)
+        if v is not None:
+            return v
+    return None
+
+
+def _enrich_from_factsheet(fund: Dict, funds_dir: str) -> Dict[str, int]:
+    """Fill sharpe/volatility/max_drawdown and correct region/theme from the
+    cached factsheetslive scrape (data/funds/{ISIN}.json) BEFORE any external
+    source. The factsheet is authoritative for region/theme; metrics only fill
+    gaps. Returns a per-field count of values applied.
+
+    Scraped volatility/max_drawdown are fractions; converted to the DB's
+    percent convention (max_drawdown stored as a positive percent). Sharpe is a
+    plain ratio (no conversion).
+    """
+    applied = {"sharpe": 0, "volatility": 0, "max_drawdown": 0, "srri": 0, "region": 0, "theme": 0}
+    isin = (fund.get("isin") or "").strip().upper()
+    if not isin:
+        return applied
+
+    path = os.path.join(funds_dir, f"{isin}.json")
+    if not os.path.exists(path):
+        return applied
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            ts = json.load(f)
+    except (OSError, ValueError):
+        return applied
+
+    rm = ts.get("risk_metrics") or {}
+
+    if fund.get("sharpe_ratio") in (None, ""):
+        sharpe = _best_horizon(rm.get("sharpe"))
+        if sharpe is not None:
+            fund["sharpe_ratio"] = round(float(sharpe), 6)
+            applied["sharpe"] = 1
+
+    if fund.get("volatility") in (None, ""):
+        vol = _best_horizon(ts.get("volatility"))
+        if vol is not None:
+            fund["volatility"] = round(float(vol) * 100.0, 4)
+            applied["volatility"] = 1
+
+    if fund.get("max_drawdown") in (None, ""):
+        mdd = _best_horizon(rm.get("max_drawdown"))
+        if mdd is not None:
+            fund["max_drawdown"] = round(abs(float(mdd)) * 100.0, 4)
+            applied["max_drawdown"] = 1
+
+    # SRI / risk class: factsheet authoritative. Derive risk_level (1-5) from it
+    # when missing (DB convention: risk_level = SRI - 1).
+    ts_sri = ts.get("sri")
+    if ts_sri is not None and fund.get("srri") != ts_sri:
+        fund["srri"] = ts_sri
+        applied["srri"] = 1
+    if fund.get("risk_level") in (None, "") and fund.get("srri") is not None:
+        fund["risk_level"] = max(1, min(5, int(fund["srri"]) - 1))
+
+    # Region / theme: factsheet wins (scrape defaults 'global'/'NONE' are
+    # treated as "no value" so a curated value isn't clobbered by a blank page).
+    ts_region = ts.get("region")
+    if ts_region and ts_region != "global" and fund.get("region") != ts_region:
+        fund["region"] = ts_region
+        applied["region"] = 1
+
+    ts_theme = ts.get("theme")
+    if ts_theme and ts_theme != "NONE":
+        ts_theme = ts_theme.lower()
+        if fund.get("theme") != ts_theme:
+            fund["theme"] = ts_theme
+            applied["theme"] = 1
+
+    return applied
+
+
 def _enrich_sharpe(
     fund: Dict,
     calculator: PortfolioCalculator,
@@ -373,6 +455,17 @@ def main() -> None:
     parser.add_argument("--limit", type=int, default=0, help="Limit funds processed")
     parser.add_argument("--fees", action="store_true", help="Enrich yearly_fee")
     parser.add_argument("--sharpe", action="store_true", help="Enrich sharpe_ratio")
+    parser.add_argument(
+        "--no-factsheet",
+        dest="factsheet",
+        action="store_false",
+        help="Disable factsheet-first enrichment from data/funds (default: enabled)",
+    )
+    parser.add_argument(
+        "--funds-dir",
+        default="data/funds",
+        help="Directory of cached per-ISIN factsheet scrapes",
+    )
     parser.add_argument("--volatility", action="store_true", help="Enrich volatility (annualised %)")
     parser.add_argument("--mdd", action="store_true", help="Enrich max_drawdown (%)")
     parser.add_argument(
@@ -427,6 +520,7 @@ def main() -> None:
     updated_mdd = 0
     refreshed_kiid = 0
     updated_ticker = 0
+    factsheet_applied = {"sharpe": 0, "volatility": 0, "max_drawdown": 0, "region": 0, "theme": 0}
 
     total = len(funds)
     limit = args.limit if args.limit and args.limit > 0 else total
@@ -454,6 +548,12 @@ def main() -> None:
 
         if ticker_map and _apply_ticker_map(fund, ticker_map):
             updated_ticker += 1
+
+        # Factsheet-first: the cached scrape is authoritative; yfinance below
+        # only fills whatever the factsheet did not provide.
+        if args.factsheet:
+            for field, count in _enrich_from_factsheet(fund, args.funds_dir).items():
+                factsheet_applied[field] += count
 
         if args.fees:
             fee, status = _enrich_fee(
@@ -490,8 +590,18 @@ def main() -> None:
     data.setdefault("metadata", {})["last_enriched"] = time.strftime("%Y-%m-%d")
 
     print("Enrichment summary:")
+    if args.factsheet:
+        print(
+            "  factsheet applied: "
+            f"sharpe={factsheet_applied['sharpe']} "
+            f"vol={factsheet_applied['volatility']} "
+            f"mdd={factsheet_applied['max_drawdown']} "
+            f"srri={factsheet_applied['srri']} "
+            f"region={factsheet_applied['region']} "
+            f"theme={factsheet_applied['theme']}"
+        )
     print(f"  fees updated: {updated_fee}")
-    print(f"  sharpe updated: {updated_sharpe}")
+    print(f"  sharpe updated (yfinance): {updated_sharpe}")
     print(f"  volatility updated: {updated_vol}")
     print(f"  max_drawdown updated: {updated_mdd}")
     print(f"  kiid refreshed: {refreshed_kiid}")

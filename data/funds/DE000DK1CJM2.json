@@ -1,24 +1,26 @@
 {
   "isin": "DE000DK1CJM2",
-  "as_of": "2026-05-12",
+  "as_of": "2026-06-01",
   "schema_version": 2,
   "source": "factsheetslive",
   "source_url": "https://provinzial-nord.stg.wt.factsheetslive.com/produkt/DE000DK1CJM2",
   "currency": "EUR",
   "fund_name": "DekaStruktur: 5 ErtragPlus",
   "provinzial_fund_type": "Vermögensverwaltende Fonds",
+  "region": "global",
+  "theme": "NONE",
   "ter": 0.0139,
   "sri": 2,
   "performance": {
     "periods": {
-      "3m": 0.0063,
-      "6m": 0.0255,
-      "ytd": 0.0222,
-      "1y": 0.083,
-      "3y_pa": 0.065,
-      "5y_pa": 0.019,
-      "10y_pa": 0.0076,
-      "si_pa": 0.0115
+      "3m": 0.0048,
+      "6m": 0.0306,
+      "ytd": 0.0295,
+      "1y": 0.082,
+      "3y_pa": 0.0684,
+      "5y_pa": 0.0206,
+      "10y_pa": 0.0082,
+      "si_pa": 0.0118
     },
     "nav_series": [
       {
@@ -838,21 +840,21 @@
         "v": 121.3848
       },
       {
-        "d": "2026-05-11",
-        "v": 122.7575
+        "d": "2026-05-29",
+        "v": 123.6289
       }
     ]
   },
   "volatility": {
-    "1y": 0.0358,
+    "1y": 0.036,
     "3y": 0.041,
-    "5y": 0.0464
+    "5y": 0.0465
   },
   "risk_metrics": {
     "sharpe": {
-      "1y": 1.75,
-      "3y": 0.85,
-      "5y": 0.01
+      "1y": 1.73,
+      "3y": 0.94,
+      "5y": 0.04
     },
     "max_drawdown": {
       "1y": null,
@@ -862,30 +864,30 @@
   },
   "asset_class_breakdown": {
     "bond": 0.5782,
-    "equity": 0.2282,
-    "other": 0.1631,
-    "commodities": 0.0305
+    "equity": 0.2297,
+    "other": 0.1517,
+    "commodities": 0.0404
   },
   "top_holdings": [
     {
       "name": "IFM-Invest: Renten Europa",
-      "weight": 0.1457
+      "weight": 0.1461
     },
     {
       "name": "IFM-Invest: Vermögensmanagement Aktien",
-      "weight": 0.0937
+      "weight": 0.0958
     },
     {
       "name": "Deka-Multimanager Renten",
-      "weight": 0.0905
+      "weight": 0.09
     },
     {
       "name": "Schroder ISF EURO Corporate Bond EUR C Acc",
-      "weight": 0.0775
+      "weight": 0.0779
     },
     {
       "name": "Deka-Institutionell Renten Europa",
-      "weight": 0.0751
+      "weight": 0.0757
     }
   ]
 }

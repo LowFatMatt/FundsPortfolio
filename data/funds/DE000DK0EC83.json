@@ -1,22 +1,24 @@
 {
   "isin": "DE000DK0EC83",
-  "as_of": "2026-05-12",
+  "as_of": "2026-06-01",
   "schema_version": 2,
   "source": "factsheetslive",
   "source_url": "https://provinzial-nord.stg.wt.factsheetslive.com/produkt/DE000DK0EC83",
   "currency": "EUR",
   "fund_name": "Deka-Sachwerte CF",
   "provinzial_fund_type": "Mischfonds",
+  "region": "global",
+  "theme": "NONE",
   "ter": 0.0191,
   "sri": 2,
   "performance": {
     "periods": {
-      "3m": -0.0094,
-      "6m": 0.0234,
-      "ytd": 0.022,
-      "1y": 0.0445,
-      "3y_pa": 0.0313,
-      "5y_pa": 0.0283,
+      "3m": -0.0128,
+      "6m": 0.029,
+      "ytd": 0.0237,
+      "1y": 0.0416,
+      "3y_pa": 0.0352,
+      "5y_pa": 0.0288,
       "10y_pa": 0.0224,
       "si_pa": 0.0177
     },
@@ -670,21 +672,21 @@
         "v": 127.4794
       },
       {
-        "d": "2026-05-11",
-        "v": 127.1267
+        "d": "2026-05-29",
+        "v": 127.3315
       }
     ]
   },
   "volatility": {
-    "1y": 0.0283,
-    "3y": 0.0284,
+    "1y": 0.0286,
+    "3y": 0.0283,
     "5y": 0.0318
   },
   "risk_metrics": {
     "sharpe": {
-      "1y": 0.88,
-      "3y": 0.08,
-      "5y": 0.3
+      "1y": 0.77,
+      "3y": 0.22,
+      "5y": 0.31
     },
     "max_drawdown": {
       "1y": null,
@@ -693,52 +695,48 @@
     }
   },
   "asset_class_breakdown": {
-    "bond": 0.4935,
-    "real_estate": 0.2285,
-    "other": 0.209,
-    "equity": 0.0585,
-    "commodities": 0.0105
+    "other": 0.3144,
+    "bond": 0.2971,
+    "real_estate": 0.2294,
+    "equity": 0.1585,
+    "commodities": 0.0006
   },
   "top_holdings": [
     {
-      "name": "WestInvest ImmoValue",
-      "weight": 0.2285
+      "name": "Bundesrep.Deutschland Inflation-Ind. Anl. 14/30",
+      "weight": 0.226
     },
     {
       "name": "Kreditanst.f.Wiederaufbau MTN 24/27",
-      "weight": 0.1567
-    },
-    {
-      "name": "Bundesrep.Deutschland Inflation-Ind. Anl. 14/30",
-      "weight": 0.146
+      "weight": 0.0784
     },
     {
       "name": "Republik Italien Inflation-Ind. Lkd B.T.P. 15/32",
-      "weight": 0.1324
+      "weight": 0.0763
     },
     {
-      "name": "Bundesrep.Deutschland Inflationsindex. Anl. 15(26)",
-      "weight": 0.1252
-    },
-    {
-      "name": "Deka-Vega Plus I (A)",
-      "weight": 0.0533
-    },
-    {
-      "name": "Deka-DeepDiscount 2y (III)",
-      "weight": 0.0258
-    },
-    {
-      "name": "Deka-DeepDiscount 2y",
-      "weight": 0.0242
-    },
-    {
-      "name": "Deka-Prämienstrategie Select",
-      "weight": 0.0131
+      "name": "VanEck Morningstar Developed Markets Dividend Leaders UCITS ETF",
+      "weight": 0.0349
     },
     {
       "name": "Invesco Morningstar US Energy Infrastructure MLP UCITS ETF Dist",
-      "weight": 0.0105
+      "weight": 0.0316
+    },
+    {
+      "name": "Rep. Frankreich OAT 17/28",
+      "weight": 0.0236
+    },
+    {
+      "name": "Xtrackers S&P Global Infrastructure Swap UCITS ETF 1C",
+      "weight": 0.0172
+    },
+    {
+      "name": "J.P.Morgan Mansart European Put Write Strategy Fund EUR A Acc",
+      "weight": 0.0047
+    },
+    {
+      "name": "Lb.Hessen-Thueringen GZ MTN Hyp.-Pfe. S.H346 22/27",
+      "weight": 0.0034
     }
   ]
 }

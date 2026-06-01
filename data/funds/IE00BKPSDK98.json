@@ -1,24 +1,26 @@
 {
   "isin": "IE00BKPSDK98",
-  "as_of": "2026-05-12",
+  "as_of": "2026-06-01",
   "schema_version": 2,
   "source": "factsheetslive",
   "source_url": "https://provinzial-nord.stg.wt.factsheetslive.com/produkt/IE00BKPSDK98",
   "currency": "EUR",
   "fund_name": "KBI Global Sustainable Infrastructure Fund F EUR",
   "provinzial_fund_type": "Aktienfonds",
+  "region": "global",
+  "theme": "infrastructure",
   "ter": 0.0171,
   "sri": 4,
   "performance": {
     "periods": {
-      "3m": 0.025,
-      "6m": 0.0779,
-      "ytd": 0.0995,
-      "1y": 0.1492,
-      "3y_pa": 0.0313,
+      "3m": 0.0049,
+      "6m": 0.0869,
+      "ytd": 0.1108,
+      "1y": 0.1438,
+      "3y_pa": 0.0431,
       "5y_pa": null,
       "10y_pa": null,
-      "si_pa": 0.0282
+      "si_pa": 0.0305
     },
     "nav_series": [
       {
@@ -206,71 +208,31 @@
         "v": 106.9285
       },
       {
-        "d": "2026-05-08",
-        "v": 104.5329
+        "d": "2026-05-28",
+        "v": 105.6105
       }
     ]
   },
   "volatility": {
-    "1y": 0.1006,
-    "3y": 0.1113,
+    "1y": 0.0996,
+    "3y": 0.1115,
     "5y": null
   },
   "risk_metrics": {
     "sharpe": {
-      "1y": 1.27,
-      "3y": 0.02,
+      "1y": 1.23,
+      "3y": 0.12,
       "5y": null
     },
     "max_drawdown": {
       "1y": null,
-      "3y": -0.1646,
+      "3y": -0.1588,
       "5y": -0.2261
     }
   },
   "asset_class_breakdown": {
-    "equity": 1.0
+    "equity": 0.9826,
+    "other": 0.0174
   },
-  "top_holdings": [
-    {
-      "name": "NextEra Energy Inc.",
-      "weight": 0.0682
-    },
-    {
-      "name": "NATIONAL GRID ORD GBP0.12431289",
-      "weight": 0.0468
-    },
-    {
-      "name": "Equinix Inc.",
-      "weight": 0.0442
-    },
-    {
-      "name": "Veolia Environnement",
-      "weight": 0.0429
-    },
-    {
-      "name": "!Scottish & Southern Energy",
-      "weight": 0.036
-    },
-    {
-      "name": "SBA Communications Corp.Cl A",
-      "weight": 0.0331
-    },
-    {
-      "name": "Exelon",
-      "weight": 0.031
-    },
-    {
-      "name": "!Waste Man",
-      "weight": 0.0302
-    },
-    {
-      "name": "American Tower Corp.",
-      "weight": 0.0292
-    },
-    {
-      "name": "United Utilities",
-      "weight": 0.0286
-    }
-  ]
+  "top_holdings": []
 }

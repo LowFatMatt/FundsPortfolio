@@ -1,24 +1,26 @@
 {
   "isin": "LU0287950413",
-  "as_of": "2026-05-12",
+  "as_of": "2026-06-01",
   "schema_version": 2,
   "source": "factsheetslive",
   "source_url": "https://provinzial-nord.stg.wt.factsheetslive.com/produkt/LU0287950413",
   "currency": "EUR",
   "fund_name": "Deka-ZielGarant 2046-2049",
   "provinzial_fund_type": "Vermögensverwaltende Fonds",
+  "region": "global",
+  "theme": "NONE",
   "ter": 0.0118,
   "sri": 4,
   "performance": {
     "periods": {
-      "3m": -0.0045,
-      "6m": -0.0185,
-      "ytd": 0.0065,
-      "1y": -0.0483,
-      "3y_pa": -0.0135,
-      "5y_pa": -0.094,
-      "10y_pa": -0.0319,
-      "si_pa": -0.031
+      "3m": -0.0329,
+      "6m": -0.013,
+      "ytd": 0.0098,
+      "1y": -0.042,
+      "3y_pa": -0.0136,
+      "5y_pa": -0.0934,
+      "10y_pa": -0.0315,
+      "si_pa": -0.0306
     },
     "nav_series": [
       {
@@ -514,25 +516,25 @@
         "v": 70.6886
       },
       {
-        "d": "2026-05-11",
-        "v": 71.6882
+        "d": "2026-05-29",
+        "v": 71.9204
       }
     ]
   },
   "volatility": {
-    "1y": 0.0966,
-    "3y": 0.1265,
-    "5y": 0.1497
+    "1y": 0.0917,
+    "3y": 0.1245,
+    "5y": 0.1498
   },
   "risk_metrics": {
     "sharpe": {
-      "1y": -0.69,
+      "1y": -0.66,
       "3y": -0.33,
       "5y": -0.74
     },
     "max_drawdown": {
       "1y": null,
-      "3y": -0.1571,
+      "3y": -0.1615,
       "5y": -0.4904
     }
   },
@@ -541,7 +543,7 @@
   },
   "top_holdings": [
     {
-      "name": "Pictet Funds (Lux) - Europe Index-I €",
+      "name": "Deka MSCI Europe UCITS ETF",
       "weight": 0.002
     },
     {
@@ -549,7 +551,7 @@
       "weight": 0.002
     },
     {
-      "name": "Deka MSCI Europe UCITS ETF",
+      "name": "Pictet Funds (Lux) - Europe Index-I €",
       "weight": 0.002
     }
   ]

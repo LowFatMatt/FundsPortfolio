@@ -1,24 +1,26 @@
 {
   "isin": "LU0136171559",
-  "as_of": "2026-05-12",
+  "as_of": "2026-06-01",
   "schema_version": 2,
   "source": "factsheetslive",
   "source_url": "https://provinzial-nord.stg.wt.factsheetslive.com/produkt/LU0136171559",
   "currency": "EUR",
   "fund_name": "Swisscanto (LU) Equity Fund Sustainable AT",
   "provinzial_fund_type": "Aktienfonds",
+  "region": "global",
+  "theme": "NONE",
   "ter": 0.0195,
   "sri": 4,
   "performance": {
     "periods": {
-      "3m": 0.095,
-      "6m": 0.125,
-      "ytd": 0.1294,
-      "1y": 0.3119,
-      "3y_pa": 0.1769,
-      "5y_pa": 0.1078,
-      "10y_pa": 0.1305,
-      "si_pa": 0.0599
+      "3m": 0.119,
+      "6m": 0.1444,
+      "ytd": 0.1654,
+      "1y": 0.2936,
+      "3y_pa": 0.172,
+      "5y_pa": 0.1163,
+      "10y_pa": 0.1277,
+      "si_pa": 0.0612
     },
     "nav_series": [
       {
@@ -1194,21 +1196,21 @@
         "v": 403.0061
       },
       {
-        "d": "2026-05-08",
-        "v": 412.9251
+        "d": "2026-05-28",
+        "v": 426.1134
       }
     ]
   },
   "volatility": {
-    "1y": 0.137,
-    "3y": 0.1448,
-    "5y": 0.1563
+    "1y": 0.1308,
+    "3y": 0.1443,
+    "5y": 0.1558
   },
   "risk_metrics": {
     "sharpe": {
-      "1y": 2.1,
-      "3y": 0.99,
-      "5y": 0.56
+      "1y": 2.06,
+      "3y": 0.97,
+      "5y": 0.61
     },
     "max_drawdown": {
       "1y": null,

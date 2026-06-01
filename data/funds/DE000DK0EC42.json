@@ -1,24 +1,26 @@
 {
   "isin": "DE000DK0EC42",
-  "as_of": "2026-05-12",
+  "as_of": "2026-06-01",
   "schema_version": 2,
   "source": "factsheetslive",
   "source_url": "https://provinzial-nord.stg.wt.factsheetslive.com/produkt/DE000DK0EC42",
   "currency": "EUR",
   "fund_name": "Deka-PB Multi Asset Selection",
   "provinzial_fund_type": "Vermögensverwaltende Fonds",
+  "region": "global",
+  "theme": "NONE",
   "ter": 0.017,
   "sri": 3,
   "performance": {
     "periods": {
-      "3m": 0.0038,
-      "6m": 0.0372,
-      "ytd": 0.0294,
-      "1y": 0.1066,
-      "3y_pa": 0.0492,
-      "5y_pa": 0.0224,
-      "10y_pa": 0.0082,
-      "si_pa": 0.0079
+      "3m": -0.0062,
+      "6m": 0.0365,
+      "ytd": 0.0314,
+      "1y": 0.1,
+      "3y_pa": 0.05,
+      "5y_pa": 0.023,
+      "10y_pa": 0.0084,
+      "si_pa": 0.008
     },
     "nav_series": [
       {
@@ -514,21 +516,21 @@
         "v": 107.0073
       },
       {
-        "d": "2026-05-11",
-        "v": 108.4731
+        "d": "2026-05-29",
+        "v": 108.6811
       }
     ]
   },
   "volatility": {
-    "1y": 0.0478,
-    "3y": 0.0374,
-    "5y": 0.0295
+    "1y": 0.0483,
+    "3y": 0.0379,
+    "5y": 0.0298
   },
   "risk_metrics": {
     "sharpe": {
-      "1y": 1.79,
-      "3y": 0.53,
-      "5y": 0.13
+      "1y": 1.65,
+      "3y": 0.55,
+      "5y": 0.14
     },
     "max_drawdown": {
       "1y": null,
@@ -544,23 +546,23 @@
   "top_holdings": [
     {
       "name": "Vanguard EUR Corporate Bond UCITS ETF (EUR) Distributing",
-      "weight": 0.0702
+      "weight": 0.0691
     },
     {
       "name": "Robeco QI Emerging Markets Enhanced Index Equities I USD",
-      "weight": 0.0518
+      "weight": 0.0531
     },
     {
-      "name": "iShares Global Corp Bond EUR Hedged UCITS ETF Hedged EUR Dist",
-      "weight": 0.0505
+      "name": "JPMorgan Investment Funds - US Select Equity C (acc) - USD",
+      "weight": 0.0522
     },
     {
-      "name": "BlueBay Investment Grade Euro Aggregate Bond Fund - I - EUR",
-      "weight": 0.0504
+      "name": "AB SICAV I-Select US Equity Portfolio I EUR",
+      "weight": 0.0521
     },
     {
-      "name": "Deka iBoxx EUR Liquid Sovereign Diversified 1-10 UCITS ETF",
-      "weight": 0.0504
+      "name": "JPM Europe Research Enhanced Index Equity Active UCITS ETF EUR (acc)",
+      "weight": 0.0514
     }
   ]
 }

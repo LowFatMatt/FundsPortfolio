@@ -1,24 +1,26 @@
 {
   "isin": "LU1876154029",
-  "as_of": "2026-05-12",
+  "as_of": "2026-06-01",
   "schema_version": 2,
   "source": "factsheetslive",
   "source_url": "https://provinzial-nord.stg.wt.factsheetslive.com/produkt/LU1876154029",
   "currency": "EUR",
   "fund_name": "Deka-UnternehmerStrategie Europa CF",
   "provinzial_fund_type": "Aktienfonds",
+  "region": "europe",
+  "theme": "NONE",
   "ter": 0.0148,
   "sri": 4,
   "performance": {
     "periods": {
-      "3m": -0.0064,
-      "6m": 0.0445,
-      "ytd": 0.0158,
-      "1y": 0.0778,
-      "3y_pa": 0.0571,
-      "5y_pa": 0.0195,
+      "3m": 0.0149,
+      "6m": 0.0791,
+      "ytd": 0.0529,
+      "1y": 0.0699,
+      "3y_pa": 0.0808,
+      "5y_pa": 0.0223,
       "10y_pa": null,
-      "si_pa": 0.1041
+      "si_pa": 0.1088
     },
     "nav_series": [
       {
@@ -370,21 +372,21 @@
         "v": 200.1655
       },
       {
-        "d": "2026-05-11",
-        "v": 204.0562
+        "d": "2026-05-29",
+        "v": 211.5108
       }
     ]
   },
   "volatility": {
-    "1y": 0.1566,
-    "3y": 0.1461,
+    "1y": 0.1567,
+    "3y": 0.146,
     "5y": 0.1593
   },
   "risk_metrics": {
     "sharpe": {
-      "1y": 0.37,
-      "3y": 0.19,
-      "5y": 0.01
+      "1y": 0.32,
+      "3y": 0.35,
+      "5y": 0.02
     },
     "max_drawdown": {
       "1y": null,
@@ -393,49 +395,49 @@
     }
   },
   "asset_class_breakdown": {
-    "equity": 0.9217,
-    "other": 0.0783
+    "equity": 0.9257,
+    "other": 0.0743
   },
   "top_holdings": [
     {
       "name": "ABB Ltd.",
-      "weight": 0.0286
+      "weight": 0.0332
     },
     {
       "name": "Ferrovial International SE",
-      "weight": 0.0264
+      "weight": 0.0259
     },
     {
       "name": "Attendo AB",
-      "weight": 0.0236
+      "weight": 0.0235
     },
     {
       "name": "Bankinter",
-      "weight": 0.022
-    },
-    {
-      "name": "Caixabank S.A.",
       "weight": 0.0217
     },
     {
+      "name": "Caixabank S.A.",
+      "weight": 0.0216
+    },
+    {
       "name": "Nordex",
-      "weight": 0.0183
+      "weight": 0.0182
     },
     {
       "name": "Danske Bank AS",
-      "weight": 0.0175
+      "weight": 0.0172
+    },
+    {
+      "name": "Wärtsilä Oyj B",
+      "weight": 0.0168
     },
     {
       "name": "Industria De Diseno Textil S.A.",
-      "weight": 0.0173
+      "weight": 0.0167
     },
     {
-      "name": "Fresenius SE & Co KGAA",
-      "weight": 0.016
-    },
-    {
-      "name": "Saab",
-      "weight": 0.0158
+      "name": "Grenergy Renovables",
+      "weight": 0.0154
     }
   ]
 }

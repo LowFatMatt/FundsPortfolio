@@ -1,24 +1,26 @@
 {
   "isin": "LU1883318740",
-  "as_of": "2026-05-12",
+  "as_of": "2026-06-01",
   "schema_version": 2,
   "source": "factsheetslive",
   "source_url": "https://provinzial-nord.stg.wt.factsheetslive.com/produkt/LU1883318740",
   "currency": "EUR",
   "fund_name": "Amundi Funds Global Equity Responsible - A EUR (C)",
   "provinzial_fund_type": "Aktienfonds",
+  "region": "global",
+  "theme": "NONE",
   "ter": 0.0208,
   "sri": 4,
   "performance": {
     "periods": {
-      "3m": -0.0081,
-      "6m": 0.0164,
-      "ytd": 0.0161,
-      "1y": 0.081,
-      "3y_pa": 0.1201,
-      "5y_pa": 0.0668,
-      "10y_pa": 0.0904,
-      "si_pa": 0.051
+      "3m": 0.0004,
+      "6m": 0.0346,
+      "ytd": 0.045,
+      "1y": 0.0818,
+      "3y_pa": 0.127,
+      "5y_pa": 0.075,
+      "10y_pa": 0.0884,
+      "si_pa": 0.0524
     },
     "nav_series": [
       {
@@ -942,21 +944,21 @@
         "v": 261.45
       },
       {
-        "d": "2026-05-08",
-        "v": 258.885
+        "d": "2026-05-29",
+        "v": 266.25
       }
     ]
   },
   "volatility": {
-    "1y": 0.1136,
-    "3y": 0.1165,
-    "5y": 0.1205
+    "1y": 0.1098,
+    "3y": 0.1158,
+    "5y": 0.1201
   },
   "risk_metrics": {
     "sharpe": {
-      "1y": 0.53,
-      "3y": 0.76,
-      "5y": 0.39
+      "1y": 0.56,
+      "3y": 0.82,
+      "5y": 0.46
     },
     "max_drawdown": {
       "1y": null,

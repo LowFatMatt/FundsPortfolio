@@ -1,24 +1,26 @@
 {
   "isin": "DE000DK2CDS0",
-  "as_of": "2026-05-12",
+  "as_of": "2026-06-01",
   "schema_version": 2,
   "source": "factsheetslive",
   "source_url": "https://provinzial-nord.stg.wt.factsheetslive.com/produkt/DE000DK2CDS0",
   "currency": "EUR",
   "fund_name": "Deka-DividendenStrategie CF (A)",
   "provinzial_fund_type": "Aktienfonds",
+  "region": "global",
+  "theme": "dividends",
   "ter": 0.0144,
   "sri": 3,
   "performance": {
     "periods": {
-      "3m": 0.0024,
-      "6m": 0.0583,
-      "ytd": 0.0482,
-      "1y": 0.1386,
-      "3y_pa": 0.1118,
-      "5y_pa": 0.0861,
-      "10y_pa": 0.0711,
-      "si_pa": 0.0819
+      "3m": 0.0065,
+      "6m": 0.0807,
+      "ytd": 0.0756,
+      "1y": 0.1452,
+      "3y_pa": 0.1231,
+      "5y_pa": 0.0896,
+      "10y_pa": 0.0713,
+      "si_pa": 0.0834
     },
     "nav_series": [
       {
@@ -778,21 +780,21 @@
         "v": 350.2659
       },
       {
-        "d": "2026-05-11",
-        "v": 355.5088
+        "d": "2026-05-29",
+        "v": 364.7731
       }
     ]
   },
   "volatility": {
-    "1y": 0.0871,
-    "3y": 0.1042,
+    "1y": 0.0867,
+    "3y": 0.1041,
     "5y": 0.1075
   },
   "risk_metrics": {
     "sharpe": {
-      "1y": 1.34,
-      "3y": 0.77,
-      "5y": 0.62
+      "1y": 1.44,
+      "3y": 0.88,
+      "5y": 0.65
     },
     "max_drawdown": {
       "1y": null,
@@ -801,49 +803,49 @@
     }
   },
   "asset_class_breakdown": {
-    "equity": 0.8101,
-    "other": 0.1899
+    "equity": 0.8379,
+    "other": 0.1621
   },
   "top_holdings": [
     {
       "name": "Microsoft Corp.",
-      "weight": 0.0172
-    },
-    {
-      "name": "TotalEnergies SE",
-      "weight": 0.014
+      "weight": 0.0222
     },
     {
       "name": "Taiwan Semiconductor Manufact. ADR",
-      "weight": 0.0137
+      "weight": 0.0173
     },
     {
-      "name": "Johnson & Johnson",
-      "weight": 0.0131
-    },
-    {
-      "name": "Cisco Systems, Inc.",
-      "weight": 0.0128
-    },
-    {
-      "name": "Taiwan Semiconductor Manufact.",
-      "weight": 0.0114
-    },
-    {
-      "name": "Unilever PLC",
-      "weight": 0.0114
-    },
-    {
-      "name": "CME Group",
-      "weight": 0.0111
-    },
-    {
-      "name": "Roche Holding AG PS",
-      "weight": 0.0106
+      "name": "Broadcom Inc.",
+      "weight": 0.0167
     },
     {
       "name": "Samsung Electronics Co. Ltd.",
-      "weight": 0.0105
+      "weight": 0.0164
+    },
+    {
+      "name": "Cisco Systems, Inc.",
+      "weight": 0.0141
+    },
+    {
+      "name": "Alphabet, Inc. - Class A",
+      "weight": 0.0137
+    },
+    {
+      "name": "Taiwan Semiconductor Manufact.",
+      "weight": 0.0132
+    },
+    {
+      "name": "TotalEnergies SE",
+      "weight": 0.0124
+    },
+    {
+      "name": "Nvidia Corp.",
+      "weight": 0.0123
+    },
+    {
+      "name": "Texas Instruments",
+      "weight": 0.0116
     }
   ]
 }

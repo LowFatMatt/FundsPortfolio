@@ -1,24 +1,26 @@
 {
   "isin": "LU0229939763",
-  "as_of": "2026-05-12",
+  "as_of": "2026-06-01",
   "schema_version": 2,
   "source": "factsheetslive",
   "source_url": "https://provinzial-nord.stg.wt.factsheetslive.com/produkt/LU0229939763",
   "currency": "EUR",
   "fund_name": "Templeton Asian Growth Fund A (Ydis) EUR",
   "provinzial_fund_type": "Aktienfonds",
+  "region": "asia",
+  "theme": "NONE",
   "ter": 0.0218,
   "sri": 4,
   "performance": {
     "periods": {
-      "3m": 0.1611,
-      "6m": 0.2757,
-      "ytd": 0.2691,
-      "1y": 0.4953,
-      "3y_pa": 0.1843,
-      "5y_pa": 0.0445,
-      "10y_pa": 0.0829,
-      "si_pa": 0.0756
+      "3m": 0.179,
+      "6m": 0.3909,
+      "ytd": 0.3664,
+      "1y": 0.5894,
+      "3y_pa": 0.2103,
+      "5y_pa": 0.0607,
+      "10y_pa": 0.0889,
+      "si_pa": 0.0792
     },
     "nav_series": [
       {
@@ -998,21 +1000,21 @@
         "v": 405.8116
       },
       {
-        "d": "2026-05-08",
-        "v": 439.9551
+        "d": "2026-05-29",
+        "v": 473.7171
       }
     ]
   },
   "volatility": {
-    "1y": 0.1836,
-    "3y": 0.1695,
-    "5y": 0.1765
+    "1y": 0.1909,
+    "3y": 0.1739,
+    "5y": 0.1791
   },
   "risk_metrics": {
     "sharpe": {
-      "1y": 2.54,
-      "3y": 0.89,
-      "5y": 0.14
+      "1y": 2.95,
+      "3y": 1.02,
+      "5y": 0.23
     },
     "max_drawdown": {
       "1y": null,
@@ -1021,50 +1023,50 @@
     }
   },
   "asset_class_breakdown": {
-    "equity": 0.9559,
-    "other": 0.0349,
-    "bond": 0.0092
+    "equity": 0.9463,
+    "other": 0.0403,
+    "bond": 0.0134
   },
   "top_holdings": [
     {
-      "name": "Taiwan Semiconductor Manufact. ADR",
-      "weight": 0.0997
-    },
-    {
       "name": "Samsung Electronics Co. Ltd.",
-      "weight": 0.0965
+      "weight": 0.097
     },
     {
-      "name": "Tencent Holdings Ltd.",
-      "weight": 0.0598
+      "name": "Taiwan Semiconductor Manufact. ADR",
+      "weight": 0.0968
     },
     {
       "name": "SK Hynix Inc. (ADR)",
-      "weight": 0.0541
+      "weight": 0.0781
+    },
+    {
+      "name": "Tencent Holdings Ltd.",
+      "weight": 0.0505
     },
     {
       "name": "Alibaba Group Holding, Ltd. ADR",
-      "weight": 0.0322
+      "weight": 0.0337
     },
     {
       "name": "Contemporary Amperex Technology",
-      "weight": 0.0317
+      "weight": 0.0301
     },
     {
-      "name": "Aia Group Ltd",
+      "name": "MediaTek Inc.",
+      "weight": 0.0278
+    },
+    {
+      "name": "Weichai Power",
       "weight": 0.0242
     },
     {
       "name": "ICICI Bank Ltd. ADR",
-      "weight": 0.0231
+      "weight": 0.0212
     },
     {
-      "name": "Weichai Power",
-      "weight": 0.022
-    },
-    {
-      "name": "DBS Group Holdings Ltd",
-      "weight": 0.0211
+      "name": "Aia Group Ltd",
+      "weight": 0.021
     }
   ]
 }

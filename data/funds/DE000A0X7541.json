@@ -1,24 +1,26 @@
 {
   "isin": "DE000A0X7541",
-  "as_of": "2026-05-12",
+  "as_of": "2026-06-01",
   "schema_version": 2,
   "source": "factsheetslive",
   "source_url": "https://provinzial-nord.stg.wt.factsheetslive.com/produkt/DE000A0X7541",
   "currency": "EUR",
   "fund_name": "ACATIS Value Event Fonds A",
   "provinzial_fund_type": "Mischfonds",
+  "region": "global",
+  "theme": "NONE",
   "ter": 0.018,
   "sri": 3,
   "performance": {
     "periods": {
-      "3m": -0.0053,
-      "6m": -0.0209,
-      "ytd": -0.0252,
-      "1y": -0.0124,
-      "3y_pa": 0.0408,
-      "5y_pa": 0.0267,
-      "10y_pa": 0.0603,
-      "si_pa": 0.0804
+      "3m": 0.0053,
+      "6m": -0.027,
+      "ytd": -0.0173,
+      "1y": -0.0123,
+      "3y_pa": 0.0382,
+      "5y_pa": 0.0298,
+      "10y_pa": 0.0581,
+      "si_pa": 0.0806
     },
     "nav_series": [
       {
@@ -858,21 +860,21 @@
         "v": 383.7461
       },
       {
-        "d": "2026-05-08",
-        "v": 384.3449
+        "d": "2026-05-28",
+        "v": 387.4609
       }
     ]
   },
   "volatility": {
-    "1y": 0.0797,
-    "3y": 0.072,
-    "5y": 0.0938
+    "1y": 0.0787,
+    "3y": 0.0715,
+    "5y": 0.0937
   },
   "risk_metrics": {
     "sharpe": {
       "1y": -0.39,
-      "3y": 0.16,
-      "5y": 0.09
+      "3y": 0.13,
+      "5y": 0.12
     },
     "max_drawdown": {
       "1y": null,
@@ -881,46 +883,50 @@
     }
   },
   "asset_class_breakdown": {
-    "equity": 0.632,
-    "bond": 0.2447,
-    "other": 0.1233
+    "equity": 0.6867,
+    "bond": 0.2589,
+    "other": 0.0544
   },
   "top_holdings": [
     {
       "name": "Alphabet, Inc. - Class A",
-      "weight": 0.0463
-    },
-    {
-      "name": "ASML Holding N.V.",
-      "weight": 0.0387
+      "weight": 0.0592
     },
     {
       "name": "Amazon.com Inc.",
-      "weight": 0.0346
+      "weight": 0.043
     },
     {
-      "name": "Roche Holdings AG",
-      "weight": 0.0323
+      "name": "ASML Holding N.V.",
+      "weight": 0.0397
     },
     {
-      "name": "Tencent Holdings Ltd.",
-      "weight": 0.0307
+      "name": "Roche Holding AG PS",
+      "weight": 0.0324
+    },
+    {
+      "name": "Taiwan Semiconductor Manufact. ADR",
+      "weight": 0.0311
+    },
+    {
+      "name": "TENCENT ORD",
+      "weight": 0.0286
     },
     {
       "name": "Glencore PLC",
-      "weight": 0.026
+      "weight": 0.0264
     },
     {
       "name": "Brookfield Corp A",
-      "weight": 0.0233
+      "weight": 0.0255
     },
     {
-      "name": "Taiwan Semiconductor Manufact.",
-      "weight": 0.0227
+      "name": "Baker Hughes Co. - Class A",
+      "weight": 0.0229
     },
     {
-      "name": "Berkshire Hathaway, Inc. A",
-      "weight": 0.0217
+      "name": "Schneider Electric SE",
+      "weight": 0.0226
     }
   ]
 }

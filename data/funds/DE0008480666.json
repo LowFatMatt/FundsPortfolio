@@ -1,24 +1,26 @@
 {
   "isin": "DE0008480666",
-  "as_of": "2026-05-12",
+  "as_of": "2026-06-01",
   "schema_version": 2,
   "source": "factsheetslive",
   "source_url": "https://provinzial-nord.stg.wt.factsheetslive.com/produkt/DE0008480666",
   "currency": "EUR",
   "fund_name": "Deka-ESG Rentenfonds RheinEdition",
   "provinzial_fund_type": "Bankspezifische Fonds",
+  "region": "europe",
+  "theme": "NONE",
   "ter": 0.0077,
   "sri": 2,
   "performance": {
     "periods": {
-      "3m": -0.011,
-      "6m": -0.0042,
-      "ytd": -0.0014,
-      "1y": 0.014,
-      "3y_pa": 0.0372,
-      "5y_pa": 0.0056,
-      "10y_pa": 0.011,
-      "si_pa": 0.0111
+      "3m": -0.0096,
+      "6m": 0.0014,
+      "ytd": 0.0045,
+      "1y": 0.0151,
+      "3y_pa": 0.039,
+      "5y_pa": 0.0072,
+      "10y_pa": 0.0116,
+      "si_pa": 0.0116
     },
     "nav_series": [
       {
@@ -514,21 +516,21 @@
         "v": 111.5576
       },
       {
-        "d": "2026-05-11",
-        "v": 112.063
+        "d": "2026-05-29",
+        "v": 112.7241
       }
     ]
   },
   "volatility": {
-    "1y": 0.0249,
-    "3y": 0.027,
-    "5y": 0.029
+    "1y": 0.0246,
+    "3y": 0.0268,
+    "5y": 0.0291
   },
   "risk_metrics": {
     "sharpe": {
-      "1y": -0.21,
-      "3y": 0.3,
-      "5y": -0.44
+      "1y": -0.16,
+      "3y": 0.37,
+      "5y": -0.39
     },
     "max_drawdown": {
       "1y": null,

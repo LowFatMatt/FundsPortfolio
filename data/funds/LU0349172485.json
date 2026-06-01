@@ -1,24 +1,26 @@
 {
   "isin": "LU0349172485",
-  "as_of": "2026-05-12",
+  "as_of": "2026-06-01",
   "schema_version": 2,
   "source": "factsheetslive",
   "source_url": "https://provinzial-nord.stg.wt.factsheetslive.com/produkt/LU0349172485",
   "currency": "EUR",
   "fund_name": "DekaLux-GlobalResources CF",
   "provinzial_fund_type": "Aktienfonds",
+  "region": "global",
+  "theme": "commodities",
   "ter": 0.0155,
   "sri": 4,
   "performance": {
     "periods": {
-      "3m": 0.0495,
-      "6m": 0.336,
-      "ytd": 0.2387,
-      "1y": 0.6279,
-      "3y_pa": 0.1964,
-      "5y_pa": 0.1469,
-      "10y_pa": 0.1239,
-      "si_pa": 0.0532
+      "3m": -0.0176,
+      "6m": 0.2901,
+      "ytd": 0.2341,
+      "1y": 0.5929,
+      "3y_pa": 0.2097,
+      "5y_pa": 0.1517,
+      "10y_pa": 0.1213,
+      "si_pa": 0.0527
     },
     "nav_series": [
       {
@@ -762,21 +764,21 @@
         "v": 199.8297
       },
       {
-        "d": "2026-05-11",
-        "v": 204.7087
+        "d": "2026-05-29",
+        "v": 203.9548
       }
     ]
   },
   "volatility": {
-    "1y": 0.1771,
-    "3y": 0.179,
-    "5y": 0.1933
+    "1y": 0.1774,
+    "3y": 0.1797,
+    "5y": 0.193
   },
   "risk_metrics": {
     "sharpe": {
-      "1y": 3.37,
-      "3y": 0.91,
-      "5y": 0.65
+      "1y": 3.2,
+      "3y": 0.98,
+      "5y": 0.68
     },
     "max_drawdown": {
       "1y": null,
@@ -785,49 +787,49 @@
     }
   },
   "asset_class_breakdown": {
-    "equity": 0.9629,
-    "other": 0.0371
+    "equity": 0.9667,
+    "other": 0.0333
   },
   "top_holdings": [
     {
       "name": "Rio Tinto PLC",
-      "weight": 0.0723
+      "weight": 0.0746
     },
     {
       "name": "Agnico Eagle Mines Ltd.",
-      "weight": 0.0546
+      "weight": 0.0511
     },
     {
       "name": "ConocoPhillips",
-      "weight": 0.0479
+      "weight": 0.0485
     },
     {
       "name": "Newmont Corp.",
-      "weight": 0.0416
+      "weight": 0.0424
     },
     {
       "name": "Freeport-McMoRan Inc",
-      "weight": 0.0414
+      "weight": 0.0421
     },
     {
       "name": "TotalEnergies SE",
-      "weight": 0.0374
+      "weight": 0.0358
     },
     {
       "name": "Glencore PLC",
-      "weight": 0.0355
+      "weight": 0.0352
     },
     {
       "name": "Shell PLC",
-      "weight": 0.0349
+      "weight": 0.0324
     },
     {
       "name": "Wheaton Precious Metals Corp",
-      "weight": 0.0319
+      "weight": 0.0314
     },
     {
       "name": "Anglo American Plc",
-      "weight": 0.0272
+      "weight": 0.0306
     }
   ]
 }

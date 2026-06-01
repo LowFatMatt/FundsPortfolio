@@ -1,24 +1,26 @@
 {
   "isin": "LU0350093026",
-  "as_of": "2026-05-12",
+  "as_of": "2026-06-01",
   "schema_version": 2,
   "source": "factsheetslive",
   "source_url": "https://provinzial-nord.stg.wt.factsheetslive.com/produkt/LU0350093026",
   "currency": "EUR",
   "fund_name": "Deka-GlobalSelect CF",
   "provinzial_fund_type": "Aktienfonds",
+  "region": "global",
+  "theme": "NONE",
   "ter": 0.015,
   "sri": 4,
   "performance": {
     "periods": {
-      "3m": 0.0885,
-      "6m": 0.05,
-      "ytd": 0.0591,
-      "1y": 0.2726,
-      "3y_pa": 0.1998,
-      "5y_pa": 0.125,
-      "10y_pa": 0.12,
-      "si_pa": 0.0929
+      "3m": 0.1256,
+      "6m": 0.088,
+      "ytd": 0.0979,
+      "1y": 0.2387,
+      "3y_pa": 0.1947,
+      "5y_pa": 0.1287,
+      "10y_pa": 0.1197,
+      "si_pa": 0.0948
     },
     "nav_series": [
       {
@@ -866,21 +868,21 @@
         "v": 515.6865
       },
       {
-        "d": "2026-05-11",
-        "v": 536.2003
+        "d": "2026-05-29",
+        "v": 555.8557
       }
     ]
   },
   "volatility": {
-    "1y": 0.1448,
-    "3y": 0.1804,
-    "5y": 0.189
+    "1y": 0.1416,
+    "3y": 0.1801,
+    "5y": 0.1892
   },
   "risk_metrics": {
     "sharpe": {
-      "1y": 1.72,
-      "3y": 0.92,
-      "5y": 0.55
+      "1y": 1.53,
+      "3y": 0.9,
+      "5y": 0.57
     },
     "max_drawdown": {
       "1y": null,
@@ -889,49 +891,49 @@
     }
   },
   "asset_class_breakdown": {
-    "equity": 0.983,
-    "other": 0.017
+    "equity": 0.9893,
+    "other": 0.0107
   },
   "top_holdings": [
     {
       "name": "Nvidia Corp.",
-      "weight": 0.1072
+      "weight": 0.1184
     },
     {
       "name": "Apple Inc.",
-      "weight": 0.0997
+      "weight": 0.0946
     },
     {
       "name": "Microsoft Corp.",
-      "weight": 0.0728
+      "weight": 0.0732
     },
     {
       "name": "Amazon.com Inc.",
-      "weight": 0.0545
+      "weight": 0.0623
     },
     {
       "name": "Alphabet, Inc. - Class A",
-      "weight": 0.0405
+      "weight": 0.0458
     },
     {
       "name": "Broadcom Inc.",
-      "weight": 0.0378
+      "weight": 0.0455
     },
     {
       "name": "Tesla Inc.",
-      "weight": 0.0289
+      "weight": 0.0265
     },
     {
       "name": "Eli Lilly & Co.",
-      "weight": 0.0227
+      "weight": 0.019
     },
     {
-      "name": "Mastercard Inc. A",
-      "weight": 0.0162
+      "name": "Advanced Mic. Dev",
+      "weight": 0.0163
     },
     {
-      "name": "Netflix, Inc.",
-      "weight": 0.0145
+      "name": "ASML Holding N.V.",
+      "weight": 0.0139
     }
   ]
 }

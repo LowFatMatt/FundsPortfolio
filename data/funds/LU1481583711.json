@@ -1,24 +1,26 @@
 {
   "isin": "LU1481583711",
-  "as_of": "2026-05-12",
+  "as_of": "2026-06-01",
   "schema_version": 2,
   "source": "factsheetslive",
   "source_url": "https://provinzial-nord.stg.wt.factsheetslive.com/produkt/LU1481583711",
   "currency": "EUR",
   "fund_name": "Flossbach von Storch - Bond Opportunities - RT",
   "provinzial_fund_type": "Renten/Geldmarktfonds",
+  "region": "global",
+  "theme": "water",
   "ter": 0.0102,
   "sri": 2,
   "performance": {
     "periods": {
-      "3m": -0.0084,
-      "6m": -0.0083,
-      "ytd": 0.0011,
-      "1y": 0.0186,
-      "3y_pa": 0.0275,
-      "5y_pa": 0.0042,
-      "10y_pa": 0.025,
-      "si_pa": 0.0368
+      "3m": -0.0134,
+      "6m": -0.0045,
+      "ytd": 0.0067,
+      "1y": 0.0206,
+      "3y_pa": 0.0328,
+      "5y_pa": 0.0059,
+      "10y_pa": 0.0254,
+      "si_pa": 0.037
     },
     "nav_series": [
       {
@@ -834,73 +836,73 @@
         "v": 182.7067
       },
       {
-        "d": "2026-05-11",
-        "v": 184.2942
+        "d": "2026-05-29",
+        "v": 185.3224
       }
     ]
   },
   "volatility": {
-    "1y": 0.0466,
-    "3y": 0.0484,
-    "5y": 0.0467
+    "1y": 0.0486,
+    "3y": 0.0491,
+    "5y": 0.0472
   },
   "risk_metrics": {
     "sharpe": {
-      "1y": -0.02,
-      "3y": -0.03,
-      "5y": -0.3
+      "1y": 0.03,
+      "3y": 0.08,
+      "5y": -0.27
     },
     "max_drawdown": {
       "1y": null,
-      "3y": -0.0548,
+      "3y": -0.0479,
       "5y": -0.1528
     }
   },
   "asset_class_breakdown": {
-    "bond": 0.9699,
-    "cash": 0.0411,
-    "derivatives": -0.011
+    "bond": 0.9617,
+    "cash": 0.0457,
+    "derivatives": -0.0073
   },
   "top_holdings": [
     {
       "name": "Vereinigte Staaten von Amerika",
-      "weight": 0.1366
+      "weight": 0.1433
     },
     {
       "name": "Neuseeland",
-      "weight": 0.0706
+      "weight": 0.0715
     },
     {
       "name": "Bundesrepublik Deutschland",
-      "weight": 0.0446
+      "weight": 0.046
     },
     {
       "name": "Johnson & Johnson",
-      "weight": 0.0293
+      "weight": 0.0289
     },
     {
       "name": "Amazon.com Inc.",
-      "weight": 0.0253
-    },
-    {
-      "name": "Alphabet Inc.",
-      "weight": 0.0197
+      "weight": 0.0257
     },
     {
       "name": "Königreich Spanien",
-      "weight": 0.0196
+      "weight": 0.0222
     },
     {
-      "name": "TotalEnergies SE",
-      "weight": 0.019
+      "name": "Alphabet Inc.",
+      "weight": 0.0193
     },
     {
       "name": "Booking Holdings Inc.",
-      "weight": 0.0189
+      "weight": 0.0182
     },
     {
-      "name": "Bayerische Motoren Werke AG",
-      "weight": 0.0182
+      "name": "Merck & Co. Inc.",
+      "weight": 0.018
+    },
+    {
+      "name": "Vereinigte Mexikanische Staaten",
+      "weight": 0.0175
     }
   ]
 }

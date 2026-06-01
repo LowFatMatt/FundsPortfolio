@@ -1,24 +1,26 @@
 {
   "isin": "FR0010148981",
-  "as_of": "2026-05-12",
+  "as_of": "2026-06-01",
   "schema_version": 2,
   "source": "factsheetslive",
   "source_url": "https://provinzial-nord.stg.wt.factsheetslive.com/produkt/FR0010148981",
   "currency": "EUR",
   "fund_name": "Carmignac Investissement A EUR Acc",
   "provinzial_fund_type": "Aktienfonds",
+  "region": "global",
+  "theme": "NONE",
   "ter": 0.018,
   "sri": 4,
   "performance": {
     "periods": {
-      "3m": 0.1161,
-      "6m": 0.1138,
-      "ytd": 0.0967,
-      "1y": 0.3623,
-      "3y_pa": 0.222,
-      "5y_pa": 0.0918,
-      "10y_pa": 0.1021,
-      "si_pa": 0.1015
+      "3m": 0.1051,
+      "6m": 0.1334,
+      "ytd": 0.1195,
+      "1y": 0.3144,
+      "3y_pa": 0.2152,
+      "5y_pa": 0.0944,
+      "10y_pa": 0.1005,
+      "si_pa": 0.102
     },
     "nav_series": [
       {
@@ -1814,21 +1816,21 @@
         "v": 3574.1931
       },
       {
-        "d": "2026-05-07",
-        "v": 3683.0622
+        "d": "2026-05-28",
+        "v": 3759.748
       }
     ]
   },
   "volatility": {
-    "1y": 0.1263,
-    "3y": 0.1366,
-    "5y": 0.1519
+    "1y": 0.1198,
+    "3y": 0.1362,
+    "5y": 0.1516
   },
   "risk_metrics": {
     "sharpe": {
-      "1y": 2.67,
-      "3y": 1.37,
-      "5y": 0.47
+      "1y": 2.42,
+      "3y": 1.33,
+      "5y": 0.49
     },
     "max_drawdown": {
       "1y": null,
@@ -1837,49 +1839,49 @@
     }
   },
   "asset_class_breakdown": {
-    "equity": 0.9689,
-    "other": 0.0311
+    "equity": 0.9688,
+    "other": 0.0312
   },
   "top_holdings": [
     {
       "name": "Taiwan Semiconductor Manufact.",
-      "weight": 0.0885
+      "weight": 0.0922
     },
     {
       "name": "Nvidia Corp.",
-      "weight": 0.0752
+      "weight": 0.0727
     },
     {
       "name": "Alphabet, Inc. - Class A",
-      "weight": 0.0414
-    },
-    {
-      "name": "S&P GLOBAL INC",
-      "weight": 0.0405
-    },
-    {
-      "name": "SK Hynix Inc.",
-      "weight": 0.0366
-    },
-    {
-      "name": "Cencora Inc.",
-      "weight": 0.0321
+      "weight": 0.0479
     },
     {
       "name": "Amazon.com Inc.",
+      "weight": 0.0459
+    },
+    {
+      "name": "Hynix Sem.",
+      "weight": 0.0347
+    },
+    {
+      "name": "Cencora Inc.",
+      "weight": 0.0339
+    },
+    {
+      "name": "S&P GLOBAL INC",
+      "weight": 0.0322
+    },
+    {
+      "name": "McKesson Corp.",
       "weight": 0.032
     },
     {
       "name": "Tradeweb Markets INC",
-      "weight": 0.0303
+      "weight": 0.0306
     },
     {
       "name": "Block, Inc.",
-      "weight": 0.0269
-    },
-    {
-      "name": "McKesson Corp.",
-      "weight": 0.0267
+      "weight": 0.0289
     }
   ]
 }

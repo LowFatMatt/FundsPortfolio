@@ -1,24 +1,26 @@
 {
   "isin": "DE000A0RB9M9",
-  "as_of": "2026-05-12",
+  "as_of": "2026-06-01",
   "schema_version": 2,
   "source": "factsheetslive",
   "source_url": "https://provinzial-nord.stg.wt.factsheetslive.com/produkt/DE000A0RB9M9",
   "currency": "EUR",
   "fund_name": "Berenberg Euro Bonds R D",
   "provinzial_fund_type": "Renten/Geldmarktfonds",
-  "ter": null,
-  "sri": null,
+  "region": "global",
+  "theme": "NONE",
+  "ter": 0.0093,
+  "sri": 2,
   "performance": {
     "periods": {
-      "3m": -0.0101,
-      "6m": -0.0034,
-      "ytd": -0.0014,
-      "1y": 0.0202,
-      "3y_pa": 0.0483,
-      "5y_pa": null,
-      "10y_pa": 0.0088,
-      "si_pa": 0.0182
+      "3m": -0.0123,
+      "6m": 0.0007,
+      "ytd": 0.0032,
+      "1y": 0.0219,
+      "3y_pa": 0.0528,
+      "5y_pa": 0.0033,
+      "10y_pa": 0.0091,
+      "si_pa": 0.0184
     },
     "nav_series": [
       {
@@ -846,21 +848,21 @@
         "v": 134.8934
       },
       {
-        "d": "2026-05-08",
-        "v": 135.3589
+        "d": "2026-05-28",
+        "v": 135.9887
       }
     ]
   },
   "volatility": {
-    "1y": 0.0212,
-    "3y": 0.028,
-    "5y": null
+    "1y": 0.0219,
+    "3y": 0.0281,
+    "5y": 0.0328
   },
   "risk_metrics": {
     "sharpe": {
-      "1y": 0.04,
-      "3y": 0.67,
-      "5y": null
+      "1y": 0.12,
+      "3y": 0.83,
+      "5y": -0.46
     },
     "max_drawdown": {
       "1y": null,

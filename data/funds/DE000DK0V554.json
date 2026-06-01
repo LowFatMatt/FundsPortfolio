@@ -1,24 +1,26 @@
 {
   "isin": "DE000DK0V554",
-  "as_of": "2026-05-12",
+  "as_of": "2026-06-01",
   "schema_version": 2,
   "source": "factsheetslive",
   "source_url": "https://provinzial-nord.stg.wt.factsheetslive.com/produkt/DE000DK0V554",
   "currency": "EUR",
   "fund_name": "Deka-ESG GlobalChampions CF",
   "provinzial_fund_type": "Aktienfonds",
+  "region": "global",
+  "theme": "NONE",
   "ter": 0.0144,
   "sri": 4,
   "performance": {
     "periods": {
-      "3m": 0.0473,
-      "6m": 0.0494,
-      "ytd": 0.0505,
-      "1y": 0.2591,
-      "3y_pa": 0.1892,
-      "5y_pa": 0.1161,
+      "3m": 0.0755,
+      "6m": 0.0729,
+      "ytd": 0.0769,
+      "1y": 0.2401,
+      "3y_pa": 0.1805,
+      "5y_pa": 0.1173,
       "10y_pa": null,
-      "si_pa": 0.1264
+      "si_pa": 0.1301
     },
     "nav_series": [
       {
@@ -290,20 +292,20 @@
         "v": 192.5347
       },
       {
-        "d": "2026-05-11",
-        "v": 197.2392
+        "d": "2026-05-29",
+        "v": 202.1974
       }
     ]
   },
   "volatility": {
-    "1y": 0.1151,
-    "3y": 0.1433,
-    "5y": 0.1523
+    "1y": 0.1117,
+    "3y": 0.1429,
+    "5y": 0.1524
   },
   "risk_metrics": {
     "sharpe": {
-      "1y": 2.04,
-      "3y": 1.09,
+      "1y": 1.95,
+      "3y": 1.03,
       "5y": 0.63
     },
     "max_drawdown": {
@@ -313,49 +315,49 @@
     }
   },
   "asset_class_breakdown": {
-    "equity": 0.9134,
-    "other": 0.0866
+    "equity": 0.9142,
+    "other": 0.0858
   },
   "top_holdings": [
     {
       "name": "Alphabet, Inc. - Class A",
-      "weight": 0.0596
-    },
-    {
-      "name": "Nvidia Corp.",
-      "weight": 0.0576
+      "weight": 0.0668
     },
     {
       "name": "Amazon.com Inc.",
-      "weight": 0.056
+      "weight": 0.0643
+    },
+    {
+      "name": "Nvidia Corp.",
+      "weight": 0.064
     },
     {
       "name": "Microsoft Corp.",
-      "weight": 0.0541
-    },
-    {
-      "name": "Apple Inc.",
-      "weight": 0.0471
+      "weight": 0.0616
     },
     {
       "name": "Broadcom Inc.",
-      "weight": 0.0393
+      "weight": 0.0477
+    },
+    {
+      "name": "Apple Inc.",
+      "weight": 0.0453
     },
     {
       "name": "Meta Platforms Inc.",
-      "weight": 0.0306
+      "weight": 0.0334
     },
     {
       "name": "Taiwan Semiconductor Manufact.",
-      "weight": 0.0277
+      "weight": 0.0297
     },
     {
       "name": "JPMorgan Chase & Co.",
-      "weight": 0.0219
+      "weight": 0.0209
     },
     {
-      "name": "Alibaba Group Holding, Ltd.",
-      "weight": 0.0183
+      "name": "Samsung Eletr. GDR",
+      "weight": 0.0177
     }
   ]
 }

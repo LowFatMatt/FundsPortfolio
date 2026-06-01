@@ -1,24 +1,26 @@
 {
   "isin": "LU0109012277",
-  "as_of": "2026-05-12",
+  "as_of": "2026-06-01",
   "schema_version": 2,
   "source": "factsheetslive",
   "source_url": "https://provinzial-nord.stg.wt.factsheetslive.com/produkt/LU0109012277",
   "currency": "EUR",
   "fund_name": "DekaStruktur: 2 ChancePlus",
   "provinzial_fund_type": "Vermögensverwaltende Fonds",
+  "region": "global",
+  "theme": "NONE",
   "ter": 0.0218,
   "sri": 3,
   "performance": {
     "periods": {
-      "3m": 0.0431,
-      "6m": 0.0673,
-      "ytd": 0.0666,
-      "1y": 0.2075,
-      "3y_pa": 0.1145,
-      "5y_pa": 0.0553,
-      "10y_pa": 0.0761,
-      "si_pa": 0.0226
+      "3m": 0.0578,
+      "6m": 0.0983,
+      "ytd": 0.0963,
+      "1y": 0.1977,
+      "3y_pa": 0.1179,
+      "5y_pa": 0.0622,
+      "10y_pa": 0.0753,
+      "si_pa": 0.0237
     },
     "nav_series": [
       {
@@ -1262,21 +1264,21 @@
         "v": 172.8817
       },
       {
-        "d": "2026-05-11",
-        "v": 177.4449
+        "d": "2026-05-29",
+        "v": 182.3885
       }
     ]
   },
   "volatility": {
-    "1y": 0.0906,
-    "3y": 0.1026,
-    "5y": 0.1159
+    "1y": 0.0892,
+    "3y": 0.1025,
+    "5y": 0.1155
   },
   "risk_metrics": {
     "sharpe": {
-      "1y": 2.04,
-      "3y": 0.81,
-      "5y": 0.31
+      "1y": 1.98,
+      "3y": 0.85,
+      "5y": 0.37
     },
     "max_drawdown": {
       "1y": null,
@@ -1285,29 +1287,29 @@
     }
   },
   "asset_class_breakdown": {
-    "equity": 0.8143,
-    "other": 0.1857
+    "equity": 0.8526,
+    "other": 0.1474
   },
   "top_holdings": [
     {
       "name": "Deka-US Aktien Core I",
-      "weight": 0.0997
+      "weight": 0.1002
     },
     {
       "name": "Deka-SektorInvest VTIA",
-      "weight": 0.0775
+      "weight": 0.0802
+    },
+    {
+      "name": "iShares S&P 500 Swap UCITS ETF USD (Acc)",
+      "weight": 0.0573
     },
     {
       "name": "JPMorgan Investment Funds - US Select Equity C (acc) - USD",
-      "weight": 0.0539
+      "weight": 0.0549
     },
     {
       "name": "BlackRock Sustainable Advantage US Equity Fund D Acc EUR",
-      "weight": 0.0532
-    },
-    {
-      "name": "DekaLux-Japan Flex Hedged Euro E (A)",
-      "weight": 0.0506
+      "weight": 0.0547
     }
   ]
 }

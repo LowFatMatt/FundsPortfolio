@@ -1,24 +1,26 @@
 {
   "isin": "LU2339785821",
-  "as_of": "2026-05-12",
+  "as_of": "2026-06-01",
   "schema_version": 2,
   "source": "factsheetslive",
   "source_url": "https://provinzial-nord.stg.wt.factsheetslive.com/produkt/LU2339785821",
   "currency": "EUR",
   "fund_name": "Deka-ESG Aktien Europa CF",
   "provinzial_fund_type": "Aktienfonds",
+  "region": "europe",
+  "theme": "NONE",
   "ter": 0.0151,
   "sri": 4,
   "performance": {
     "periods": {
-      "3m": -0.0146,
-      "6m": 0.0408,
-      "ytd": 0.0084,
-      "1y": 0.0687,
-      "3y_pa": 0.0773,
+      "3m": -0.0076,
+      "6m": 0.0611,
+      "ytd": 0.0341,
+      "1y": 0.0628,
+      "3y_pa": 0.0926,
       "5y_pa": null,
       "10y_pa": null,
-      "si_pa": 0.043
+      "si_pa": 0.0481
     },
     "nav_series": [
       {
@@ -246,20 +248,20 @@
         "v": 122.1224
       },
       {
-        "d": "2026-05-11",
-        "v": 124.1364
+        "d": "2026-05-29",
+        "v": 127.2888
       }
     ]
   },
   "volatility": {
-    "1y": 0.1355,
-    "3y": 0.1314,
+    "1y": 0.1369,
+    "3y": 0.132,
     "5y": null
   },
   "risk_metrics": {
     "sharpe": {
-      "1y": 0.36,
-      "3y": 0.36,
+      "1y": 0.31,
+      "3y": 0.47,
       "5y": null
     },
     "max_drawdown": {
@@ -268,46 +270,48 @@
       "5y": -0.2371
     }
   },
-  "asset_class_breakdown": {},
+  "asset_class_breakdown": {
+    "equity": 1.0
+  },
   "top_holdings": [
     {
-      "name": "BAWAG Group AG",
-      "weight": 0.026
+      "name": "Schneider Electric SE",
+      "weight": 0.029
     },
     {
-      "name": "Iberdrola SA Rights",
-      "weight": 0.025
+      "name": "Iberdrola, S.A.",
+      "weight": 0.027
+    },
+    {
+      "name": "BAWAG Group AG",
+      "weight": 0.027
     },
     {
       "name": "Enel SPA",
-      "weight": 0.025
+      "weight": 0.026
     },
     {
       "name": "Intesa Sanpaolo S.p.A.",
-      "weight": 0.023
-    },
-    {
-      "name": "Novartis AG",
-      "weight": 0.023
-    },
-    {
-      "name": "Schneider Electric SE",
-      "weight": 0.022
-    },
-    {
-      "name": "AstraZeneca, PLC",
-      "weight": 0.021
-    },
-    {
-      "name": "Vinci SA",
-      "weight": 0.02
+      "weight": 0.024
     },
     {
       "name": "RELX Plc",
+      "weight": 0.022
+    },
+    {
+      "name": "Novartis AG",
+      "weight": 0.021
+    },
+    {
+      "name": "AstraZeneca, PLC",
       "weight": 0.02
     },
     {
-      "name": "Industria De Diseno Textil S.A.",
+      "name": "Vinci SA",
+      "weight": 0.019
+    },
+    {
+      "name": "Siemens AG",
       "weight": 0.017
     }
   ]

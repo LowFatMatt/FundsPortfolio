@@ -1,24 +1,26 @@
 {
   "isin": "DE0005896864",
-  "as_of": "2026-05-12",
+  "as_of": "2026-06-01",
   "schema_version": 2,
   "source": "factsheetslive",
   "source_url": "https://provinzial-nord.stg.wt.factsheetslive.com/produkt/DE0005896864",
   "currency": "EUR",
   "fund_name": "Deka-Stiftungen Balance CF",
   "provinzial_fund_type": "Mischfonds",
+  "region": "global",
+  "theme": "NONE",
   "ter": 0.0119,
   "sri": 2,
   "performance": {
     "periods": {
-      "3m": 0.0042,
-      "6m": 0.0142,
-      "ytd": 0.0109,
-      "1y": 0.0553,
-      "3y_pa": 0.0414,
-      "5y_pa": 0.0162,
-      "10y_pa": 0.0122,
-      "si_pa": 0.0274
+      "3m": 0.0109,
+      "6m": 0.0217,
+      "ytd": 0.0213,
+      "1y": 0.0575,
+      "3y_pa": 0.046,
+      "5y_pa": 0.0175,
+      "10y_pa": 0.0128,
+      "si_pa": 0.0278
     },
     "nav_series": [
       {
@@ -1130,21 +1132,21 @@
         "v": 183.6504
       },
       {
-        "d": "2026-05-11",
-        "v": 185.389
+        "d": "2026-05-29",
+        "v": 187.2947
       }
     ]
   },
   "volatility": {
-    "1y": 0.0336,
-    "3y": 0.0352,
-    "5y": 0.034
+    "1y": 0.0337,
+    "3y": 0.0353,
+    "5y": 0.0341
   },
   "risk_metrics": {
     "sharpe": {
-      "1y": 1.05,
-      "3y": 0.34,
-      "5y": -0.07
+      "1y": 1.13,
+      "3y": 0.47,
+      "5y": -0.04
     },
     "max_drawdown": {
       "1y": null,
@@ -1153,50 +1155,50 @@
     }
   },
   "asset_class_breakdown": {
-    "bond": 0.6994,
-    "equity": 0.2422,
-    "other": 0.0584
+    "bond": 0.6354,
+    "equity": 0.2279,
+    "other": 0.1367
   },
   "top_holdings": [
     {
       "name": "Koenigreich Spanien Obl. 01/32",
-      "weight": 0.0419
+      "weight": 0.0415
     },
     {
       "name": "Großbritannien Treasury Stock 00/32",
-      "weight": 0.0346
+      "weight": 0.0342
     },
     {
       "name": "Republik Italien Zero B.O.T. 23/34",
-      "weight": 0.0338
+      "weight": 0.0337
     },
     {
       "name": "4.75% Oat 4/2035",
-      "weight": 0.0324
+      "weight": 0.0308
     },
     {
       "name": "U.S. Treasury Notes 24/29",
-      "weight": 0.0269
+      "weight": 0.0261
     },
     {
       "name": "U.S. Treasury Bonds 99/29",
-      "weight": 0.0238
+      "weight": 0.0232
     },
     {
       "name": "U.S. Treasury Notes 23/33",
-      "weight": 0.0236
-    },
-    {
-      "name": "Bundesrep. Deutschland 6.5% 2027-07-04",
       "weight": 0.0229
     },
     {
-      "name": "U.S. Treasury Notes 25/32",
-      "weight": 0.021
+      "name": "Bundesrep. Deutschland 6.5% 2027-07-04",
+      "weight": 0.0227
     },
     {
-      "name": "BUNDANL.V. 03/34",
-      "weight": 0.0198
+      "name": "U.S. Treasury Notes 25/28",
+      "weight": 0.0222
+    },
+    {
+      "name": "U.S. Treasury Notes 25/32",
+      "weight": 0.0203
     }
   ]
 }

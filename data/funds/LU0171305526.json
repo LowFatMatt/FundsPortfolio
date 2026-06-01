@@ -1,24 +1,26 @@
 {
   "isin": "LU0171305526",
-  "as_of": "2026-05-12",
+  "as_of": "2026-06-01",
   "schema_version": 2,
   "source": "factsheetslive",
   "source_url": "https://provinzial-nord.stg.wt.factsheetslive.com/produkt/LU0171305526",
   "currency": "EUR",
   "fund_name": "BlackRock Global Funds - World Gold Fund A2 EUR",
   "provinzial_fund_type": "Aktienfonds",
+  "region": "global",
+  "theme": "commodities",
   "ter": 0.0209,
   "sri": 5,
   "performance": {
     "periods": {
-      "3m": -0.0369,
-      "6m": 0.3135,
-      "ytd": 0.1241,
-      "1y": 0.9262,
-      "3y_pa": 0.4072,
-      "5y_pa": 0.2197,
-      "10y_pa": 0.129,
-      "si_pa": 0.1119
+      "3m": -0.2118,
+      "6m": 0.0815,
+      "ytd": 0.0113,
+      "1y": 0.7168,
+      "3y_pa": 0.3934,
+      "5y_pa": 0.1823,
+      "10y_pa": 0.1249,
+      "si_pa": 0.107
     },
     "nav_series": [
       {
@@ -1226,21 +1228,21 @@
         "v": 1172.6907
       },
       {
-        "d": "2026-05-11",
-        "v": 1289.0227
+        "d": "2026-05-29",
+        "v": 1159.7055
       }
     ]
   },
   "volatility": {
-    "1y": 0.381,
-    "3y": 0.3061,
-    "5y": 0.2965
+    "1y": 0.3899,
+    "3y": 0.3106,
+    "5y": 0.2994
   },
   "risk_metrics": {
     "sharpe": {
-      "1y": 2.34,
-      "3y": 1.2,
-      "5y": 0.67
+      "1y": 1.77,
+      "3y": 1.14,
+      "5y": 0.54
     },
     "max_drawdown": {
       "1y": null,

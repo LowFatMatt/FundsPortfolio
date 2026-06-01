@@ -1,24 +1,26 @@
 {
   "isin": "LU0107398884",
-  "as_of": "2026-05-12",
+  "as_of": "2026-06-01",
   "schema_version": 2,
   "source": "factsheetslive",
   "source_url": "https://provinzial-nord.stg.wt.factsheetslive.com/produkt/LU0107398884",
   "currency": "EUR",
   "fund_name": "JPMorgan Funds - Europe Strategic Value Fund A (dist) - EUR",
   "provinzial_fund_type": "Aktienfonds",
+  "region": "europe",
+  "theme": "NONE",
   "ter": 0.017,
   "sri": 4,
   "performance": {
     "periods": {
-      "3m": 0.0102,
-      "6m": 0.117,
-      "ytd": 0.0693,
-      "1y": 0.2524,
-      "3y_pa": 0.207,
-      "5y_pa": 0.1383,
-      "10y_pa": 0.0941,
-      "si_pa": 0.0588
+      "3m": 0.01,
+      "6m": 0.1302,
+      "ytd": 0.0875,
+      "1y": 0.2341,
+      "3y_pa": 0.2217,
+      "5y_pa": 0.1382,
+      "10y_pa": 0.0903,
+      "si_pa": 0.0593
     },
     "nav_series": [
       {
@@ -1282,20 +1284,20 @@
         "v": 446.2121
       },
       {
-        "d": "2026-05-11",
-        "v": 449.1741
+        "d": "2026-05-29",
+        "v": 456.8404
       }
     ]
   },
   "volatility": {
-    "1y": 0.1177,
-    "3y": 0.1266,
-    "5y": 0.1485
+    "1y": 0.1194,
+    "3y": 0.1264,
+    "5y": 0.1482
   },
   "risk_metrics": {
     "sharpe": {
-      "1y": 1.94,
-      "3y": 1.37,
+      "1y": 1.78,
+      "3y": 1.48,
       "5y": 0.79
     },
     "max_drawdown": {
@@ -1305,48 +1307,44 @@
     }
   },
   "asset_class_breakdown": {
-    "equity": 0.939,
-    "other": 0.061
+    "equity": 0.972,
+    "other": 0.028
   },
   "top_holdings": [
     {
+      "name": "JPMorgan Liquidity Funds - Euro Liquidity X (flex dist.)",
+      "weight": 0.049
+    },
+    {
       "name": "HSBC Holding Plc",
-      "weight": 0.041
+      "weight": 0.044
     },
     {
-      "name": "Roche Holdings AG",
-      "weight": 0.039
+      "name": "Roche Holding AG PS",
+      "weight": 0.04
     },
     {
-      "name": "Shell PLC",
-      "weight": 0.038
-    },
-    {
-      "name": "Nestle SA",
+      "name": "Nestle",
       "weight": 0.037
     },
     {
-      "name": "TotalEnergies SE",
-      "weight": 0.027
+      "name": "Shell PLC",
+      "weight": 0.034
     },
     {
       "name": "Banco Santander",
-      "weight": 0.025
+      "weight": 0.027
     },
     {
       "name": "Allianz SE",
-      "weight": 0.024
+      "weight": 0.025
     },
     {
-      "name": "BBVA",
+      "name": "Banco Bilbao",
       "weight": 0.018
     },
     {
       "name": "BP Plc",
-      "weight": 0.018
-    },
-    {
-      "name": "GSK Plc",
       "weight": 0.017
     }
   ]

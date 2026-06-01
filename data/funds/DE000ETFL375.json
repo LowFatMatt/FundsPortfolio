@@ -1,24 +1,26 @@
 {
   "isin": "DE000ETFL375",
-  "as_of": "2026-05-12",
+  "as_of": "2026-06-01",
   "schema_version": 2,
   "source": "factsheetslive",
   "source_url": "https://provinzial-nord.stg.wt.factsheetslive.com/produkt/DE000ETFL375",
   "currency": "EUR",
   "fund_name": "Deka iBoxx EUR Liquid Corporates Diversified UCITS ETF",
   "provinzial_fund_type": "Renten/Geldmarktfonds",
+  "region": "europe",
+  "theme": "NONE",
   "ter": 0.002,
   "sri": 2,
   "performance": {
     "periods": {
-      "3m": -0.007,
-      "6m": -0.0005,
-      "ytd": 0.0016,
-      "1y": 0.0187,
-      "3y_pa": 0.042,
-      "5y_pa": -0.0025,
-      "10y_pa": 0.0061,
-      "si_pa": 0.0194
+      "3m": -0.0076,
+      "6m": 0.0034,
+      "ytd": 0.0067,
+      "1y": 0.0204,
+      "3y_pa": 0.0469,
+      "5y_pa": -0.001,
+      "10y_pa": 0.0068,
+      "si_pa": 0.0196
     },
     "nav_series": [
       {
@@ -774,21 +776,21 @@
         "v": 135.2841
       },
       {
-        "d": "2026-05-08",
-        "v": 135.6795
+        "d": "2026-05-28",
+        "v": 136.3619
       }
     ]
   },
   "volatility": {
-    "1y": 0.0307,
-    "3y": 0.0339,
-    "5y": 0.0403
+    "1y": 0.0318,
+    "3y": 0.0341,
+    "5y": 0.0405
   },
   "risk_metrics": {
     "sharpe": {
-      "1y": -0.02,
-      "3y": 0.37,
-      "5y": -0.51
+      "1y": 0.04,
+      "3y": 0.52,
+      "5y": -0.48
     },
     "max_drawdown": {
       "1y": null,
@@ -797,49 +799,49 @@
     }
   },
   "asset_class_breakdown": {
-    "bond": 0.9996,
-    "other": 0.0004
+    "bond": 0.9984,
+    "other": 0.0016
   },
   "top_holdings": [
     {
-      "name": "CREDIT SUISSE GROUP AG 7.75 03/01/2029",
-      "weight": 0.0357
-    },
-    {
       "name": "BANCO SANTAND 4.875% Oct31 EMTN",
-      "weight": 0.0227
+      "weight": 0.0226
     },
     {
       "name": "HSBC HOLDINGS PLC ff frn/23-230533",
-      "weight": 0.0196
+      "weight": 0.0199
     },
     {
       "name": "3.583% BNP Paribas FtF 25/31 1/2031",
-      "weight": 0.0181
+      "weight": 0.0185
+    },
+    {
+      "name": "5.125% Intesa Sanpaolo S.p.A. 8/2031",
+      "weight": 0.0172
     },
     {
       "name": "3.25% Banco Santander SA 4/2029",
-      "weight": 0.0181
-    },
-    {
-      "name": "LA BANQUE POSTALE 4.095%/24-130234",
-      "weight": 0.017
+      "weight": 0.0171
     },
     {
       "name": "BAYER AG 4.625%/23-260533",
-      "weight": 0.0168
+      "weight": 0.0169
+    },
+    {
+      "name": "LA BANQUE POSTALE 4.095%/24-130234",
+      "weight": 0.0165
+    },
+    {
+      "name": "HSBC FRN 25/34 5/2034",
+      "weight": 0.0161
     },
     {
       "name": "BFCM 23/29 MTN",
-      "weight": 0.0164
+      "weight": 0.016
     },
     {
-      "name": "CREDIT AGRICOLE SA 3.875%/23-200431",
-      "weight": 0.0162
-    },
-    {
-      "name": "BANQUE FED CRED 3.75%/22-010233",
-      "weight": 0.0161
+      "name": "ING GROEP NV SR UNSECURED REGS 09/30 VAR",
+      "weight": 0.0159
     }
   ]
 }

@@ -1,24 +1,26 @@
 {
   "isin": "DE000ETFL581",
-  "as_of": "2026-05-12",
+  "as_of": "2026-06-01",
   "schema_version": 2,
   "source": "factsheetslive",
   "source_url": "https://provinzial-nord.stg.wt.factsheetslive.com/produkt/DE000ETFL581",
   "currency": "EUR",
   "fund_name": "Deka MSCI World Climate Change ESG CTB UCITS ETF",
   "provinzial_fund_type": "Aktienfonds",
+  "region": "global",
+  "theme": "sustainability",
   "ter": 0.0026,
   "sri": 4,
   "performance": {
     "periods": {
-      "3m": 0.0892,
-      "6m": 0.0805,
-      "ytd": 0.0674,
-      "1y": 0.2737,
-      "3y_pa": 0.2071,
-      "5y_pa": 0.1316,
+      "3m": 0.1329,
+      "6m": 0.1075,
+      "ytd": 0.1073,
+      "1y": 0.2611,
+      "3y_pa": 0.2017,
+      "5y_pa": 0.1406,
       "10y_pa": null,
-      "si_pa": 0.1549
+      "si_pa": 0.1605
     },
     "nav_series": [
       {
@@ -306,21 +308,21 @@
         "v": 226.1006
       },
       {
-        "d": "2026-05-08",
-        "v": 234.388
+        "d": "2026-05-28",
+        "v": 243.1436
       }
     ]
   },
   "volatility": {
-    "1y": 0.1323,
-    "3y": 0.151,
-    "5y": 0.1612
+    "1y": 0.1234,
+    "3y": 0.1506,
+    "5y": 0.161
   },
   "risk_metrics": {
     "sharpe": {
-      "1y": 1.89,
-      "3y": 1.15,
-      "5y": 0.69
+      "1y": 1.92,
+      "3y": 1.12,
+      "5y": 0.74
     },
     "max_drawdown": {
       "1y": null,
@@ -329,49 +331,49 @@
     }
   },
   "asset_class_breakdown": {
-    "equity": 0.9991,
-    "other": 0.0009
+    "equity": 0.9994,
+    "other": 0.0006
   },
   "top_holdings": [
     {
       "name": "Nvidia Corp.",
-      "weight": 0.0751
+      "weight": 0.0769
     },
     {
       "name": "Apple Inc.",
-      "weight": 0.0676
+      "weight": 0.0646
     },
     {
       "name": "Tesla Inc.",
-      "weight": 0.0573
+      "weight": 0.0526
     },
     {
       "name": "Amazon.com Inc.",
-      "weight": 0.0388
+      "weight": 0.0442
     },
     {
       "name": "Broadcom Inc.",
-      "weight": 0.0264
+      "weight": 0.0318
     },
     {
       "name": "Alphabet, Inc. - Class A",
-      "weight": 0.0256
+      "weight": 0.0306
     },
     {
       "name": "Alphabet, Inc. - Class C",
-      "weight": 0.0214
+      "weight": 0.0254
     },
     {
       "name": "Advanced Mic. Dev",
-      "weight": 0.0156
+      "weight": 0.0243
     },
     {
       "name": "Eli Lilly & Co.",
-      "weight": 0.0143
+      "weight": 0.013
     },
     {
       "name": "JPMorgan Chase & Co.",
-      "weight": 0.0118
+      "weight": 0.0112
     }
   ]
 }

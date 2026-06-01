@@ -1,24 +1,26 @@
 {
   "isin": "LU0152980495",
-  "as_of": "2026-05-12",
+  "as_of": "2026-06-01",
   "schema_version": 2,
   "source": "factsheetslive",
   "source_url": "https://provinzial-nord.stg.wt.factsheetslive.com/produkt/LU0152980495",
   "currency": "EUR",
   "fund_name": "Templeton Global Bond Fund A (acc) EUR",
   "provinzial_fund_type": "Renten/Geldmarktfonds",
+  "region": "global",
+  "theme": "NONE",
   "ter": 0.0138,
   "sri": 3,
   "performance": {
     "periods": {
-      "3m": 0.0088,
-      "6m": 0.0203,
-      "ytd": 0.0311,
-      "1y": 0.0527,
-      "3y_pa": 0.0015,
-      "5y_pa": 0.0068,
-      "10y_pa": 0.0038,
-      "si_pa": 0.038
+      "3m": -0.0058,
+      "6m": 0.025,
+      "ytd": 0.0324,
+      "1y": 0.0463,
+      "3y_pa": 0.001,
+      "5y_pa": 0.0083,
+      "10y_pa": 0.0007,
+      "si_pa": 0.0379
     },
     "nav_series": [
       {
@@ -1158,21 +1160,21 @@
         "v": 239.1045
       },
       {
-        "d": "2026-05-08",
-        "v": 240.4975
+        "d": "2026-05-29",
+        "v": 240.796
       }
     ]
   },
   "volatility": {
-    "1y": 0.0511,
+    "1y": 0.0514,
     "3y": 0.0623,
     "5y": 0.0662
   },
   "risk_metrics": {
     "sharpe": {
-      "1y": 0.64,
+      "1y": 0.52,
       "3y": -0.43,
-      "5y": -0.17
+      "5y": -0.16
     },
     "max_drawdown": {
       "1y": null,
@@ -1181,49 +1183,49 @@
     }
   },
   "asset_class_breakdown": {
-    "bond": 0.7995,
-    "other": 0.2005
+    "bond": 0.8094,
+    "other": 0.1906
   },
   "top_holdings": [
     {
       "name": "BRAZIL, FEDERATIVE REPUBLIC OF 10.000% 20-01.01.31",
-      "weight": 0.0617
+      "weight": 0.0644
     },
     {
       "name": "TREASURY CORP OF VICTORIA, 2",
-      "weight": 0.0609
+      "weight": 0.0629
     },
     {
       "name": "Königreich Norwegen Anl. 17/27",
-      "weight": 0.0518
+      "weight": 0.0538
     },
     {
       "name": "MALAYSIA 3.90% 16/11/2027",
-      "weight": 0.0516
+      "weight": 0.0522
     },
     {
       "name": "SOUTH AFRICA 9,00 15-310140",
-      "weight": 0.0348
+      "weight": 0.0366
     },
     {
       "name": "URUGUAY I/L 3,875 20-020740",
-      "weight": 0.0318
+      "weight": 0.0326
     },
     {
       "name": "US DEPARTMENT OF THE TREASURY 4,25 2034-11-15",
-      "weight": 0.029
+      "weight": 0.0286
     },
     {
       "name": "9.25% Kolumbien 5/2042",
-      "weight": 0.0265
+      "weight": 0.0263
     },
     {
       "name": "QUEENSLAND TREASURY CORP, 7/20/2034 1,75",
-      "weight": 0.0242
+      "weight": 0.0251
     },
     {
       "name": "KINGDOM OF SPAIN 3,15 2035-04-30",
-      "weight": 0.0242
+      "weight": 0.0244
     }
   ]
 }

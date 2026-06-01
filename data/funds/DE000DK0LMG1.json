@@ -1,24 +1,26 @@
 {
   "isin": "DE000DK0LMG1",
-  "as_of": "2026-05-12",
+  "as_of": "2026-06-01",
   "schema_version": 2,
   "source": "factsheetslive",
   "source_url": "https://provinzial-nord.stg.wt.factsheetslive.com/produkt/DE000DK0LMG1",
   "currency": "EUR",
   "fund_name": "Deka-GenerationenPortfolio",
   "provinzial_fund_type": "Vermögensverwaltende Fonds",
+  "region": "global",
+  "theme": "NONE",
   "ter": 0.017,
   "sri": 3,
   "performance": {
     "periods": {
-      "3m": 0.0133,
-      "6m": 0.0356,
-      "ytd": 0.0341,
-      "1y": 0.0807,
-      "3y_pa": 0.0645,
-      "5y_pa": 0.027,
+      "3m": 0.017,
+      "6m": 0.048,
+      "ytd": 0.0477,
+      "1y": 0.0848,
+      "3y_pa": 0.0689,
+      "5y_pa": 0.0297,
       "10y_pa": null,
-      "si_pa": 0.0153
+      "si_pa": 0.0169
     },
     "nav_series": [
       {
@@ -406,21 +408,21 @@
         "v": 111.1433
       },
       {
-        "d": "2026-05-11",
-        "v": 112.9422
+        "d": "2026-05-29",
+        "v": 114.4213
       }
     ]
   },
   "volatility": {
-    "1y": 0.0516,
-    "3y": 0.0582,
-    "5y": 0.0593
+    "1y": 0.0522,
+    "3y": 0.0584,
+    "5y": 0.0592
   },
   "risk_metrics": {
     "sharpe": {
-      "1y": 1.17,
-      "3y": 0.59,
-      "5y": 0.14
+      "1y": 1.24,
+      "3y": 0.67,
+      "5y": 0.18
     },
     "max_drawdown": {
       "1y": null,

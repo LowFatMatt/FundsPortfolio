@@ -1,24 +1,26 @@
 {
   "isin": "LU0099574567",
-  "as_of": "2026-05-12",
+  "as_of": "2026-06-01",
   "schema_version": 2,
   "source": "factsheetslive",
   "source_url": "https://provinzial-nord.stg.wt.factsheetslive.com/produkt/LU0099574567",
   "currency": "EUR",
   "fund_name": "Fidelity Funds - Global Technology Fund A-Euro",
   "provinzial_fund_type": "Aktienfonds",
+  "region": "global",
+  "theme": "technology",
   "ter": 0.0189,
   "sri": 4,
   "performance": {
     "periods": {
-      "3m": 0.1263,
-      "6m": 0.1242,
-      "ytd": 0.1243,
-      "1y": 0.3399,
-      "3y_pa": 0.2369,
-      "5y_pa": 0.155,
-      "10y_pa": 0.215,
-      "si_pa": 0.0861
+      "3m": 0.1767,
+      "6m": 0.198,
+      "ytd": 0.176,
+      "1y": 0.3656,
+      "3y_pa": 0.2316,
+      "5y_pa": 0.1596,
+      "10y_pa": 0.2108,
+      "si_pa": 0.0878
     },
     "nav_series": [
       {
@@ -1306,21 +1308,21 @@
         "v": 871.6421
       },
       {
-        "d": "2026-05-11",
-        "v": 908.8866
+        "d": "2026-05-29",
+        "v": 950.6365
       }
     ]
   },
   "volatility": {
-    "1y": 0.1643,
+    "1y": 0.1572,
     "3y": 0.1654,
-    "5y": 0.1831
+    "5y": 0.1832
   },
   "risk_metrics": {
     "sharpe": {
-      "1y": 1.92,
-      "3y": 1.22,
-      "5y": 0.73
+      "1y": 2.18,
+      "3y": 1.19,
+      "5y": 0.75
     },
     "max_drawdown": {
       "1y": null,

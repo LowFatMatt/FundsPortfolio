@@ -1,24 +1,26 @@
 {
   "isin": "LU0052859252",
-  "as_of": "2026-05-12",
+  "as_of": "2026-06-01",
   "schema_version": 2,
   "source": "factsheetslive",
   "source_url": "https://provinzial-nord.stg.wt.factsheetslive.com/produkt/LU0052859252",
   "currency": "EUR",
   "fund_name": "DekaLuxTeam-Aktien Asien CF",
   "provinzial_fund_type": "Aktienfonds",
+  "region": "asia",
+  "theme": "NONE",
   "ter": 0.0153,
   "sri": 4,
   "performance": {
     "periods": {
-      "3m": 0.1601,
-      "6m": 0.2469,
-      "ytd": 0.2661,
-      "1y": 0.5662,
-      "3y_pa": 0.1828,
-      "5y_pa": 0.0705,
-      "10y_pa": 0.1089,
-      "si_pa": 0.084
+      "3m": 0.149,
+      "6m": 0.3366,
+      "ytd": 0.3192,
+      "1y": 0.6037,
+      "3y_pa": 0.1992,
+      "5y_pa": 0.0751,
+      "10y_pa": 0.108,
+      "si_pa": 0.0867
     },
     "nav_series": [
       {
@@ -734,21 +736,21 @@
         "v": 298.7229
       },
       {
-        "d": "2026-05-11",
-        "v": 326.9128
+        "d": "2026-05-29",
+        "v": 340.6084
       }
     ]
   },
   "volatility": {
-    "1y": 0.1951,
-    "3y": 0.1745,
-    "5y": 0.1766
+    "1y": 0.1971,
+    "3y": 0.1765,
+    "5y": 0.1778
   },
   "risk_metrics": {
     "sharpe": {
-      "1y": 2.75,
-      "3y": 0.86,
-      "5y": 0.29
+      "1y": 2.93,
+      "3y": 0.94,
+      "5y": 0.31
     },
     "max_drawdown": {
       "1y": null,
@@ -757,49 +759,49 @@
     }
   },
   "asset_class_breakdown": {
-    "equity": 0.9888,
-    "other": 0.0112
+    "equity": 0.9926,
+    "other": 0.0074
   },
   "top_holdings": [
     {
-      "name": "Taiwan Semiconductor Manufact.",
-      "weight": 0.1015
+      "name": "Samsung Electronics Co. Ltd.",
+      "weight": 0.0966
     },
     {
-      "name": "Samsung Electronics Co. Ltd.",
-      "weight": 0.0845
+      "name": "Taiwan Semiconductor Manufact.",
+      "weight": 0.0937
     },
     {
       "name": "Tencent Holdings Ltd.",
-      "weight": 0.0656
+      "weight": 0.0534
     },
     {
       "name": "SK Hynix Inc. (ADR)",
-      "weight": 0.0379
-    },
-    {
-      "name": "Aia Group Ltd",
-      "weight": 0.0375
-    },
-    {
-      "name": "Alibaba Group Holding, Ltd.",
-      "weight": 0.0359
+      "weight": 0.0516
     },
     {
       "name": "Delta Electronics Inc.",
+      "weight": 0.0416
+    },
+    {
+      "name": "MediaTek Inc.",
       "weight": 0.0336
     },
     {
-      "name": "Contemporary Amperex Technology",
-      "weight": 0.0238
+      "name": "Alibaba Group Holding, Ltd.",
+      "weight": 0.0329
+    },
+    {
+      "name": "Aia Group Ltd",
+      "weight": 0.0317
     },
     {
       "name": "ASE Technology Holding Co Ltd",
-      "weight": 0.0235
+      "weight": 0.0292
     },
     {
-      "name": "Oversea-Chinese Banking Corp. Ltd.",
-      "weight": 0.0228
+      "name": "Hon Hai Precision Industry Co. Ltd.",
+      "weight": 0.0232
     }
   ]
 }

@@ -1,24 +1,26 @@
 {
   "isin": "DE000DK2J8Q5",
-  "as_of": "2026-05-12",
+  "as_of": "2026-06-01",
   "schema_version": 2,
   "source": "factsheetslive",
   "source_url": "https://provinzial-nord.stg.wt.factsheetslive.com/produkt/DE000DK2J8Q5",
   "currency": "EUR",
   "fund_name": "Deka-Multimanager ausgewogen CF",
   "provinzial_fund_type": "Vermögensverwaltende Fonds",
+  "region": "global",
+  "theme": "NONE",
   "ter": 0.0269,
   "sri": 3,
   "performance": {
     "periods": {
-      "3m": -0.0003,
-      "6m": 0.0342,
-      "ytd": 0.016,
-      "1y": 0.0879,
-      "3y_pa": 0.0595,
-      "5y_pa": 0.0208,
+      "3m": -0.0023,
+      "6m": 0.0306,
+      "ytd": 0.0213,
+      "1y": 0.0692,
+      "3y_pa": 0.059,
+      "5y_pa": 0.0219,
       "10y_pa": null,
-      "si_pa": 0.0261
+      "si_pa": 0.0265
     },
     "nav_series": [
       {
@@ -478,21 +480,21 @@
         "v": 125.653
       },
       {
-        "d": "2026-05-11",
-        "v": 127.5353
+        "d": "2026-05-29",
+        "v": 128.2061
       }
     ]
   },
   "volatility": {
-    "1y": 0.0621,
-    "3y": 0.0602,
+    "1y": 0.061,
+    "3y": 0.0603,
     "5y": 0.0628
   },
   "risk_metrics": {
     "sharpe": {
-      "1y": 1.08,
+      "1y": 0.81,
       "3y": 0.49,
-      "5y": 0.04
+      "5y": 0.05
     },
     "max_drawdown": {
       "1y": null,
@@ -501,29 +503,28 @@
     }
   },
   "asset_class_breakdown": {
-    "other": 1.99,
-    "bond": 0.01
+    "other": 1.0
   },
   "top_holdings": [
     {
       "name": "DWS ESG Dynamic Opportunities FC",
-      "weight": 0.0621
+      "weight": 0.0635
     },
     {
       "name": "BL - Global 75 A",
-      "weight": 0.0601
+      "weight": 0.0594
     },
     {
       "name": "Frankfurter Aktienfonds für Stiftungen A",
-      "weight": 0.058
+      "weight": 0.0591
     },
     {
       "name": "Flossbach von Storch - Multi Asset - Growth - I",
-      "weight": 0.0579
+      "weight": 0.0578
     },
     {
       "name": "ProfitlichSchmidlin Fonds UI I",
-      "weight": 0.0554
+      "weight": 0.056
     }
   ]
 }

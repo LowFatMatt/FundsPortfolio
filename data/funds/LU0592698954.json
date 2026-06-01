@@ -1,24 +1,26 @@
 {
   "isin": "LU0592698954",
-  "as_of": "2026-05-12",
+  "as_of": "2026-06-01",
   "schema_version": 2,
   "source": "factsheetslive",
   "source_url": "https://provinzial-nord.stg.wt.factsheetslive.com/produkt/LU0592698954",
   "currency": "EUR",
   "fund_name": "Carmignac Portfolio-Emerging Patrimoine A EUR Acc",
   "provinzial_fund_type": "Mischfonds",
+  "region": "emerging_markets",
+  "theme": "NONE",
   "ter": 0.0183,
   "sri": 3,
   "performance": {
     "periods": {
-      "3m": 0.0688,
-      "6m": 0.1356,
-      "ytd": 0.1249,
-      "1y": 0.2815,
-      "3y_pa": 0.1034,
-      "5y_pa": 0.0362,
-      "10y_pa": 0.0571,
-      "si_pa": 0.0389
+      "3m": 0.0152,
+      "6m": 0.1245,
+      "ytd": 0.11,
+      "1y": 0.2524,
+      "3y_pa": 0.0989,
+      "5y_pa": 0.0334,
+      "10y_pa": 0.0534,
+      "si_pa": 0.0378
     },
     "nav_series": [
       {
@@ -750,21 +752,21 @@
         "v": 171.33
       },
       {
-        "d": "2026-05-07",
-        "v": 177.92
+        "d": "2026-05-28",
+        "v": 175.57
       }
     ]
   },
   "volatility": {
-    "1y": 0.0892,
-    "3y": 0.0741,
-    "5y": 0.0927
+    "1y": 0.0923,
+    "3y": 0.0753,
+    "5y": 0.0932
   },
   "risk_metrics": {
     "sharpe": {
-      "1y": 2.88,
-      "3y": 0.98,
-      "5y": 0.19
+      "1y": 2.48,
+      "3y": 0.91,
+      "5y": 0.15
     },
     "max_drawdown": {
       "1y": null,
@@ -773,50 +775,50 @@
     }
   },
   "asset_class_breakdown": {
-    "bond": 0.4344,
-    "equity": 0.3875,
-    "other": 0.1781
+    "equity": 0.435,
+    "bond": 0.4177,
+    "other": 0.1473
   },
   "top_holdings": [
     {
       "name": "Taiwan Semiconductor Manufact.",
-      "weight": 0.0926
+      "weight": 0.0913
     },
     {
       "name": "SK Square Co. Ltd.",
-      "weight": 0.0532
+      "weight": 0.0903
     },
     {
       "name": "Polen FRN 23/36 8/2036",
-      "weight": 0.048
+      "weight": 0.046
     },
     {
-      "name": "SOUTH AFRICA 8.75 14-44 31/01S",
-      "weight": 0.0373
+      "name": "7.6% Peru 24/39 8/2039",
+      "weight": 0.0409
     },
     {
-      "name": "Petróleos Mexicanos (PEMEX) MTN 18/29",
-      "weight": 0.0302
+      "name": "TITULOS DE 12.5 % Feb-30",
+      "weight": 0.0371
     },
     {
       "name": "6.875% Côte d'Ivoire, Republik EO-Nts 2019(38-40)",
-      "weight": 0.03
+      "weight": 0.0293
     },
     {
-      "name": "Ecuador (Republic of) 0.5% 07/31/2035",
-      "weight": 0.0279
+      "name": "Petróleos Mexicanos (PEMEX) MTN 18/29",
+      "weight": 0.0284
     },
     {
       "name": "LG Chem Ltd",
-      "weight": 0.0218
-    },
-    {
-      "name": "Hyundai Motor",
-      "weight": 0.0216
+      "weight": 0.0262
     },
     {
       "name": "Hainan Drinda New Energy Technology",
-      "weight": 0.0212
+      "weight": 0.0239
+    },
+    {
+      "name": "Ecuador (Republic of) 0.5% 07/31/2035",
+      "weight": 0.0224
     }
   ]
 }

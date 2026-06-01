@@ -1,24 +1,26 @@
 {
   "isin": "DE0009774794",
-  "as_of": "2026-05-12",
+  "as_of": "2026-06-01",
   "schema_version": 2,
   "source": "factsheetslive",
   "source_url": "https://provinzial-nord.stg.wt.factsheetslive.com/produkt/DE0009774794",
   "currency": "EUR",
   "fund_name": "LINGOHR-SYSTEMATIC-INVEST A",
   "provinzial_fund_type": "Aktienfonds",
+  "region": "global",
+  "theme": "NONE",
   "ter": 0.0192,
   "sri": 4,
   "performance": {
     "periods": {
-      "3m": 0.0626,
-      "6m": 0.1232,
-      "ytd": 0.1201,
-      "1y": 0.2964,
-      "3y_pa": 0.171,
-      "5y_pa": 0.1045,
-      "10y_pa": 0.0747,
-      "si_pa": 0.0734
+      "3m": 0.0591,
+      "6m": 0.1398,
+      "ytd": 0.1347,
+      "1y": 0.274,
+      "3y_pa": 0.1807,
+      "5y_pa": 0.1054,
+      "10y_pa": 0.0723,
+      "si_pa": 0.0737
     },
     "nav_series": [
       {
@@ -1442,21 +1444,21 @@
         "v": 807.0787
       },
       {
-        "d": "2026-05-11",
-        "v": 834.6011
+        "d": "2026-05-29",
+        "v": 845.4544
       }
     ]
   },
   "volatility": {
-    "1y": 0.1183,
-    "3y": 0.1323,
-    "5y": 0.1356
+    "1y": 0.1184,
+    "3y": 0.1325,
+    "5y": 0.1357
   },
   "risk_metrics": {
     "sharpe": {
-      "1y": 2.3,
-      "3y": 1.04,
-      "5y": 0.62
+      "1y": 2.13,
+      "3y": 1.11,
+      "5y": 0.63
     },
     "max_drawdown": {
       "1y": null,
@@ -1465,49 +1467,49 @@
     }
   },
   "asset_class_breakdown": {
-    "equity": 0.9631,
-    "other": 0.0369
+    "equity": 0.9524,
+    "other": 0.0476
   },
   "top_holdings": [
     {
       "name": "Alphabet, Inc. - Class A",
-      "weight": 0.0316
-    },
-    {
-      "name": "Apple Inc.",
-      "weight": 0.0238
+      "weight": 0.0366
     },
     {
       "name": "Microsoft Corp.",
+      "weight": 0.0286
+    },
+    {
+      "name": "Apple Inc.",
       "weight": 0.0235
     },
     {
-      "name": "TechnipFMC Plc",
-      "weight": 0.0165
-    },
-    {
-      "name": "Netflix, Inc.",
-      "weight": 0.0143
-    },
-    {
-      "name": "Jazz Pharmaceuticals",
+      "name": "Broadcom Inc.",
       "weight": 0.0141
     },
     {
-      "name": "AbbVie, Inc.",
-      "weight": 0.0137
+      "name": "Jazz Pharmaceuticals",
+      "weight": 0.0139
     },
     {
-      "name": "Mizuho Financial",
+      "name": "TechnipFMC Plc",
+      "weight": 0.0134
+    },
+    {
+      "name": "Heidelberg Materials AG",
       "weight": 0.0129
     },
     {
-      "name": "UBS Group AG",
-      "weight": 0.0122
+      "name": "Netflix, Inc.",
+      "weight": 0.0128
     },
     {
-      "name": "Merck & Co. Inc.",
-      "weight": 0.0122
+      "name": "Coca-Cola Hellenic Bottling",
+      "weight": 0.0127
+    },
+    {
+      "name": "Advanced Mic. Dev",
+      "weight": 0.0125
     }
   ]
 }

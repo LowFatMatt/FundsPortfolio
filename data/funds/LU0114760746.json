@@ -1,24 +1,26 @@
 {
   "isin": "LU0114760746",
-  "as_of": "2026-05-12",
+  "as_of": "2026-06-01",
   "schema_version": 2,
   "source": "factsheetslive",
   "source_url": "https://provinzial-nord.stg.wt.factsheetslive.com/produkt/LU0114760746",
   "currency": "EUR",
   "fund_name": "Templeton Growth (Euro) Fund A (acc) EUR",
   "provinzial_fund_type": "Aktienfonds",
+  "region": "global",
+  "theme": "NONE",
   "ter": 0.0181,
   "sri": 4,
   "performance": {
     "periods": {
-      "3m": 0.0043,
-      "6m": 0.0435,
-      "ytd": 0.03,
-      "1y": 0.1694,
-      "3y_pa": 0.1023,
-      "5y_pa": 0.0597,
-      "10y_pa": 0.0582,
-      "si_pa": 0.0368
+      "3m": 0.0178,
+      "6m": 0.0438,
+      "ytd": 0.0438,
+      "1y": 0.1486,
+      "3y_pa": 0.1087,
+      "5y_pa": 0.0653,
+      "10y_pa": 0.0545,
+      "si_pa": 0.0373
     },
     "nav_series": [
       {
@@ -1258,21 +1260,21 @@
         "v": 251.5516
       },
       {
-        "d": "2026-05-08",
-        "v": 254.2543
+        "d": "2026-05-29",
+        "v": 257.6577
       }
     ]
   },
   "volatility": {
-    "1y": 0.1304,
-    "3y": 0.1369,
+    "1y": 0.1259,
+    "3y": 0.137,
     "5y": 0.1408
   },
   "risk_metrics": {
     "sharpe": {
-      "1y": 1.13,
-      "3y": 0.52,
-      "5y": 0.29
+      "1y": 1.02,
+      "3y": 0.57,
+      "5y": 0.32
     },
     "max_drawdown": {
       "1y": null,
@@ -1281,49 +1283,50 @@
     }
   },
   "asset_class_breakdown": {
-    "equity": 0.9143,
-    "other": 0.0857
+    "equity": 0.8938,
+    "other": 0.0614,
+    "bond": 0.0448
   },
   "top_holdings": [
     {
       "name": "Nvidia Corp.",
-      "weight": 0.0492
+      "weight": 0.0522
     },
     {
       "name": "Apple Inc.",
-      "weight": 0.0398
+      "weight": 0.0437
+    },
+    {
+      "name": "Alphabet, Inc. - Class C",
+      "weight": 0.041
     },
     {
       "name": "Amazon.com Inc.",
-      "weight": 0.0339
-    },
-    {
-      "name": "Alphabet, Inc. - Class A",
-      "weight": 0.033
-    },
-    {
-      "name": "Taiwan Semiconductor Manufact.",
-      "weight": 0.0324
+      "weight": 0.0401
     },
     {
       "name": "Microsoft Corp.",
-      "weight": 0.0311
+      "weight": 0.0399
+    },
+    {
+      "name": "Taiwan Semiconductor Manufact. ADR",
+      "weight": 0.0352
+    },
+    {
+      "name": "Broadcom Inc.",
+      "weight": 0.0258
+    },
+    {
+      "name": "Linde PLC",
+      "weight": 0.0244
     },
     {
       "name": "SSE PLC",
-      "weight": 0.0236
-    },
-    {
-      "name": "Thermo Fisher Scientific, Inc.",
-      "weight": 0.0229
+      "weight": 0.0227
     },
     {
       "name": "Rolls-Royce Holdings Plc",
-      "weight": 0.0225
-    },
-    {
-      "name": "Unilever PLC",
-      "weight": 0.0218
+      "weight": 0.0222
     }
   ]
 }

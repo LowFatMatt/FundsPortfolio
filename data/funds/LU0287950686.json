@@ -1,24 +1,26 @@
 {
   "isin": "LU0287950686",
-  "as_of": "2026-05-12",
+  "as_of": "2026-06-01",
   "schema_version": 2,
   "source": "factsheetslive",
   "source_url": "https://provinzial-nord.stg.wt.factsheetslive.com/produkt/LU0287950686",
   "currency": "EUR",
   "fund_name": "Deka-ZielGarant 2050-2053",
   "provinzial_fund_type": "Vermögensverwaltende Fonds",
+  "region": "global",
+  "theme": "NONE",
   "ter": 0.0117,
   "sri": 4,
   "performance": {
     "periods": {
-      "3m": 0.0017,
-      "6m": -0.0122,
-      "ytd": 0.017,
-      "1y": -0.0589,
-      "3y_pa": -0.0284,
-      "5y_pa": -0.1142,
-      "10y_pa": -0.0455,
-      "si_pa": -0.0459
+      "3m": -0.0373,
+      "6m": -0.0071,
+      "ytd": 0.0174,
+      "1y": -0.0537,
+      "3y_pa": -0.0287,
+      "5y_pa": -0.114,
+      "10y_pa": -0.0456,
+      "si_pa": -0.0457
     },
     "nav_series": [
       {
@@ -514,25 +516,25 @@
         "v": 60.9238
       },
       {
-        "d": "2026-05-11",
-        "v": 61.8664
+        "d": "2026-05-29",
+        "v": 61.8873
       }
     ]
   },
   "volatility": {
-    "1y": 0.1142,
-    "3y": 0.1438,
-    "5y": 0.1685
+    "1y": 0.1084,
+    "3y": 0.1419,
+    "5y": 0.1688
   },
   "risk_metrics": {
     "sharpe": {
-      "1y": -0.67,
+      "1y": -0.66,
       "3y": -0.39,
       "5y": -0.77
     },
     "max_drawdown": {
       "1y": null,
-      "3y": -0.1974,
+      "3y": -0.2012,
       "5y": -0.5402
     }
   },
@@ -541,16 +543,16 @@
   },
   "top_holdings": [
     {
-      "name": "JPMorgan Funds - JPM Europe Equity A (dist) - USD",
-      "weight": 0.003
-    },
-    {
       "name": "Deka MSCI Europe UCITS ETF",
-      "weight": 0.003
+      "weight": 0.002
     },
     {
       "name": "Pictet Funds (Lux) - Europe Index-I €",
-      "weight": 0.003
+      "weight": 0.002
+    },
+    {
+      "name": "JPMorgan Funds - JPM Europe Equity A (dist) - USD",
+      "weight": 0.002
     }
   ]
 }

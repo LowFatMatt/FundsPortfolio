@@ -1,24 +1,26 @@
 {
   "isin": "DE0008474537",
-  "as_of": "2026-05-12",
+  "as_of": "2026-06-01",
   "schema_version": 2,
   "source": "factsheetslive",
   "source_url": "https://provinzial-nord.stg.wt.factsheetslive.com/produkt/DE0008474537",
   "currency": "EUR",
   "fund_name": "RenditDeka CF",
   "provinzial_fund_type": "Renten/Geldmarktfonds",
+  "region": "europe",
+  "theme": "NONE",
   "ter": 0.0086,
   "sri": 3,
   "performance": {
     "periods": {
-      "3m": -0.0077,
-      "6m": 0.0002,
-      "ytd": 0.0034,
-      "1y": 0.0207,
-      "3y_pa": 0.0351,
-      "5y_pa": -0.0105,
-      "10y_pa": 0.0028,
-      "si_pa": 0.0035
+      "3m": -0.0085,
+      "6m": 0.0062,
+      "ytd": 0.0102,
+      "1y": 0.0198,
+      "3y_pa": 0.0366,
+      "5y_pa": -0.009,
+      "10y_pa": 0.0034,
+      "si_pa": 0.0036
     },
     "nav_series": [
       {
@@ -2730,21 +2732,21 @@
         "v": 119.5868
       },
       {
-        "d": "2026-05-11",
-        "v": 120.3552
+        "d": "2026-05-29",
+        "v": 121.1784
       }
     ]
   },
   "volatility": {
-    "1y": 0.04,
-    "3y": 0.0499,
-    "5y": 0.0571
+    "1y": 0.039,
+    "3y": 0.0484,
+    "5y": 0.0572
   },
   "risk_metrics": {
     "sharpe": {
-      "1y": 0.03,
-      "3y": 0.12,
-      "5y": -0.5
+      "1y": 0.02,
+      "3y": 0.16,
+      "5y": -0.48
     },
     "max_drawdown": {
       "1y": null,
@@ -2753,8 +2755,7 @@
     }
   },
   "asset_class_breakdown": {
-    "bond": 0.9939,
-    "other": 0.0061
+    "bond": 1.0045
   },
   "top_holdings": [
     {
@@ -2767,6 +2768,10 @@
     },
     {
       "name": "Electricité de France (E.D.F.) MTN 13/33",
+      "weight": 0.0085
+    },
+    {
+      "name": "Provinz British Columbia MTN 25/45",
       "weight": 0.0084
     },
     {
@@ -2782,20 +2787,16 @@
       "weight": 0.0071
     },
     {
-      "name": "Provinz British Columbia MTN 25/45",
-      "weight": 0.0067
-    },
-    {
       "name": "Hamburger Hochbahn AG Anl. 21/31",
-      "weight": 0.0066
-    },
-    {
-      "name": "Griechenland Notes 26/36",
       "weight": 0.0066
     },
     {
       "name": "Flaemische Gemeinschaft MTN 26/36",
       "weight": 0.0066
+    },
+    {
+      "name": "Rep. Frankreich OAT 25/37",
+      "weight": 0.0065
     }
   ]
 }

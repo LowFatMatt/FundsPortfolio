@@ -1,12 +1,14 @@
 {
   "isin": "DE000DK2CCQ6",
-  "as_of": "2026-05-12",
+  "as_of": "2026-06-01",
   "schema_version": 2,
   "source": "factsheetslive",
   "source_url": "https://provinzial-nord.stg.wt.factsheetslive.com/produkt/DE000DK2CCQ6",
   "currency": "EUR",
   "fund_name": "Deka-PB Multi Asset Quant",
   "provinzial_fund_type": "Mischfonds",
+  "region": "global",
+  "theme": "NONE",
   "ter": 0.0125,
   "sri": 2,
   "performance": {

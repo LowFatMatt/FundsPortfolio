@@ -1,24 +1,26 @@
 {
   "isin": "LU1211621138",
-  "as_of": "2026-05-12",
+  "as_of": "2026-06-01",
   "schema_version": 2,
   "source": "factsheetslive",
   "source_url": "https://provinzial-nord.stg.wt.factsheetslive.com/produkt/LU1211621138",
   "currency": "EUR",
   "fund_name": "Deka-EuropaGarant 80 A",
   "provinzial_fund_type": "Wertsicherungsfonds",
+  "region": "europe",
+  "theme": "NONE",
   "ter": 0.0137,
   "sri": 3,
   "performance": {
     "periods": {
-      "3m": -0.0144,
-      "6m": 0.0613,
-      "ytd": 0.0431,
-      "1y": 0.1094,
-      "3y_pa": 0.079,
-      "5y_pa": 0.0542,
-      "10y_pa": 0.0438,
-      "si_pa": 0.0395
+      "3m": -0.0278,
+      "6m": 0.0821,
+      "ytd": 0.0612,
+      "1y": 0.1083,
+      "3y_pa": 0.093,
+      "5y_pa": 0.0523,
+      "10y_pa": 0.0418,
+      "si_pa": 0.0411
     },
     "nav_series": [
       {
@@ -514,21 +516,21 @@
         "v": 156.7098
       },
       {
-        "d": "2026-05-11",
-        "v": 156.6644
+        "d": "2026-05-29",
+        "v": 159.3892
       }
     ]
   },
   "volatility": {
-    "1y": 0.1061,
-    "3y": 0.1043,
-    "5y": 0.1063
+    "1y": 0.1078,
+    "3y": 0.1044,
+    "5y": 0.1066
   },
   "risk_metrics": {
     "sharpe": {
-      "1y": 0.83,
-      "3y": 0.47,
-      "5y": 0.33
+      "1y": 0.82,
+      "3y": 0.6,
+      "5y": 0.31
     },
     "max_drawdown": {
       "1y": null,

@@ -1,24 +1,26 @@
 {
   "isin": "DE000A1CXYM9",
-  "as_of": "2026-05-12",
+  "as_of": "2026-06-01",
   "schema_version": 2,
   "source": "factsheetslive",
   "source_url": "https://provinzial-nord.stg.wt.factsheetslive.com/produkt/DE000A1CXYM9",
   "currency": "EUR",
   "fund_name": "Weltzins-INVEST (P)",
   "provinzial_fund_type": "Renten/Geldmarktfonds",
+  "region": "emerging_markets",
+  "theme": "NONE",
   "ter": 0.0127,
   "sri": 2,
   "performance": {
     "periods": {
-      "3m": 0.0103,
-      "6m": 0.0316,
-      "ytd": 0.03,
-      "1y": 0.0868,
-      "3y_pa": 0.0518,
-      "5y_pa": 0.0321,
-      "10y_pa": 0.0239,
-      "si_pa": 0.0282
+      "3m": 0.0078,
+      "6m": 0.0402,
+      "ytd": 0.0407,
+      "1y": 0.0853,
+      "3y_pa": 0.0532,
+      "5y_pa": 0.0347,
+      "10y_pa": 0.0235,
+      "si_pa": 0.0288
     },
     "nav_series": [
       {
@@ -782,21 +784,21 @@
         "v": 154.506
       },
       {
-        "d": "2026-05-11",
-        "v": 154.7433
+        "d": "2026-05-29",
+        "v": 156.3562
       }
     ]
   },
   "volatility": {
-    "1y": 0.0395,
-    "3y": 0.0455,
+    "1y": 0.0376,
+    "3y": 0.0453,
     "5y": 0.0488
   },
   "risk_metrics": {
     "sharpe": {
-      "1y": 1.68,
-      "3y": 0.49,
-      "5y": 0.27
+      "1y": 1.74,
+      "3y": 0.52,
+      "5y": 0.32
     },
     "max_drawdown": {
       "1y": null,
@@ -805,28 +807,27 @@
     }
   },
   "asset_class_breakdown": {
-    "bond": 0.999,
-    "other": 0.001
+    "bond": 1.0032
   },
   "top_holdings": [
     {
       "name": "Centr. Am. Bk Ec.Integr.CABEI MTN 24/31",
-      "weight": 0.0073
+      "weight": 0.007
     },
     {
       "name": "Citigroup Glob.Mkts Hldgs Inc. MTN 21/29",
-      "weight": 0.0058
+      "weight": 0.0059
     },
     {
       "name": "Citigroup Glob.Mkts Hldgs Inc. MTN 25/29 Reg.S",
-      "weight": 0.0056
-    },
-    {
-      "name": "The Korea Development Bank MTN 24/29",
-      "weight": 0.0054
+      "weight": 0.0058
     },
     {
       "name": "Brasilien Nota S.NTN-F 20/31",
+      "weight": 0.0055
+    },
+    {
+      "name": "The Korea Development Bank MTN 24/29",
       "weight": 0.0052
     },
     {
@@ -835,10 +836,6 @@
     },
     {
       "name": "Malaysia Bonds 20/31",
-      "weight": 0.0052
-    },
-    {
-      "name": "BNP Paribas S.A. Non-Preferred MTN 22/30",
       "weight": 0.0051
     },
     {
@@ -846,8 +843,12 @@
       "weight": 0.005
     },
     {
-      "name": "Citigroup Glob.Mkts Hldgs Inc. MTN 22/32",
-      "weight": 0.0047
+      "name": "City of Bogota Notes 07/28 Reg.S",
+      "weight": 0.0046
+    },
+    {
+      "name": "BNP Paribas S.A. Non-Preferred MTN 22/30",
+      "weight": 0.0046
     }
   ]
 }

@@ -1,24 +1,26 @@
 {
   "isin": "DE0008474750",
-  "as_of": "2026-05-12",
+  "as_of": "2026-06-01",
   "schema_version": 2,
   "source": "factsheetslive",
   "source_url": "https://provinzial-nord.stg.wt.factsheetslive.com/produkt/DE0008474750",
   "currency": "EUR",
   "fund_name": "DekaTresor",
   "provinzial_fund_type": "Renten/Geldmarktfonds",
+  "region": "europe",
+  "theme": "NONE",
   "ter": 0.0084,
   "sri": 2,
   "performance": {
     "periods": {
-      "3m": -0.0051,
-      "6m": 0.0016,
-      "ytd": 0.0009,
-      "1y": 0.0132,
-      "3y_pa": 0.0316,
-      "5y_pa": 0.0099,
-      "10y_pa": 0.0104,
-      "si_pa": 0.0134
+      "3m": -0.0035,
+      "6m": 0.0047,
+      "ytd": 0.0046,
+      "1y": 0.0144,
+      "3y_pa": 0.0332,
+      "5y_pa": 0.0107,
+      "10y_pa": 0.0107,
+      "si_pa": 0.0136
     },
     "nav_series": [
       {
@@ -762,21 +764,21 @@
         "v": 122.2731
       },
       {
-        "d": "2026-05-11",
-        "v": 122.6314
+        "d": "2026-05-29",
+        "v": 123.0757
       }
     ]
   },
   "volatility": {
     "1y": 0.0137,
-    "3y": 0.0143,
+    "3y": 0.0141,
     "5y": 0.0167
   },
   "risk_metrics": {
     "sharpe": {
-      "1y": -0.43,
-      "3y": 0.18,
-      "5y": -0.51
+      "1y": -0.33,
+      "3y": 0.31,
+      "5y": -0.48
     },
     "max_drawdown": {
       "1y": null,
@@ -785,8 +787,8 @@
     }
   },
   "asset_class_breakdown": {
-    "bond": 0.9789,
-    "other": 0.0211
+    "bond": 0.9944,
+    "other": 0.0056
   },
   "top_holdings": [
     {
@@ -795,7 +797,7 @@
     },
     {
       "name": "Königreich Spanien MTN 99/29",
-      "weight": 0.0054
+      "weight": 0.0052
     },
     {
       "name": "Rep. Frankreich OAT 17/28",

@@ -1,12 +1,14 @@
 {
   "isin": "IE000UOXRAM8",
-  "as_of": "2026-05-12",
+  "as_of": "2026-06-01",
   "schema_version": 2,
   "source": "factsheetslive",
   "source_url": "https://provinzial-nord.stg.wt.factsheetslive.com/produkt/IE000UOXRAM8",
   "currency": "USD",
   "fund_name": "Invesco Markets II plc - Dow Jones Islamic Global Developed Markets UCITS ETF",
   "provinzial_fund_type": "Aktienfonds",
+  "region": "global",
+  "theme": "NONE",
   "ter": 0.004,
   "sri": 4,
   "performance": {

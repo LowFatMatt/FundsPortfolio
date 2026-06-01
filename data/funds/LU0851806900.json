@@ -1,24 +1,26 @@
 {
   "isin": "LU0851806900",
-  "as_of": "2026-05-12",
+  "as_of": "2026-06-01",
   "schema_version": 2,
   "source": "factsheetslive",
   "source_url": "https://provinzial-nord.stg.wt.factsheetslive.com/produkt/LU0851806900",
   "currency": "EUR",
   "fund_name": "Deka-Globale Aktien LowRisk CF (A)",
   "provinzial_fund_type": "Aktienfonds",
+  "region": "global",
+  "theme": "NONE",
   "ter": 0.0146,
   "sri": 3,
   "performance": {
     "periods": {
-      "3m": -0.036,
-      "6m": 0.0131,
-      "ytd": 0.0005,
-      "1y": 0.0355,
-      "3y_pa": 0.0655,
-      "5y_pa": 0.0659,
-      "10y_pa": 0.0676,
-      "si_pa": 0.0874
+      "3m": -0.0334,
+      "6m": 0.0178,
+      "ytd": 0.0196,
+      "1y": 0.0363,
+      "3y_pa": 0.0764,
+      "5y_pa": 0.0703,
+      "10y_pa": 0.0673,
+      "si_pa": 0.0886
     },
     "nav_series": [
       {
@@ -666,21 +668,21 @@
         "v": 315.4342
       },
       {
-        "d": "2026-05-11",
-        "v": 312.2987
+        "d": "2026-05-29",
+        "v": 318.2623
       }
     ]
   },
   "volatility": {
-    "1y": 0.077,
-    "3y": 0.0943,
-    "5y": 0.1001
+    "1y": 0.0756,
+    "3y": 0.0945,
+    "5y": 0.1003
   },
   "risk_metrics": {
     "sharpe": {
-      "1y": 0.21,
-      "3y": 0.38,
-      "5y": 0.46
+      "1y": 0.22,
+      "3y": 0.49,
+      "5y": 0.5
     },
     "max_drawdown": {
       "1y": null,
@@ -689,28 +691,36 @@
     }
   },
   "asset_class_breakdown": {
-    "equity": 0.9922,
-    "other": 0.0078
+    "equity": 0.9809,
+    "other": 0.0191
   },
   "top_holdings": [
     {
       "name": "Novartis AG",
-      "weight": 0.0129
+      "weight": 0.0121
+    },
+    {
+      "name": "Cisco Systems, Inc.",
+      "weight": 0.0117
+    },
+    {
+      "name": "Zoom Video Communications Inc.",
+      "weight": 0.0117
+    },
+    {
+      "name": "Alphabet, Inc. - Class A",
+      "weight": 0.0114
+    },
+    {
+      "name": "Cboe Global Markets Inc.",
+      "weight": 0.0111
     },
     {
       "name": "Loblaw Co´s Ltd",
-      "weight": 0.0112
+      "weight": 0.0109
     },
     {
-      "name": "Exelon",
-      "weight": 0.011
-    },
-    {
-      "name": "Verizon Communications Inc.",
-      "weight": 0.0107
-    },
-    {
-      "name": "Johnson & Johnson",
+      "name": "Snap-On",
       "weight": 0.0107
     },
     {
@@ -718,19 +728,11 @@
       "weight": 0.0107
     },
     {
-      "name": "Quest Diagnostics",
-      "weight": 0.0104
-    },
-    {
-      "name": "Cboe Global Markets Inc.",
-      "weight": 0.0104
-    },
-    {
-      "name": "Snap-On",
+      "name": "National Grid PLC",
       "weight": 0.0103
     },
     {
-      "name": "TJX Companies Inc.",
+      "name": "Exelon",
       "weight": 0.0103
     }
   ]

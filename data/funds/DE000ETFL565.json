@@ -1,24 +1,26 @@
 {
   "isin": "DE000ETFL565",
-  "as_of": "2026-05-12",
+  "as_of": "2026-06-01",
   "schema_version": 2,
   "source": "factsheetslive",
   "source_url": "https://provinzial-nord.stg.wt.factsheetslive.com/produkt/DE000ETFL565",
   "currency": "EUR",
   "fund_name": "Deka MSCI Europe Climate Change ESG CTB UCITS ETF",
   "provinzial_fund_type": "Aktienfonds",
+  "region": "europe",
+  "theme": "sustainability",
   "ter": 0.0026,
   "sri": 4,
   "performance": {
     "periods": {
-      "3m": -0.0103,
-      "6m": 0.06,
-      "ytd": 0.0134,
-      "1y": 0.1018,
-      "3y_pa": 0.0844,
-      "5y_pa": 0.0608,
+      "3m": -0.0126,
+      "6m": 0.0641,
+      "ytd": 0.0395,
+      "1y": 0.1007,
+      "3y_pa": 0.0943,
+      "5y_pa": 0.063,
       "10y_pa": null,
-      "si_pa": 0.0933
+      "si_pa": 0.0971
     },
     "nav_series": [
       {
@@ -306,21 +308,21 @@
         "v": 167.2464
       },
       {
-        "d": "2026-05-08",
-        "v": 168.0201
+        "d": "2026-05-28",
+        "v": 172.3543
       }
     ]
   },
   "volatility": {
-    "1y": 0.1282,
-    "3y": 0.1298,
-    "5y": 0.1457
+    "1y": 0.1287,
+    "3y": 0.1299,
+    "5y": 0.1456
   },
   "risk_metrics": {
     "sharpe": {
-      "1y": 0.63,
-      "3y": 0.41,
-      "5y": 0.29
+      "1y": 0.62,
+      "3y": 0.49,
+      "5y": 0.3
     },
     "max_drawdown": {
       "1y": null,
@@ -329,49 +331,49 @@
     }
   },
   "asset_class_breakdown": {
-    "equity": 0.9946,
-    "other": 0.0054
+    "equity": 0.9945,
+    "other": 0.0055
   },
   "top_holdings": [
     {
-      "name": "Iberdrola, S.A.",
-      "weight": 0.0448
+      "name": "Schneider Electric SE",
+      "weight": 0.0482
     },
     {
-      "name": "Schneider Electric SE",
-      "weight": 0.0432
+      "name": "Iberdrola, S.A.",
+      "weight": 0.043
     },
     {
       "name": "AstraZeneca, PLC",
-      "weight": 0.0369
-    },
-    {
-      "name": "Novartis AG",
-      "weight": 0.035
+      "weight": 0.0338
     },
     {
       "name": "Roche Holding AG PS",
-      "weight": 0.0334
+      "weight": 0.0325
     },
     {
-      "name": "SAP",
+      "name": "Novartis AG",
       "weight": 0.0322
     },
     {
+      "name": "SAP",
+      "weight": 0.0303
+    },
+    {
       "name": "ASM International",
-      "weight": 0.0208
+      "weight": 0.0216
     },
     {
       "name": "HSBC Holding Plc",
-      "weight": 0.0204
+      "weight": 0.0211
     },
     {
-      "name": "LVMH Moët Henn. L. Vuitton SE",
-      "weight": 0.0147
+      "name": "ABB Ltd.",
+      "weight": 0.0164
     },
     {
       "name": "Novo Nordisk A/S B",
-      "weight": 0.014
+      "weight": 0.0158
     }
   ]
 }

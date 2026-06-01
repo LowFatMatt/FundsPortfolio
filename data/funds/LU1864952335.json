@@ -1,24 +1,26 @@
 {
   "isin": "LU1864952335",
-  "as_of": "2026-05-12",
+  "as_of": "2026-06-01",
   "schema_version": 2,
   "source": "factsheetslive",
   "source_url": "https://provinzial-nord.stg.wt.factsheetslive.com/produkt/LU1864952335",
   "currency": "EUR",
   "fund_name": "CT (Lux) European Smaller Companies Fund 1E EUR acc",
   "provinzial_fund_type": "Aktienfonds",
+  "region": "europe",
+  "theme": "NONE",
   "ter": 0.0172,
   "sri": 4,
   "performance": {
     "periods": {
-      "3m": 0.0261,
-      "6m": 0.1234,
-      "ytd": 0.074,
-      "1y": 0.1619,
-      "3y_pa": 0.0597,
-      "5y_pa": 0.0084,
-      "10y_pa": 0.0663,
-      "si_pa": 0.0856
+      "3m": 0.0378,
+      "6m": 0.1157,
+      "ytd": 0.0961,
+      "1y": 0.1308,
+      "3y_pa": 0.068,
+      "5y_pa": 0.0104,
+      "10y_pa": 0.0633,
+      "si_pa": 0.0865
     },
     "nav_series": [
       {
@@ -998,21 +1000,21 @@
         "v": 494.1182
       },
       {
-        "d": "2026-05-08",
-        "v": 500.9841
+        "d": "2026-05-28",
+        "v": 511.3312
       }
     ]
   },
   "volatility": {
-    "1y": 0.1446,
-    "3y": 0.1502,
-    "5y": 0.1777
+    "1y": 0.146,
+    "3y": 0.15,
+    "5y": 0.1776
   },
   "risk_metrics": {
     "sharpe": {
-      "1y": 0.97,
-      "3y": 0.2,
-      "5y": -0.06
+      "1y": 0.75,
+      "3y": 0.25,
+      "5y": -0.05
     },
     "max_drawdown": {
       "1y": null,

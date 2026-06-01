@@ -1,24 +1,26 @@
 {
   "isin": "LU2109588199",
-  "as_of": "2026-05-12",
+  "as_of": "2026-06-01",
   "schema_version": 2,
   "source": "factsheetslive",
   "source_url": "https://provinzial-nord.stg.wt.factsheetslive.com/produkt/LU2109588199",
   "currency": "EUR",
   "fund_name": "Deka-Impact Aktien CF",
   "provinzial_fund_type": "Aktienfonds",
+  "region": "global",
+  "theme": "NONE",
   "ter": 0.0152,
   "sri": 4,
   "performance": {
     "periods": {
-      "3m": 0.0208,
-      "6m": 0.0148,
-      "ytd": 0.0277,
-      "1y": 0.0945,
-      "3y_pa": 0.0335,
-      "5y_pa": -0.0394,
+      "3m": 0.0434,
+      "6m": 0.0531,
+      "ytd": 0.0605,
+      "1y": 0.0998,
+      "3y_pa": 0.0432,
+      "5y_pa": -0.0397,
       "10y_pa": null,
-      "si_pa": 0.0256
+      "si_pa": 0.0308
     },
     "nav_series": [
       {
@@ -306,20 +308,20 @@
         "v": 109.9992
       },
       {
-        "d": "2026-05-11",
-        "v": 112.8947
+        "d": "2026-05-29",
+        "v": 116.5064
       }
     ]
   },
   "volatility": {
-    "1y": 0.1187,
-    "3y": 0.1318,
-    "5y": 0.1467
+    "1y": 0.1185,
+    "3y": 0.1322,
+    "5y": 0.1468
   },
   "risk_metrics": {
     "sharpe": {
-      "1y": 0.62,
-      "3y": 0.03,
+      "1y": 0.67,
+      "3y": 0.11,
       "5y": -0.39
     },
     "max_drawdown": {
@@ -329,49 +331,49 @@
     }
   },
   "asset_class_breakdown": {
-    "equity": 0.9918,
-    "other": 0.0082
+    "equity": 0.9692,
+    "other": 0.0308
   },
   "top_holdings": [
     {
-      "name": "Veolia Environnement",
-      "weight": 0.0319
-    },
-    {
       "name": "American Water Works",
-      "weight": 0.0317
+      "weight": 0.0309
     },
     {
-      "name": "Xylem Inc.",
-      "weight": 0.0296
-    },
-    {
-      "name": "Boston Scientific Corp.",
-      "weight": 0.0276
+      "name": "Veolia Environnement",
+      "weight": 0.0308
     },
     {
       "name": "Nvidia Corp.",
-      "weight": 0.0242
+      "weight": 0.0285
     },
     {
-      "name": "Gfl Environmental Inc.",
-      "weight": 0.0218
+      "name": "Taiwan Semiconductor Manufact.",
+      "weight": 0.0277
     },
     {
-      "name": "Alstom",
+      "name": "Xylem Inc.",
+      "weight": 0.0273
+    },
+    {
+      "name": "Schneider Electric SE",
+      "weight": 0.0222
+    },
+    {
+      "name": "Siemens AG",
       "weight": 0.0216
     },
     {
-      "name": "Linde PLC",
-      "weight": 0.0214
+      "name": "Essential Utilities Inc",
+      "weight": 0.0208
     },
     {
-      "name": "Essential Utilities Inc",
-      "weight": 0.021
+      "name": "Nemetschek",
+      "weight": 0.019
     },
     {
       "name": "Thermo Fisher Scientific, Inc.",
-      "weight": 0.0209
+      "weight": 0.0188
     }
   ]
 }

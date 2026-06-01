@@ -1,24 +1,26 @@
 {
   "isin": "LU2224496260",
-  "as_of": "2026-05-12",
+  "as_of": "2026-06-01",
   "schema_version": 2,
   "source": "factsheetslive",
   "source_url": "https://provinzial-nord.stg.wt.factsheetslive.com/produkt/LU2224496260",
   "currency": "EUR",
   "fund_name": "Deka-EuropaGarant 90",
   "provinzial_fund_type": "Wertsicherungsfonds",
+  "region": "europe",
+  "theme": "NONE",
   "ter": 0.0117,
   "sri": 3,
   "performance": {
     "periods": {
-      "3m": -0.0269,
-      "6m": 0.0302,
-      "ytd": 0.0162,
-      "1y": 0.0632,
-      "3y_pa": 0.0471,
-      "5y_pa": 0.0321,
+      "3m": -0.0403,
+      "6m": 0.0423,
+      "ytd": 0.0274,
+      "1y": 0.066,
+      "3y_pa": 0.0567,
+      "5y_pa": 0.0298,
       "10y_pa": null,
-      "si_pa": 0.038
+      "si_pa": 0.0397
     },
     "nav_series": [
       {
@@ -286,21 +288,21 @@
         "v": 123.5506
       },
       {
-        "d": "2026-05-11",
-        "v": 122.8797
+        "d": "2026-05-29",
+        "v": 124.2315
       }
     ]
   },
   "volatility": {
-    "1y": 0.0646,
-    "3y": 0.0685,
+    "1y": 0.0658,
+    "3y": 0.0684,
     "5y": 0.0726
   },
   "risk_metrics": {
     "sharpe": {
-      "1y": 0.67,
-      "3y": 0.26,
-      "5y": 0.18
+      "1y": 0.7,
+      "3y": 0.4,
+      "5y": 0.15
     },
     "max_drawdown": {
       "1y": null,
@@ -317,36 +319,32 @@
       "weight": 0.015
     },
     {
-      "name": "SWISSCOM AG NAM.",
-      "weight": 0.014
-    },
-    {
       "name": "Enel SPA",
-      "weight": 0.014
+      "weight": 0.015
     },
     {
       "name": "TotalEnergies SE",
-      "weight": 0.013
+      "weight": 0.014
     },
     {
-      "name": "Delhaize Grp.",
+      "name": "SWISSCOM AG NAM.",
       "weight": 0.013
     },
     {
       "name": "Iberdrola, S.A.",
-      "weight": 0.012
+      "weight": 0.013
     },
     {
-      "name": "Henkel AG & Co. KGaA Vz",
-      "weight": 0.011
-    },
-    {
-      "name": "Unilever PLC",
+      "name": "Terna Rete Elettrica Nazionale SpA",
       "weight": 0.011
     },
     {
       "name": "National Grid PLC",
-      "weight": 0.011
+      "weight": 0.01
+    },
+    {
+      "name": "Endesa",
+      "weight": 0.01
     }
   ]
 }
