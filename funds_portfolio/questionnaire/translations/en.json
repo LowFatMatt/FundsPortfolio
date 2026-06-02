@@ -34,52 +34,52 @@
     "preferred_regions": {
       "name": "Which regions would you like to invest in?",
       "options": {
-        "region_germany": "Germany – German market focus",
-        "region_europe": "Europe – focus on European markets",
-        "region_north_america": "North America – US and Canadian markets",
-        "region_asia": "Asia – developed and emerging Asia",
-        "region_emerging": "Emerging Markets – high-growth developing economies",
-        "region_global": "Global – anything not covered by the regions above"
+        "region_global": "Global",
+        "region_germany": "Germany",
+        "region_europe": "Europe",
+        "region_north_america": "North America",
+        "region_asia": "Asia",
+        "region_emerging": "Emerging Markets"
       }
     },
     "preferred_themes": {
       "name": "Are there any investment themes you're excited about?",
       "options": {
-        "theme_none": "No specific theme – just a well-diversified portfolio",
-        "theme_sustainability": "Sustainability & Climate – clean energy, environmental protection",
-        "theme_technology": "Technology & Innovation – AI, semiconductors, digitalisation",
-        "theme_healthcare": "Healthcare & Life Sciences – biotech, medical devices, pharma",
-        "theme_commodities": "Commodities & Raw Materials – metals, energy, agriculture",
-        "theme_infrastructure": "Infrastructure – transport, utilities, communication networks",
-        "theme_defense": "Security & Defense – aerospace, defense, cybersecurity",
-        "theme_energy": "Energy – traditional and renewable energy producers",
-        "theme_megatrends": "Megatrends – broad structural growth trends",
-        "theme_water": "Water – water supply, treatment and efficiency",
-        "theme_ai_robotics": "AI & Robotics – artificial intelligence and automation",
-        "theme_dividends": "Dividends – stable, income-generating companies"
+        "theme_none": "No specific theme",
+        "theme_sustainability": "Sustainability & Climate",
+        "theme_technology": "Technology & Innovation",
+        "theme_healthcare": "Healthcare & Life Sciences",
+        "theme_commodities": "Commodities & Raw Materials",
+        "theme_infrastructure": "Infrastructure",
+        "theme_defense": "Security & Defense",
+        "theme_energy": "Energy",
+        "theme_megatrends": "Megatrends",
+        "theme_water": "Water",
+        "theme_ai_robotics": "AI & Robotics",
+        "theme_dividends": "Dividends"
       }
     }
   },
   "regions": {
-    "germany": "Germany - German market focus",
-    "europe": "Europe - focus on European markets",
-    "north_america": "North America - US and Canadian markets",
-    "asia": "Asia - developed and emerging Asia",
-    "emerging_markets": "Emerging Markets - high-growth developing economies",
-    "global": "Global - anything not covered by the regions above"
+    "germany": "Germany",
+    "europe": "Europe",
+    "north_america": "North America",
+    "asia": "Asia",
+    "emerging_markets": "Emerging Markets",
+    "global": "Global"
   },
   "themes": {
-    "none": "No specific theme - just a well-diversified portfolio",
-    "sustainability": "Sustainability & Climate - clean energy, environmental protection",
-    "technology": "Technology & Innovation - AI, semiconductors, digitalisation",
-    "healthcare": "Healthcare & Life Sciences - biotech, medical devices, pharma",
-    "commodities": "Commodities & Raw Materials - metals, energy, agriculture",
-    "infrastructure": "Infrastructure - transport, utilities, communication networks",
-    "defense": "Security & Defense - aerospace, defense, cybersecurity",
-    "energy": "Energy - traditional and renewable energy producers",
-    "megatrends": "Megatrends - broad structural growth trends",
-    "water": "Water - water supply, treatment and efficiency",
-    "ai_robotics": "AI & Robotics - artificial intelligence and automation",
-    "dividends": "Dividends - stable, income-generating companies"
+    "none": "No specific theme",
+    "sustainability": "Sustainability & Climate",
+    "technology": "Technology & Innovation",
+    "healthcare": "Healthcare & Life Sciences",
+    "commodities": "Commodities & Raw Materials",
+    "infrastructure": "Infrastructure",
+    "defense": "Security & Defense",
+    "energy": "Energy",
+    "megatrends": "Megatrends",
+    "water": "Water",
+    "ai_robotics": "AI & Robotics",
+    "dividends": "Dividends"
   }
 }

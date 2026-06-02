@@ -249,18 +249,16 @@ class DecisionEngine:
         Returns (profile, used_fallback).
         """
         approach = str(user_answers.get("risk_approach", "")).lower()
-        loss = str(user_answers.get("loss_tolerance", "")).lower()
 
-        base = {
+        score = {
             "conservative": 1,
             "moderate": 3,
             "aggressive": 4,
         }.get(approach)
-        if base is None:
+        if score is None:
             return "BALANCED", True
 
-        modifier = 1 if loss == "high_loss_tolerance" else 0
-        score = base + modifier
+        # score = base
 
         if score <= 2:
             return "DEFENSIVE", False

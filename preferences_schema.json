@@ -34,27 +34,6 @@
         ]
       },
       {
-        "id": "loss_tolerance",
-        "name": "Can you afford financial losses?",
-        "type": "single_select",
-        "display_hint": "cards",
-        "required": true,
-        "options": [
-          {
-            "id": "low_tolerance",
-            "label": "I need strong guarantees and want to minimise the risk of losses",
-            "value": "low_loss_tolerance",
-            "loss_tolerance_score": 1
-          },
-          {
-            "id": "high_tolerance",
-            "label": "I'm in a solid financial position to handle larger losses if needed",
-            "value": "high_loss_tolerance",
-            "loss_tolerance_score": 4
-          }
-        ]
-      },
-      {
         "id": "esg_preference",
         "name": "How important is sustainability to you?",
         "description": "ESG stands for Environmental, Social & Governance – it measures how responsibly a company operates.",

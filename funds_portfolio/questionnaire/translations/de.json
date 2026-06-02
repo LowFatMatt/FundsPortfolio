@@ -8,13 +8,6 @@
         "aggressive": "Ich nehme Risiken in Kauf für bessere Wachstumschancen"
       }
     },
-    "loss_tolerance": {
-      "name": "Können Sie finanzielle Verluste tragen?",
-      "options": {
-        "low_tolerance": "Ich brauche starke Garantien und möchte Verluste minimieren",
-        "high_tolerance": "Ich kann auch größere Verluste finanziell verkraften"
-      }
-    },
     "esg_preference": {
       "name": "Wie wichtig ist Ihnen Nachhaltigkeit?",
       "description": "ESG steht für Environmental, Social & Governance und misst, wie verantwortungsvoll ein Unternehmen handelt.",
@@ -37,53 +30,53 @@
       "name": "Welche Regionen möchten Sie bevorzugen?",
       "description": "Wählen Sie alles, was Sie interessiert. Wir nutzen dies, um regionale Schwerpunkte zu setzen und das Portfolio dennoch zu diversifizieren.",
       "options": {
-        "region_germany": "Deutschland – Fokus auf den deutschen Markt",
-        "region_europe": "Europa – Fokus auf europäische Märkte",
-        "region_north_america": "Nordamerika – USA und Kanada",
-        "region_asia": "Asien – entwickelte und aufstrebende Märkte",
-        "region_emerging": "Schwellenländer – wachstumsstark",
-        "region_global": "Global – alles, was nicht von den Regionen oben abgedeckt ist"
+        "region_global": "Global",
+        "region_germany": "Deutschland",
+        "region_europe": "Europa",
+        "region_north_america": "Nordamerika",
+        "region_asia": "Asien",
+        "region_emerging": "Schwellenländer"
       }
     },
     "preferred_themes": {
       "name": "Gibt es Anlagethemen, die Sie besonders interessieren?",
       "description": "Themenfonds konzentrieren sich auf bestimmte Trends oder Sektoren. Das sind Satellitenpositionen – sie werden Ihr Portfolio nicht dominieren.",
       "options": {
-        "theme_none": "Kein spezielles Thema – gut diversifiziert",
-        "theme_sustainability": "Nachhaltigkeit & Klima – saubere Energie, Umweltschutz",
-        "theme_technology": "Technologie & Innovation – KI, Halbleiter, Digitalisierung",
-        "theme_healthcare": "Gesundheit & Life Sciences – Biotech, Medizintechnik, Pharma",
-        "theme_commodities": "Rohstoffe – Edelmetalle, Energie, Agrarrohstoffe",
-        "theme_infrastructure": "Infrastruktur – Verkehr, Versorgung, Telekommunikation",
-        "theme_defense": "Sicherheit & Verteidigung – Rüstung, Cybersicherheit",
-        "theme_energy": "Energie – Öl, Gas und erneuerbare Energien",
-        "theme_megatrends": "Megatrends – breite strukturelle Wachstumstrends",
-        "theme_water": "Wasser – Wasserversorgung, -aufbereitung und -effizienz",
-        "theme_ai_robotics": "KI & Robotik – künstliche Intelligenz und Automatisierung",
-        "theme_dividends": "Dividenden – stabile, ertragsstarke Unternehmen"
+        "theme_none": "Kein spezielles Thema",
+        "theme_sustainability": "Nachhaltigkeit & Klima",
+        "theme_technology": "Technologie & Innovation",
+        "theme_healthcare": "Gesundheit & Life Sciences",
+        "theme_commodities": "Rohstoffe",
+        "theme_infrastructure": "Infrastruktur",
+        "theme_defense": "Sicherheit & Verteidigung",
+        "theme_energy": "Energie",
+        "theme_megatrends": "Megatrends",
+        "theme_water": "Wasser",
+        "theme_ai_robotics": "KI & Robotik",
+        "theme_dividends": "Dividenden"
       }
     }
   },
   "regions": {
-    "germany": "Deutschland – Fokus auf den deutschen Markt",
-    "europe": "Europa – Fokus auf europäische Märkte",
-    "north_america": "Nordamerika – USA und Kanada",
-    "asia": "Asien – entwickelte und aufstrebende Märkte",
-    "emerging_markets": "Schwellenländer – wachstumsstark",
-    "global": "Global – alles, was nicht von den Regionen oben abgedeckt ist"
+    "global": "Global",
+    "germany": "Deutschland",
+    "europe": "Europa",
+    "north_america": "Nordamerika",
+    "asia": "Asien",
+    "emerging_markets": "Schwellenländer"
   },
   "themes": {
-    "none": "Kein spezielles Thema – gut diversifiziert",
-    "sustainability": "Nachhaltigkeit & Klima – saubere Energie, Umweltschutz",
-    "technology": "Technologie & Innovation – KI, Halbleiter, Digitalisierung",
-    "healthcare": "Gesundheit & Life Sciences – Biotech, Medizintechnik, Pharma",
-    "commodities": "Rohstoffe – Edelmetalle, Energie, Agrarrohstoffe",
-    "infrastructure": "Infrastruktur – Verkehr, Versorgung, Telekommunikation",
-    "defense": "Sicherheit & Verteidigung – Rüstung, Cybersicherheit",
-    "energy": "Energie – Öl, Gas und erneuerbare Energien",
-    "megatrends": "Megatrends – breite strukturelle Wachstumstrends",
-    "water": "Wasser – Wasserversorgung, -aufbereitung und -effizienz",
-    "ai_robotics": "KI & Robotik – künstliche Intelligenz und Automatisierung",
-    "dividends": "Dividenden – stabile, ertragsstarke Unternehmen"
+    "none": "Kein spezielles Thema",
+    "sustainability": "Nachhaltigkeit & Klima",
+    "technology": "Technologie & Innovation",
+    "healthcare": "Gesundheit & Life Sciences",
+    "commodities": "Rohstoffe",
+    "infrastructure": "Infrastruktur",
+    "defense": "Sicherheit & Verteidigung",
+    "energy": "Energie",
+    "megatrends": "Megatrends",
+    "water": "Wasser",
+    "ai_robotics": "KI & Robotik",
+    "dividends": "Dividenden"
   }
 }
