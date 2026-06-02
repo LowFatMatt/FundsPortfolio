@@ -142,62 +142,57 @@
         "options": [
           {
             "id": "theme_none",
-            "label": "No specific theme – just a well-diversified portfolio",
+            "label": "No specific theme",
             "value": "none"
           },
           {
             "id": "theme_sustainability",
-            "label": "Sustainability & Climate – clean energy, environmental protection",
+            "label": "Sustainability & Climate",
             "value": "sustainability"
           },
           {
             "id": "theme_technology",
-            "label": "Technology & Innovation – AI, semiconductors, digitalisation",
+            "label": "Technology & Innovation",
             "value": "technology"
           },
           {
             "id": "theme_healthcare",
-            "label": "Healthcare & Life Sciences – biotech, medical devices, pharma",
+            "label": "Healthcare & Life Sciences",
             "value": "healthcare"
           },
           {
             "id": "theme_commodities",
-            "label": "Commodities & Raw Materials – metals, energy, agriculture",
+            "label": "Commodities & Raw Materials",
             "value": "commodities"
           },
           {
             "id": "theme_infrastructure",
-            "label": "Infrastructure – transport, utilities, communication networks",
+            "label": "Infrastructure",
             "value": "infrastructure"
           },
           {
             "id": "theme_defense",
-            "label": "Security & Defense – aerospace, defense, cybersecurity",
+            "label": "Security & Defense",
             "value": "defense"
           },
           {
-            "id": "theme_energy",
-            "label": "Energy – traditional and renewable energy producers",
-            "value": "energy"
-          },
-          {
             "id": "theme_megatrends",
-            "label": "Megatrends – broad structural growth trends",
+            "label": "Megatrends",
             "value": "megatrends"
           },
           {
             "id": "theme_water",
-            "label": "Water – water supply, treatment and efficiency",
+            "label": "Water",
             "value": "water"
           },
           {
             "id": "theme_ai_robotics",
-            "label": "AI & Robotics – artificial intelligence and automation",
+            "label": "AI & Robotics",
             "value": "ai_robotics"
           },
           {
             "id": "theme_dividends",
-            "label": "Dividends – stable, income-generating companies",
+            "label": "Dividends",
             "value": "dividends"
           }
         ]

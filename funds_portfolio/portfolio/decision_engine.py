@@ -115,10 +115,25 @@ class DecisionEngine:
 
         working = list(funds)
 
-        # 1) Basic eligibility (isin + name required; yearly_fee can be None — proxy used)
+        # 1) Basic eligibility test for required fileds: isin + name + fee + sharpe + mdd + (srri or risk_level) + volatility
         before = len(working)
-        working = [f for f in working if f.get("isin") and f.get("name")]
+        working = [
+            f for f in working 
+            if f.get("isin") 
+            and f.get("name")
+            and f.get("yearly_fee")
+            and f.get("sharpe_ratio") 
+            and f.get("max_drawdown")
+            and (f.get("srri") or f.get("risk_level"))
+            and f.get("volatility")
+        ]
         note_filter("required_fields", before, len(working))
+
+        #1.1 Filter out funds categorized as "mixed" since they are volatile in their inner structure.
+        # This needs to be corrected since it seems to filter out too many funds. 
+        before = len(working)
+        working = [f for f in working if str(f.get("asset_class") or "").lower() != "mixed"]
+        note_filter("asset_class_mixed_filter", before, len(working))
 
         # 2) ESG filter
         before = len(working)
