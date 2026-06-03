@@ -150,12 +150,6 @@
             "risk_profile": 1
           },
           {
-            "id": "moderate_low",
-            "label": "Sicherheit ist mir wichtig, aber ich bin auch offen für moderate Renditechancen",
-            "value": "moderate_low",
-            "risk_profile": 2
-          },
-          {
             "id": "moderate",
             "label": "Ich akzeptiere moderate Schwankungen für bessere Renditeaussichten, möchte aber einen Teil meiner Einzahlungen geschützt wissen",
             "value": "moderate",
@@ -168,8 +162,7 @@
             "risk_profile": 4
           }
         ]
-      },
-      
+      }
     ]
   }
 }
