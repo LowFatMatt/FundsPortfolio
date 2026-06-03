@@ -25,6 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const displayPortId   = document.getElementById('display-port-id');
     const decisionSummaryText = document.getElementById('decision-summary-text');
     const decisionFilters = document.getElementById('decision-filters');
+    const userAnswersFilters = document.getElementById('user-answers-filters');
     const langSelect      = document.getElementById('lang-select');
     const fundTableBody   = document.getElementById('fund-table-body');
     const fundCount       = document.getElementById('fund-count');
@@ -474,6 +475,16 @@ document.addEventListener('DOMContentLoaded', () => {
             (portfolio.decision_trace?.relaxations || []).forEach(r => {
                 const label = r.reason ? `${r.name}: ${r.reason}` : `relaxation: ${r.name} ${r.before}→${r.after}`;
                 decisionFilters.appendChild(makeFilterPill(label));
+            });
+        }
+
+        // Render user answers as filter pills (same styling as decision-filters)
+        if (userAnswersFilters) {
+            userAnswersFilters.innerHTML = '';
+            const answers = portfolio.user_answers || {};
+            Object.entries(answers).forEach(([key, value]) => {
+                const displayValue = Array.isArray(value) ? value.join(', ') : String(value);
+                userAnswersFilters.appendChild(makeFilterPill(`${key}: ${displayValue}`));
             });
         }
 

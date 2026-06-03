@@ -20,6 +20,7 @@
   "ui.strategy_subtitle": "Quality-optimized selection (Sharpe · MDD · cost)",
   "ui.risk_profile": "Risk Profile",
   "ui.decision_summary": "Decision Summary",
+  "ui.your_answers": "Your Answers",
   "ui.start_over": "← Start Over",
   "ui.select_placeholder": "Select an option...",
   "ui.unknown_id": "Unknown ID",
