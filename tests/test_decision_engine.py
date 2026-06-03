@@ -46,7 +46,6 @@ def _fund(
 def _base_answers():
     return {
         "risk_approach": "moderate",
-        "loss_tolerance": "low_loss_tolerance",
         "esg_preference": "no_requirement",
         "etf_preference": "no_preference",
         "preferred_regions": [],

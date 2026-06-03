@@ -11,8 +11,7 @@
       "investment_funds"
     ],
     "investment_knowledge": "experienced",
-    "risk_approach": "moderate",
-    "loss_tolerance": "high_loss_tolerance"
+    "risk_approach": "moderate"
   },
   "calculated_metrics": {
     "risk_profile": 3,

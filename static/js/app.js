@@ -358,9 +358,7 @@ document.addEventListener('DOMContentLoaded', () => {
             'risk_approach_moderate':     `<svg viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 38a20 20 0 0136 0"/><line x1="28" y1="38" x2="28" y2="18"/><circle cx="28" cy="38" r="2.5" fill="currentColor"/></svg>`,
             'risk_approach_aggressive':   `<svg viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 38a20 20 0 0136 0"/><line x1="28" y1="38" x2="40" y2="22"/><circle cx="28" cy="38" r="2.5" fill="currentColor"/></svg>`,
 
-            // Loss tolerance
-            'loss_tolerance_low_tolerance':  `<svg viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="14" y="20" width="28" height="20" rx="3"/><path d="M20 20v-4a8 8 0 0116 0v4"/><circle cx="28" cy="30" r="2" fill="currentColor"/></svg>`,
-            'loss_tolerance_high_tolerance': `<svg viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18,28 24,34 38,22"/><rect x="12" y="16" width="32" height="26" rx="4"/></svg>`,
+            // (loss_tolerance removed)
 
             // ESG
             'no_esg_requirement':  `<svg viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="28" cy="28" r="16"/><line x1="16" y1="16" x2="40" y2="40"/></svg>`,

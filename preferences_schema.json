@@ -205,7 +205,6 @@
     "updated_at": "ISO 8601 timestamp",
     "user_answers": {
       "risk_approach": "string (value from options: conservative | moderate | aggressive)",
-      "loss_tolerance": "string (value from options)",
       "esg_preference": "string (value from options: no_requirement | esg_basic | esg_enhanced)",
       "etf_preference": "string (value from options: no_preference | prefer_etf | etf_only)",
       "preferred_regions": [

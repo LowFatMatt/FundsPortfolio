@@ -8,13 +8,6 @@
         "aggressive": "I'm comfortable taking on risk for better growth prospects, and I accept potential losses"
       }
     },
-    "loss_tolerance": {
-      "name": "Can you afford financial losses?",
-      "options": {
-        "low_tolerance": "I need strong guarantees and want to minimise the risk of losses",
-        "high_tolerance": "I'm in a solid financial position to handle larger losses if needed"
-      }
-    },
     "esg_preference": {
       "name": "How important is sustainability to you?",
       "options": {

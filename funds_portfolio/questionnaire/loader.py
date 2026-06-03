@@ -179,7 +179,6 @@ class QuestionnaireLoader:
     # payloads; the chosen defaults represent the least-constraining option.
     LOGIC_RELEVANT_DEFAULTS: Dict[str, object] = {
         "risk_approach": "conservative",
-        "loss_tolerance": "low_loss_tolerance",
         "esg_preference": "no_requirement",
         "etf_preference": "no_preference",
         "preferred_regions": ["global"],
@@ -270,8 +269,7 @@ class QuestionnaireLoader:
 
         Risk profile calculation:
         - risk_approach: 1=conservative, 2=moderate_low, 3=moderate, 4=aggressive
-        - loss_tolerance: 1=low, 4=high
-        - Average of the two (rounded)
+        - Derived from `risk_approach` only (legacy `loss_tolerance` removed)
 
         Args:
             user_answers: Dictionary of validated user answers
@@ -292,15 +290,7 @@ class QuestionnaireLoader:
                         count += 1
                         break
 
-        # Get loss_tolerance score
-        if "loss_tolerance" in user_answers:
-            loss_section = self.get_section_by_id("loss_tolerance")
-            if loss_section:
-                for opt in loss_section.get("options", []):
-                    if opt.get("value") == user_answers["loss_tolerance"]:
-                        risk_score += opt.get("loss_tolerance_score", 2)
-                        count += 1
-                        break
+        # (loss_tolerance removed) — scoring now solely uses risk_approach
 
         # Default to moderate (2.5) if no scores found
         if count == 0:

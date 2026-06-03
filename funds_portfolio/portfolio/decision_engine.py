@@ -129,7 +129,7 @@ class DecisionEngine:
         ]
         note_filter("required_fields", before, len(working))
 
-        #1.1 Filter out funds categorized as "mixed" since they are volatile in their inner structure.
+        # 1.1) Filter out funds categorized as "mixed" since they are volatile in their inner structure.
         # This needs to be corrected since it seems to filter out too many funds. 
         before = len(working)
         working = [f for f in working if str(f.get("asset_class") or "").lower() != "mixed"]
@@ -718,6 +718,19 @@ class DecisionEngine:
 
         # Normalise to sum to 1.0
         weights = self._normalize(weights)
+
+        # Enforce satellite total cap after normalization to account for
+        # floating-point rounding and redistribution steps above.
+        sat_isins = {f["isin"] for f in satellites}
+        sat_total = sum(weights.get(i, 0.0) for i in sat_isins)
+        if sat_total > 0.30:
+            scale = 0.30 / sat_total
+            for isin in sat_isins:
+                if isin in weights:
+                    weights[isin] = weights[isin] * scale
+            # Renormalise after scaling satellites down
+            weights = self._normalize(weights)
+
         return weights
 
     @staticmethod

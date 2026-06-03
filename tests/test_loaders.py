@@ -114,7 +114,6 @@ class TestQuestionnaireLoader:
         # Expected sections
         section_ids = [s["id"] for s in sections]
         assert "risk_approach" in section_ids
-        assert "loss_tolerance" in section_ids
         assert "preferred_regions" in section_ids
 
     def test_get_section_by_id(self):
@@ -132,7 +131,6 @@ class TestQuestionnaireLoader:
 
         valid_answers = {
             "risk_approach": "moderate",
-            "loss_tolerance": "high_loss_tolerance",
             "esg_preference": "no_requirement",
             "etf_preference": "no_preference",
         }
@@ -161,7 +159,7 @@ class TestQuestionnaireLoader:
 
         incomplete_answers = {
             "esg_preference": "no_requirement"
-            # Missing risk_approach, loss_tolerance, etf_preference
+            # Missing risk_approach, etf_preference
         }
 
         is_valid, errors = ql.validate_answers(incomplete_answers)
@@ -174,21 +172,19 @@ class TestQuestionnaireLoader:
         # Conservative answers
         conservative = {
             "risk_approach": "conservative",
-            "loss_tolerance": "low_loss_tolerance",
         }
         risk_profile = ql.map_answers_to_risk_profile(conservative)
-        assert risk_profile in [1, 2], (
-            "Conservative answers should give low risk profile"
+        assert risk_profile == 1, (
+            "Conservative answers should give lowest risk profile"
         )
 
         # Aggressive answers
         aggressive = {
             "risk_approach": "aggressive",
-            "loss_tolerance": "high_loss_tolerance",
         }
         risk_profile = ql.map_answers_to_risk_profile(aggressive)
-        assert risk_profile in [3, 4], (
-            "Aggressive answers should give high risk profile"
+        assert risk_profile == 4, (
+            "Aggressive answers should give highest risk profile"
         )
 
     def test_risk_approach_has_three_options(self):
@@ -205,14 +201,14 @@ class TestQuestionnaireLoader:
 
         # Existing answer preserved
         assert answers["risk_approach"] == "aggressive"
-        # Missing logic-relevant sections filled with defaults
-        assert answers["loss_tolerance"] == "low_loss_tolerance"
+        # Missing logic-relevant sections filled with defaults (loss_tolerance removed)
+        assert "loss_tolerance" not in answers
         assert answers["esg_preference"] == "no_requirement"
         assert answers["etf_preference"] == "no_preference"
         assert answers["preferred_regions"] == ["global"]
         assert answers["preferred_themes"] == ["none"]
         # The injected defaults are reported for logging
-        assert len(applied) == 5
+        assert len(applied) == 4
         assert all("default" in note for note in applied)
 
     def test_apply_defaults_then_validates(self):
@@ -251,7 +247,7 @@ class TestPortfolio:
 
     def test_portfolio_creation(self):
         """Test creating a new portfolio"""
-        answers = {"risk_approach": "moderate", "loss_tolerance": "low_loss_tolerance"}
+        answers = {"risk_approach": "moderate"}
         portfolio = Portfolio(answers)
 
         assert portfolio.portfolio_id is not None
