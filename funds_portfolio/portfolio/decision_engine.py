@@ -728,8 +728,15 @@ class DecisionEngine:
             for isin in sat_isins:
                 if isin in weights:
                     weights[isin] = weights[isin] * scale
-            # Renormalise after scaling satellites down
-            weights = self._normalize(weights)
+            # Fill the remaining headroom with cores only. A plain re-normalise
+            # here would scale the satellites straight back up over the cap.
+            core_isins = [i for i in weights if i not in sat_isins]
+            core_total = sum(weights[i] for i in core_isins)
+            if core_total > 0:
+                target_core = 1.0 - sum(weights.get(i, 0.0) for i in sat_isins)
+                cscale = target_core / core_total
+                for isin in core_isins:
+                    weights[isin] = weights[isin] * cscale
 
         return weights
 

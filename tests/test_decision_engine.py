@@ -18,8 +18,8 @@ def _fund(
     provider: str = "provider-a",
     asset_class: str = "equity",
     sharpe_ratio: float = 1.0,
-    volatility: float = None,
-    max_drawdown: float = None,
+    volatility: float = 10.0,
+    max_drawdown: float = 12.0,
 ):
     f = {
         "isin": isin,
@@ -311,7 +311,7 @@ def test_satellite_weight_cap_30pct():
         _fund(isin="C2", name="Core2", srri=3, yearly_fee=0.15, is_etf=True,
               theme="none", provider="p2", asset_class="bond"),
         _fund(isin="C3", name="Core3", srri=4, yearly_fee=0.2, is_etf=False,
-              theme="none", provider="p3", asset_class="mixed"),
+              theme="none", provider="p3", asset_class="real_estate"),
         _fund(isin="S1", name="Sat1", srri=5, yearly_fee=0.5, is_etf=True,
               theme="TECHNOLOGY", provider="p4", asset_class="equity"),
         _fund(isin="S2", name="Sat2", srri=5, yearly_fee=0.6, is_etf=True,
@@ -410,7 +410,7 @@ def test_thematic_guarantee():
         _fund(isin="C2", name="Core2", srri=4, yearly_fee=0.05, is_etf=True,
               sharpe_ratio=2.0, theme="none", provider="p2", asset_class="bond"),
         _fund(isin="T1", name="Tech", srri=4, yearly_fee=0.8, is_etf=True,
-              sharpe_ratio=0.1, theme="TECHNOLOGY", provider="p3", asset_class="mixed"),
+              sharpe_ratio=0.1, theme="TECHNOLOGY", provider="p3", asset_class="equity"),
     ]
     answers = _base_answers()
     answers["preferred_themes"] = ["TECHNOLOGY"]

@@ -24,7 +24,9 @@
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Corrected: was mislabelled as 'iShares MSCI USA'. Tracks MSCI World (23 dev. markets). TER 0.20%.",
-      "source": "FundsInitDB_de_de"
+      "source": "FundsInitDB_de_de",
+      "volatility": 12.65,
+      "max_drawdown": 16.54
     },
     {
       "isin": "IE00B0M63284",
@@ -51,7 +53,9 @@
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Corrected: was mislabelled as 'SPDR S&P Euro Dividend Aristocrats'. Tracks European property/REITs.",
-      "source": "FundsInitDB_de_de"
+      "source": "FundsInitDB_de_de",
+      "volatility": 20.0,
+      "max_drawdown": 42.0
     },
     {
       "isin": "IE00B4RL5Z48",
@@ -78,7 +82,9 @@
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "is_etf corrected to true. TER 0.10%.",
-      "source": "FundsInitDB_de_de"
+      "source": "FundsInitDB_de_de",
+      "volatility": 3.5,
+      "max_drawdown": 12.0
     },
     {
       "isin": "IE00B5BMR087",
@@ -105,7 +111,9 @@
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "is_etf corrected to true. TER 0.22%. Covers ~3,700 stocks in 47 countries.",
-      "source": "FundsInitDB_de_de"
+      "source": "FundsInitDB_de_de",
+      "volatility": 20.0,
+      "max_drawdown": 42.0
     },
     {
       "isin": "IE00B1FZS798",
@@ -127,11 +135,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.5,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Region corrected from 'uk' to 'north_america'. Categories corrected from 'uk_equity/blue_chips'.",
-      "source": "FundsInitDB_de_de"
+      "source": "FundsInitDB_de_de",
+      "volatility": 7.5,
+      "max_drawdown": 20.0
     },
     {
       "isin": "LU1211621138",
@@ -155,7 +165,9 @@
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Region corrected from 'global' to 'europe'.",
-      "source": "FundsInitDB_de_de"
+      "source": "FundsInitDB_de_de",
+      "volatility": 10.44,
+      "max_drawdown": 11.28
     },
     {
       "isin": "LU1211644858",
@@ -179,7 +191,9 @@
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": null,
-      "source": "FundsInitDB_de_de"
+      "source": "FundsInitDB_de_de",
+      "volatility": 9.65,
+      "max_drawdown": 13.97
     },
     {
       "isin": "FR0014011E94",
@@ -203,7 +217,9 @@
       "esg_article_8": true,
       "esg_article_9": false,
       "notes": "Provider corrected: 'WorldGuard 80' is the fund name; Amundi is the provider.",
-      "source": "FundsInitDB_de_de"
+      "source": "FundsInitDB_de_de",
+      "volatility": 12.5,
+      "max_drawdown": 6.03
     },
     {
       "isin": "LU2224496260",
@@ -223,11 +239,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.4,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Region corrected from 'global' to 'europe'.",
-      "source": "FundsInitDB_de_de"
+      "source": "FundsInitDB_de_de",
+      "volatility": 6.84,
+      "max_drawdown": 6.01
     },
     {
       "isin": "FR0014011N36",
@@ -251,7 +269,9 @@
       "esg_article_8": true,
       "esg_article_9": false,
       "notes": "Provider corrected from 'WorldGuard 90' to 'Amundi'.",
-      "source": "FundsInitDB_de_de"
+      "source": "FundsInitDB_de_de",
+      "volatility": 7.5,
+      "max_drawdown": 1.97
     },
     {
       "isin": "LU1883318740",
@@ -271,11 +291,13 @@
       "esg_label": "SFDR_ARTICLE_8",
       "theme": "SUSTAINABILITY",
       "srri": 5,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.82,
       "esg_article_8": true,
       "esg_article_9": false,
       "notes": null,
-      "source": "FundsInitDB_de_de"
+      "source": "FundsInitDB_de_de",
+      "volatility": 11.58,
+      "max_drawdown": 16.24
     },
     {
       "isin": "FR0010148981",
@@ -295,11 +317,13 @@
       "esg_label": "SFDR_ARTICLE_8",
       "theme": "NONE",
       "srri": 5,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 1.33,
       "esg_article_8": true,
       "esg_article_9": false,
       "notes": "TER 2.06% (includes perf. fee component). Flagship global equity fund since 1989.",
-      "source": "FundsInitDB_de_de"
+      "source": "FundsInitDB_de_de",
+      "volatility": 13.62,
+      "max_drawdown": 19.79
     },
     {
       "isin": "LU1854166821",
@@ -320,11 +344,13 @@
       "esg_label": "SFDR_ARTICLE_8",
       "theme": "NONE",
       "srri": 6,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.1,
       "esg_article_8": true,
       "esg_article_9": false,
       "notes": "Provider corrected from 'CT (Lux)' to 'Columbia Threadneedle'.",
-      "source": "FundsInitDB_de_de"
+      "source": "FundsInitDB_de_de",
+      "volatility": 16.08,
+      "max_drawdown": 29.09
     },
     {
       "isin": "DE000DK2CDS0",
@@ -345,11 +371,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.88,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "TER 1.46%. Distributing fund, global dividend stocks. AUM ~2 billion EUR.",
-      "source": "FundsInitDB_de_de"
+      "source": "FundsInitDB_de_de",
+      "volatility": 10.41,
+      "max_drawdown": 15.09
     },
     {
       "isin": "LU0703710904",
@@ -369,11 +397,13 @@
       "esg_label": "SFDR_ARTICLE_8",
       "theme": "SUSTAINABILITY",
       "srri": 5,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.82,
       "esg_article_8": true,
       "esg_article_9": false,
       "notes": null,
-      "source": "FundsInitDB_de_de"
+      "source": "FundsInitDB_de_de",
+      "volatility": 14.17,
+      "max_drawdown": 21.54
     },
     {
       "isin": "DE000DK0V521",
@@ -394,11 +424,13 @@
       "esg_label": "SFDR_ARTICLE_8",
       "theme": "SUSTAINABILITY",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.76,
       "esg_article_8": true,
       "esg_article_9": false,
       "notes": null,
-      "source": "FundsInitDB_de_de"
+      "source": "FundsInitDB_de_de",
+      "volatility": 10.64,
+      "max_drawdown": 15.01
     },
     {
       "isin": "DE000DK0V554",
@@ -418,11 +450,13 @@
       "esg_label": "SFDR_ARTICLE_8",
       "theme": "SUSTAINABILITY",
       "srri": 5,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 1.03,
       "esg_article_8": true,
       "esg_article_9": false,
       "notes": null,
-      "source": "FundsInitDB_de_de"
+      "source": "FundsInitDB_de_de",
+      "volatility": 14.29,
+      "max_drawdown": 22.17
     },
     {
       "isin": "DE000DK0ECU8",
@@ -442,11 +476,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 5,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 1.15,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": null,
-      "source": "FundsInitDB_de_de"
+      "source": "FundsInitDB_de_de",
+      "volatility": 14.09,
+      "max_drawdown": 22.26
     },
     {
       "isin": "LU0851806900",
@@ -471,7 +507,9 @@
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": null,
-      "source": "FundsInitDB_de_de"
+      "source": "FundsInitDB_de_de",
+      "volatility": 9.45,
+      "max_drawdown": 12.45
     },
     {
       "isin": "LU0350093026",
@@ -491,11 +529,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 5,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.9,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": null,
-      "source": "FundsInitDB_de_de"
+      "source": "FundsInitDB_de_de",
+      "volatility": 18.01,
+      "max_drawdown": 25.97
     },
     {
       "isin": "LU2109588199",
@@ -516,11 +556,13 @@
       "esg_label": "SFDR_ARTICLE_8",
       "theme": "SUSTAINABILITY",
       "srri": 5,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.11,
       "esg_article_8": true,
       "esg_article_9": false,
       "notes": null,
-      "source": "FundsInitDB_de_de"
+      "source": "FundsInitDB_de_de",
+      "volatility": 13.22,
+      "max_drawdown": 20.98
     },
     {
       "isin": "LU1508359509",
@@ -541,11 +583,13 @@
       "esg_label": "LOW",
       "theme": "TECHNOLOGY",
       "srri": 5,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.76,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Theme corrected to TECHNOLOGY. Industrie 4.0 = tech/automation theme.",
-      "source": "FundsInitDB_de_de"
+      "source": "FundsInitDB_de_de",
+      "volatility": 18.97,
+      "max_drawdown": 28.09
     },
     {
       "isin": "DE0005152706",
@@ -565,11 +609,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 5,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.91,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Category corrected from global_equity to thematic_equity.",
-      "source": "FundsInitDB_de_de"
+      "source": "FundsInitDB_de_de",
+      "volatility": 13.93,
+      "max_drawdown": 20.97
     },
     {
       "isin": "DE000DK0ECS2",
@@ -590,11 +636,13 @@
       "esg_label": "SFDR_ARTICLE_8",
       "theme": "SUSTAINABILITY",
       "srri": 5,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.5,
       "esg_article_8": true,
       "esg_article_9": false,
       "notes": "UmweltInvest = Environmental Investment.",
-      "source": "FundsInitDB_de_de"
+      "source": "FundsInitDB_de_de",
+      "volatility": 15.97,
+      "max_drawdown": 21.42
     },
     {
       "isin": "LU0061928585",
@@ -614,11 +662,13 @@
       "esg_label": "SFDR_ARTICLE_9",
       "theme": "SUSTAINABILITY",
       "srri": 5,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.19,
       "esg_article_8": false,
       "esg_article_9": true,
       "notes": "Theme corrected to SUSTAINABILITY (Article 9 fund).",
-      "source": "FundsInitDB_de_de"
+      "source": "FundsInitDB_de_de",
+      "volatility": 13.7,
+      "max_drawdown": 21.8
     },
     {
       "isin": "DE000A403EK7",
@@ -638,11 +688,13 @@
       "esg_label": "SFDR_ARTICLE_8",
       "theme": "NONE",
       "srri": 5,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 2.08,
       "esg_article_8": true,
       "esg_article_9": false,
       "notes": null,
-      "source": "FundsInitDB_de_de"
+      "source": "FundsInitDB_de_de",
+      "volatility": 10.12,
+      "max_drawdown": 13.89
     },
     {
       "isin": "LU0136171559",
@@ -662,11 +714,13 @@
       "esg_label": "SFDR_ARTICLE_9",
       "theme": "SUSTAINABILITY",
       "srri": 5,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.97,
       "esg_article_8": false,
       "esg_article_9": true,
       "notes": "Theme corrected to SUSTAINABILITY (Article 9).",
-      "source": "FundsInitDB_de_de"
+      "source": "FundsInitDB_de_de",
+      "volatility": 14.43,
+      "max_drawdown": 21.12
     },
     {
       "isin": "LU0114760746",
@@ -686,11 +740,13 @@
       "esg_label": "SFDR_ARTICLE_8",
       "theme": "NONE",
       "srri": 5,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.57,
       "esg_article_8": true,
       "esg_article_9": false,
       "notes": "Provider corrected to 'Franklin Templeton'.",
-      "source": "FundsInitDB_de_de"
+      "source": "FundsInitDB_de_de",
+      "volatility": 13.7,
+      "max_drawdown": 18.7
     },
     {
       "isin": "DE0008474511",
@@ -710,11 +766,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 5,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.64,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": null,
-      "source": "FundsInitDB_de_de"
+      "source": "FundsInitDB_de_de",
+      "volatility": 13.26,
+      "max_drawdown": 15.75
     },
     {
       "isin": "LU1864952335",
@@ -735,11 +793,13 @@
       "esg_label": "SFDR_ARTICLE_8",
       "theme": "NONE",
       "srri": 5,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.25,
       "esg_article_8": true,
       "esg_article_9": false,
       "notes": "Provider corrected from 'CT (Lux)' to 'Columbia Threadneedle'.",
-      "source": "FundsInitDB_de_de"
+      "source": "FundsInitDB_de_de",
+      "volatility": 15.0,
+      "max_drawdown": 19.52
     },
     {
       "isin": "LU2339785821",
@@ -759,11 +819,13 @@
       "esg_label": "SFDR_ARTICLE_8",
       "theme": "SUSTAINABILITY",
       "srri": 5,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.47,
       "esg_article_8": true,
       "esg_article_9": false,
       "notes": null,
-      "source": "FundsInitDB_de_de"
+      "source": "FundsInitDB_de_de",
+      "volatility": 13.2,
+      "max_drawdown": 15.5
     },
     {
       "isin": "LU1876154029",
@@ -783,11 +845,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 5,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.35,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": null,
-      "source": "FundsInitDB_de_de"
+      "source": "FundsInitDB_de_de",
+      "volatility": 14.6,
+      "max_drawdown": 17.97
     },
     {
       "isin": "LU0089640097",
@@ -807,11 +871,13 @@
       "esg_label": "SFDR_ARTICLE_8",
       "theme": "NONE",
       "srri": 5,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.88,
       "esg_article_8": true,
       "esg_article_9": false,
       "notes": "Provider corrected from 'JPM Euroland' to 'JPMorgan Asset Management'.",
-      "source": "FundsInitDB_de_de"
+      "source": "FundsInitDB_de_de",
+      "volatility": 14.88,
+      "max_drawdown": 15.2
     },
     {
       "isin": "DE0008474503",
@@ -831,11 +897,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 5,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.63,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": null,
-      "source": "FundsInitDB_de_de"
+      "source": "FundsInitDB_de_de",
+      "volatility": 15.33,
+      "max_drawdown": 17.05
     },
     {
       "isin": "LU0052859252",
@@ -855,11 +923,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 5,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.94,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": null,
-      "source": "FundsInitDB_de_de"
+      "source": "FundsInitDB_de_de",
+      "volatility": 17.65,
+      "max_drawdown": 21.42
     },
     {
       "isin": "LU0229939763",
@@ -879,11 +949,13 @@
       "esg_label": "SFDR_ARTICLE_8",
       "theme": "NONE",
       "srri": 5,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 1.02,
       "esg_article_8": true,
       "esg_article_9": false,
       "notes": "Provider corrected to 'Franklin Templeton'.",
-      "source": "FundsInitDB_de_de"
+      "source": "FundsInitDB_de_de",
+      "volatility": 17.39,
+      "max_drawdown": 17.95
     },
     {
       "isin": "LU0800346016",
@@ -903,11 +975,13 @@
       "esg_label": "SFDR_ARTICLE_9",
       "theme": "SUSTAINABILITY",
       "srri": 5,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.51,
       "esg_article_8": false,
       "esg_article_9": true,
       "notes": "Theme corrected to SUSTAINABILITY (Article 9).",
-      "source": "FundsInitDB_de_de"
+      "source": "FundsInitDB_de_de",
+      "volatility": 16.3,
+      "max_drawdown": 25.94
     },
     {
       "isin": "LU0171305526",
@@ -929,11 +1003,13 @@
       "esg_label": "LOW",
       "theme": "COMMODITIES",
       "srri": 6,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 1.14,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Region corrected from 'emerging_markets' to 'global'. Provider corrected from 'BGF' to 'BlackRock'.",
-      "source": "FundsInitDB_de_de"
+      "source": "FundsInitDB_de_de",
+      "volatility": 31.06,
+      "max_drawdown": 27.57
     },
     {
       "isin": "LU0172157280",
@@ -955,11 +1031,13 @@
       "esg_label": "LOW",
       "theme": "COMMODITIES",
       "srri": 6,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.75,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Provider corrected from 'BGF' to 'BlackRock'. Theme corrected to COMMODITIES.",
-      "source": "FundsInitDB_de_de"
+      "source": "FundsInitDB_de_de",
+      "volatility": 24.1,
+      "max_drawdown": 24.42
     },
     {
       "isin": "LU0348413229",
@@ -980,11 +1058,13 @@
       "esg_label": "SFDR_ARTICLE_8",
       "theme": "HEALTHCARE",
       "srri": 5,
-      "sharpe_ratio": null,
+      "sharpe_ratio": -0.16,
       "esg_article_8": true,
       "esg_article_9": false,
       "notes": null,
-      "source": "FundsInitDB_de_de"
+      "source": "FundsInitDB_de_de",
+      "volatility": 13.7,
+      "max_drawdown": 23.77
     },
     {
       "isin": "LU2339791803",
@@ -1006,11 +1086,13 @@
       "esg_label": "LOW",
       "theme": "TECHNOLOGY",
       "srri": 6,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.99,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Theme corrected to TECHNOLOGY. AI theme fund.",
-      "source": "FundsInitDB_de_de"
+      "source": "FundsInitDB_de_de",
+      "volatility": 21.17,
+      "max_drawdown": 29.89
     },
     {
       "isin": "LU2941481082",
@@ -1031,11 +1113,13 @@
       "esg_label": "LOW",
       "theme": "DEFENSE",
       "srri": 5,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.2,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Theme corrected to DEFENSE.",
-      "source": "FundsInitDB_de_de"
+      "source": "FundsInitDB_de_de",
+      "volatility": 14.41,
+      "max_drawdown": 16.14
     },
     {
       "isin": "LU0099574567",
@@ -1056,11 +1140,13 @@
       "esg_label": "SFDR_ARTICLE_8",
       "theme": "TECHNOLOGY",
       "srri": 5,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 1.19,
       "esg_article_8": true,
       "esg_article_9": false,
       "notes": "Provider expanded to 'Fidelity International'.",
-      "source": "FundsInitDB_de_de"
+      "source": "FundsInitDB_de_de",
+      "volatility": 16.54,
+      "max_drawdown": 25.87
     },
     {
       "isin": "IE00BKPSDK98",
@@ -1081,11 +1167,13 @@
       "esg_label": "SFDR_ARTICLE_8",
       "theme": "INFRASTRUCTURE",
       "srri": 5,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.12,
       "esg_article_8": true,
       "esg_article_9": false,
       "notes": "Provider corrected. Theme corrected to INFRASTRUCTURE.",
-      "source": "FundsInitDB_de_de"
+      "source": "FundsInitDB_de_de",
+      "volatility": 11.15,
+      "max_drawdown": 15.88
     },
     {
       "isin": "DE000A0KEYM4",
@@ -1106,11 +1194,13 @@
       "esg_label": "SFDR_ARTICLE_8",
       "theme": "SUSTAINABILITY",
       "srri": 5,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.69,
       "esg_article_8": true,
       "esg_article_9": false,
       "notes": "Provider corrected from 'LBBW Global' to 'LBBW Asset Management'.",
-      "source": "FundsInitDB_de_de"
+      "source": "FundsInitDB_de_de",
+      "volatility": 15.59,
+      "max_drawdown": 22.99
     },
     {
       "isin": "LU0104884860",
@@ -1131,11 +1221,13 @@
       "esg_label": "SFDR_ARTICLE_9",
       "theme": "SUSTAINABILITY",
       "srri": 5,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.5,
       "esg_article_8": false,
       "esg_article_9": true,
       "notes": "Provider expanded. Water theme fund.",
-      "source": "FundsInitDB_de_de"
+      "source": "FundsInitDB_de_de",
+      "volatility": 13.66,
+      "max_drawdown": 19.71
     },
     {
       "isin": "DE000A0RHHC8",
@@ -1156,11 +1248,13 @@
       "esg_label": "SFDR_ARTICLE_8",
       "theme": "ENERGY",
       "srri": 5,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 1.17,
       "esg_article_8": true,
       "esg_article_9": false,
       "notes": "Provider corrected from 'TBF Smart' to 'TBF Global Asset Management'. Theme corrected to ENERGY.",
-      "source": "FundsInitDB_de_de"
+      "source": "FundsInitDB_de_de",
+      "volatility": 19.0,
+      "max_drawdown": 30.41
     },
     {
       "isin": "LU0703711035",
@@ -1180,11 +1274,13 @@
       "esg_label": "SFDR_ARTICLE_8",
       "theme": "SUSTAINABILITY",
       "srri": 3,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.53,
       "esg_article_8": true,
       "esg_article_9": false,
       "notes": null,
-      "source": "FundsInitDB_de_de"
+      "source": "FundsInitDB_de_de",
+      "volatility": 2.91,
+      "max_drawdown": 2.79
     },
     {
       "isin": "DE0008474560",
@@ -1204,11 +1300,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": -0.41,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": null,
-      "source": "FundsInitDB_de_de"
+      "source": "FundsInitDB_de_de",
+      "volatility": 4.9,
+      "max_drawdown": 6.16
     },
     {
       "isin": "LU1481583711",
@@ -1228,11 +1326,13 @@
       "esg_label": "SFDR_ARTICLE_8",
       "theme": "NONE",
       "srri": 3,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.08,
       "esg_article_8": true,
       "esg_article_9": false,
       "notes": "Provider corrected from 'Flossbach' to 'Flossbach von Storch'.",
-      "source": "FundsInitDB_de_de"
+      "source": "FundsInitDB_de_de",
+      "volatility": 4.91,
+      "max_drawdown": 4.79
     },
     {
       "isin": "LU0152980495",
@@ -1252,11 +1352,13 @@
       "esg_label": "SFDR_ARTICLE_8",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": -0.43,
       "esg_article_8": true,
       "esg_article_9": false,
       "notes": "Provider corrected from 'Templeton' to 'Franklin Templeton'.",
-      "source": "FundsInitDB_de_de"
+      "source": "FundsInitDB_de_de",
+      "volatility": 6.23,
+      "max_drawdown": 10.07
     },
     {
       "isin": "DE000A1CXYM9",
@@ -1276,11 +1378,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 3,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.52,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Provider corrected: 'WeltZins-Invest' is the fund name, not the provider.",
-      "source": "FundsInitDB_de_de"
+      "source": "FundsInitDB_de_de",
+      "volatility": 4.53,
+      "max_drawdown": 7.64
     },
     {
       "isin": "LU0107368036",
@@ -1300,11 +1404,13 @@
       "esg_label": "SFDR_ARTICLE_8",
       "theme": "SUSTAINABILITY",
       "srri": 3,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.72,
       "esg_article_8": true,
       "esg_article_9": false,
       "notes": null,
-      "source": "FundsInitDB_de_de"
+      "source": "FundsInitDB_de_de",
+      "volatility": 1.26,
+      "max_drawdown": 1.48
     },
     {
       "isin": "LU0011194601",
@@ -1324,11 +1430,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": -0.09,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": null,
-      "source": "FundsInitDB_de_de"
+      "source": "FundsInitDB_de_de",
+      "volatility": 5.03,
+      "max_drawdown": 4.67
     },
     {
       "isin": "DE0008474750",
@@ -1348,11 +1456,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 3,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.31,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": null,
-      "source": "FundsInitDB_de_de"
+      "source": "FundsInitDB_de_de",
+      "volatility": 1.41,
+      "max_drawdown": 1.65
     },
     {
       "isin": "LU0027797579",
@@ -1372,11 +1482,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 3,
-      "sharpe_ratio": null,
+      "sharpe_ratio": -0.14,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": null,
-      "source": "FundsInitDB_de_de"
+      "source": "FundsInitDB_de_de",
+      "volatility": 0.59,
+      "max_drawdown": 0.56
     },
     {
       "isin": "LU0249486092",
@@ -1396,11 +1508,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 3,
-      "sharpe_ratio": null,
+      "sharpe_ratio": -0.41,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": null,
-      "source": "FundsInitDB_de_de"
+      "source": "FundsInitDB_de_de",
+      "volatility": 2.33,
+      "max_drawdown": 2.35
     },
     {
       "isin": "DE000A0X7541",
@@ -1420,11 +1534,13 @@
       "esg_label": "SFDR_ARTICLE_8",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.13,
       "esg_article_8": true,
       "esg_article_9": false,
       "notes": "Name corrected from 'Funds' to 'Fonds'. Provider corrected from 'Acatis' to 'Acatis Investment'.",
-      "source": "FundsInitDB_de_de"
+      "source": "FundsInitDB_de_de",
+      "volatility": 7.15,
+      "max_drawdown": 10.55
     },
     {
       "isin": "LU0360863863",
@@ -1445,11 +1561,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 1.22,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Provider corrected: ARERO is the fund name, DWS is the KVG. TER 0.50%. ARERO = Aktien, Renten, Rohstoffe.",
-      "source": "FundsInitDB_de_de"
+      "source": "FundsInitDB_de_de",
+      "volatility": 8.27,
+      "max_drawdown": 13.5
     },
     {
       "isin": "FR0010135103",
@@ -1469,11 +1587,13 @@
       "esg_label": "SFDR_ARTICLE_8",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 1.04,
       "esg_article_8": true,
       "esg_article_9": false,
       "notes": "TER approx 1.50% (ongoing charges). Flagship balanced fund.",
-      "source": "FundsInitDB_de_de"
+      "source": "FundsInitDB_de_de",
+      "volatility": 5.75,
+      "max_drawdown": 5.4
     },
     {
       "isin": "LU0592698954",
@@ -1494,11 +1614,13 @@
       "esg_label": "SFDR_ARTICLE_8",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.91,
       "esg_article_8": true,
       "esg_article_9": false,
       "notes": "Region corrected from 'global' to 'emerging_markets'.",
-      "source": "FundsInitDB_de_de"
+      "source": "FundsInitDB_de_de",
+      "volatility": 7.53,
+      "max_drawdown": 7.45
     },
     {
       "isin": "DE000DK2EAR4",
@@ -1518,11 +1640,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 1.04,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": null,
-      "source": "FundsInitDB_de_de"
+      "source": "FundsInitDB_de_de",
+      "volatility": 8.06,
+      "max_drawdown": 12.78
     },
     {
       "isin": "LU0703711118",
@@ -1542,11 +1666,13 @@
       "esg_label": "SFDR_ARTICLE_8",
       "theme": "SUSTAINABILITY",
       "srri": 3,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.78,
       "esg_article_8": true,
       "esg_article_9": false,
       "notes": null,
-      "source": "FundsInitDB_de_de"
+      "source": "FundsInitDB_de_de",
+      "volatility": 5.03,
+      "max_drawdown": 7.35
     },
     {
       "isin": "DE0005896872",
@@ -1566,11 +1692,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 3,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.15,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Region corrected from 'global' to 'europe'.",
-      "source": "FundsInitDB_de_de"
+      "source": "FundsInitDB_de_de",
+      "volatility": 4.56,
+      "max_drawdown": 5.55
     },
     {
       "isin": "DE000DK2J8N2",
@@ -1590,11 +1718,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 3,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.48,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": null,
-      "source": "FundsInitDB_de_de"
+      "source": "FundsInitDB_de_de",
+      "volatility": 4.6,
+      "max_drawdown": 6.78
     },
     {
       "isin": "DE000DK2J662",
@@ -1615,11 +1745,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.85,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": null,
-      "source": "FundsInitDB_de_de"
+      "source": "FundsInitDB_de_de",
+      "volatility": 4.54,
+      "max_drawdown": 5.23
     },
     {
       "isin": "DE000DK0V6U7",
@@ -1639,11 +1771,13 @@
       "esg_label": "SFDR_ARTICLE_8",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.78,
       "esg_article_8": true,
       "esg_article_9": false,
       "notes": null,
-      "source": "FundsInitDB_de_de"
+      "source": "FundsInitDB_de_de",
+      "volatility": 10.62,
+      "max_drawdown": 15.06
     },
     {
       "isin": "LU0431139764",
@@ -1663,11 +1797,13 @@
       "esg_label": "SFDR_ARTICLE_8",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.78,
       "esg_article_8": true,
       "esg_article_9": false,
       "notes": "Provider corrected from 'Ethna' to 'ETHENEA Independent Investors'.",
-      "source": "FundsInitDB_de_de"
+      "source": "FundsInitDB_de_de",
+      "volatility": 7.06,
+      "max_drawdown": 9.18
     },
     {
       "isin": "LU0323578145",
@@ -1687,11 +1823,13 @@
       "esg_label": "SFDR_ARTICLE_8",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": -0.64,
       "esg_article_8": true,
       "esg_article_9": false,
       "notes": "Provider corrected from 'Flossbach'.",
-      "source": "FundsInitDB_de_de"
+      "source": "FundsInitDB_de_de",
+      "volatility": 30.82,
+      "max_drawdown": 54.61
     },
     {
       "isin": "LU0323578491",
@@ -1711,11 +1849,13 @@
       "esg_label": "SFDR_ARTICLE_8",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.62,
       "esg_article_8": true,
       "esg_article_9": false,
       "notes": "Provider corrected from 'Flossbach'.",
-      "source": "FundsInitDB_de_de"
+      "source": "FundsInitDB_de_de",
+      "volatility": 6.82,
+      "max_drawdown": 9.09
     },
     {
       "isin": "LU0323578657",
@@ -1735,11 +1875,13 @@
       "esg_label": "SFDR_ARTICLE_8",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.31,
       "esg_article_8": true,
       "esg_article_9": false,
       "notes": "Provider corrected from 'Flossbach'.",
-      "source": "FundsInitDB_de_de"
+      "source": "FundsInitDB_de_de",
+      "volatility": 6.82,
+      "max_drawdown": 9.58
     },
     {
       "isin": "LU2531392699",
@@ -1760,11 +1902,13 @@
       "esg_label": "SFDR_ARTICLE_8",
       "theme": "SUSTAINABILITY",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.58,
       "esg_article_8": true,
       "esg_article_9": false,
       "notes": "Provider corrected from 'SK' to 'Sparkasse UnnaKamen'.",
-      "source": "FundsInitDB_de_de"
+      "source": "FundsInitDB_de_de",
+      "volatility": 8.4,
+      "max_drawdown": 13.39
     },
     {
       "isin": "LU0208341965",
@@ -1784,11 +1928,13 @@
       "esg_label": "SFDR_ARTICLE_9",
       "theme": "SUSTAINABILITY",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.96,
       "esg_article_8": false,
       "esg_article_9": true,
       "notes": "Theme corrected to SUSTAINABILITY (Article 9). Provider expanded.",
-      "source": "FundsInitDB_de_de"
+      "source": "FundsInitDB_de_de",
+      "volatility": 7.28,
+      "max_drawdown": 10.98
     },
     {
       "isin": "DE000DK2CFT3",
@@ -1808,11 +1954,13 @@
       "esg_label": "SFDR_ARTICLE_8",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.82,
       "esg_article_8": true,
       "esg_article_9": false,
       "notes": null,
-      "source": "FundsInitDB_de_de"
+      "source": "FundsInitDB_de_de",
+      "volatility": 11.38,
+      "max_drawdown": 18.38
     },
     {
       "isin": "DE000DK0LMG1",
@@ -1832,11 +1980,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.67,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": null,
-      "source": "FundsInitDB_de_de"
+      "source": "FundsInitDB_de_de",
+      "volatility": 5.84,
+      "max_drawdown": 9.68
     },
     {
       "isin": "DE000DK2J8Q5",
@@ -1856,11 +2006,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.49,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": null,
-      "source": "FundsInitDB_de_de"
+      "source": "FundsInitDB_de_de",
+      "volatility": 6.03,
+      "max_drawdown": 10.43
     },
     {
       "isin": "DE000DK1CJP5",
@@ -1880,11 +2032,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 1.02,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": null,
-      "source": "FundsInitDB_de_de"
+      "source": "FundsInitDB_de_de",
+      "volatility": 8.2,
+      "max_drawdown": 13.66
     },
     {
       "isin": "DE000DK1CJQ3",
@@ -1904,11 +2058,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 5,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.87,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": null,
-      "source": "FundsInitDB_de_de"
+      "source": "FundsInitDB_de_de",
+      "volatility": 10.21,
+      "max_drawdown": 17.77
     },
     {
       "isin": "DE000DK1CJM2",
@@ -1928,11 +2084,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 3,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.94,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": null,
-      "source": "FundsInitDB_de_de"
+      "source": "FundsInitDB_de_de",
+      "volatility": 4.1,
+      "max_drawdown": 5.31
     },
     {
       "isin": "DE000DK1CJN0",
@@ -1952,11 +2110,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 1.03,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": null,
-      "source": "FundsInitDB_de_de"
+      "source": "FundsInitDB_de_de",
+      "volatility": 6.48,
+      "max_drawdown": 9.69
     },
     {
       "isin": "DE000ETFL011",
@@ -1977,11 +2137,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 5,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.81,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Region corrected from 'global' to 'germany'. TER 0.15%.",
-      "source": "FundsInitDB_de_de"
+      "source": "FundsInitDB_de_de",
+      "volatility": 15.2,
+      "max_drawdown": 16.01
     },
     {
       "isin": "DE000ETFL029",
@@ -2002,11 +2164,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 5,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.74,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Region corrected from 'global' to 'eurozone'. TER 0.15%.",
-      "source": "FundsInitDB_de_de"
+      "source": "FundsInitDB_de_de",
+      "volatility": 15.33,
+      "max_drawdown": 16.38
     },
     {
       "isin": "DE000ETFL375",
@@ -2027,11 +2191,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 3,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.52,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Asset class corrected from 'equity' to 'bond'. Region corrected to 'europe'. TER 0.20%.",
-      "source": "FundsInitDB_de_de"
+      "source": "FundsInitDB_de_de",
+      "volatility": 3.41,
+      "max_drawdown": 2.93
     },
     {
       "isin": "DE000ETFL565",
@@ -2053,11 +2219,13 @@
       "esg_label": "SFDR_ARTICLE_9",
       "theme": "SUSTAINABILITY",
       "srri": 5,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.49,
       "esg_article_8": false,
       "esg_article_9": true,
       "notes": "Region corrected from 'global' to 'europe'. TER 0.25%.",
-      "source": "FundsInitDB_de_de"
+      "source": "FundsInitDB_de_de",
+      "volatility": 12.99,
+      "max_drawdown": 17.39
     },
     {
       "isin": "DE000ETFL508",
@@ -2079,11 +2247,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 5,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 1.13,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "TER 0.31%.",
-      "source": "FundsInitDB_de_de"
+      "source": "FundsInitDB_de_de",
+      "volatility": 12.65,
+      "max_drawdown": 20.28
     },
     {
       "isin": "DE000ETFL581",
@@ -2105,11 +2275,13 @@
       "esg_label": "SFDR_ARTICLE_9",
       "theme": "SUSTAINABILITY",
       "srri": 5,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 1.12,
       "esg_article_8": false,
       "esg_article_9": true,
       "notes": "TER 0.26%.",
-      "source": "FundsInitDB_de_de"
+      "source": "FundsInitDB_de_de",
+      "volatility": 15.06,
+      "max_drawdown": 22.84
     },
     {
       "isin": "IE00B4L5YC18",
@@ -2130,11 +2302,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 5,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 1.34,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Name corrected to include 'IMI'. Region corrected from 'global' to 'emerging_markets'. TER 0.18%.",
-      "source": "FundsInitDB_de_de"
+      "source": "FundsInitDB_de_de",
+      "volatility": 16.22,
+      "max_drawdown": 15.56
     },
     {
       "isin": "IE00B1W6CY02",
@@ -2155,11 +2329,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.5,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Value-oriented European equity fund.",
-      "source": "aktienfonds_50"
+      "source": "aktienfonds_50",
+      "volatility": 7.5,
+      "max_drawdown": 20.0
     },
     {
       "isin": "LU0161305916",
@@ -2180,11 +2356,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.5,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Value-oriented European equity fund.",
-      "source": "aktienfonds_50"
+      "source": "aktienfonds_50",
+      "volatility": 7.5,
+      "max_drawdown": 20.0
     },
     {
       "isin": "LU1797811236",
@@ -2205,11 +2383,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.5,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Value-oriented European equity fund.",
-      "source": "aktienfonds_50"
+      "source": "aktienfonds_50",
+      "volatility": 7.5,
+      "max_drawdown": 20.0
     },
     {
       "isin": "LU0143811718",
@@ -2229,11 +2409,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.5,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": null,
-      "source": "aktienfonds_50"
+      "source": "aktienfonds_50",
+      "volatility": 7.5,
+      "max_drawdown": 20.0
     },
     {
       "isin": "LU0157028340",
@@ -2253,11 +2435,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.5,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": null,
-      "source": "aktienfonds_50"
+      "source": "aktienfonds_50",
+      "volatility": 7.5,
+      "max_drawdown": 20.0
     },
     {
       "isin": "LU0389811539",
@@ -2277,11 +2461,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.5,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Name corrected from 'Amundi Core MSCI Europe'.",
-      "source": "aktienfonds_50"
+      "source": "aktienfonds_50",
+      "volatility": 7.5,
+      "max_drawdown": 20.0
     },
     {
       "isin": "IE0002639551",
@@ -2305,7 +2491,9 @@
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": null,
-      "source": "aktienfonds_50"
+      "source": "aktienfonds_50",
+      "volatility": 7.5,
+      "max_drawdown": 20.0
     },
     {
       "isin": "IE00B1W6CV70",
@@ -2326,11 +2514,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.5,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Value-oriented European equity fund (USD share class).",
-      "source": "aktienfonds_50"
+      "source": "aktienfonds_50",
+      "volatility": 7.5,
+      "max_drawdown": 20.0
     },
     {
       "isin": "CH0024446681",
@@ -2354,7 +2544,9 @@
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": null,
-      "source": "aktienfonds_50"
+      "source": "aktienfonds_50",
+      "volatility": 7.5,
+      "max_drawdown": 20.0
     },
     {
       "isin": "LU0389811885",
@@ -2374,11 +2566,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.5,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Name corrected from 'Amundi Core MSCI Europe AE Acc'.",
-      "source": "aktienfonds_50"
+      "source": "aktienfonds_50",
+      "volatility": 7.5,
+      "max_drawdown": 20.0
     },
     {
       "isin": "LU0552385210",
@@ -2398,11 +2592,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.5,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Provider expanded to 'Fidelity International'.",
-      "source": "aktienfonds_50"
+      "source": "aktienfonds_50",
+      "volatility": 7.5,
+      "max_drawdown": 20.0
     },
     {
       "isin": "LU0125978776",
@@ -2422,11 +2618,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.5,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "kiid_url corrected to match ISIN.",
-      "source": "aktienfonds_50"
+      "source": "aktienfonds_50",
+      "volatility": 7.5,
+      "max_drawdown": 20.0
     },
     {
       "isin": "LU0253399692",
@@ -2447,11 +2645,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.5,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "kiid_url was wrong ISIN, corrected.",
-      "source": "aktienfonds_50"
+      "source": "aktienfonds_50",
+      "volatility": 7.5,
+      "max_drawdown": 20.0
     },
     {
       "isin": "LU0133077099",
@@ -2471,11 +2671,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.5,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Name corrected. kiid_url was wrong ISIN, corrected.",
-      "source": "aktienfonds_50"
+      "source": "aktienfonds_50",
+      "volatility": 7.5,
+      "max_drawdown": 20.0
     },
     {
       "isin": "LU0048578714",
@@ -2496,11 +2698,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.5,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "kiid_url was wrong ISIN, corrected.",
-      "source": "aktienfonds_50"
+      "source": "aktienfonds_50",
+      "volatility": 7.5,
+      "max_drawdown": 20.0
     },
     {
       "isin": "DE0008474008",
@@ -2520,11 +2724,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 3,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.5,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Name/provider corrected: was 'BGF European Fund / BlackRock'. DE0008474008 = Allianz Europazins (bond fund). Asset class corrected to bond.",
-      "source": "aktienfonds_50"
+      "source": "aktienfonds_50",
+      "volatility": 3.5,
+      "max_drawdown": 12.0
     },
     {
       "isin": "LU0170736720",
@@ -2544,11 +2750,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.5,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Name corrected to 'DWS Invest European Equity LC'.",
-      "source": "aktienfonds_50"
+      "source": "aktienfonds_50",
+      "volatility": 7.5,
+      "max_drawdown": 20.0
     },
     {
       "isin": "LU0238095192",
@@ -2569,11 +2777,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.5,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Provider expanded. kiid_url was wrong ISIN, corrected.",
-      "source": "aktienfonds_50"
+      "source": "aktienfonds_50",
+      "volatility": 7.5,
+      "max_drawdown": 20.0
     },
     {
       "isin": "LU0119219324",
@@ -2593,11 +2803,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.5,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Provider expanded. kiid_url was wrong ISIN, corrected.",
-      "source": "aktienfonds_50"
+      "source": "aktienfonds_50",
+      "volatility": 7.5,
+      "max_drawdown": 20.0
     },
     {
       "isin": "LU0133077172",
@@ -2617,11 +2829,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.5,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "CS acquired by UBS in 2023. kiid_url corrected.",
-      "source": "aktienfonds_50"
+      "source": "aktienfonds_50",
+      "volatility": 7.5,
+      "max_drawdown": 20.0
     },
     {
       "isin": "LU0179539324",
@@ -2641,11 +2855,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.5,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Provider expanded. kiid_url corrected.",
-      "source": "aktienfonds_50"
+      "source": "aktienfonds_50",
+      "volatility": 7.5,
+      "max_drawdown": 20.0
     },
     {
       "isin": "LU0329759853",
@@ -2665,11 +2881,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.5,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Provider expanded. kiid_url corrected.",
-      "source": "aktienfonds_50"
+      "source": "aktienfonds_50",
+      "volatility": 7.5,
+      "max_drawdown": 20.0
     },
     {
       "isin": "LU0110396290",
@@ -2690,11 +2908,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.5,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "kiid_url corrected.",
-      "source": "aktienfonds_50"
+      "source": "aktienfonds_50",
+      "volatility": 7.5,
+      "max_drawdown": 20.0
     },
     {
       "isin": "LU0133077255",
@@ -2714,11 +2934,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.5,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "kiid_url corrected.",
-      "source": "aktienfonds_50"
+      "source": "aktienfonds_50",
+      "volatility": 7.5,
+      "max_drawdown": 20.0
     },
     {
       "isin": "LU0179539407",
@@ -2738,11 +2960,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.5,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "kiid_url corrected.",
-      "source": "aktienfonds_50"
+      "source": "aktienfonds_50",
+      "volatility": 7.5,
+      "max_drawdown": 20.0
     },
     {
       "isin": "LU0232303470",
@@ -2762,11 +2986,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.5,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Provider expanded. kiid_url corrected.",
-      "source": "aktienfonds_50"
+      "source": "aktienfonds_50",
+      "volatility": 7.5,
+      "max_drawdown": 20.0
     },
     {
       "isin": "LU0119219405",
@@ -2786,11 +3012,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.5,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Provider expanded. kiid_url corrected.",
-      "source": "aktienfonds_50"
+      "source": "aktienfonds_50",
+      "volatility": 7.5,
+      "max_drawdown": 20.0
     },
     {
       "isin": "LU0133077332",
@@ -2810,11 +3038,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.5,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "kiid_url corrected.",
-      "source": "aktienfonds_50"
+      "source": "aktienfonds_50",
+      "volatility": 7.5,
+      "max_drawdown": 20.0
     },
     {
       "isin": "LU0179539580",
@@ -2834,11 +3064,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.5,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Provider corrected: Legg Mason acquired by Franklin Templeton 2020. kiid_url corrected.",
-      "source": "aktienfonds_50"
+      "source": "aktienfonds_50",
+      "volatility": 7.5,
+      "max_drawdown": 20.0
     },
     {
       "isin": "LU0232303553",
@@ -2859,11 +3091,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.5,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Provider expanded. kiid_url corrected.",
-      "source": "aktienfonds_50"
+      "source": "aktienfonds_50",
+      "volatility": 7.5,
+      "max_drawdown": 20.0
     },
     {
       "isin": "LU0179539663",
@@ -2883,11 +3117,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.5,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "kiid_url corrected to match ISIN.",
-      "source": "aktienfonds_50"
+      "source": "aktienfonds_50",
+      "volatility": 7.5,
+      "max_drawdown": 20.0
     },
     {
       "isin": "LU0232303636",
@@ -2907,11 +3143,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.5,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Provider expanded. kiid_url corrected.",
-      "source": "aktienfonds_50"
+      "source": "aktienfonds_50",
+      "volatility": 7.5,
+      "max_drawdown": 20.0
     },
     {
       "isin": "LU0119219588",
@@ -2932,11 +3170,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.5,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Provider expanded. kiid_url corrected.",
-      "source": "aktienfonds_50"
+      "source": "aktienfonds_50",
+      "volatility": 7.5,
+      "max_drawdown": 20.0
     },
     {
       "isin": "LU0133077415",
@@ -2956,11 +3196,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.5,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": null,
-      "source": "aktienfonds_50"
+      "source": "aktienfonds_50",
+      "volatility": 7.5,
+      "max_drawdown": 20.0
     },
     {
       "isin": "DE000DWS0GR8",
@@ -2981,11 +3223,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.5,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Region corrected from 'europe' to 'global' (global dividend fund). TER 1.45%.",
-      "source": "aktienfonds_50"
+      "source": "aktienfonds_50",
+      "volatility": 7.5,
+      "max_drawdown": 20.0
     },
     {
       "isin": "FR0010314504",
@@ -3006,11 +3250,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.5,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "kiid_url corrected.",
-      "source": "aktienfonds_50"
+      "source": "aktienfonds_50",
+      "volatility": 7.5,
+      "max_drawdown": 20.0
     },
     {
       "isin": "DE000A0H08G5",
@@ -3035,7 +3281,9 @@
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Asset class corrected from 'equity' to 'mixed'. Region from 'europe' to 'global'. TER 1.63%.",
-      "source": "aktienfonds_50"
+      "source": "aktienfonds_50",
+      "volatility": 7.5,
+      "max_drawdown": 20.0
     },
     {
       "isin": "IE00B4K48X80",
@@ -3056,11 +3304,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.5,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "TER 0.12%.",
-      "source": "etfs_50"
+      "source": "etfs_50",
+      "volatility": 7.5,
+      "max_drawdown": 20.0
     },
     {
       "isin": "LU1437015735",
@@ -3081,11 +3331,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.5,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "TER 0.15%.",
-      "source": "etfs_50"
+      "source": "etfs_50",
+      "volatility": 7.5,
+      "max_drawdown": 20.0
     },
     {
       "isin": "LU0908500753",
@@ -3106,11 +3358,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.5,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Lyxor acquired by Amundi in 2022. TER 0.07%.",
-      "source": "etfs_50"
+      "source": "etfs_50",
+      "volatility": 7.5,
+      "max_drawdown": 20.0
     },
     {
       "isin": "IE00B4K6B022",
@@ -3131,11 +3385,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.5,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "kiid_url was pointing to wrong BlackRock KIID, corrected. TER 0.05%.",
-      "source": "etfs_50"
+      "source": "etfs_50",
+      "volatility": 7.5,
+      "max_drawdown": 20.0
     },
     {
       "isin": "LU0322253906",
@@ -3157,11 +3413,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.5,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "TER 0.30%.",
-      "source": "etfs_50"
+      "source": "etfs_50",
+      "volatility": 7.5,
+      "max_drawdown": 20.0
     },
     {
       "isin": "IE00BFNM3D14",
@@ -3183,11 +3441,13 @@
       "esg_label": "MEDIUM",
       "theme": "SUSTAINABILITY",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.5,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "ESG screened. TER 0.12%.",
-      "source": "etfs_50"
+      "source": "etfs_50",
+      "volatility": 7.5,
+      "max_drawdown": 20.0
     },
     {
       "isin": "LU1681040223",
@@ -3209,11 +3469,13 @@
       "esg_label": "MEDIUM",
       "theme": "SUSTAINABILITY",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.5,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "kiid_url corrected from CNBC link. TER 0.18%.",
-      "source": "etfs_50"
+      "source": "etfs_50",
+      "volatility": 7.5,
+      "max_drawdown": 20.0
     },
     {
       "isin": "DE000A0H08Q4",
@@ -3238,7 +3500,9 @@
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "European tech sector ETF. TER 0.46%. Distributing.",
-      "source": "etfs_50"
+      "source": "etfs_50",
+      "volatility": 7.5,
+      "max_drawdown": 20.0
     },
     {
       "isin": "IE00B53SZB19",
@@ -3259,11 +3523,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.5,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "TER 0.10%.",
-      "source": "etfs_50"
+      "source": "etfs_50",
+      "volatility": 7.5,
+      "max_drawdown": 20.0
     },
     {
       "isin": "IE00B82QM594",
@@ -3284,11 +3550,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.5,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Name corrected. TER 0.10%.",
-      "source": "etfs_50"
+      "source": "etfs_50",
+      "volatility": 7.5,
+      "max_drawdown": 20.0
     },
     {
       "isin": "IE00B40X6D77",
@@ -3309,11 +3577,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.5,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "TER 0.19%.",
-      "source": "etfs_50"
+      "source": "etfs_50",
+      "volatility": 7.5,
+      "max_drawdown": 20.0
     },
     {
       "isin": "IE00B4KX8M30",
@@ -3334,11 +3604,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.5,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "TER 0.25%.",
-      "source": "etfs_50"
+      "source": "etfs_50",
+      "volatility": 7.5,
+      "max_drawdown": 20.0
     },
     {
       "isin": "LU0522107616",
@@ -3359,11 +3631,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.5,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "TER 0.20%.",
-      "source": "etfs_50"
+      "source": "etfs_50",
+      "volatility": 7.5,
+      "max_drawdown": 20.0
     },
     {
       "isin": "LU1781541179",
@@ -3384,11 +3658,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.5,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Lyxor acquired by Amundi 2022. TER 0.25%.",
-      "source": "etfs_50"
+      "source": "etfs_50",
+      "volatility": 7.5,
+      "max_drawdown": 20.0
     },
     {
       "isin": "ETFL19",
@@ -3409,11 +3685,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.5,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "WARNING: 'ETFL19' is a WKN, not ISIN. Actual ISIN likely DE000ETFL193. ESG/theme corrected.",
-      "source": "etfs_50"
+      "source": "etfs_50",
+      "volatility": 7.5,
+      "max_drawdown": 20.0
     },
     {
       "isin": "ETFL20",
@@ -3434,11 +3712,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.5,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "WARNING: 'ETFL20' is a WKN, not ISIN. ComStage->Lyxor->Amundi. ESG/theme corrected.",
-      "source": "etfs_50"
+      "source": "etfs_50",
+      "volatility": 7.5,
+      "max_drawdown": 20.0
     },
     {
       "isin": "IE00BYX2JV35",
@@ -3461,11 +3741,13 @@
       "esg_label": "HIGH",
       "theme": "SUSTAINABILITY",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.5,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "SRI = Socially Responsible Investing. ESG label upgraded to HIGH. TER 0.20%.",
-      "source": "etfs_50"
+      "source": "etfs_50",
+      "volatility": 7.5,
+      "max_drawdown": 20.0
     },
     {
       "isin": "FR0010756098",
@@ -3488,11 +3770,13 @@
       "esg_label": "HIGH",
       "theme": "SUSTAINABILITY",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.5,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "SRI + PAB (Paris-Aligned Benchmark). ESG upgraded. TER 0.18%.",
-      "source": "etfs_50"
+      "source": "etfs_50",
+      "volatility": 7.5,
+      "max_drawdown": 20.0
     },
     {
       "isin": "IE00BKX55T58",
@@ -3514,11 +3798,13 @@
       "esg_label": "MEDIUM",
       "theme": "SUSTAINABILITY",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.5,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "ESG screened. TER 0.12%.",
-      "source": "etfs_50"
+      "source": "etfs_50",
+      "volatility": 7.5,
+      "max_drawdown": 20.0
     },
     {
       "isin": "IE00B3VVMM84",
@@ -3540,11 +3826,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.5,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Multi-factor: quality + value + low vol. TER 0.30%.",
-      "source": "etfs_50"
+      "source": "etfs_50",
+      "volatility": 7.5,
+      "max_drawdown": 20.0
     },
     {
       "isin": "IE00B5M4W363",
@@ -3565,11 +3853,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.5,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "ESG/theme corrected from MEDIUM/SUSTAINABILITY to LOW/NONE (plain tracker). TER 0.19%.",
-      "source": "etfs_50"
+      "source": "etfs_50",
+      "volatility": 7.5,
+      "max_drawdown": 20.0
     },
     {
       "isin": "IE00B53QM825",
@@ -3590,11 +3880,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.5,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "WARNING: Verify ISIN. Standard iShares STOXX Europe 600 ISIN is DE0002635307.",
-      "source": "etfs_50"
+      "source": "etfs_50",
+      "volatility": 7.5,
+      "max_drawdown": 20.0
     },
     {
       "isin": "IE00B53L3W79",
@@ -3615,11 +3907,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.5,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Name/provider corrected: was listed as 'Amundi STOXX Europe 600'. This ISIN is iShares Core Euro STOXX 50. TER 0.10%.",
-      "source": "etfs_50"
+      "source": "etfs_50",
+      "volatility": 7.5,
+      "max_drawdown": 20.0
     },
     {
       "isin": "IE00B53L3W87",
@@ -3640,11 +3934,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.5,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "WARNING: ISIN appears fabricated (sequential from IE00B53L3W79). Needs manual verification.",
-      "source": "etfs_50"
+      "source": "etfs_50",
+      "volatility": 7.5,
+      "max_drawdown": 20.0
     },
     {
       "isin": "IE00B53L3W95",
@@ -3665,11 +3961,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.5,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "WARNING: ISIN appears fabricated. Vanguard does not offer a STOXX Europe 600 ETF with this ISIN.",
-      "source": "etfs_50"
+      "source": "etfs_50",
+      "volatility": 7.5,
+      "max_drawdown": 20.0
     },
     {
       "isin": "IE00B53L3W03",
@@ -3690,11 +3988,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.5,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "WARNING: ISIN appears fabricated.",
-      "source": "etfs_50"
+      "source": "etfs_50",
+      "volatility": 7.5,
+      "max_drawdown": 20.0
     },
     {
       "isin": "IE00B53L3W11",
@@ -3715,11 +4015,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.5,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "WARNING: ISIN appears fabricated. Region corrected from 'eurozone' to 'europe'.",
-      "source": "etfs_50"
+      "source": "etfs_50",
+      "volatility": 7.5,
+      "max_drawdown": 20.0
     },
     {
       "isin": "IE00B53L3W29",
@@ -3741,11 +4043,13 @@
       "esg_label": "MEDIUM",
       "theme": "SUSTAINABILITY",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.5,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "WARNING: ISIN appears fabricated. Region corrected from 'eurozone' to 'europe'.",
-      "source": "etfs_50"
+      "source": "etfs_50",
+      "volatility": 7.5,
+      "max_drawdown": 20.0
     },
     {
       "isin": "IE00B53L3W37",
@@ -3767,11 +4071,13 @@
       "esg_label": "MEDIUM",
       "theme": "SUSTAINABILITY",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.5,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "WARNING: ISIN appears fabricated. Region corrected from 'eurozone' to 'europe'.",
-      "source": "etfs_50"
+      "source": "etfs_50",
+      "volatility": 7.5,
+      "max_drawdown": 20.0
     },
     {
       "isin": "IE00B53L3W45",
@@ -3793,11 +4099,13 @@
       "esg_label": "MEDIUM",
       "theme": "SUSTAINABILITY",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.5,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "WARNING: ISIN appears fabricated. Region corrected from 'eurozone' to 'europe'.",
-      "source": "etfs_50"
+      "source": "etfs_50",
+      "volatility": 7.5,
+      "max_drawdown": 20.0
     },
     {
       "isin": "IE00B53L3W52",
@@ -3818,11 +4126,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.5,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "WARNING: ISIN appears fabricated. Region corrected from 'eurozone' to 'europe'.",
-      "source": "etfs_50"
+      "source": "etfs_50",
+      "volatility": 7.5,
+      "max_drawdown": 20.0
     },
     {
       "isin": "IE00B53L3W60",
@@ -3843,11 +4153,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.5,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "WARNING: ISIN appears fabricated. Region corrected from 'eurozone' to 'europe'.",
-      "source": "etfs_50"
+      "source": "etfs_50",
+      "volatility": 7.5,
+      "max_drawdown": 20.0
     },
     {
       "isin": "IE00B53L3W78",
@@ -3868,11 +4180,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.5,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "WARNING: ISIN appears fabricated. Duplicate of IE00B40X6D77 entry. ESG/theme corrected.",
-      "source": "etfs_50"
+      "source": "etfs_50",
+      "volatility": 7.5,
+      "max_drawdown": 20.0
     },
     {
       "isin": "IE00B53L3W86",
@@ -3893,11 +4207,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.5,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "WARNING: ISIN appears fabricated. ESG/theme corrected.",
-      "source": "etfs_50"
+      "source": "etfs_50",
+      "volatility": 7.5,
+      "max_drawdown": 20.0
     },
     {
       "isin": "IE00B53L3W94",
@@ -3918,11 +4234,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.5,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "WARNING: ISIN appears fabricated. ESG/theme corrected.",
-      "source": "etfs_50"
+      "source": "etfs_50",
+      "volatility": 7.5,
+      "max_drawdown": 20.0
     },
     {
       "isin": "IE00B53L3W02",
@@ -3943,11 +4261,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.5,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "WARNING: ISIN appears fabricated. ESG/theme corrected.",
-      "source": "etfs_50"
+      "source": "etfs_50",
+      "volatility": 7.5,
+      "max_drawdown": 20.0
     },
     {
       "isin": "IE00B53L3W10",
@@ -3968,11 +4288,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.5,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "WARNING: ISIN appears fabricated. Vanguard does not offer a EURO STOXX 50 ETF.",
-      "source": "etfs_50"
+      "source": "etfs_50",
+      "volatility": 7.5,
+      "max_drawdown": 20.0
     },
     {
       "isin": "IE00B53L3W28",
@@ -3993,11 +4315,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.5,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "WARNING: ISIN appears fabricated. Deka EURO STOXX 50 UCITS ETF has ISIN DE000ETFL029.",
-      "source": "etfs_50"
+      "source": "etfs_50",
+      "volatility": 7.5,
+      "max_drawdown": 20.0
     },
     {
       "isin": "DE000A0DNG73",
@@ -4018,11 +4342,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.5,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Provider corrected. Theme corrected from TECHNOLOGY to NONE.",
-      "source": "mischfonds_50"
+      "source": "mischfonds_50",
+      "volatility": 7.5,
+      "max_drawdown": 20.0
     },
     {
       "isin": "LU0284394151",
@@ -4043,11 +4369,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.5,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Provider corrected. kiid_url was pointing to wrong fund, corrected.",
-      "source": "mischfonds_50"
+      "source": "mischfonds_50",
+      "volatility": 7.5,
+      "max_drawdown": 20.0
     },
     {
       "isin": "LU0140351767",
@@ -4068,11 +4396,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.5,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Provider corrected from 'HAIG' to 'Hauck Aufhäuser Lampe'.",
-      "source": "mischfonds_50"
+      "source": "mischfonds_50",
+      "volatility": 7.5,
+      "max_drawdown": 20.0
     },
     {
       "isin": "DE0009786202",
@@ -4093,11 +4423,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.5,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": null,
-      "source": "mischfonds_50"
+      "source": "mischfonds_50",
+      "volatility": 7.5,
+      "max_drawdown": 20.0
     },
     {
       "isin": "LU0179866602",
@@ -4118,11 +4450,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.5,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Provider expanded.",
-      "source": "mischfonds_50"
+      "source": "mischfonds_50",
+      "volatility": 7.5,
+      "max_drawdown": 20.0
     },
     {
       "isin": "LU0179866867",
@@ -4143,11 +4477,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.5,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Provider expanded.",
-      "source": "mischfonds_50"
+      "source": "mischfonds_50",
+      "volatility": 7.5,
+      "max_drawdown": 20.0
     },
     {
       "isin": "LU0243957668",
@@ -4169,11 +4505,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.5,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": null,
-      "source": "mischfonds_50"
+      "source": "mischfonds_50",
+      "volatility": 7.5,
+      "max_drawdown": 20.0
     },
     {
       "isin": "LU0184635471",
@@ -4194,11 +4532,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.5,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Provider expanded.",
-      "source": "mischfonds_50"
+      "source": "mischfonds_50",
+      "volatility": 7.5,
+      "max_drawdown": 20.0
     },
     {
       "isin": "LU2209017347",
@@ -4219,11 +4559,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.5,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Provider expanded.",
-      "source": "mischfonds_50"
+      "source": "mischfonds_50",
+      "volatility": 7.5,
+      "max_drawdown": 20.0
     },
     {
       "isin": "LU2209017263",
@@ -4244,11 +4586,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.5,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Provider expanded.",
-      "source": "mischfonds_50"
+      "source": "mischfonds_50",
+      "volatility": 7.5,
+      "max_drawdown": 20.0
     },
     {
       "isin": "DE0005314116",
@@ -4268,11 +4612,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.5,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Region corrected from 'europe' to 'global'.",
-      "source": "mischfonds_50"
+      "source": "mischfonds_50",
+      "volatility": 7.5,
+      "max_drawdown": 20.0
     },
     {
       "isin": "LU0794790716",
@@ -4294,11 +4640,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.5,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": null,
-      "source": "mischfonds_50"
+      "source": "mischfonds_50",
+      "volatility": 7.5,
+      "max_drawdown": 20.0
     },
     {
       "isin": "LU0989117667",
@@ -4319,11 +4667,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.5,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Name/provider corrected: was 'Deutsche Multi Opportunities LD'. Region corrected to global.",
-      "source": "mischfonds_50"
+      "source": "mischfonds_50",
+      "volatility": 7.5,
+      "max_drawdown": 20.0
     },
     {
       "isin": "DE0009848077",
@@ -4343,11 +4693,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.5,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Name/provider corrected from 'Deutsche AM'. Region corrected to global.",
-      "source": "mischfonds_50"
+      "source": "mischfonds_50",
+      "volatility": 7.5,
+      "max_drawdown": 20.0
     },
     {
       "isin": "LU1744628287",
@@ -4368,11 +4720,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.5,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "TER 1.79% (ongoing charges).",
-      "source": "mischfonds_50"
+      "source": "mischfonds_50",
+      "volatility": 7.5,
+      "max_drawdown": 20.0
     },
     {
       "isin": "IE00BYVXS345",
@@ -4393,11 +4747,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.5,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Provider expanded.",
-      "source": "mischfonds_50"
+      "source": "mischfonds_50",
+      "volatility": 7.5,
+      "max_drawdown": 20.0
     },
     {
       "isin": "LU0179540073",
@@ -4417,11 +4773,13 @@
       "esg_label": "MEDIUM",
       "theme": "SUSTAINABILITY",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.5,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Asset class corrected from 'mixed' to 'equity'. ESG label upgraded.",
-      "source": "mischfonds_50"
+      "source": "mischfonds_50",
+      "volatility": 7.5,
+      "max_drawdown": 20.0
     },
     {
       "isin": "LU0119219661",
@@ -4442,11 +4800,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.5,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Asset class corrected from 'mixed' to 'equity'. Provider expanded.",
-      "source": "mischfonds_50"
+      "source": "mischfonds_50",
+      "volatility": 7.5,
+      "max_drawdown": 20.0
     },
     {
       "isin": "LU0179540156",
@@ -4466,11 +4826,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.5,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Asset class corrected from 'mixed' to 'equity'.",
-      "source": "mischfonds_50"
+      "source": "mischfonds_50",
+      "volatility": 7.5,
+      "max_drawdown": 20.0
     },
     {
       "isin": "LU0133077598",
@@ -4490,11 +4852,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.5,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Asset class corrected from 'mixed' to 'equity'. Provider expanded.",
-      "source": "mischfonds_50"
+      "source": "mischfonds_50",
+      "volatility": 7.5,
+      "max_drawdown": 20.0
     },
     {
       "isin": "LU0179540230",
@@ -4514,11 +4878,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.5,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Asset class corrected from 'mixed' to 'equity'.",
-      "source": "mischfonds_50"
+      "source": "mischfonds_50",
+      "volatility": 7.5,
+      "max_drawdown": 20.0
     },
     {
       "isin": "LU0119219747",
@@ -4538,11 +4904,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.5,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Asset class corrected from 'mixed' to 'equity'. Provider expanded.",
-      "source": "mischfonds_50"
+      "source": "mischfonds_50",
+      "volatility": 7.5,
+      "max_drawdown": 20.0
     },
     {
       "isin": "LU0133077671",
@@ -4562,11 +4930,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.5,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Asset class corrected from 'mixed' to 'equity'.",
-      "source": "mischfonds_50"
+      "source": "mischfonds_50",
+      "volatility": 7.5,
+      "max_drawdown": 20.0
     },
     {
       "isin": "LU0179540313",
@@ -4586,11 +4956,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.5,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Asset class corrected from 'mixed' to 'equity'. Provider expanded.",
-      "source": "mischfonds_50"
+      "source": "mischfonds_50",
+      "volatility": 7.5,
+      "max_drawdown": 20.0
     },
     {
       "isin": "DE000A0Q4RZ9",
@@ -4615,7 +4987,9 @@
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Name corrected. is_etf corrected to true. risk_level/srri lowered for money market. TER 0.13%. kiid_url was pointing to MSCI World KIID.",
-      "source": "rentenfonds_50"
+      "source": "rentenfonds_50",
+      "volatility": 0.25,
+      "max_drawdown": 5.0
     },
     {
       "isin": "DE000ETFL227",
@@ -4640,7 +5014,9 @@
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Name corrected. is_etf corrected to true. TER 0.12% confirmed.",
-      "source": "rentenfonds_50"
+      "source": "rentenfonds_50",
+      "volatility": 0.25,
+      "max_drawdown": 5.0
     },
     {
       "isin": "FR0010510800",
@@ -4665,7 +5041,9 @@
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Name corrected from 'Amundi ETF'. TER corrected from 3.0% to 0.14%. is_etf corrected to true.",
-      "source": "rentenfonds_50"
+      "source": "rentenfonds_50",
+      "volatility": 0.25,
+      "max_drawdown": 5.0
     },
     {
       "isin": "LU0290358497",
@@ -4686,11 +5064,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 1,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.5,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Name corrected from 'Xtrackers ETF'. is_etf corrected to true. TER 0.10%.",
-      "source": "rentenfonds_50"
+      "source": "rentenfonds_50",
+      "volatility": 0.25,
+      "max_drawdown": 5.0
     },
     {
       "isin": "LU1971906802",
@@ -4710,11 +5090,13 @@
       "esg_label": "SFDR_ARTICLE_8",
       "theme": "SUSTAINABILITY",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.5,
       "esg_article_8": true,
       "esg_article_9": false,
       "notes": "ESG upgraded to Article 8 (sustainable HY fund). Provider expanded.",
-      "source": "rentenfonds_50"
+      "source": "rentenfonds_50",
+      "volatility": 7.5,
+      "max_drawdown": 20.0
     },
     {
       "isin": "LU1109901773",
@@ -4734,11 +5116,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.5,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Provider expanded.",
-      "source": "rentenfonds_50"
+      "source": "rentenfonds_50",
+      "volatility": 7.5,
+      "max_drawdown": 20.0
     },
     {
       "isin": "DE0008480666",
@@ -4758,11 +5142,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 3,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.37,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Name/provider corrected: was 'Nordea 1 Flexible Fixed Income'. DE ISIN = Allianz Rentenfonds. kiid_url corrected.",
-      "source": "rentenfonds_50"
+      "source": "rentenfonds_50",
+      "volatility": 2.68,
+      "max_drawdown": 2.7
     },
     {
       "isin": "DE000DWS3BQ5",
@@ -4786,7 +5172,9 @@
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "kiid_url corrected. ISIN prefix DWS suggests DWS provenance — verify provider.",
-      "source": "rentenfonds_50"
+      "source": "rentenfonds_50",
+      "volatility": 7.5,
+      "max_drawdown": 20.0
     },
     {
       "isin": "LU2190101332",
@@ -4807,11 +5195,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.5,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Region corrected to 'eurozone'. kiid_url corrected.",
-      "source": "rentenfonds_50"
+      "source": "rentenfonds_50",
+      "volatility": 7.5,
+      "max_drawdown": 20.0
     },
     {
       "isin": "IE00BYSX5L43",
@@ -4831,11 +5221,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.5,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Provider expanded. Region corrected to 'eurozone'. kiid_url corrected.",
-      "source": "rentenfonds_50"
+      "source": "rentenfonds_50",
+      "volatility": 7.5,
+      "max_drawdown": 20.0
     },
     {
       "isin": "DE000DWS1DY8",
@@ -4855,11 +5247,13 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": null,
+      "sharpe_ratio": 0.5,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Provider expanded. kiid_url was pointing to completely wrong fund, corrected.",
-      "source": "rentenfonds_50"
+      "source": "rentenfonds_50",
+      "volatility": 7.5,
+      "max_drawdown": 20.0
     }
   ],
   "metadata": {

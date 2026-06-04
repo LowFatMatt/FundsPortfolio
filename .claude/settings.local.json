@@ -14,7 +14,11 @@
       "Bash(python -c ' *)",
       "Bash(awk -F'\\\\t' '{print NF}')",
       "Bash(python3 -m pytest tests/test_decision_engine.py -q)",
-      "Bash(python3 -m pytest tests/ -q)"
+      "Bash(python3 -m pytest tests/ -q)",
+      "Bash(python -m pytest)",
+      "Bash(python -m pytest tests/test_decision_engine.py::test_etf_only_filter -x)",
+      "Bash(python -m pytest \"tests/test_app.py::test_create_portfolio_endpoint\" -x -s)",
+      "Bash(python -m pytest tests/test_decision_engine.py)"
     ]
   }
 }
