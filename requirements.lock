@@ -11,7 +11,7 @@ Cython==3.2.4
 flake8==6.1.0
 Flask==3.0.0
 frozendict==2.4.7
-gunicorn==21.2.0
+gunicorn>=22.0.0
 idna==3.11
 iniconfig==2.3.0
 itsdangerous==2.2.0
