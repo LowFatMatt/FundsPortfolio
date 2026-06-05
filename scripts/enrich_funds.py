@@ -21,11 +21,19 @@ import io
 import json
 import os
 import re
+import sys
 import time
+from collections import defaultdict
 from typing import Dict, List, Optional, Tuple
 from urllib.parse import urljoin
 
 import requests
+
+# Ensure the repo root is importable when run directly (python scripts/enrich_funds.py),
+# since that puts scripts/ on sys.path instead of the project root.
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+if ROOT not in sys.path:
+    sys.path.insert(0, ROOT)
 
 try:
     from pypdf import PdfReader
@@ -466,8 +474,8 @@ def main() -> None:
         default="data/funds",
         help="Directory of cached per-ISIN factsheet scrapes",
     )
-    parser.add_argument("--volatility", action="store_true", help="Enrich volatility (annualised %)")
-    parser.add_argument("--mdd", action="store_true", help="Enrich max_drawdown (%)")
+    parser.add_argument("--volatility", action="store_true", help="Enrich volatility (annualised %%)")
+    parser.add_argument("--mdd", action="store_true", help="Enrich max_drawdown (%%)")
     parser.add_argument(
         "--refresh-kiid",
         action="store_true",
@@ -520,7 +528,8 @@ def main() -> None:
     updated_mdd = 0
     refreshed_kiid = 0
     updated_ticker = 0
-    factsheet_applied = {"sharpe": 0, "volatility": 0, "max_drawdown": 0, "region": 0, "theme": 0}
+    # defaultdict so new fields returned by _enrich_from_factsheet never KeyError here
+    factsheet_applied: Dict[str, int] = defaultdict(int)
 
     total = len(funds)
     limit = args.limit if args.limit and args.limit > 0 else total
