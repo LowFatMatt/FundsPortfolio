@@ -94,6 +94,8 @@
   "ui.detail_why_selected": "Why selected",
   "ui.detail_exp_ratio": "Exp. ratio",
   "ui.detail_show": "Show details",
+  "ui.expand_all": "Expand all funds",
+  "ui.collapse_all": "Collapse all funds",
   "ui.detail_quality_score": "Quality score",
   "errors.load_questionnaire": "Could not connect to server to load the questionnaire.",
   "errors.resume_invalid": "Please enter a valid Portfolio ID",

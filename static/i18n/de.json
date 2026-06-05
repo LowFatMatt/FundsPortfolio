@@ -94,6 +94,8 @@
   "ui.detail_why_selected": "Auswahlbegründung",
   "ui.detail_exp_ratio": "Kostensatz",
   "ui.detail_show": "Details anzeigen",
+  "ui.expand_all": "Alle Fonds ausklappen",
+  "ui.collapse_all": "Alle Fonds einklappen",
   "ui.detail_quality_score": "Qualitätsscore",
   "errors.load_questionnaire": "Verbindung zum Server konnte nicht hergestellt werden.",
   "errors.resume_invalid": "Bitte geben Sie eine gültige Portfolio-ID ein.",

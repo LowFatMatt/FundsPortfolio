@@ -29,9 +29,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const langSelect      = document.getElementById('lang-select');
     const fundTableBody   = document.getElementById('fund-table-body');
     const fundCount       = document.getElementById('fund-count');
+    const expandAllBtn    = document.getElementById('fund-expand-all-btn');
     const weightedFeeVal  = document.getElementById('weighted-fee-val');
-    const assetClassSummary = document.getElementById('asset-class-summary');
-    const regionSummary   = document.getElementById('region-summary');
+    const assetClassLegend = document.getElementById('chart-asset-classes-legend');
+    const regionLegend    = document.getElementById('chart-regions-legend');
 
     // -------------------------------------------------------------------------
     // State
@@ -67,6 +68,20 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     resumeForm.addEventListener('submit', handleResume);
 
+    if (expandAllBtn) {
+        expandAllBtn.addEventListener('click', () => {
+            const expand = !expandAllBtn.classList.contains('open');
+            fundTableBody.querySelectorAll('.fund-expand-btn').forEach(btn => {
+                btn.classList.toggle('open', expand);
+                btn.setAttribute('aria-expanded', String(expand));
+            });
+            fundTableBody.querySelectorAll('.fund-detail-row').forEach(row => {
+                row.classList.toggle('hidden', !expand);
+            });
+            setExpandAllState(expand);
+        });
+    }
+
     // Tab switching
     document.querySelectorAll('.result-tab').forEach(btn => {
         btn.addEventListener('click', () => switchTab(btn));
@@ -99,6 +114,11 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
             el.placeholder = t(el.dataset.i18nPlaceholder, el.placeholder);
+        });
+        document.querySelectorAll('[data-i18n-aria-label]').forEach(el => {
+            const label = t(el.dataset.i18nAriaLabel, el.getAttribute('aria-label') || '');
+            el.setAttribute('aria-label', label);
+            if (el.title) el.title = label;
         });
     }
 
@@ -596,16 +616,6 @@ document.addEventListener('DOMContentLoaded', () => {
             formatLabel: rLabel,
         });
 
-        if (assetClassSummary) {
-            assetClassSummary.textContent = acEntries.length
-                ? acEntries.map(([k, v]) => `${acLabel(k)} ${(v * 100).toFixed(0)}%`).join(' · ')
-                : '—';
-        }
-        if (regionSummary) {
-            regionSummary.textContent = rEntries.length
-                ? rEntries.map(([k, v]) => `${rLabel(k)} ${(v * 100).toFixed(0)}%`).join(' · ')
-                : '—';
-        }
     }
 
     async function ensureStressPeriodsLoaded() {
@@ -898,11 +908,35 @@ document.addEventListener('DOMContentLoaded', () => {
                 btn.classList.toggle('open', !isOpen);
                 btn.setAttribute('aria-expanded', String(!isOpen));
                 detailTr.classList.toggle('hidden', isOpen);
+                syncExpandAllState();
             });
 
             fundTableBody.appendChild(tr);
             fundTableBody.appendChild(detailTr);
         });
+
+        setExpandAllState(false);
+    }
+
+    // Reflect "expand all" state on the header button (label + chevron direction)
+    function setExpandAllState(expand) {
+        if (!expandAllBtn) return;
+        expandAllBtn.classList.toggle('open', expand);
+        expandAllBtn.setAttribute('aria-expanded', String(expand));
+        const label = expand
+            ? t('ui.collapse_all', 'Collapse all funds')
+            : t('ui.expand_all',   'Expand all funds');
+        expandAllBtn.setAttribute('aria-label', label);
+        expandAllBtn.title = label;
+    }
+
+    // Sync header button after an individual row toggle: "open" only if every row is open
+    function syncExpandAllState() {
+        if (!expandAllBtn || !fundTableBody) return;
+        const btns = fundTableBody.querySelectorAll('.fund-expand-btn');
+        const allOpen = btns.length > 0 &&
+            Array.from(btns).every(b => b.classList.contains('open'));
+        setExpandAllState(allOpen);
     }
 
     // Convert quality_score (0–100) to ★★★★★ string
@@ -939,8 +973,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (displayPortId)        displayPortId.textContent   = '';
         if (scoreVal)             scoreVal.textContent         = '';
         if (weightedFeeVal)       weightedFeeVal.textContent   = '—';
-        if (assetClassSummary)    assetClassSummary.textContent = '—';
-        if (regionSummary)        regionSummary.textContent    = '—';
+        if (assetClassLegend)     assetClassLegend.innerHTML    = '';
+        if (regionLegend)         regionLegend.innerHTML       = '';
         if (fundCount)            fundCount.textContent        = '';
         if (decisionSummaryText)  decisionSummaryText.textContent = '';
         if (decisionFilters)      decisionFilters.innerHTML    = '';

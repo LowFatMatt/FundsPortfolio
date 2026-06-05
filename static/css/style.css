@@ -829,6 +829,11 @@ select option {
     color: var(--md-sys-color-on-surface-variant);
 }
 
+.breakdown-legend--summary {
+    margin-top: 0.35rem;
+    gap: 0.3rem 0.75rem;
+}
+
 .breakdown-legend .legend-item {
     display: inline-flex;
     align-items: center;
@@ -858,6 +863,10 @@ select option {
     color: var(--md-sys-color-on-surface-variant);
     font-weight: 600;
 }
+
+/* Expand-all toggle lives in the last column header, above the per-row chevrons */
+.fund-expand-all-btn { color: var(--md-sys-color-primary); }
+.fund-expand-all-btn.open { transform: rotate(180deg); }
 
 .fund-table {
     width: 100%;
