@@ -131,9 +131,9 @@ class DecisionEngine:
 
         # 1.1) Filter out funds categorized as "mixed" since they are volatile in their inner structure.
         # This needs to be corrected since it seems to filter out too many funds. 
-        before = len(working)
-        working = [f for f in working if str(f.get("asset_class") or "").lower() != "mixed"]
-        note_filter("asset_class_mixed_filter", before, len(working))
+        #before = len(working)
+        #working = [f for f in working if str(f.get("asset_class") or "").lower() != "mixed"]
+        #note_filter("asset_class_mixed_filter", before, len(working))
 
         # 2) ESG filter
         before = len(working)
@@ -775,7 +775,7 @@ class DecisionEngine:
 
         for f in selected:
             isin = f["isin"]
-            alloc = round(weights.get(isin, 0.0) * 100, 2)
+            alloc = round(weights.get(isin, 0.0) * 100, 0)
 
             reasons = []
             if f.get("is_etf"):
