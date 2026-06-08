@@ -1,39 +1,6 @@
 {
   "funds_database": [
     {
-      "isin": "DE000A0X7541",
-      "ticker": "UI26.F",
-      "name": "ACATIS Value Event Fonds A",
-      "provider": "Acatis Investment",
-      "url": null,
-      "kiid_url": "https://www.finanzen.net/fonds/DE000A0X7541",
-      "asset_class": "mixed",
-      "region": "global",
-      "categories": [
-        "balanced"
-      ],
-      "risk_level": 3,
-      "yearly_fee": 1.8,
-      "is_etf": false,
-      "esg_label": "SFDR_ARTICLE_8",
-      "theme": "NONE",
-      "srri": 3,
-      "sharpe_ratio": 0.13,
-      "volatility": 7.15,
-      "max_drawdown": 10.55,
-      "esg_article_8": true,
-      "esg_article_9": false,
-      "notes": "Name corrected from 'Funds' to 'Fonds'. Provider corrected from 'Acatis' to 'Acatis Investment'.",
-      "source": "provinzial_nord_universe",
-      "asset_class_breakdown": {
-        "equity": 0.6867,
-        "bond": 0.2589,
-        "other": 0.0544
-      },
-      "region_breakdown": null,
-      "benchmark_id": null
-    },
-    {
       "isin": "LU0252633754",
       "ticker": "LYY7.DE",
       "name": "Amundi DAX III UCITS ETF Acc",
@@ -128,40 +95,6 @@
       "benchmark_id": null
     },
     {
-      "isin": "LU0360863863",
-      "ticker": null,
-      "name": "ARERO - Der Weltfonds",
-      "provider": "DWS",
-      "url": "https://www.arero.de/",
-      "kiid_url": "https://www.finanzen.net/fonds/LU0360863863",
-      "asset_class": "mixed",
-      "region": "global",
-      "categories": [
-        "balanced",
-        "multi_asset"
-      ],
-      "risk_level": 3,
-      "yearly_fee": 0.52,
-      "is_etf": false,
-      "esg_label": "LOW",
-      "theme": "NONE",
-      "srri": 3,
-      "sharpe_ratio": 1.22,
-      "volatility": 8.27,
-      "max_drawdown": 13.5,
-      "esg_article_8": false,
-      "esg_article_9": false,
-      "notes": "Provider corrected: ARERO is the fund name, DWS is the KVG. TER 0.50%. ARERO = Aktien, Renten, Rohstoffe.",
-      "source": "provinzial_nord_universe",
-      "asset_class_breakdown": {
-        "equity": 0.589,
-        "bond": 0.354,
-        "other": 0.057
-      },
-      "region_breakdown": null,
-      "benchmark_id": null
-    },
-    {
       "isin": "DE0008474511",
       "ticker": null,
       "name": "AriDeka CF",
@@ -222,40 +155,6 @@
         "other": 0.8275,
         "bond": 0.2197,
         "cash": -0.0472
-      },
-      "region_breakdown": null,
-      "benchmark_id": null
-    },
-    {
-      "isin": "DE000A0RC5F0",
-      "ticker": null,
-      "name": "Berenberg Multi Asset Balanced R D",
-      "provider": "Berenberg",
-      "url": null,
-      "kiid_url": "https://www.finanzen.net/fonds/DE000A0RC5F0",
-      "asset_class": "mixed",
-      "region": "global",
-      "categories": [
-        "balanced"
-      ],
-      "risk_level": 2,
-      "yearly_fee": 1.6,
-      "is_etf": false,
-      "esg_label": "LOW",
-      "theme": "NONE",
-      "srri": 3,
-      "sharpe_ratio": 0.69,
-      "volatility": 7.1,
-      "max_drawdown": 11.47,
-      "esg_article_8": false,
-      "esg_article_9": false,
-      "notes": "Imported from customer universe; enriched from per-ISIN scrape + general profile.",
-      "source": "provinzial_nord_universe",
-      "asset_class_breakdown": {
-        "other": 0.547,
-        "equity": 0.4023,
-        "bond": 0.1312,
-        "cash": -0.0805
       },
       "region_breakdown": null,
       "benchmark_id": null
@@ -393,73 +292,6 @@
       "benchmark_id": null
     },
     {
-      "isin": "FR0010135103",
-      "ticker": null,
-      "name": "Carmignac Patrimoine A EUR Acc",
-      "provider": "Carmignac",
-      "url": "https://www.carmignac.com/en/our-funds/carmignac-patrimoine-FR0010135103",
-      "kiid_url": "https://www.finanzen.net/fonds/FR0010135103",
-      "asset_class": "mixed",
-      "region": "global",
-      "categories": [
-        "balanced"
-      ],
-      "risk_level": 3,
-      "yearly_fee": 1.8,
-      "is_etf": false,
-      "esg_label": "SFDR_ARTICLE_8",
-      "theme": "NONE",
-      "srri": 3,
-      "sharpe_ratio": 1.04,
-      "volatility": 5.75,
-      "max_drawdown": 5.4,
-      "esg_article_8": true,
-      "esg_article_9": false,
-      "notes": "TER approx 1.50% (ongoing charges). Flagship balanced fund.",
-      "source": "provinzial_nord_universe",
-      "asset_class_breakdown": {
-        "equity": 0.4197,
-        "bond": 0.4086,
-        "other": 0.1717
-      },
-      "region_breakdown": null,
-      "benchmark_id": null
-    },
-    {
-      "isin": "LU0592698954",
-      "ticker": null,
-      "name": "Carmignac Portfolio-Emerging Patrimoine A EUR Acc",
-      "provider": "Carmignac",
-      "url": null,
-      "kiid_url": "https://www.finanzen.net/fonds/LU0592698954",
-      "asset_class": "mixed",
-      "region": "emerging_markets",
-      "categories": [
-        "balanced",
-        "emerging_markets"
-      ],
-      "risk_level": 3,
-      "yearly_fee": 1.83,
-      "is_etf": false,
-      "esg_label": "SFDR_ARTICLE_8",
-      "theme": "NONE",
-      "srri": 3,
-      "sharpe_ratio": 0.91,
-      "volatility": 7.53,
-      "max_drawdown": 7.45,
-      "esg_article_8": true,
-      "esg_article_9": false,
-      "notes": "Region corrected from 'global' to 'emerging_markets'.",
-      "source": "provinzial_nord_universe",
-      "asset_class_breakdown": {
-        "equity": 0.435,
-        "bond": 0.4177,
-        "other": 0.1473
-      },
-      "region_breakdown": null,
-      "benchmark_id": null
-    },
-    {
       "isin": "LU1864952335",
       "ticker": null,
       "name": "CT (Lux) European Smaller Companies Fund 1E EUR acc",
@@ -587,39 +419,6 @@
       "asset_class_breakdown": {
         "equity": 0.995,
         "other": 0.005
-      },
-      "region_breakdown": null,
-      "benchmark_id": null
-    },
-    {
-      "isin": "DE000DK2EAR4",
-      "ticker": "0P00014DU0.F",
-      "name": "Deka-BasisStrategie Flexibel CF",
-      "provider": "Deka",
-      "url": null,
-      "kiid_url": "https://www.finanzen.net/fonds/DE000DK2EAR4",
-      "asset_class": "mixed",
-      "region": "global",
-      "categories": [
-        "balanced"
-      ],
-      "risk_level": 3,
-      "yearly_fee": 1.45,
-      "is_etf": false,
-      "esg_label": "LOW",
-      "theme": "NONE",
-      "srri": 3,
-      "sharpe_ratio": 1.04,
-      "volatility": 8.06,
-      "max_drawdown": 12.78,
-      "esg_article_8": false,
-      "esg_article_9": false,
-      "notes": "Imported from customer universe; enriched from per-ISIN scrape + general profile.",
-      "source": "provinzial_nord_universe",
-      "asset_class_breakdown": {
-        "equity": 0.6456,
-        "bond": 0.4081,
-        "commodities": 0.048
       },
       "region_breakdown": null,
       "benchmark_id": null
@@ -808,40 +607,6 @@
       "source": "provinzial_nord_universe",
       "asset_class_breakdown": {
         "equity": 1.0
-      },
-      "region_breakdown": null,
-      "benchmark_id": null
-    },
-    {
-      "isin": "LU0703711118",
-      "ticker": null,
-      "name": "Deka-ESG Balance CF (A)",
-      "provider": "Deka",
-      "url": null,
-      "kiid_url": "https://www.finanzen.net/fonds/LU0703711118",
-      "asset_class": "mixed",
-      "region": "global",
-      "categories": [
-        "balanced"
-      ],
-      "risk_level": 2,
-      "yearly_fee": 1.22,
-      "is_etf": false,
-      "esg_label": "SFDR_ARTICLE_8",
-      "theme": "sustainability",
-      "srri": 2,
-      "sharpe_ratio": 0.78,
-      "volatility": 5.03,
-      "max_drawdown": 7.35,
-      "esg_article_8": true,
-      "esg_article_9": false,
-      "notes": "Imported from customer universe; enriched from per-ISIN scrape + general profile.",
-      "source": "provinzial_nord_universe",
-      "asset_class_breakdown": {
-        "bond": 0.5138,
-        "equity": 0.347,
-        "other": 0.1074,
-        "commodities": 0.0318
       },
       "region_breakdown": null,
       "benchmark_id": null
@@ -1067,39 +832,6 @@
       "asset_class_breakdown": {
         "bond": 0.9885,
         "other": 0.0115
-      },
-      "region_breakdown": null,
-      "benchmark_id": null
-    },
-    {
-      "isin": "DE0005896872",
-      "ticker": null,
-      "name": "Deka-Europa Balance CF",
-      "provider": "Deka",
-      "url": null,
-      "kiid_url": "https://www.finanzen.net/fonds/DE0005896872",
-      "asset_class": "mixed",
-      "region": "europe",
-      "categories": [
-        "balanced"
-      ],
-      "risk_level": 2,
-      "yearly_fee": 1.1,
-      "is_etf": false,
-      "esg_label": "LOW",
-      "theme": "NONE",
-      "srri": 2,
-      "sharpe_ratio": 0.15,
-      "volatility": 4.56,
-      "max_drawdown": 5.55,
-      "esg_article_8": false,
-      "esg_article_9": false,
-      "notes": "Region corrected from 'global' to 'europe'.",
-      "source": "provinzial_nord_universe",
-      "asset_class_breakdown": {
-        "bond": 0.7887,
-        "equity": 0.209,
-        "other": 0.0023
       },
       "region_breakdown": null,
       "benchmark_id": null
@@ -1354,39 +1086,6 @@
       "source": "provinzial_nord_universe",
       "asset_class_breakdown": {
         "other": 1.0
-      },
-      "region_breakdown": null,
-      "benchmark_id": null
-    },
-    {
-      "isin": "DE000DK2J8N2",
-      "ticker": null,
-      "name": "Deka-Global Balance CF",
-      "provider": "Deka",
-      "url": null,
-      "kiid_url": "https://www.finanzen.net/fonds/DE000DK2J8N2",
-      "asset_class": "mixed",
-      "region": "global",
-      "categories": [
-        "balanced"
-      ],
-      "risk_level": 2,
-      "yearly_fee": 1.16,
-      "is_etf": false,
-      "esg_label": "LOW",
-      "theme": "NONE",
-      "srri": 2,
-      "sharpe_ratio": 0.48,
-      "volatility": 4.6,
-      "max_drawdown": 6.78,
-      "esg_article_8": false,
-      "esg_article_9": false,
-      "notes": "Imported from customer universe; enriched from per-ISIN scrape + general profile.",
-      "source": "provinzial_nord_universe",
-      "asset_class_breakdown": {
-        "bond": 0.837,
-        "equity": 0.254,
-        "commodities": 0.0002
       },
       "region_breakdown": null,
       "benchmark_id": null
@@ -1946,39 +1645,6 @@
       "benchmark_id": null
     },
     {
-      "isin": "DE000DK2J662",
-      "ticker": null,
-      "name": "Deka-Multi Asset Income CF (A)",
-      "provider": "Deka",
-      "url": null,
-      "kiid_url": "https://www.finanzen.net/fonds/DE000DK2J662",
-      "asset_class": "mixed",
-      "region": "global",
-      "categories": [
-        "balanced",
-        "income"
-      ],
-      "risk_level": 3,
-      "yearly_fee": 1.33,
-      "is_etf": false,
-      "esg_label": "LOW",
-      "theme": "NONE",
-      "srri": 2,
-      "sharpe_ratio": 0.85,
-      "volatility": 4.54,
-      "max_drawdown": 5.23,
-      "esg_article_8": false,
-      "esg_article_9": false,
-      "notes": "Imported from customer universe; enriched from per-ISIN scrape + general profile.",
-      "source": "provinzial_nord_universe",
-      "asset_class_breakdown": {
-        "bond": 0.7875,
-        "equity": 0.2799
-      },
-      "region_breakdown": null,
-      "benchmark_id": null
-    },
-    {
       "isin": "DE000DK2J8Q5",
       "ticker": null,
       "name": "Deka-Multimanager ausgewogen CF",
@@ -2042,39 +1708,6 @@
       "benchmark_id": null
     },
     {
-      "isin": "DE000DK2CCQ6",
-      "ticker": null,
-      "name": "Deka-PB Multi Asset Quant",
-      "provider": "Deka",
-      "url": null,
-      "kiid_url": "https://www.finanzen.net/fonds/DE000DK2CCQ6",
-      "asset_class": "mixed",
-      "region": "global",
-      "categories": [
-        "balanced"
-      ],
-      "risk_level": 1,
-      "yearly_fee": 1.25,
-      "is_etf": false,
-      "esg_label": "LOW",
-      "theme": "NONE",
-      "srri": 2,
-      "sharpe_ratio": 0.36,
-      "volatility": 2.57,
-      "max_drawdown": 7.28,
-      "esg_article_8": false,
-      "esg_article_9": false,
-      "notes": "Imported from customer universe; enriched from per-ISIN scrape + general profile.",
-      "source": "provinzial_nord_universe",
-      "asset_class_breakdown": {
-        "bond": 0.705,
-        "equity": 0.149,
-        "other": 0.147
-      },
-      "region_breakdown": null,
-      "benchmark_id": null
-    },
-    {
       "isin": "DE000DK0EC42",
       "ticker": null,
       "name": "Deka-PB Multi Asset Selection",
@@ -2103,40 +1736,6 @@
         "bond": 0.6,
         "equity": 0.3,
         "commodities": 0.1
-      },
-      "region_breakdown": null,
-      "benchmark_id": null
-    },
-    {
-      "isin": "DE000DK0V6U7",
-      "ticker": null,
-      "name": "Deka-Perspektive Dynamisch CF",
-      "provider": "Deka",
-      "url": null,
-      "kiid_url": "https://www.finanzen.net/fonds/DE000DK0V6U7",
-      "asset_class": "mixed",
-      "region": "global",
-      "categories": [
-        "balanced"
-      ],
-      "risk_level": 3,
-      "yearly_fee": 1.48,
-      "is_etf": false,
-      "esg_label": "SFDR_ARTICLE_8",
-      "theme": "NONE",
-      "srri": 3,
-      "sharpe_ratio": 0.78,
-      "volatility": 10.62,
-      "max_drawdown": 15.06,
-      "esg_article_8": true,
-      "esg_article_9": false,
-      "notes": "Imported from customer universe; enriched from per-ISIN scrape + general profile.",
-      "source": "provinzial_nord_universe",
-      "asset_class_breakdown": {
-        "equity": 0.6688,
-        "other": 0.1735,
-        "bond": 0.0886,
-        "commodities": 0.0691
       },
       "region_breakdown": null,
       "benchmark_id": null
@@ -2206,41 +1805,6 @@
       "benchmark_id": null
     },
     {
-      "isin": "DE000DK0EC83",
-      "ticker": null,
-      "name": "Deka-Sachwerte CF",
-      "provider": "Deka",
-      "url": null,
-      "kiid_url": "https://www.finanzen.net/fonds/DE000DK0EC83",
-      "asset_class": "mixed",
-      "region": "global",
-      "categories": [
-        "balanced"
-      ],
-      "risk_level": 1,
-      "yearly_fee": 1.91,
-      "is_etf": false,
-      "esg_label": "LOW",
-      "theme": "NONE",
-      "srri": 2,
-      "sharpe_ratio": 0.22,
-      "volatility": 2.83,
-      "max_drawdown": 2.87,
-      "esg_article_8": false,
-      "esg_article_9": false,
-      "notes": "Imported from customer universe; enriched from per-ISIN scrape + general profile.",
-      "source": "provinzial_nord_universe",
-      "asset_class_breakdown": {
-        "other": 0.3144,
-        "bond": 0.2971,
-        "real_estate": 0.2294,
-        "equity": 0.1585,
-        "commodities": 0.0006
-      },
-      "region_breakdown": null,
-      "benchmark_id": null
-    },
-    {
       "isin": "DE000ETFL631",
       "ticker": null,
       "name": "Deka S&P 500 UCITS ETF",
@@ -2299,39 +1863,6 @@
       "source": "provinzial_nord_universe",
       "asset_class_breakdown": {
         "equity": 1.0
-      },
-      "region_breakdown": null,
-      "benchmark_id": null
-    },
-    {
-      "isin": "DE0005896864",
-      "ticker": null,
-      "name": "Deka-Stiftungen Balance CF",
-      "provider": "Deka",
-      "url": null,
-      "kiid_url": "https://www.finanzen.net/fonds/DE0005896864",
-      "asset_class": "mixed",
-      "region": "global",
-      "categories": [
-        "balanced"
-      ],
-      "risk_level": 1,
-      "yearly_fee": 1.19,
-      "is_etf": false,
-      "esg_label": "LOW",
-      "theme": "NONE",
-      "srri": 2,
-      "sharpe_ratio": 0.47,
-      "volatility": 3.53,
-      "max_drawdown": 4.8,
-      "esg_article_8": false,
-      "esg_article_9": false,
-      "notes": "Imported from customer universe; enriched from per-ISIN scrape + general profile.",
-      "source": "provinzial_nord_universe",
-      "asset_class_breakdown": {
-        "bond": 0.6354,
-        "equity": 0.2279,
-        "other": 0.1367
       },
       "region_breakdown": null,
       "benchmark_id": null
@@ -3115,39 +2646,6 @@
       "benchmark_id": null
     },
     {
-      "isin": "LU0431139764",
-      "ticker": null,
-      "name": "Ethna-AKTIV (T)",
-      "provider": "ETHENEA Independent Investors",
-      "url": null,
-      "kiid_url": "https://www.finanzen.net/fonds/LU0431139764",
-      "asset_class": "mixed",
-      "region": "global",
-      "categories": [
-        "balanced"
-      ],
-      "risk_level": 3,
-      "yearly_fee": 1.9,
-      "is_etf": false,
-      "esg_label": "SFDR_ARTICLE_8",
-      "theme": "NONE",
-      "srri": 3,
-      "sharpe_ratio": 0.78,
-      "volatility": 7.06,
-      "max_drawdown": 9.18,
-      "esg_article_8": true,
-      "esg_article_9": false,
-      "notes": "Provider corrected from 'Ethna' to 'ETHENEA Independent Investors'.",
-      "source": "provinzial_nord_universe",
-      "asset_class_breakdown": {
-        "bond": 0.573,
-        "equity": 0.372,
-        "other": 0.055
-      },
-      "region_breakdown": null,
-      "benchmark_id": null
-    },
-    {
       "isin": "LU0099574567",
       "ticker": null,
       "name": "Fidelity Funds - Global Technology Fund A-Euro",
@@ -3209,111 +2707,6 @@
         "bond": 0.9617,
         "cash": 0.0457,
         "derivatives": -0.0073
-      },
-      "region_breakdown": null,
-      "benchmark_id": null
-    },
-    {
-      "isin": "LU0323578145",
-      "ticker": null,
-      "name": "Flossbach von Storch - Multi Asset - Balanced - R",
-      "provider": "Flossbach von Storch",
-      "url": null,
-      "kiid_url": "https://www.finanzen.net/fonds/LU0323578145",
-      "asset_class": "mixed",
-      "region": "global",
-      "categories": [
-        "balanced"
-      ],
-      "risk_level": 3,
-      "yearly_fee": 1.61,
-      "is_etf": false,
-      "esg_label": "SFDR_ARTICLE_8",
-      "theme": "NONE",
-      "srri": 3,
-      "sharpe_ratio": -0.64,
-      "volatility": 30.82,
-      "max_drawdown": 54.61,
-      "esg_article_8": true,
-      "esg_article_9": false,
-      "notes": "Provider corrected from 'Flossbach'.",
-      "source": "provinzial_nord_universe",
-      "asset_class_breakdown": {
-        "equity": 0.453,
-        "bond": 0.381,
-        "cash": 0.0944,
-        "commodities": 0.0716,
-        "derivatives": 0.0
-      },
-      "region_breakdown": null,
-      "benchmark_id": null
-    },
-    {
-      "isin": "LU0323578491",
-      "ticker": null,
-      "name": "Flossbach von Storch - Multi Asset - Growth - R",
-      "provider": "Flossbach von Storch",
-      "url": null,
-      "kiid_url": "https://www.finanzen.net/fonds/LU0323578491",
-      "asset_class": "mixed",
-      "region": "global",
-      "categories": [
-        "balanced"
-      ],
-      "risk_level": 3,
-      "yearly_fee": 1.61,
-      "is_etf": false,
-      "esg_label": "SFDR_ARTICLE_8",
-      "theme": "NONE",
-      "srri": 3,
-      "sharpe_ratio": 0.62,
-      "volatility": 6.82,
-      "max_drawdown": 9.09,
-      "esg_article_8": true,
-      "esg_article_9": false,
-      "notes": "Provider corrected from 'Flossbach'.",
-      "source": "provinzial_nord_universe",
-      "asset_class_breakdown": {
-        "equity": 0.6,
-        "bond": 0.2393,
-        "commodities": 0.0826,
-        "cash": 0.0779,
-        "derivatives": 0.0001
-      },
-      "region_breakdown": null,
-      "benchmark_id": null
-    },
-    {
-      "isin": "LU0323578657",
-      "ticker": null,
-      "name": "Flossbach von Storch SICAV - Multiple Opportunities - R",
-      "provider": "Flossbach von Storch",
-      "url": null,
-      "kiid_url": "https://www.finanzen.net/fonds/LU0323578657",
-      "asset_class": "mixed",
-      "region": "global",
-      "categories": [
-        "balanced"
-      ],
-      "risk_level": 3,
-      "yearly_fee": 1.62,
-      "is_etf": false,
-      "esg_label": "SFDR_ARTICLE_8",
-      "theme": "NONE",
-      "srri": 3,
-      "sharpe_ratio": 0.31,
-      "volatility": 6.82,
-      "max_drawdown": 9.58,
-      "esg_article_8": true,
-      "esg_article_9": false,
-      "notes": "Provider corrected from 'Flossbach'.",
-      "source": "provinzial_nord_universe",
-      "asset_class_breakdown": {
-        "equity": 0.7334,
-        "cash": 0.0903,
-        "other": 0.0866,
-        "bond": 0.0385,
-        "derivatives": -0.0057
       },
       "region_breakdown": null,
       "benchmark_id": null
@@ -3865,39 +3258,6 @@
       "asset_class_breakdown": {
         "equity": 0.9895,
         "other": 0.0105
-      },
-      "region_breakdown": null,
-      "benchmark_id": null
-    },
-    {
-      "isin": "LU0208341965",
-      "ticker": null,
-      "name": "Swisscanto (LU) Portfolio Fund Sustainable Balanced (EUR) AA",
-      "provider": "Swisscanto (Zürcher Kantonalbank)",
-      "url": null,
-      "kiid_url": "https://www.finanzen.net/fonds/LU0208341965",
-      "asset_class": "mixed",
-      "region": "global",
-      "categories": [
-        "balanced"
-      ],
-      "risk_level": 3,
-      "yearly_fee": 1.5,
-      "is_etf": false,
-      "esg_label": "SFDR_ARTICLE_9",
-      "theme": "sustainability",
-      "srri": 3,
-      "sharpe_ratio": 0.96,
-      "volatility": 7.28,
-      "max_drawdown": 10.98,
-      "esg_article_8": false,
-      "esg_article_9": true,
-      "notes": "Theme corrected to SUSTAINABILITY (Article 9). Provider expanded.",
-      "source": "provinzial_nord_universe",
-      "asset_class_breakdown": {
-        "equity": 0.527,
-        "bond": 0.407,
-        "other": 0.066
       },
       "region_breakdown": null,
       "benchmark_id": null
@@ -5174,9 +4534,9 @@
     "customer_id": "provinzial_nord",
     "source_file": "notes/Provi-Listing.tsv",
     "built_at": "2026-06-01",
-    "last_updated": "2026-06-01",
-    "total_funds_shown": 127,
-    "total_funds_in_db": 127,
+    "last_updated": "2026-06-08",
+    "total_funds_shown": 144,
+    "total_funds_in_db": 144,
     "uniform_schema_fields": [
       "isin",
       "ticker",
