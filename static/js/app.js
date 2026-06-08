@@ -475,7 +475,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Weighted fee
         if (weightedFeeVal) {
-            const fee = portfolio.weighted_fee;
+            const fee = portfolio.portfolio_metrics?.weighted_fee
+                ?? portfolio.calculated_metrics?.weighted_fee
+                ?? portfolio.weighted_fee;
             weightedFeeVal.textContent = fee != null ? `${Number(fee).toFixed(3)}%` : '—';
         }
 

@@ -30,6 +30,14 @@ def _normalize_percent(value: str) -> Optional[float]:
         return None
 
 
+ASSET_LABEL_ALIASES = {
+    "barmittel": "cash",
+    "geldmarkt": "cash",
+    "liquid": "cash",
+    "liquid funds": "cash",
+}
+
+
 def load_i18n_asset_map() -> Dict[str, str]:
     """Load i18n files and return mapping from localized label (lowercase) to canonical asset key.
 
@@ -52,6 +60,9 @@ def load_i18n_asset_map() -> Dict[str, str]:
             canon = key.split("ui.asset_class_")[-1]
             if isinstance(val, str):
                 mapping[val.strip().lower()] = canon
+
+    # Add common provider-specific aliases that don't appear in ui asset class labels.
+    mapping.update(ASSET_LABEL_ALIASES)
     return mapping
 
 

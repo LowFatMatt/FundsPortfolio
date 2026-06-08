@@ -294,18 +294,21 @@ def _fetch_kiid_url(isin: str, timeout: int) -> Tuple[Optional[str], str]:
         return None, "error"
 
 
-def _enrich_fee(
+def _scrape_kiid_fields(
     fund: Dict,
     session_timeout: int,
     allow_heuristic: bool,
     pdf_delay: float,
-) -> Tuple[Optional[float], Optional[str]]:
-    if fund.get("yearly_fee") not in (None, ""):
-        return fund.get("yearly_fee"), fund.get("kiid_status")
+) -> Tuple[Optional[float], Optional[str], Dict[str, object]]:
+    """Return (fee, kiid_status, result_dict) where result_dict contains any
+    extracted fields from HTML/PDF but does not mutate `fund`.
+    """
+    result: Dict[str, object] = {}
 
     kiid_url = fund.get("kiid_url")
     if not kiid_url:
-        return None, fund.get("kiid_status")
+        return None, fund.get("kiid_status"), result
+
     # Try HTML scraping first using provider-specific scrapers
     html = _fetch_html(kiid_url, session_timeout)
     if html:
@@ -315,7 +318,7 @@ def _enrich_fee(
                 res = scraper.extract_all(html, kiid_url) or {}
             except Exception:
                 res = {}
-            # apply extracted values if fund is missing them
+            # copy res into result (do not mutate fund here)
             for key in (
                 "yearly_fee",
                 "volatility",
@@ -329,10 +332,14 @@ def _enrich_fee(
                 "esg_article_8",
                 "esg_article_9",
             ):
-                if res.get(key) is not None and fund.get(key) in (None, ""):
-                    fund[key] = res.get(key)
+                if res.get(key) is not None:
+                    result[key] = res.get(key)
             time.sleep(pdf_delay)
-            return fund.get("yearly_fee"), fund.get("kiid_status")
+            return (
+                result.get("yearly_fee"),
+                fund.get("kiid_status"),
+                result,
+            )
 
     # Fallback to PDF extraction as before
     pdf_bytes = _fetch_pdf(kiid_url, session_timeout)
@@ -341,15 +348,18 @@ def _enrich_fee(
         if text:
             fee = _extract_fee_from_text(text or "", allow_heuristic)
             time.sleep(pdf_delay)
-            return fee, fund.get("kiid_status")
+            if fee is not None:
+                result["yearly_fee"] = fee
+            return fee, fund.get("kiid_status"), result
 
     html = _fetch_html(kiid_url, session_timeout)
     fee = _extract_fee_from_html(html or "", allow_heuristic)
     if fee is not None:
         time.sleep(pdf_delay)
-        return fee, fund.get("kiid_status")
+        result["yearly_fee"] = fee
+        return fee, fund.get("kiid_status"), result
 
-    return None, fund.get("kiid_status")
+    return None, fund.get("kiid_status"), result
 
 
 def _best_horizon(d: Optional[Dict], order=("3y", "5y", "1y")) -> Optional[float]:
@@ -555,6 +565,10 @@ def main() -> None:
     updated_sharpe = 0
     updated_vol = 0
     updated_mdd = 0
+    updated_srri = 0
+    updated_asset_breakdown = 0
+    updated_esg = 0
+    updated_is_etf = 0
     refreshed_kiid = 0
     updated_ticker = 0
     # defaultdict so new fields returned by _enrich_from_factsheet never KeyError here
@@ -593,16 +607,53 @@ def main() -> None:
             for field, count in _enrich_from_factsheet(fund, args.funds_dir).items():
                 factsheet_applied[field] += count
 
-        if args.fees:
-            fee, status = _enrich_fee(
+        if args.fees or args.sharpe or args.volatility or args.mdd:
+            fee, status, res = _scrape_kiid_fields(
                 fund,
                 session_timeout=args.timeout,
                 allow_heuristic=args.allow_heuristic_fee,
                 pdf_delay=args.delay,
             )
-            if fee is not None and fund.get("yearly_fee") != fee:
-                fund["yearly_fee"] = round(float(fee), 4)
-                updated_fee += 1
+            # Apply results returned by scraper/PDF (do not overwrite existing non-empty fields)
+            if res:
+                if res.get("yearly_fee") is not None and fund.get("yearly_fee") in (None, ""):
+                    fund["yearly_fee"] = round(float(res.get("yearly_fee")), 4)
+                    updated_fee += 1
+                if res.get("volatility") is not None and fund.get("volatility") in (None, ""):
+                    fund["volatility"] = res.get("volatility")
+                    updated_vol += 1
+                if res.get("max_drawdown") is not None and fund.get("max_drawdown") in (None, ""):
+                    fund["max_drawdown"] = res.get("max_drawdown")
+                    updated_mdd += 1
+                if res.get("sharpe_ratio") is not None and fund.get("sharpe_ratio") in (None, ""):
+                    fund["sharpe_ratio"] = res.get("sharpe_ratio")
+                    updated_sharpe += 1
+                if res.get("srri") is not None and fund.get("srri") in (None, ""):
+                    fund["srri"] = res.get("srri")
+                    if fund.get("risk_level") in (None, ""):
+                        try:
+                            fund["risk_level"] = max(1, min(5, int(fund["srri"]) - 1))
+                        except Exception:
+                            pass
+                    updated_srri += 1
+                if res.get("asset_class_breakdown_raw") is not None and fund.get("asset_class_breakdown_raw") in (None, ""):
+                    fund["asset_class_breakdown_raw"] = res.get("asset_class_breakdown_raw")
+                    updated_asset_breakdown += 1
+                if res.get("asset_class_breakdown_translated") is not None and fund.get("asset_class_breakdown_translated") in (None, ""):
+                    fund["asset_class_breakdown_translated"] = res.get("asset_class_breakdown_translated")
+                if res.get("is_etf") is not None and fund.get("is_etf") in (None, ""):
+                    fund["is_etf"] = bool(res.get("is_etf"))
+                    updated_is_etf += 1
+                if (res.get("esg_label") is not None or res.get("esg_article_8") or res.get("esg_article_9")) and (
+                    fund.get("esg_label") in (None, "") or fund.get("esg_article_8") in (None, "") or fund.get("esg_article_9") in (None, "")
+                ):
+                    if res.get("esg_label") is not None and fund.get("esg_label") in (None, ""):
+                        fund["esg_label"] = res.get("esg_label")
+                        updated_esg += 1
+                    if res.get("esg_article_8") is not None and fund.get("esg_article_8") in (None, ""):
+                        fund["esg_article_8"] = bool(res.get("esg_article_8"))
+                    if res.get("esg_article_9") is not None and fund.get("esg_article_9") in (None, ""):
+                        fund["esg_article_9"] = bool(res.get("esg_article_9"))
             if status and fund.get("kiid_status") != status:
                 fund["kiid_status"] = status
 
@@ -642,6 +693,10 @@ def main() -> None:
     print(f"  sharpe updated (yfinance): {updated_sharpe}")
     print(f"  volatility updated: {updated_vol}")
     print(f"  max_drawdown updated: {updated_mdd}")
+    print(f"  srri updated: {updated_srri}")
+    print(f"  asset breakdown updated: {updated_asset_breakdown}")
+    print(f"  esg updated: {updated_esg}")
+    print(f"  is_etf updated: {updated_is_etf}")
     print(f"  kiid refreshed: {refreshed_kiid}")
     print(f"  tickers applied: {updated_ticker}")
 
