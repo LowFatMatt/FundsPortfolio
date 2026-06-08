@@ -2,7 +2,7 @@
   "funds_database": [
     {
       "isin": "DE000A0X7541",
-      "ticker": null,
+      "ticker": "UI26.F",
       "name": "ACATIS Value Event Fonds A",
       "provider": "Acatis Investment",
       "url": null,
@@ -97,7 +97,7 @@
     },
     {
       "isin": "LU1883318740",
-      "ticker": null,
+      "ticker": "10AY.MU",
       "name": "Amundi Funds Global Equity Responsible - A EUR (C)",
       "provider": "Amundi",
       "url": null,
@@ -593,7 +593,7 @@
     },
     {
       "isin": "DE000DK2EAR4",
-      "ticker": null,
+      "ticker": "0P00014DU0.F",
       "name": "Deka-BasisStrategie Flexibel CF",
       "provider": "Deka",
       "url": null,
@@ -655,7 +655,7 @@
     },
     {
       "isin": "LU2790094101",
-      "ticker": null,
+      "ticker": "0P0001TRAU.F",
       "name": "Deka-ConvergenceAktien II CF",
       "provider": "Deka",
       "url": null,

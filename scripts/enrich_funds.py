@@ -42,6 +42,7 @@ except Exception:  # pragma: no cover - optional dependency
 
 from funds_portfolio.data.price_fetcher import PriceFetcher
 from funds_portfolio.portfolio.calculator import PortfolioCalculator
+from funds_portfolio.scrapers import get_scraper_for_url
 
 
 def _load_db(path: str) -> Dict:
@@ -305,7 +306,35 @@ def _enrich_fee(
     kiid_url = fund.get("kiid_url")
     if not kiid_url:
         return None, fund.get("kiid_status")
+    # Try HTML scraping first using provider-specific scrapers
+    html = _fetch_html(kiid_url, session_timeout)
+    if html:
+        scraper = get_scraper_for_url(kiid_url)
+        if scraper:
+            try:
+                res = scraper.extract_all(html, kiid_url) or {}
+            except Exception:
+                res = {}
+            # apply extracted values if fund is missing them
+            for key in (
+                "yearly_fee",
+                "volatility",
+                "max_drawdown",
+                "sharpe_ratio",
+                "srri",
+                "asset_class_breakdown_raw",
+                "asset_class_breakdown_translated",
+                "is_etf",
+                "esg_label",
+                "esg_article_8",
+                "esg_article_9",
+            ):
+                if res.get(key) is not None and fund.get(key) in (None, ""):
+                    fund[key] = res.get(key)
+            time.sleep(pdf_delay)
+            return fund.get("yearly_fee"), fund.get("kiid_status")
 
+    # Fallback to PDF extraction as before
     pdf_bytes = _fetch_pdf(kiid_url, session_timeout)
     if pdf_bytes:
         text = _pdf_to_text(pdf_bytes)
