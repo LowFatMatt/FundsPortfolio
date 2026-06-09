@@ -1,0 +1,54 @@
+{
+  "isin": "DE000A428XCI",
+  "as_of": "2026-06-08",
+  "schema_version": 2,
+  "source": "yfinance",
+  "source_url": "https://finance.yahoo.com/quote/AAVD.DE",
+  "currency": null,
+  "fund_name": "Acatis Altersvorsorgedepot UCITS ETF",
+  "ticker": "AAVD.DE",
+  "region": "global",
+  "theme": "NONE",
+  "ter": 1.1,
+  "sri": 4,
+  "performance": {
+    "periods": {
+      "3m": null,
+      "6m": null,
+      "ytd": 0.0351,
+      "1y": null,
+      "3y_pa": null,
+      "5y_pa": null,
+      "si_pa": 0.6903
+    },
+    "nav_series": [
+      {
+        "d": "2026-05-31",
+        "v": 100.0
+      },
+      {
+        "d": "2026-06-30",
+        "v": 100.9084
+      }
+    ]
+  },
+  "volatility": {
+    "1y": 0.0999,
+    "3y": 0.0999,
+    "5y": 0.0999
+  },
+  "risk_metrics": {
+    "sharpe": {
+      "1y": null,
+      "3y": null,
+      "5y": null
+    },
+    "max_drawdown": {
+      "1y": -0.0144,
+      "3y": -0.0144,
+      "5y": -0.0144
+    }
+  },
+  "asset_class_breakdown": null,
+  "top_holdings": null
+}
