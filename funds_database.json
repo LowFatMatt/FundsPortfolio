@@ -3438,7 +3438,7 @@
         "capital_protection"
       ],
       "risk_level": 4,
-      "yearly_fee": 1.20,
+      "yearly_fee": 1.2,
       "is_etf": false,
       "esg_label": "SFDR_ARTICLE_8",
       "theme": "NONE",
@@ -3485,7 +3485,7 @@
     },
     {
       "isin": "DE000A428XCI",
-      "ticker": null,
+      "ticker": "AAVD.DE",
       "name": "Acatis Altersvorsorgedepot UCITS ETF",
       "provider": "acatis",
       "url": null,
@@ -3514,7 +3514,7 @@
     },
     {
       "isin": "IE00BJ5JS448",
-      "ticker": null,
+      "ticker": "0P0001NLRO.F",
       "name": "KBI Global Sustainable Infrastructure Fund",
       "provider": "Amundi",
       "url": null,
@@ -3543,7 +3543,7 @@
     },
     {
       "isin": "LU0533033667",
-      "ticker": null,
+      "ticker": "LYPG.DE",
       "name": "Amundi MSCI World Inform. Technology UCITS ETF",
       "provider": "Amundi",
       "url": null,
@@ -3572,7 +3572,7 @@
     },
     {
       "isin": "LU1437018168",
-      "ticker": null,
+      "ticker": "A4H8.DE",
       "name": "Amundi EUR Corporate Bond ESG - UCITS ETF DR (C)",
       "provider": "Amundi",
       "url": null,
@@ -3601,7 +3601,7 @@
     },
     {
       "isin": "LU1563454310",
-      "ticker": null,
+      "ticker": "CLIM.SW",
       "name": "Amundi Global Aggregate Green Bond UCITS ETF Acc",
       "provider": "Amundi",
       "url": null,
@@ -3630,7 +3630,7 @@
     },
     {
       "isin": "LU1650491282",
-      "ticker": null,
+      "ticker": "LYQ7.DE",
       "name": "Amundi Euro Government Inflation-Linked Bond UCITS ETF Acc",
       "provider": "Amundi",
       "url": null,
@@ -3659,7 +3659,7 @@
     },
     {
       "isin": "LU1681045370",
-      "ticker": null,
+      "ticker": "EMSM.DE",
       "name": "Amundi MSCI Emerging Markets UCITS ETF",
       "provider": "Amundi",
       "url": null,
@@ -3680,7 +3680,7 @@
       "max_drawdown": 23.5158,
       "esg_article_8": false,
       "esg_article_9": false,
-      "notes": "Added from CSV Entwurf TW2027",
+      "notes": "Added from CSV Entwurf TW2027 - Ticker-Proxy",
       "source": "csv_merge",
       "asset_class_breakdown": null,
       "region_breakdown": null,
@@ -3688,7 +3688,7 @@
     },
     {
       "isin": "LU1829220216",
-      "ticker": null,
+      "ticker": "SPYI.DE",
       "name": "Amundi MSCI All Country World ETF",
       "provider": "Amundi",
       "url": null,
@@ -3709,7 +3709,7 @@
       "max_drawdown": 21.2618,
       "esg_article_8": false,
       "esg_article_9": false,
-      "notes": "Added from CSV Entwurf TW2027",
+      "notes": "Added from CSV Entwurf TW2027 - Ticker-Proxy",
       "source": "csv_merge",
       "asset_class_breakdown": null,
       "region_breakdown": null,
@@ -3717,7 +3717,7 @@
     },
     {
       "isin": "LU0252963383",
-      "ticker": null,
+      "ticker": "MI9T.F",
       "name": "BGF World Mining",
       "provider": "Blackrock",
       "url": null,
@@ -3746,7 +3746,7 @@
     },
     {
       "isin": "LU0252963623",
-      "ticker": null,
+      "ticker": "B3F1.MU",
       "name": "BGF World Gold Fund",
       "provider": "Blackrock",
       "url": null,
@@ -3775,7 +3775,7 @@
     },
     {
       "isin": "LU0957820193",
-      "ticker": null,
+      "ticker": "XRZ0.F",
       "name": "CT (Lux) Global Smaller Companies",
       "provider": "Columbia Threadneedle",
       "url": null,
@@ -3796,7 +3796,7 @@
       "max_drawdown": 28.9051,
       "esg_article_8": true,
       "esg_article_9": false,
-      "notes": "Added from CSV Entwurf TW2027",
+      "notes": "Added from CSV Entwurf TW2027 - Ticker-Proxy",
       "source": "csv_merge",
       "asset_class_breakdown": null,
       "region_breakdown": null,
@@ -3804,7 +3804,7 @@
     },
     {
       "isin": "LU1865159435",
-      "ticker": null,
+      "ticker": "XRZE.F",
       "name": "CT (Lux) European Smaller Companies ZE",
       "provider": "Columbia Threadneedle",
       "url": null,
@@ -3833,7 +3833,7 @@
     },
     {
       "isin": "DE000DK0EF98",
-      "ticker": null,
+      "ticker": "0P0001L2K1.F",
       "name": "Deka-ESG Dividenden RheinEdition",
       "provider": "Deka",
       "url": null,
@@ -3862,7 +3862,7 @@
     },
     {
       "isin": "DE000DK0LPX9",
-      "ticker": null,
+      "ticker": "0P00001YZM.F",
       "name": "KSK Dynamik",
       "provider": "Deka",
       "url": null,
@@ -3880,10 +3880,10 @@
       "srri": 4,
       "sharpe_ratio": 0.66,
       "volatility": 2.26,
-      "max_drawdown": 7.00,
+      "max_drawdown": 7.0,
       "esg_article_8": false,
       "esg_article_9": false,
-      "notes": "Added from CSV Entwurf TW2027",
+      "notes": "Added from CSV Entwurf TW2027 - Ticker-Proxy",
       "source": "csv_merge",
       "asset_class_breakdown": null,
       "region_breakdown": null,
@@ -3891,7 +3891,7 @@
     },
     {
       "isin": "DE000ETFL227",
-      "ticker": null,
+      "ticker": "EL4W.DE",
       "name": "Deka Deutsche Boerse EUROGOV Germany Money Market UCITS ETF",
       "provider": "Deka",
       "url": null,
@@ -3920,7 +3920,7 @@
     },
     {
       "isin": "DE000ETFL284",
-      "ticker": null,
+      "ticker": "EL43.DE",
       "name": "Deka MSCI Europe",
       "provider": "Deka",
       "url": null,
@@ -3949,7 +3949,7 @@
     },
     {
       "isin": "DE000ETFL318",
-      "ticker": null,
+      "ticker": "EL45.DE",
       "name": "Deka MSCI Japan Climate Change ESG CTB UCITS ETF",
       "provider": "Deka",
       "url": null,
@@ -3978,7 +3978,7 @@
     },
     {
       "isin": "DE000ETFL466",
-      "ticker": null,
+      "ticker": "ELFA.DE",
       "name": "Deka EURO STOXX 50 ESG Filtered UCITS ETF",
       "provider": "Deka",
       "url": null,
@@ -4007,7 +4007,7 @@
     },
     {
       "isin": "DE000ETFL540",
-      "ticker": null,
+      "ticker": "D6RT.DE",
       "name": "Deka MSCI Germany Climate Change ESG CTB UCITS ETF",
       "provider": "Deka",
       "url": null,
@@ -4036,7 +4036,7 @@
     },
     {
       "isin": "DE000ETFL607",
-      "ticker": null,
+      "ticker": "D6RD.DE",
       "name": "Deka Future Energy ESG UCITS ETF",
       "provider": "Deka",
       "url": null,
@@ -4065,7 +4065,7 @@
     },
     {
       "isin": "DE000ETFL656",
-      "ticker": null,
+      "ticker": "XMLC.DE",
       "name": "Deka STOXX Water ESG UCITS ETF",
       "provider": "Deka",
       "url": null,
@@ -4086,7 +4086,7 @@
       "max_drawdown": 10.7762,
       "esg_article_8": true,
       "esg_article_9": false,
-      "notes": "Added from CSV Entwurf TW2027",
+      "notes": "Added from CSV Entwurf TW2027 - Ticker-Proxy",
       "source": "csv_merge",
       "asset_class_breakdown": null,
       "region_breakdown": null,
@@ -4094,7 +4094,7 @@
     },
     {
       "isin": "DE000ETFL664",
-      "ticker": null,
+      "ticker": "EDFS.DE",
       "name": "Deka Europe Defense UCIST ETF",
       "provider": "Deka",
       "url": null,
@@ -4115,7 +4115,7 @@
       "max_drawdown": 19.8349,
       "esg_article_8": false,
       "esg_article_9": false,
-      "notes": "Added from CSV Entwurf TW2027",
+      "notes": "Added from CSV Entwurf TW2027 - Ticker-Proxy",
       "source": "csv_merge",
       "asset_class_breakdown": null,
       "region_breakdown": null,
@@ -4123,7 +4123,7 @@
     },
     {
       "isin": "LU0133819333",
-      "ticker": null,
+      "ticker": "0P00002073.F",
       "name": "Deka Portfolio ESG Globale Aktien",
       "provider": "Deka",
       "url": null,
@@ -4152,7 +4152,7 @@
     },
     {
       "isin": "LU0851807460",
-      "ticker": null,
+      "ticker": "0P0000Y4G5.F",
       "name": "Deka-Globale Aktien LowRisk",
       "provider": "Deka",
       "url": null,
@@ -4181,7 +4181,7 @@
     },
     {
       "isin": "LU0290355717",
-      "ticker": null,
+      "ticker": "XZEB.MI",
       "name": "Xtrackers Eurozone Government Bond UCITS ETF 1C",
       "provider": "DWS",
       "url": null,
@@ -4210,7 +4210,7 @@
     },
     {
       "isin": "LU0290357929",
-      "ticker": null,
+      "ticker": "XGIN.DE",
       "name": "Xtrackers Global Inflation-Linked Bond UCITS ETF 1C EUR hedged",
       "provider": "DWS",
       "url": null,
@@ -4239,7 +4239,7 @@
     },
     {
       "isin": "LU0346389348",
-      "ticker": null,
+      "ticker": "0P0001BBVY.F",
       "name": "Fidelity Global Technology Fund",
       "provider": "Fidelity",
       "url": null,
@@ -4268,7 +4268,7 @@
     },
     {
       "isin": "LU0195950992",
-      "ticker": null,
+      "ticker": "TEPS.F",
       "name": "Templeton Asian Growth Fund Class I (acc) EUR",
       "provider": "Franklin Templeton",
       "url": null,
@@ -4289,7 +4289,7 @@
       "max_drawdown": 20.4195,
       "esg_article_8": true,
       "esg_article_9": false,
-      "notes": "Added from CSV Entwurf TW2027",
+      "notes": "Added from CSV Entwurf TW2027 - Ticker-Proxy",
       "source": "csv_merge",
       "asset_class_breakdown": null,
       "region_breakdown": null,
@@ -4297,7 +4297,7 @@
     },
     {
       "isin": "DE000A2AQZX9",
-      "ticker": null,
+      "ticker": "0P0001AP3Z.F",
       "name": "TBF Smart Power EUR I",
       "provider": "HansaInvest",
       "url": null,
@@ -4326,7 +4326,7 @@
     },
     {
       "isin": "DE000A41NN41",
-      "ticker": null,
+      "ticker": "IWDE.AS",
       "name": "Provinzial MSCI World",
       "provider": "Helaba / ProAM",
       "url": null,
@@ -4342,9 +4342,9 @@
       "esg_label": "LOW",
       "theme": "NONE",
       "srri": 4,
-      "sharpe_ratio": null,
-      "volatility": null,
-      "max_drawdown": null,
+      "sharpe_ratio": 0.633772,
+      "volatility": 14.8853,
+      "max_drawdown": 23.6948,
       "esg_article_8": false,
       "esg_article_9": false,
       "notes": "Added from CSV Entwurf TW2027",
@@ -4355,7 +4355,7 @@
     },
     {
       "isin": "DE000A41NN58",
-      "ticker": null,
+      "ticker": "null",
       "name": "Provinzial Global Dividend",
       "provider": "Helaba / ProAM",
       "url": null,
@@ -4376,7 +4376,7 @@
       "max_drawdown": null,
       "esg_article_8": true,
       "esg_article_9": false,
-      "notes": "Added from CSV Entwurf TW2027",
+      "notes": "Added from CSV Entwurf TW2027 - Ticker-Proxy",
       "source": "csv_merge",
       "asset_class_breakdown": null,
       "region_breakdown": null,
@@ -4384,7 +4384,7 @@
     },
     {
       "isin": "DE000A41NN66",
-      "ticker": null,
+      "ticker": "MEU.PA",
       "name": "Provinzial MSCI Europe",
       "provider": "Helaba / ProAM",
       "url": null,
@@ -4413,7 +4413,7 @@
     },
     {
       "isin": "DE000A2N67X0",
-      "ticker": null,
+      "ticker": "OG78.F",
       "name": "LBBW Global Warming",
       "provider": "LBBW",
       "url": null,
@@ -4442,7 +4442,7 @@
     },
     {
       "isin": "LU3179669380",
-      "ticker": null,
+      "ticker": "LU0551476806.SG",
       "name": "Ökoworld Ökovision Classic",
       "provider": "Ökoworld",
       "url": null,
@@ -4471,7 +4471,7 @@
     },
     {
       "isin": "LU3179669893",
-      "ticker": null,
+      "ticker": "WXO6.F",
       "name": "Ökoworld Growing Markets 2.0",
       "provider": "Ökoworld",
       "url": null,
@@ -4500,7 +4500,7 @@
     },
     {
       "isin": "LU2211859272",
-      "ticker": null,
+      "ticker": "SYO4.F",
       "name": "Swisscanto Equity Fund Sustainable DT",
       "provider": "Swisscanto",
       "url": null,
@@ -4567,6 +4567,6 @@
       "benchmark_id"
     ],
     "notes": "Built by build_customer_catalog.py from Provi-Listing.tsv. Enriched with data/funds/{ISIN}.json (per-ISIN scrape) and data/customers/general/funds_database.json (general profile).",
-    "last_enriched": "2026-06-05"
+    "last_enriched": "2026-06-08"
   }
 }
