@@ -381,9 +381,9 @@ document.addEventListener('DOMContentLoaded', () => {
             // (loss_tolerance removed)
 
             // ESG
-            'no_esg_requirement':  `<svg viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="28" cy="28" r="16"/><line x1="16" y1="16" x2="40" y2="40"/></svg>`,
-            'esg_basic':           `<svg viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M28 14c-6 8-10 14-10 20a10 10 0 0020 0c0-6-4-12-10-20z"/></svg>`,
-            'esg_enhanced':        `<svg viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M28 12c-8 10-14 18-14 22a14 14 0 0028 0c0-4-6-12-14-22z"/><line x1="28" y1="42" x2="28" y2="30"/></svg>`,
+            'esg_none':            `<svg viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="28" cy="28" r="16"/><line x1="16" y1="16" x2="40" y2="40"/></svg>`,
+            'esg_prefer':          `<svg viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M28 14c-6 8-10 14-10 20a10 10 0 0020 0c0-6-4-12-10-20z"/></svg>`,
+            'esg_only':            `<svg viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M28 12c-8 10-14 18-14 22a14 14 0 0028 0c0-4-6-12-14-22z"/><line x1="28" y1="42" x2="28" y2="30"/></svg>`,
 
             // ETF preference
             'no_etf_preference': `<svg viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="12" y="20" width="10" height="18" rx="1"/><rect x="24" y="14" width="10" height="24" rx="1"/><rect x="36" y="24" width="10" height="14" rx="1"/></svg>`,

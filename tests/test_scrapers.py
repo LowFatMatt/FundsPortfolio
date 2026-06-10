@@ -28,7 +28,6 @@ def test_finanzen_scraper_extracts_expected_fields():
     assert result["srri"] == 3
     assert result["is_etf"] is True
     assert result["esg_label"] == "SFDR_ARTICLE_8"
-    assert result["esg_article_8"] is True
     assert result["asset_class_breakdown_raw"] == {
         "Aktien": 60.0,
         "Anleihen": 30.0,

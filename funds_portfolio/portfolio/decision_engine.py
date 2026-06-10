@@ -98,6 +98,13 @@ class DecisionEngine:
     ) -> Dict[str, Any]:
         trace = {"filters": [], "relaxations": [], "used_fallback_risk": False}
 
+        # Normalise ESG preference to the canonical value set, tolerating legacy
+        # answers stored in older portfolios (no_requirement/esg_basic/esg_enhanced).
+        user_answers = dict(user_answers)
+        user_answers["esg_preference"] = self._normalise_esg_preference(
+            user_answers.get("esg_preference")
+        )
+
         def note_filter(
             name: str, before: int, after: int, details: Optional[Dict[str, Any]] = None
         ):
@@ -282,29 +289,35 @@ class DecisionEngine:
         return "OPPORTUNITY", False
 
     # --- Filters ---
+    # Funds considered "sustainable" for boosting/filtering: SFDR Article 8 & 9.
+    _ESG_SUSTAINABLE_LABELS = ("SFDR_ARTICLE_8", "SFDR_ARTICLE_9")
+
+    @staticmethod
+    def _normalise_esg_preference(pref: Any) -> str:
+        """Map any stored value to the canonical set NONE | PREFER_ESG | ART_8_9_ONLY.
+
+        Tolerates legacy answers (no_requirement/esg_basic/esg_enhanced) from
+        portfolios created before the ESG refactor. Unknown -> NONE.
+        """
+        p = str(pref or "").strip().upper()
+        legacy = {
+            "NO_REQUIREMENT": "NONE",
+            "ESG_BASIC": "ART_8_9_ONLY",
+            "ESG_ENHANCED": "ART_8_9_ONLY",
+        }
+        p = legacy.get(p, p)
+        return p if p in ("NONE", "PREFER_ESG", "ART_8_9_ONLY") else "NONE"
+
+    def _is_esg_fund(self, fund: Dict[str, Any]) -> bool:
+        return str(fund.get("esg_label") or "").upper() in self._ESG_SUSTAINABLE_LABELS
+
     def _apply_esg_filter(
         self, funds: List[Dict[str, Any]], user_answers: Dict[str, Any]
     ) -> List[Dict[str, Any]]:
-        pref = user_answers.get("esg_preference", "no_requirement")
-        if pref == "no_requirement":
+        # NONE and PREFER_ESG never exclude funds; only ART_8_9_ONLY hard-filters.
+        if user_answers.get("esg_preference") != "ART_8_9_ONLY":
             return funds
-        threshold = 1 if pref == "esg_basic" else 2
-
-        def esg_score(f: Dict[str, Any]) -> int:
-            label = str(f.get("esg_label", "")).upper()
-            if f.get("esg_article_9") is True:
-                return 3
-            if f.get("esg_article_8") is True:
-                return 2
-            if label in ("SFDR_ARTICLE_9", "HIGH"):
-                return 3
-            if label in ("SFDR_ARTICLE_8", "MEDIUM"):
-                return 2
-            if label == "LOW":
-                return 0
-            return 0
-
-        return [f for f in funds if esg_score(f) >= threshold]
+        return [f for f in funds if self._is_esg_fund(f)]
 
     def _apply_etf_filter(
         self, funds: List[Dict[str, Any]], user_answers: Dict[str, Any]
@@ -472,18 +485,10 @@ class DecisionEngine:
         if user_answers.get("etf_preference") == "prefer_etf" and fund.get("is_etf"):
             boosts["ETF"] = 5.0
 
-        # ESG boost: +5 pts for ESG funds when no explicit requirement
-        # (when ESG is required it is a hard filter, not a scoring bonus)
-        esg_pref = user_answers.get("esg_preference", "no_requirement")
-        if esg_pref == "no_requirement":
-            label = str(fund.get("esg_label", "")).upper()
-            is_esg = (
-                fund.get("esg_article_9") is True
-                or fund.get("esg_article_8") is True
-                or label in ("HIGH", "SFDR_ARTICLE_9", "MEDIUM", "SFDR_ARTICLE_8")
-            )
-            if is_esg:
-                boosts["ESG"] = 5.0
+        # ESG boost: +5 pts for Article 8/9 funds when the user prefers ESG.
+        # (NONE ignores ESG entirely; ART_8_9_ONLY is a hard filter, not a bonus.)
+        if user_answers.get("esg_preference") == "PREFER_ESG" and self._is_esg_fund(fund):
+            boosts["ESG"] = 5.0
 
         # Regional preference boost
         preferred_regions = {
@@ -786,12 +791,21 @@ class DecisionEngine:
                         "ETF structure supports lower costs and transparency.",
                     )
                 )
-            if user_answers.get("esg_preference") in ("esg_basic", "esg_enhanced"):
+            esg_pref = user_answers.get("esg_preference")
+            if esg_pref == "ART_8_9_ONLY":
                 reasons.append(
                     self._t(
                         language,
                         "decision.reason.esg",
-                        "Meets your ESG requirement.",
+                        "Meets your sustainability requirement (SFDR Article 8/9).",
+                    )
+                )
+            elif esg_pref == "PREFER_ESG" and self._is_esg_fund(f):
+                reasons.append(
+                    self._t(
+                        language,
+                        "decision.reason.esg_preferred",
+                        "Sustainable fund (SFDR Article 8/9), matching your preference.",
                     )
                 )
             preferred_regions = {
@@ -962,12 +976,21 @@ class DecisionEngine:
                     "Weighted fee estimate: {weighted_fee}%.",
                 ).format(weighted_fee=weighted_fee)
             )
-        if user_answers.get("esg_preference") in ("esg_basic", "esg_enhanced"):
+        esg_pref = user_answers.get("esg_preference")
+        if esg_pref == "ART_8_9_ONLY":
             parts.append(
                 self._t(
                     language,
                     "decision.summary.esg",
-                    "ESG filters applied.",
+                    "Sustainability filter applied (SFDR Article 8/9 only).",
+                )
+            )
+        elif esg_pref == "PREFER_ESG":
+            parts.append(
+                self._t(
+                    language,
+                    "decision.summary.esg_preferred",
+                    "Sustainable funds weighted higher.",
                 )
             )
         if user_answers.get("etf_preference") == "etf_only":

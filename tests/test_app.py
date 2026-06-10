@@ -53,7 +53,7 @@ def test_create_portfolio_endpoint(mock_ticker, client):
     # Needs to be a valid response to pass validators and min 5 funds
     valid_answers = {
         "risk_approach": "moderate",
-        "esg_preference": "no_requirement",
+        "esg_preference": "NONE",
         "etf_preference": "no_preference",
     }
 

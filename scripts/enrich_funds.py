@@ -329,8 +329,6 @@ def _scrape_kiid_fields(
                 "asset_class_breakdown_translated",
                 "is_etf",
                 "esg_label",
-                "esg_article_8",
-                "esg_article_9",
             ):
                 if res.get(key) is not None:
                     result[key] = res.get(key)
@@ -644,16 +642,9 @@ def main() -> None:
                 if res.get("is_etf") is not None and fund.get("is_etf") in (None, ""):
                     fund["is_etf"] = bool(res.get("is_etf"))
                     updated_is_etf += 1
-                if (res.get("esg_label") is not None or res.get("esg_article_8") or res.get("esg_article_9")) and (
-                    fund.get("esg_label") in (None, "") or fund.get("esg_article_8") in (None, "") or fund.get("esg_article_9") in (None, "")
-                ):
-                    if res.get("esg_label") is not None and fund.get("esg_label") in (None, ""):
-                        fund["esg_label"] = res.get("esg_label")
-                        updated_esg += 1
-                    if res.get("esg_article_8") is not None and fund.get("esg_article_8") in (None, ""):
-                        fund["esg_article_8"] = bool(res.get("esg_article_8"))
-                    if res.get("esg_article_9") is not None and fund.get("esg_article_9") in (None, ""):
-                        fund["esg_article_9"] = bool(res.get("esg_article_9"))
+                if res.get("esg_label") is not None and fund.get("esg_label") in (None, ""):
+                    fund["esg_label"] = res.get("esg_label")
+                    updated_esg += 1
             if status and fund.get("kiid_status") != status:
                 fund["kiid_status"] = status
 

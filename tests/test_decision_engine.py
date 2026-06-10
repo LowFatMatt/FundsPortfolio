@@ -10,9 +10,7 @@ def _fund(
     srri: int,
     yearly_fee: float,
     is_etf: bool,
-    esg_article_9: bool = False,
-    esg_article_8: bool = False,
-    esg_label: str = "LOW",
+    esg_label: str = None,
     region: str = "global",
     theme: str = "none",
     provider: str = "provider-a",
@@ -27,8 +25,6 @@ def _fund(
         "srri": srri,
         "yearly_fee": yearly_fee,
         "is_etf": is_etf,
-        "esg_article_9": esg_article_9,
-        "esg_article_8": esg_article_8,
         "esg_label": esg_label,
         "region": region,
         "theme": theme,
@@ -46,7 +42,7 @@ def _fund(
 def _base_answers():
     return {
         "risk_approach": "moderate",
-        "esg_preference": "no_requirement",
+        "esg_preference": "NONE",
         "etf_preference": "no_preference",
         "preferred_regions": [],
         "preferred_themes": ["none"],
@@ -73,7 +69,8 @@ def test_etf_only_filter():
     assert all(r.get("is_etf") for r in recs)
 
 
-def test_esg_filter_required():
+def test_esg_filter_art_8_9_only():
+    """ART_8_9_ONLY hard-filters to Article 8 & 9 funds; others are excluded."""
     engine = DecisionEngine(min_candidates=1, top_k=5, final_fund_count=1)
     funds = [
         _fund(
@@ -82,8 +79,7 @@ def test_esg_filter_required():
             srri=4,
             yearly_fee=0.2,
             is_etf=True,
-            esg_article_9=True,
-            esg_label="HIGH",
+            esg_label="SFDR_ARTICLE_9",
         ),
         _fund(
             isin="BBB",
@@ -91,17 +87,51 @@ def test_esg_filter_required():
             srri=4,
             yearly_fee=0.2,
             is_etf=True,
-            esg_label="LOW",
+            esg_label=None,
         ),
     ]
     answers = _base_answers()
-    answers["esg_preference"] = "esg_enhanced"
+    answers["esg_preference"] = "ART_8_9_ONLY"
 
     result = engine.recommend(answers, funds)
     recs = result["recommendations"]
 
     assert recs
     assert all(r.get("isin") == "AAA" for r in recs)
+
+
+def test_esg_legacy_value_normalised():
+    """Legacy 'esg_enhanced' answers still resolve to the hard filter."""
+    engine = DecisionEngine(min_candidates=1, top_k=5, final_fund_count=1)
+    funds = [
+        _fund(isin="AAA", name="ESG", srri=4, yearly_fee=0.2, is_etf=True,
+              esg_label="SFDR_ARTICLE_8"),
+        _fund(isin="BBB", name="Plain", srri=4, yearly_fee=0.2, is_etf=True,
+              esg_label=None),
+    ]
+    answers = _base_answers()
+    answers["esg_preference"] = "esg_enhanced"  # legacy value
+
+    recs = engine.recommend(answers, funds)["recommendations"]
+    assert recs and all(r.get("isin") == "AAA" for r in recs)
+
+
+def test_esg_prefer_boosts_but_does_not_exclude():
+    """PREFER_ESG ranks the Article 8/9 fund first but keeps non-ESG funds."""
+    engine = DecisionEngine(min_candidates=1, top_k=5, final_fund_count=2)
+    funds = [
+        _fund(isin="AAA", name="Plain", srri=4, yearly_fee=0.2, is_etf=True,
+              esg_label=None),
+        _fund(isin="BBB", name="ESG", srri=4, yearly_fee=0.2, is_etf=True,
+              esg_label="SFDR_ARTICLE_8"),
+    ]
+    answers = _base_answers()
+    answers["esg_preference"] = "PREFER_ESG"
+
+    recs = engine.recommend(answers, funds)["recommendations"]
+    isins = [r.get("isin") for r in recs]
+    assert "AAA" in isins and "BBB" in isins  # no exclusion
+    assert isins[0] == "BBB"  # ESG fund boosted to the top
 
 
 def test_region_preference_boost_selects_matching_fund():

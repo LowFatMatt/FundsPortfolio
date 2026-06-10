@@ -277,14 +277,12 @@ def build_record(
         "risk_level":        risk_level,
         "yearly_fee":        yearly_fee,
         "is_etf":            bool(gp.get("is_etf")) or is_etf_from_name(name),
-        "esg_label":         gp.get("esg_label", "LOW"),
+        "esg_label":         gp.get("esg_label"),
         "theme":             theme,
         "srri":              srri,
         "sharpe_ratio":      sharpe,
         "volatility":        volatility,
         "max_drawdown":      max_drawdown,
-        "esg_article_8":     bool(gp.get("esg_article_8", False)),
-        "esg_article_9":     bool(gp.get("esg_article_9", False)),
         "notes":             gp.get("notes") or "Imported from customer universe; enriched from per-ISIN scrape + general profile.",
         "source":            "provinzial_nord_universe",
         "asset_class_breakdown": ts.get("asset_class_breakdown") or gp.get("asset_class_breakdown"),
@@ -307,7 +305,7 @@ def coverage_report(records: List[Dict[str, Any]]) -> Dict[str, Any]:
         "sharpe_ratio":        f"{filled('sharpe_ratio')}/{n}",
         "asset_class_breakdown": f"{filled('asset_class_breakdown')}/{n}",
         "categories":          f"{filled('categories')}/{n}",
-        "esg_article_8":       f"{sum(1 for r in records if r.get('esg_article_8'))}/{n}",
+        "esg_label":           f"{sum(1 for r in records if r.get('esg_label'))}/{n}",
         "is_etf":              f"{sum(1 for r in records if r.get('is_etf'))}/{n}",
     }
 
@@ -365,7 +363,7 @@ def main(argv: Optional[List[str]] = None) -> int:
             "uniform_schema_fields": [
                 "isin", "ticker", "name", "provider", "url", "kiid_url",
                 "asset_class", "region", "categories", "risk_level",
-                "yearly_fee", "is_etf", "esg_article_8", "esg_article_9",
+                "yearly_fee", "is_etf",
                 "esg_label", "theme", "srri", "sharpe_ratio", "volatility",
                 "max_drawdown", "notes", "source",
             ],
