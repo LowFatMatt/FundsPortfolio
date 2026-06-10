@@ -77,7 +77,7 @@ class DecisionEngine:
 
     def __init__(
         self,
-        min_candidates: int = 12,
+        min_candidates: int = 5,   # set the mimimu to final_fund_count to avoid relaxations that are too aggressive.
         top_k: int = 15,
         final_fund_count: int = 5,
         max_per_provider: int = 1,
