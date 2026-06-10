@@ -237,8 +237,6 @@ def parse_generic_csv(filepath: str, source_name: str) -> List[Dict]:
                 "categories": categories,
                 "risk_level": risk_level,
                 "yearly_fee": None,
-                "esg_article_8": False,
-                "esg_article_9": False,
                 "notes": notes,
                 "source": source_name,
             }
@@ -329,19 +327,22 @@ def derive_is_etf(categories: List[str]) -> bool:
 
 
 def derive_esg_label(
-    esg_article_8: bool, esg_article_9: bool, categories: List[str]
-) -> str:
+    esg_article_8: bool, esg_article_9: bool, current_label: Optional[str] = None
+) -> Optional[str]:
     """
-    Map SFDR disclosure flags + ESG category tag to the optimizer's label set:
-      SFDR_ARTICLE_9 > SFDR_ARTICLE_8 > MEDIUM (esg category) > LOW
+    Map SFDR disclosure flags to the reduced label set:
+      SFDR_ARTICLE_9 > SFDR_ARTICLE_8 > (preserve existing SFDR label) > None
+
+    When no article flag is set, an already-curated SFDR classification is kept
+    so that re-enriching existing DB entries does not wipe their label.
     """
     if esg_article_9:
         return "SFDR_ARTICLE_9"
     if esg_article_8:
         return "SFDR_ARTICLE_8"
-    if "esg" in [c.lower() for c in categories]:
-        return "MEDIUM"
-    return "LOW"
+    if current_label in ("SFDR_ARTICLE_8", "SFDR_ARTICLE_9"):
+        return current_label
+    return None
 
 
 # Category / notes keywords → optimizer Theme
@@ -401,14 +402,15 @@ def enrich_fund(fund: Dict) -> Dict:
     Safe to call on both freshly-parsed and existing curated entries.
     """
     cats = fund.get("categories", [])
-    art8 = fund.get("esg_article_8", False)
-    art9 = fund.get("esg_article_9", False)
+    # Article flags are transient parse signals; they are not persisted.
+    art8 = bool(fund.pop("esg_article_8", False))
+    art9 = bool(fund.pop("esg_article_9", False))
     notes = fund.get("notes")
     name = fund.get("name", "")
     risk_lvl = fund.get("risk_level", 3)
 
     fund["is_etf"] = derive_is_etf(cats)
-    fund["esg_label"] = derive_esg_label(art8, art9, cats)
+    fund["esg_label"] = derive_esg_label(art8, art9, fund.get("esg_label"))
     fund["theme"] = derive_theme(cats, notes, name)
     fund["srri"] = derive_srri(risk_lvl)
     return fund

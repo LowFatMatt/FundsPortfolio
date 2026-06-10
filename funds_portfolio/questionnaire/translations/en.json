@@ -11,9 +11,9 @@
     "esg_preference": {
       "name": "How important is sustainability to you?",
       "options": {
-        "no_esg_requirement": "It's not a priority – focus on performance",
-        "esg_basic": "I'd like some sustainability standards (Article 8 funds and above)",
-        "esg_enhanced": "Sustainability is very important to me (Article 9 / high-impact funds only)"
+        "esg_none": "I want to invest across the whole breadth of the market",
+        "esg_prefer": "I'd like to overweight sustainable investments",
+        "esg_only": "I invest exclusively in sustainable funds (SFDR Article 8 & 9 only)"
       }
     },
     "etf_preference": {

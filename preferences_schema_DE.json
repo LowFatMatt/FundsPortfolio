@@ -162,6 +162,33 @@
             "risk_profile": 4
           }
         ]
+      },
+      {
+        "id": "esg_preference",
+        "name": "Wie wichtig ist Ihnen Nachhaltigkeit?",
+        "description": "ESG steht für Environmental, Social & Governance und misst, wie verantwortungsvoll ein Unternehmen handelt.",
+        "type": "single_select",
+        "required": true,
+        "options": [
+          {
+            "id": "esg_none",
+            "label": "Ich möchte auf die gesamte Breite des Marktes setzen",
+            "value": "NONE",
+            "esg_preference": "NONE"
+          },
+          {
+            "id": "esg_prefer",
+            "label": "Ich möchte nachhaltige Anlageformen übergewichten",
+            "value": "PREFER_ESG",
+            "esg_preference": "PREFER_ESG"
+          },
+          {
+            "id": "esg_only",
+            "label": "Ich investiere ausschließlich in nachhaltige Anlageformen",
+            "value": "ART_8_9_ONLY",
+            "esg_preference": "ART_8_9_ONLY"
+          }
+        ]
       }
     ]
   }

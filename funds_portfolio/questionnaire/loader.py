@@ -179,7 +179,7 @@ class QuestionnaireLoader:
     # payloads; the chosen defaults represent the least-constraining option.
     LOGIC_RELEVANT_DEFAULTS: Dict[str, object] = {
         "risk_approach": "conservative",
-        "esg_preference": "no_requirement",
+        "esg_preference": "NONE",
         "etf_preference": "no_preference",
         "preferred_regions": ["global"],
         "preferred_themes": ["none"],

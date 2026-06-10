@@ -12,9 +12,9 @@
       "name": "Wie wichtig ist Ihnen Nachhaltigkeit?",
       "description": "ESG steht für Environmental, Social & Governance und misst, wie verantwortungsvoll ein Unternehmen handelt.",
       "options": {
-        "no_esg_requirement": "Keine Priorität – Fokus auf Performance",
-        "esg_basic": "Etwas Nachhaltigkeit (Artikel‑8‑Fonds und besser)",
-        "esg_enhanced": "Sehr wichtig (nur Artikel‑9 / High‑Impact‑Fonds)"
+        "esg_none": "Ich möchte auf die gesamte Breite des Marktes setzen",
+        "esg_prefer": "Ich möchte nachhaltige Anlageformen übergewichten",
+        "esg_only": "Ich investiere ausschließlich in nachhaltige Anlageformen"
       }
     },
     "etf_preference": {

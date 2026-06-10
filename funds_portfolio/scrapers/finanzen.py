@@ -104,13 +104,12 @@ class FinanzenNetScraper(FundScraper):
         return False
 
     def _extract_esg(self, html: str) -> Dict:
-        out = {"esg_label": None, "esg_article_8": None, "esg_article_9": None}
+        out = {"esg_label": None}
         text = html or ""
         if re.search(r"SFDR|Artikel\s*8|Article\s*8", text, flags=re.IGNORECASE):
-            out["esg_article_8"] = True
             out["esg_label"] = "SFDR_ARTICLE_8"
+        # Article 9 wins over Article 8 if both match.
         if re.search(r"Artikel\s*9|Article\s*9", text, flags=re.IGNORECASE):
-            out["esg_article_9"] = True
             out["esg_label"] = "SFDR_ARTICLE_9"
         return out
 
@@ -119,7 +118,7 @@ class FinanzenNetScraper(FundScraper):
 
         Returns a dict with keys: yearly_fee, volatility, max_drawdown, sharpe_ratio,
         srri, asset_class_breakdown_raw, asset_class_breakdown_translated, is_etf,
-        esg_label, esg_article_8, esg_article_9
+        esg_label
         """
         result: Dict = {}
         # fee

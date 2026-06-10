@@ -42,25 +42,22 @@
         "required": true,
         "options": [
           {
-            "id": "no_esg_requirement",
-            "label": "It's not a priority – focus on performance",
-            "value": "no_requirement",
-            "esg_requirement": "NONE",
-            "esg_level": null
+            "id": "esg_none",
+            "label": "I want to invest across the whole breadth of the market",
+            "value": "NONE",
+            "esg_preference": "NONE"
           },
           {
-            "id": "esg_basic",
-            "label": "I'd like some sustainability standards (Article 8 funds and above)",
-            "value": "esg_basic",
-            "esg_requirement": "REQUIRED",
-            "esg_level": "BASIC"
+            "id": "esg_prefer",
+            "label": "I'd like to overweight sustainable investments",
+            "value": "PREFER_ESG",
+            "esg_preference": "PREFER_ESG"
           },
           {
-            "id": "esg_enhanced",
-            "label": "Sustainability is very important to me (Article 9 / high-impact funds only)",
-            "value": "esg_enhanced",
-            "esg_requirement": "REQUIRED",
-            "esg_level": "ENHANCED"
+            "id": "esg_only",
+            "label": "I invest exclusively in sustainable funds (SFDR Article 8 & 9 only)",
+            "value": "ART_8_9_ONLY",
+            "esg_preference": "ART_8_9_ONLY"
           }
         ]
       },
@@ -205,7 +202,7 @@
     "updated_at": "ISO 8601 timestamp",
     "user_answers": {
       "risk_approach": "string (value from options: conservative | moderate | aggressive)",
-      "esg_preference": "string (value from options: no_requirement | esg_basic | esg_enhanced)",
+      "esg_preference": "string (value from options: NONE | PREFER_ESG | ART_8_9_ONLY)",
       "etf_preference": "string (value from options: no_preference | prefer_etf | etf_only)",
       "preferred_regions": [
         "array of strings (values from options: germany | europe | north_america | asia | emerging_markets | global)"
@@ -217,8 +214,7 @@
     "calculated_metrics": {
       "risk_profile": "integer (1-4)",
       "optimizer_profile": "string (DEFENSIVE | BALANCED | OPPORTUNITY)",
-      "esg_requirement": "string (NONE | REQUIRED)",
-      "esg_level": "string (null | BASIC | ENHANCED)",
+      "esg_preference": "string (NONE | PREFER_ESG | ART_8_9_ONLY)",
       "etf_preference": "string (NONE | PREFER_ETF | ETF_ONLY)",
       "preferred_regions": ["array of optimizer Region values"],
       "preferred_themes": ["array of optimizer Theme values"],

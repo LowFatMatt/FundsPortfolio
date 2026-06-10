@@ -47,16 +47,18 @@ class TestFundManager:
     def test_get_fund_by_isin(self):
         """Test fund lookup by ISIN"""
         fm = FundManager(FUND_DB_PATH)
-        # Try to find a real fund (from sample data)
-        fund = fm.get_fund_by_isin("IE00B4L5Y983")
-        assert fund is not None, "Should find iShares MSCI USA fund"
-        assert fund["isin"] == "IE00B4L5Y983"
+        # Use the first fund actually in the DB so the test survives DB edits.
+        sample_isin = fm.get_all_funds()[0]["isin"]
+        fund = fm.get_fund_by_isin(sample_isin)
+        assert fund is not None, f"Should find fund {sample_isin}"
+        assert fund["isin"] == sample_isin
 
     def test_get_fund_by_isin_case_insensitive(self):
         """Test that ISIN lookup is case-insensitive"""
         fm = FundManager(FUND_DB_PATH)
-        fund_upper = fm.get_fund_by_isin("IE00B4L5Y983")
-        fund_lower = fm.get_fund_by_isin("ie00b4l5y983")
+        sample_isin = fm.get_all_funds()[0]["isin"]
+        fund_upper = fm.get_fund_by_isin(sample_isin.upper())
+        fund_lower = fm.get_fund_by_isin(sample_isin.lower())
         assert fund_upper == fund_lower
 
     def test_get_fund_by_isin_not_found(self):
@@ -131,7 +133,7 @@ class TestQuestionnaireLoader:
 
         valid_answers = {
             "risk_approach": "moderate",
-            "esg_preference": "no_requirement",
+            "esg_preference": "NONE",
             "etf_preference": "no_preference",
         }
 
@@ -158,7 +160,7 @@ class TestQuestionnaireLoader:
         ql = QuestionnaireLoader(Q_SCHEMA_PATH)
 
         incomplete_answers = {
-            "esg_preference": "no_requirement"
+            "esg_preference": "NONE"
             # Missing risk_approach, etf_preference
         }
 
@@ -203,7 +205,7 @@ class TestQuestionnaireLoader:
         assert answers["risk_approach"] == "aggressive"
         # Missing logic-relevant sections filled with defaults (loss_tolerance removed)
         assert "loss_tolerance" not in answers
-        assert answers["esg_preference"] == "no_requirement"
+        assert answers["esg_preference"] == "NONE"
         assert answers["etf_preference"] == "no_preference"
         assert answers["preferred_regions"] == ["global"]
         assert answers["preferred_themes"] == ["none"]
