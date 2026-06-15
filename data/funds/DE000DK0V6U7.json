@@ -1,6 +1,6 @@
 {
   "isin": "DE000DK0V6U7",
-  "as_of": "2026-06-01",
+  "as_of": "2026-06-11",
   "schema_version": 2,
   "source": "factsheetslive",
   "source_url": "https://provinzial-nord.stg.wt.factsheetslive.com/produkt/DE000DK0V6U7",
@@ -13,14 +13,14 @@
   "sri": 3,
   "performance": {
     "periods": {
-      "3m": 0.0219,
-      "6m": 0.0396,
-      "ytd": 0.0424,
-      "1y": 0.1635,
-      "3y_pa": 0.1136,
-      "5y_pa": 0.047,
+      "3m": 0.0205,
+      "6m": 0.0263,
+      "ytd": 0.0243,
+      "1y": 0.1404,
+      "3y_pa": 0.1179,
+      "5y_pa": 0.0424,
       "10y_pa": null,
-      "si_pa": 0.0452
+      "si_pa": 0.0414
     },
     "nav_series": [
       {
@@ -266,19 +266,23 @@
       {
         "d": "2026-05-29",
         "v": 125.7904
+      },
+      {
+        "d": "2026-06-09",
+        "v": 123.6087
       }
     ]
   },
   "volatility": {
-    "1y": 0.0893,
-    "3y": 0.1062,
-    "5y": 0.1206
+    "1y": 0.09,
+    "3y": 0.1061,
+    "5y": 0.1208
   },
   "risk_metrics": {
     "sharpe": {
-      "1y": 1.6,
-      "3y": 0.78,
-      "5y": 0.23
+      "1y": 1.32,
+      "3y": 0.82,
+      "5y": 0.19
     },
     "max_drawdown": {
       "1y": null,
