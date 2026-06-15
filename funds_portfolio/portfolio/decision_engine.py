@@ -77,7 +77,7 @@ class DecisionEngine:
 
     def __init__(
         self,
-        min_candidates: int = 5,   # set the mimimu to final_fund_count to avoid relaxations that are too aggressive.
+        min_candidates: int = 0,   # set the mimimu to zero to avoid relaxations alltogether to find the limits of our funds universe.
         top_k: int = 15,
         final_fund_count: int = 5,
         max_per_provider: int = 1,
@@ -193,8 +193,16 @@ class DecisionEngine:
             })
             working = relaxed
 
-        # Ensure we can return at least final_fund_count recommendations
-        if len(working) < self.final_fund_count and len(pre_risk) >= self.final_fund_count:
+        # Ensure we can return at least final_fund_count recommendations.
+        # This is a relaxation too: it discards the risk band and reverts to the
+        # pre-risk pool. Gate it on min_candidates so that min_candidates == 0
+        # disables *all* relaxations, letting an over-restrictive universe fall
+        # through to the "no eligible funds" error instead of silently widening.
+        if (
+            self.min_candidates > 0
+            and len(working) < self.final_fund_count
+            and len(pre_risk) >= self.final_fund_count
+        ):
             trace["relaxations"].append({
                 "name": "final_fund_floor",
                 "before": len(working),
