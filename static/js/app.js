@@ -448,7 +448,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 throw new Error((data.error || 'Failed to generate portfolio') + details);
             }
 
-            displayResults(data);
+            renderResults(data, { showTraces: true });
         } catch (err) {
             showError(err.message);
             setLoadingState(false);
@@ -456,9 +456,15 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // -------------------------------------------------------------------------
-    // Display results
+    // Shared result component (see MODES.md §2)
+    //
+    // Single entry point used by every UI mode. `showTraces` controls the
+    // technical decision-trace block only:
+    //   true  → Quick-Mode (full traces)
+    //   false → Flow-Mode (end-user friendly; summary + answers still shown)
+    // Reads only the response fields documented in MODES.md §1.
     // -------------------------------------------------------------------------
-    function displayResults(portfolio) {
+    function renderResults(portfolio, { showTraces = true } = {}) {
         setLoadingState(false);
         formView.classList.add('hidden');
         resultsView.classList.remove('hidden');
@@ -489,13 +495,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (decisionFilters) {
             decisionFilters.innerHTML = '';
-            (portfolio.decision_trace?.filters || []).forEach(f => {
-                decisionFilters.appendChild(makeFilterPill(`${f.name}: ${f.before}→${f.after}`));
-            });
-            (portfolio.decision_trace?.relaxations || []).forEach(r => {
-                const label = r.reason ? `${r.name}: ${r.reason}` : `relaxation: ${r.name} ${r.before}→${r.after}`;
-                decisionFilters.appendChild(makeFilterPill(label));
-            });
+            decisionFilters.classList.toggle('hidden', !showTraces);
+            if (showTraces) {
+                (portfolio.decision_trace?.filters || []).forEach(f => {
+                    decisionFilters.appendChild(makeFilterPill(`${f.name}: ${f.before}→${f.after}`));
+                });
+                (portfolio.decision_trace?.relaxations || []).forEach(r => {
+                    const label = r.reason ? `${r.name}: ${r.reason}` : `relaxation: ${r.name} ${r.before}→${r.after}`;
+                    decisionFilters.appendChild(makeFilterPill(label));
+                });
+            }
         }
 
         // Render user answers as filter pills (same styling as decision-filters)
