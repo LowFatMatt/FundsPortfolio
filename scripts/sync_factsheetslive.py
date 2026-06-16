@@ -60,7 +60,7 @@ from _german_labels import (  # noqa: E402
 REPO_ROOT = Path(__file__).resolve().parent.parent
 DEFAULT_OUTPUT_DIR = REPO_ROOT / "data" / "funds"
 DEFAULT_REPORT_DIR = REPO_ROOT / "reports"
-DEFAULT_CATALOG    = REPO_ROOT / "funds_database.json"
+DEFAULT_CATALOG = REPO_ROOT / "funds_database.json"
 
 logging.basicConfig(
     level=logging.INFO,
@@ -70,6 +70,7 @@ logger = logging.getLogger("sync_factsheetslive")
 
 
 # ---------- HTTP ----------
+
 
 def make_session(user_agent: str, timeout: int) -> requests.Session:
     s = requests.Session()
@@ -82,6 +83,7 @@ def _with_timeout(fn, timeout):
     def wrapper(method, url, **kw):
         kw.setdefault("timeout", timeout)
         return fn(method, url, **kw)
+
     return wrapper
 
 
@@ -115,6 +117,7 @@ def _pct_to_frac(text: Optional[str]) -> Optional[float]:
 
 
 # --- Embedded JSON blobs (data-price-series, data-risiko-rendite) ---
+
 
 def _extract_data_attr_json(html: str, attr: str) -> Optional[Any]:
     """Pull a JSON blob out of an HTML element attribute value."""
@@ -184,14 +187,14 @@ def extract_price_series_monthly(html: str) -> List[Dict[str, Any]]:
 # --- HTML tables (performance row + risk metrics row-major) ---
 
 PERFORMANCE_HEADERS_TO_KEY = {
-    "3 monate":        "3m",
-    "6 monate":        "6m",
-    "lfd. jahr":       "ytd",
-    "1 jahr":          "1y",
-    "3 jahre p.a.":    "3y_pa",
-    "5 jahre p.a.":    "5y_pa",
-    "10 jahre p.a.":   "10y_pa",
-    "seit auflage p.a.":"si_pa",
+    "3 monate": "3m",
+    "6 monate": "6m",
+    "lfd. jahr": "ytd",
+    "1 jahr": "1y",
+    "3 jahre p.a.": "3y_pa",
+    "5 jahre p.a.": "5y_pa",
+    "10 jahre p.a.": "10y_pa",
+    "seit auflage p.a.": "si_pa",
 }
 
 
@@ -218,7 +221,11 @@ def parse_performance_table(soup: BeautifulSoup) -> Dict[str, Optional[float]]:
     return out
 
 
-def parse_risk_table(soup: BeautifulSoup) -> Tuple[Dict[str, Optional[float]], Dict[str, Optional[float]], Dict[str, Optional[float]]]:
+def parse_risk_table(
+    soup: BeautifulSoup,
+) -> Tuple[
+    Dict[str, Optional[float]], Dict[str, Optional[float]], Dict[str, Optional[float]]
+]:
     """
     Parse the 'Kennzahlen' table (row-major: row label = metric, columns =
     1Y/3Y/5Y in order). Returns (volatility, sharpe, max_drawdown).
@@ -230,7 +237,11 @@ def parse_risk_table(soup: BeautifulSoup) -> Tuple[Dict[str, Optional[float]], D
 
     for table in soup.find_all("table"):
         text_first_col = [
-            (row.find_all(["td", "th"])[0].get_text(strip=True).lower() if row.find_all(["td", "th"]) else "")
+            (
+                row.find_all(["td", "th"])[0].get_text(strip=True).lower()
+                if row.find_all(["td", "th"])
+                else ""
+            )
             for row in table.find_all("tr")
         ]
         if not any("sharpe" in c for c in text_first_col):
@@ -256,7 +267,10 @@ def parse_risk_table(soup: BeautifulSoup) -> Tuple[Dict[str, Optional[float]], D
 
 # --- Allocation sections (asset class breakdown + top holdings) ---
 
-def _parse_allocation_section(soup: BeautifulSoup, heading_substr: str, limit: Optional[int] = None) -> List[Dict[str, Any]]:
+
+def _parse_allocation_section(
+    soup: BeautifulSoup, heading_substr: str, limit: Optional[int] = None
+) -> List[Dict[str, Any]]:
     """
     Find a <details><summary>{heading}</summary><div class="portfolioallokation-content">...
     that contains <div class="allocation-bar-row"> entries with label and value spans.
@@ -305,6 +319,7 @@ def parse_top_holdings(soup: BeautifulSoup, limit: int = 10) -> List[Dict[str, A
 
 
 # --- Stammdaten table (label-then-value row layout) ---
+
 
 def _stammdaten_lookup(soup: BeautifulSoup, label_patterns: List[str]) -> Optional[str]:
     """
@@ -366,7 +381,10 @@ def parse_ter_and_sri(soup: BeautifulSoup) -> Tuple[Optional[float], Optional[in
 
 # ---------- Pipeline ----------
 
-def fetch_product(session: requests.Session, base_url: str, isin: str, detail_path: str) -> Optional[str]:
+
+def fetch_product(
+    session: requests.Session, base_url: str, isin: str, detail_path: str
+) -> Optional[str]:
     url = base_url.rstrip("/") + detail_path.replace("{isin}", isin)
     try:
         r = session.get(url)
@@ -392,9 +410,15 @@ def build_fund_record(isin: str, html: str, source_url: str) -> Dict[str, Any]:
 
     rr_entry = extract_current_risk_rendite(html, isin) or {}
     rr_perf = rr_entry.get("performances") or {}
-    rr_vol  = rr_entry.get("volatilities") or {}
+    rr_vol = rr_entry.get("volatilities") or {}
     # data-risiko-rendite keys are ytd/1y/3y/5y/10y. Treat 3y/5y/10y as p.a. (matches table headers).
-    rr_mapping_perf = {"ytd": "ytd", "1y": "1y", "3y": "3y_pa", "5y": "5y_pa", "10y": "10y_pa"}
+    rr_mapping_perf = {
+        "ytd": "ytd",
+        "1y": "1y",
+        "3y": "3y_pa",
+        "5y": "5y_pa",
+        "10y": "10y_pa",
+    }
     for src, dst in rr_mapping_perf.items():
         if perf_periods.get(dst) is None and rr_perf.get(src) is not None:
             perf_periods[dst] = round(float(rr_perf[src]), 6)
@@ -404,8 +428,8 @@ def build_fund_record(isin: str, html: str, source_url: str) -> Dict[str, Any]:
             vol[dst] = round(float(rr_vol[src]), 6)
 
     nav_series = extract_price_series_monthly(html)
-    holdings   = parse_top_holdings(soup)
-    breakdown  = parse_asset_class_breakdown(soup)
+    holdings = parse_top_holdings(soup)
+    breakdown = parse_asset_class_breakdown(soup)
 
     record: Dict[str, Any] = {
         "isin": isin.upper(),
@@ -442,17 +466,21 @@ def atomic_write_json(path: Path, data: Dict[str, Any]) -> None:
 
 def has_any_data(record: Dict[str, Any]) -> bool:
     perf = record.get("performance", {}).get("periods") or {}
-    vol  = record.get("volatility") or {}
-    rm   = record.get("risk_metrics") or {}
-    return any(v is not None for v in perf.values()) \
-        or any(v is not None for v in vol.values()) \
-        or any(v is not None for d in rm.values() for v in (d or {}).values()) \
-        or bool(record.get("top_holdings")) \
-        or bool(record.get("asset_class_breakdown")) \
+    vol = record.get("volatility") or {}
+    rm = record.get("risk_metrics") or {}
+    return (
+        any(v is not None for v in perf.values())
+        or any(v is not None for v in vol.values())
+        or any(v is not None for d in rm.values() for v in (d or {}).values())
+        or bool(record.get("top_holdings"))
+        or bool(record.get("asset_class_breakdown"))
         or bool((record.get("performance") or {}).get("nav_series"))
+    )
 
 
-def load_isins(catalog_path: Path, override_file: Optional[Path], sample: Optional[int]) -> List[str]:
+def load_isins(
+    catalog_path: Path, override_file: Optional[Path], sample: Optional[int]
+) -> List[str]:
     if override_file:
         isins = []
         for line in override_file.read_text(encoding="utf-8").splitlines():
@@ -462,7 +490,9 @@ def load_isins(catalog_path: Path, override_file: Optional[Path], sample: Option
     else:
         with open(catalog_path, "r", encoding="utf-8") as f:
             data = json.load(f)
-        isins = [f["isin"].upper() for f in data.get("funds_database", []) if f.get("isin")]
+        isins = [
+            f["isin"].upper() for f in data.get("funds_database", []) if f.get("isin")
+        ]
     if sample:
         isins = isins[:sample]
     return isins
@@ -475,8 +505,8 @@ def write_reports(results: List[Dict[str, Any]], output_dir: Path) -> None:
         "timestamp": ts,
         "total": len(results),
         "written": sum(1 for r in results if r["status"] == "written"),
-        "empty":   sum(1 for r in results if r["status"] == "empty"),
-        "failed":  sum(1 for r in results if r["status"] == "failed"),
+        "empty": sum(1 for r in results if r["status"] == "empty"),
+        "failed": sum(1 for r in results if r["status"] == "failed"),
     }
 
     json_path = output_dir / f"sync_factsheetslive_{ts}.json"
@@ -506,51 +536,101 @@ def write_reports(results: List[Dict[str, Any]], output_dir: Path) -> None:
 
 def main(argv: Optional[List[str]] = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    parser.add_argument("--base-url", default="https://provinzial-nord.stg.wt.factsheetslive.com",
-                        help="factsheetslive base URL (customer-specific)")
-    parser.add_argument("--detail-path", default="/produkt/{isin}",
-                        help="URL path template for product pages")
-    parser.add_argument("--isin-file", type=Path, default=None,
-                        help="Optional file with one ISIN per line; default reads from funds_database.json")
-    parser.add_argument("--catalog", type=Path, default=DEFAULT_CATALOG,
-                        help="Path to funds_database.json")
-    parser.add_argument("--sample", type=int, default=None, help="Only process the first N ISINs")
-    parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT_DIR,
-                        help="Output directory for per-ISIN JSON files")
-    parser.add_argument("--report-dir", type=Path, default=DEFAULT_REPORT_DIR,
-                        help="Output directory for run reports")
-    parser.add_argument("--delay", type=float, default=1.0, help="Seconds between requests")
-    parser.add_argument("--timeout", type=int, default=15, help="HTTP timeout in seconds")
-    parser.add_argument("--user-agent", default="FundsPortfolio/1.0 (offline ingestion)")
-    parser.add_argument("--dry-run", action="store_true", help="Parse but do not write files")
+    parser.add_argument(
+        "--base-url",
+        default="https://provinzial-nord.stg.wt.factsheetslive.com",
+        help="factsheetslive base URL (customer-specific)",
+    )
+    parser.add_argument(
+        "--detail-path",
+        default="/produkt/{isin}",
+        help="URL path template for product pages",
+    )
+    parser.add_argument(
+        "--isin-file",
+        type=Path,
+        default=None,
+        help="Optional file with one ISIN per line; default reads from funds_database.json",
+    )
+    parser.add_argument(
+        "--catalog",
+        type=Path,
+        default=DEFAULT_CATALOG,
+        help="Path to funds_database.json",
+    )
+    parser.add_argument(
+        "--sample", type=int, default=None, help="Only process the first N ISINs"
+    )
+    parser.add_argument(
+        "--output",
+        type=Path,
+        default=DEFAULT_OUTPUT_DIR,
+        help="Output directory for per-ISIN JSON files",
+    )
+    parser.add_argument(
+        "--report-dir",
+        type=Path,
+        default=DEFAULT_REPORT_DIR,
+        help="Output directory for run reports",
+    )
+    parser.add_argument(
+        "--delay", type=float, default=1.0, help="Seconds between requests"
+    )
+    parser.add_argument(
+        "--timeout", type=int, default=15, help="HTTP timeout in seconds"
+    )
+    parser.add_argument(
+        "--user-agent", default="FundsPortfolio/1.0 (offline ingestion)"
+    )
+    parser.add_argument(
+        "--dry-run", action="store_true", help="Parse but do not write files"
+    )
     args = parser.parse_args(argv)
 
     isins = load_isins(args.catalog, args.isin_file, args.sample)
-    logger.info("Processing %d ISINs from %s", len(isins),
-                args.isin_file or args.catalog)
+    logger.info(
+        "Processing %d ISINs from %s", len(isins), args.isin_file or args.catalog
+    )
 
     session = make_session(args.user_agent, args.timeout)
     results: List[Dict[str, Any]] = []
 
     for i, isin in enumerate(isins, 1):
         logger.info("[%d/%d] %s", i, len(isins), isin)
-        source_url = args.base_url.rstrip("/") + args.detail_path.replace("{isin}", isin)
+        source_url = args.base_url.rstrip("/") + args.detail_path.replace(
+            "{isin}", isin
+        )
         html = fetch_product(session, args.base_url, isin, args.detail_path)
         if not html:
-            results.append({"isin": isin, "status": "failed", "reason": "no HTML / non-200"})
+            results.append(
+                {"isin": isin, "status": "failed", "reason": "no HTML / non-200"}
+            )
         else:
             try:
                 record = build_fund_record(isin, html, source_url)
             except (ValueError, AttributeError) as exc:
-                results.append({"isin": isin, "status": "failed", "reason": f"parse error: {exc}"})
+                results.append(
+                    {"isin": isin, "status": "failed", "reason": f"parse error: {exc}"}
+                )
             else:
                 if not has_any_data(record):
-                    results.append({"isin": isin, "status": "empty", "reason": "no fields matched selectors"})
+                    results.append(
+                        {
+                            "isin": isin,
+                            "status": "empty",
+                            "reason": "no fields matched selectors",
+                        }
+                    )
                 else:
                     if not args.dry_run:
                         atomic_write_json(args.output / f"{isin}.json", record)
-                    results.append({"isin": isin, "status": "written",
-                                    "fields_present": _summarise_present_fields(record)})
+                    results.append(
+                        {
+                            "isin": isin,
+                            "status": "written",
+                            "fields_present": _summarise_present_fields(record),
+                        }
+                    )
 
         if i < len(isins) and args.delay > 0:
             time.sleep(args.delay)
@@ -561,18 +641,20 @@ def main(argv: Optional[List[str]] = None) -> int:
 
 def _summarise_present_fields(record: Dict[str, Any]) -> Dict[str, int]:
     perf = record.get("performance", {}).get("periods") or {}
-    vol  = record.get("volatility") or {}
-    rm   = record.get("risk_metrics") or {}
+    vol = record.get("volatility") or {}
+    rm = record.get("risk_metrics") or {}
     return {
-        "perf_periods":  sum(1 for v in perf.values() if v is not None),
-        "volatility":    sum(1 for v in vol.values()  if v is not None),
-        "sharpe":        sum(1 for v in (rm.get("sharpe") or {}).values() if v is not None),
-        "max_dd":        sum(1 for v in (rm.get("max_drawdown") or {}).values() if v is not None),
-        "holdings":      len(record.get("top_holdings") or []),
-        "nav_points":    len((record.get("performance") or {}).get("nav_series") or []),
+        "perf_periods": sum(1 for v in perf.values() if v is not None),
+        "volatility": sum(1 for v in vol.values() if v is not None),
+        "sharpe": sum(1 for v in (rm.get("sharpe") or {}).values() if v is not None),
+        "max_dd": sum(
+            1 for v in (rm.get("max_drawdown") or {}).values() if v is not None
+        ),
+        "holdings": len(record.get("top_holdings") or []),
+        "nav_points": len((record.get("performance") or {}).get("nav_series") or []),
         "breakdown_keys": len(record.get("asset_class_breakdown") or {}),
-        "region":        0 if record.get("region") in (None, "global") else 1,
-        "theme":         0 if record.get("theme") in (None, "NONE") else 1,
+        "region": 0 if record.get("region") in (None, "global") else 1,
+        "theme": 0 if record.get("theme") in (None, "NONE") else 1,
     }
 
 

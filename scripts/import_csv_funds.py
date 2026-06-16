@@ -30,15 +30,16 @@ FUND_DB_PATH = os.path.join(PROJECT_ROOT, "funds_database.json")
 DATA_DIR = os.path.join(PROJECT_ROOT, "assets", "data")
 
 CSV_FILES = {
-    "Entwurf-Fondsauswahl-TW2027-20260507": os.path.join(DATA_DIR, "Entwurf-Fondsauswahl-TW2027-20260507.csv")
-    # Mist: falsches Format. 
+    "Entwurf-Fondsauswahl-TW2027-20260507": os.path.join(
+        DATA_DIR, "Entwurf-Fondsauswahl-TW2027-20260507.csv"
+    )
+    # Mist: falsches Format.
 }
 #    "FundsInitDB_de_de": os.path.join(DATA_DIR, "FundsInitDB_de_de.csv"),
 #    "aktienfonds_50": os.path.join(DATA_DIR, "aktienfonds_50.csv"),
 #    "etfs_50": os.path.join(DATA_DIR, "etfs_50.csv"),
 #    "mischfonds_50": os.path.join(DATA_DIR, "mischfonds_50.csv"),
 #    "rentenfonds_50": os.path.join(DATA_DIR, "rentenfonds_50.csv"),
-
 
 
 # ---------------------------------------------------------------------------

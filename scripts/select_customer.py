@@ -31,7 +31,8 @@ def list_customers() -> list[str]:
     if not CUSTOMERS_DIR.exists():
         return []
     return sorted(
-        p.name for p in CUSTOMERS_DIR.iterdir()
+        p.name
+        for p in CUSTOMERS_DIR.iterdir()
         if p.is_dir() and (p / "funds_database.json").exists()
     )
 
@@ -53,7 +54,11 @@ def activate(customer_id: str) -> int:
     src = CUSTOMERS_DIR / customer_id / "funds_database.json"
     if not src.exists():
         print(f"error: no catalog at {src}", file=sys.stderr)
-        print("Available customers:", ", ".join(list_customers()) or "(none)", file=sys.stderr)
+        print(
+            "Available customers:",
+            ", ".join(list_customers()) or "(none)",
+            file=sys.stderr,
+        )
         return 2
     # Atomic-ish: copy to .tmp then replace
     tmp = ROOT_CATALOG.with_suffix(ROOT_CATALOG.suffix + ".tmp")
@@ -70,8 +75,12 @@ def activate(customer_id: str) -> int:
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("customer", nargs="?", help="Customer id to activate")
-    parser.add_argument("--list", action="store_true", help="List available customer profiles")
-    parser.add_argument("--current", action="store_true", help="Print the currently active customer")
+    parser.add_argument(
+        "--list", action="store_true", help="List available customer profiles"
+    )
+    parser.add_argument(
+        "--current", action="store_true", help="Print the currently active customer"
+    )
     args = parser.parse_args(argv)
 
     if args.list:

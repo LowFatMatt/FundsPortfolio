@@ -13,13 +13,13 @@ from typing import Dict
 
 # Provinzial "Fondsart" (asset class) labels → our canonical schema keys.
 ASSET_CLASS_FROM_GERMAN: Dict[str, str] = {
-    "aktienfonds":                "equity",
-    "mischfonds":                 "mixed",
-    "renten/geldmarktfonds":      "bond",
-    "immobilienfonds":            "real_estate",
-    "wertsicherungsfonds":        "mixed",
+    "aktienfonds": "equity",
+    "mischfonds": "mixed",
+    "renten/geldmarktfonds": "bond",
+    "immobilienfonds": "real_estate",
+    "wertsicherungsfonds": "mixed",
     "vermögensverwaltende fonds": "mixed",
-    "bankspezifische fonds":      "mixed",
+    "bankspezifische fonds": "mixed",
 }
 
 
@@ -27,13 +27,13 @@ ASSET_CLASS_FROM_GERMAN: Dict[str, str] = {
 # list when no other source is available. Keeps the existing slug vocabulary
 # (balanced, global_bonds, …) so downstream filters keep working.
 CATEGORY_SLUG_FROM_GERMAN: Dict[str, str] = {
-    "aktienfonds":                "equity",
-    "mischfonds":                 "balanced",
-    "renten/geldmarktfonds":      "fixed_income",
-    "immobilienfonds":            "real_estate",
-    "wertsicherungsfonds":        "capital_protection",
+    "aktienfonds": "equity",
+    "mischfonds": "balanced",
+    "renten/geldmarktfonds": "fixed_income",
+    "immobilienfonds": "real_estate",
+    "wertsicherungsfonds": "capital_protection",
     "vermögensverwaltende fonds": "multi_asset",
-    "bankspezifische fonds":      "bank_specific",
+    "bankspezifische fonds": "bank_specific",
 }
 
 
@@ -48,25 +48,25 @@ def asset_class_from_german(label: str | None) -> str:
 # substrings (case-insensitive) so combined labels like "Nordamerika / USA"
 # resolve correctly. Order matters: more specific keywords first.
 REGION_FROM_GERMAN = [
-    ("nordamerika",    "north_america"),
-    ("usa",            "north_america"),
-    ("us-",            "north_america"),
-    ("kanada",         "north_america"),
+    ("nordamerika", "north_america"),
+    ("usa", "north_america"),
+    ("us-", "north_america"),
+    ("kanada", "north_america"),
     ("schwellenländer", "emerging_markets"),
     ("schwellenlaender", "emerging_markets"),
-    ("emerging",       "emerging_markets"),
+    ("emerging", "emerging_markets"),
     # Euro-area funds ("Euroland" / "Eurozone") are European — map to the
     # selectable canonical 'europe' rather than leaving them for the global
     # catch-all (Europe is an explicit region).
-    ("euroland",       "europe"),
-    ("eurozone",       "europe"),
-    ("deutschland",    "germany"),
-    ("europa",         "europe"),
-    ("asien",          "asia"),
-    ("pazifik",        "asia"),
-    ("japan",          "asia"),
-    ("global",         "global"),
-    ("welt",           "global"),
+    ("euroland", "europe"),
+    ("eurozone", "europe"),
+    ("deutschland", "germany"),
+    ("europa", "europe"),
+    ("asien", "asia"),
+    ("pazifik", "asia"),
+    ("japan", "asia"),
+    ("global", "global"),
+    ("welt", "global"),
 ]
 
 
@@ -91,29 +91,29 @@ def region_from_german(label: str | None) -> str:
 # Provinzial "Thema" free-text → our canonical theme keys (kept verbatim with
 # the DB tag vocabulary: commodities, defense, ...). Substring match.
 THEME_FROM_GERMAN = [
-    ("dividend",       "dividends"),
-    ("rohstoff",       "commodities"),
-    ("gesundheit",     "healthcare"),
-    ("pharma",         "healthcare"),
-    ("technologie",    "technology"),
-    ("robotik",        "ai_robotics"),
+    ("dividend", "dividends"),
+    ("rohstoff", "commodities"),
+    ("gesundheit", "healthcare"),
+    ("pharma", "healthcare"),
+    ("technologie", "technology"),
+    ("robotik", "ai_robotics"),
     ("künstliche intelligenz", "ai_robotics"),
     ("kuenstliche intelligenz", "ai_robotics"),
-    (" ki ",           "ai_robotics"),
-    ("nachhaltig",     "sustainability"),
-    ("klima",          "sustainability"),
-    ("esg",            "sustainability"),
-    ("ökolog",         "sustainability"),
-    ("oekolog",        "sustainability"),
-    ("umwelt",         "sustainability"),
-    ("infrastruktur",  "infrastructure"),
-    ("wasser",         "water"),
-    ("sicherheit",     "defense"),
-    ("verteidigung",   "defense"),
-    ("rüstung",        "defense"),
-    ("ruestung",       "defense"),
-    ("energie",        "energy"),
-    ("megatrend",      "megatrends"),
+    (" ki ", "ai_robotics"),
+    ("nachhaltig", "sustainability"),
+    ("klima", "sustainability"),
+    ("esg", "sustainability"),
+    ("ökolog", "sustainability"),
+    ("oekolog", "sustainability"),
+    ("umwelt", "sustainability"),
+    ("infrastruktur", "infrastructure"),
+    ("wasser", "water"),
+    ("sicherheit", "defense"),
+    ("verteidigung", "defense"),
+    ("rüstung", "defense"),
+    ("ruestung", "defense"),
+    ("energie", "energy"),
+    ("megatrend", "megatrends"),
 ]
 
 
@@ -148,10 +148,16 @@ def canonical_asset_class_from_breakdown_key(key: str) -> str:
     Used by the scraper when reading the page's allocation-bar rows.
     """
     s = (key or "").lower()
-    if "aktie" in s:                                      return "equity"
-    if "renten" in s or "anleih" in s or "bond" in s:     return "bond"
-    if "immo" in s or "real estate" in s:                 return "real_estate"
-    if "rohstoff" in s or "commodit" in s or "gold" in s: return "commodities"
-    if "geldmarkt" in s or "cash" in s or "kasse" in s:   return "cash"
-    if "deriv" in s or "option" in s:                     return "derivatives"
+    if "aktie" in s:
+        return "equity"
+    if "renten" in s or "anleih" in s or "bond" in s:
+        return "bond"
+    if "immo" in s or "real estate" in s:
+        return "real_estate"
+    if "rohstoff" in s or "commodit" in s or "gold" in s:
+        return "commodities"
+    if "geldmarkt" in s or "cash" in s or "kasse" in s:
+        return "cash"
+    if "deriv" in s or "option" in s:
+        return "derivatives"
     return "other"

@@ -176,18 +176,14 @@ class TestQuestionnaireLoader:
             "risk_approach": "conservative",
         }
         risk_profile = ql.map_answers_to_risk_profile(conservative)
-        assert risk_profile == 1, (
-            "Conservative answers should give lowest risk profile"
-        )
+        assert risk_profile == 1, "Conservative answers should give lowest risk profile"
 
         # Aggressive answers
         aggressive = {
             "risk_approach": "aggressive",
         }
         risk_profile = ql.map_answers_to_risk_profile(aggressive)
-        assert risk_profile == 4, (
-            "Aggressive answers should give highest risk profile"
-        )
+        assert risk_profile == 4, "Aggressive answers should give highest risk profile"
 
     def test_risk_approach_has_three_options(self):
         """risk_approach should be reduced to conservative/moderate/aggressive."""

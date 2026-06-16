@@ -25,7 +25,9 @@ from funds_portfolio.portfolio.decision_engine import SRRI_MDD_PROXY, SRRI_VOL_P
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ROOT_CATALOG = os.path.join(ROOT, "funds_database.json")
-GENERAL_CATALOG = os.path.join(ROOT, "data", "customers", "general", "funds_database.json")
+GENERAL_CATALOG = os.path.join(
+    ROOT, "data", "customers", "general", "funds_database.json"
+)
 
 SHARPE_PROXY = 0.5  # neutral placeholder when neither real value nor proxy exists
 
@@ -37,7 +39,9 @@ def _srri(fund: dict) -> int:
 
 def main() -> None:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--write", action="store_true", help="persist changes (otherwise dry-run)")
+    ap.add_argument(
+        "--write", action="store_true", help="persist changes (otherwise dry-run)"
+    )
     args = ap.parse_args()
 
     with open(ROOT_CATALOG, encoding="utf-8") as f:
@@ -71,7 +75,9 @@ def main() -> None:
                 fund["sharpe_ratio"] = SHARPE_PROXY
         filled["real" if used_real else "proxy"] += 1
 
-    print(f"funds={len(funds)} touched_with_real={filled['real']} proxy_only={filled['proxy']}")
+    print(
+        f"funds={len(funds)} touched_with_real={filled['real']} proxy_only={filled['proxy']}"
+    )
 
     if args.write:
         with open(GENERAL_CATALOG, "w", encoding="utf-8") as f:

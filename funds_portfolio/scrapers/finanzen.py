@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import re
 from typing import Dict, List, Optional
-from urllib.parse import urlparse, parse_qs, urljoin
+from urllib.parse import parse_qs
 
 from .base import FundScraper, _normalize_percent, _strip_html, load_i18n_asset_map
 
@@ -11,7 +11,9 @@ class FinanzenNetScraper(FundScraper):
     def __init__(self):
         self.translator = load_i18n_asset_map()
 
-    def _find_chart_labels_values(self, html: str, base_url: str) -> Optional[Dict[str, float]]:
+    def _find_chart_labels_values(
+        self, html: str, base_url: str
+    ) -> Optional[Dict[str, float]]:
         # Find chart.aspx URLs and parse labels/values query params
         for match in re.finditer(r'https?://[^"\']*chart\.aspx\?[^"\']+', html):
             url = match.group(0)
@@ -25,19 +27,21 @@ class FinanzenNetScraper(FundScraper):
             if len(labs) != len(vals):
                 continue
             out: Dict[str, float] = {}
-            for l, v in zip(labs, vals):
+            for lab, v in zip(labs, vals):
                 try:
-                    out[l.strip()] = float(v)
+                    out[lab.strip()] = float(v)
                 except Exception:
                     try:
-                        out[l.strip()] = float(v.replace(",", "."))
+                        out[lab.strip()] = float(v.replace(",", "."))
                     except Exception:
                         continue
             if out:
                 return out
         return None
 
-    def _extract_number_after_label(self, html: str, labels: List[str]) -> Optional[float]:
+    def _extract_number_after_label(
+        self, html: str, labels: List[str]
+    ) -> Optional[float]:
         text = _strip_html(html)
         for label in labels:
             # search for label followed by a percent
@@ -51,7 +55,11 @@ class FinanzenNetScraper(FundScraper):
         text = _strip_html(html)
         # collect candidates with horizon tags
         candidates: Dict[str, float] = {}
-        for m in re.finditer(r"(5y|5 Jahre|3y|3 Jahre|1y|1 Jahr)[^0-9]{0,30}([\-]?[0-9]+[\.,][0-9]+)", text, flags=re.IGNORECASE):
+        for m in re.finditer(
+            r"(5y|5 Jahre|3y|3 Jahre|1y|1 Jahr)[^0-9]{0,30}([\-]?[0-9]+[\.,][0-9]+)",
+            text,
+            flags=re.IGNORECASE,
+        ):
             horizon = m.group(1).lower()
             val = _normalize_percent(m.group(2))
             if val is not None:
@@ -61,7 +69,9 @@ class FinanzenNetScraper(FundScraper):
             if key in candidates:
                 return candidates[key]
         # fallback: look for 'Sharpe' and a nearby number
-        for m in re.finditer(r"Sharpe[^0-9\-]{0,40}([\-]?[0-9]+[\.,][0-9]+)", text, flags=re.IGNORECASE):
+        for m in re.finditer(
+            r"Sharpe[^0-9\-]{0,40}([\-]?[0-9]+[\.,][0-9]+)", text, flags=re.IGNORECASE
+        ):
             val = m.group(1)
             try:
                 return float(val.replace(",", "."))
@@ -82,7 +92,11 @@ class FinanzenNetScraper(FundScraper):
     def _extract_max_drawdown(self, html: str) -> Optional[float]:
         text = _strip_html(html)
         # Look for 'Max' + drawdown or 'Max Drawdown' or 'Max. Drawdown' patterns
-        m = re.search(r"Max(?:\.|imum)?\s*(?:Drawdown|DD|Draw-down|Rückgang)[^0-9\-]{0,40}([\-]?[0-9]+[\.,][0-9]+)\s*%", text, flags=re.IGNORECASE)
+        m = re.search(
+            r"Max(?:\.|imum)?\s*(?:Drawdown|DD|Draw-down|Rückgang)[^0-9\-]{0,40}([\-]?[0-9]+[\.,][0-9]+)\s*%",
+            text,
+            flags=re.IGNORECASE,
+        )
         if m:
             val = m.group(1)
             try:
@@ -90,7 +104,11 @@ class FinanzenNetScraper(FundScraper):
             except Exception:
                 return None
         # fallback: look for 'Max. Verlust' or 'Maximaler Verlust'
-        m = re.search(r"Max(?:\.|imal)?[^0-9]{0,20}Verlust[^0-9\-]{0,40}([\-]?[0-9]+[\.,][0-9]+)\s*%", text, flags=re.IGNORECASE)
+        m = re.search(
+            r"Max(?:\.|imal)?[^0-9]{0,20}Verlust[^0-9\-]{0,40}([\-]?[0-9]+[\.,][0-9]+)\s*%",
+            text,
+            flags=re.IGNORECASE,
+        )
         if m:
             try:
                 return abs(float(m.group(1).replace(",", ".")))
@@ -122,12 +140,20 @@ class FinanzenNetScraper(FundScraper):
         """
         result: Dict = {}
         # fee
-        fee = self._extract_number_after_label(html, ["Laufende Kosten", "Gesamtkostenquote", "Total Expense Ratio", "TER"]) or None
+        fee = (
+            self._extract_number_after_label(
+                html,
+                ["Laufende Kosten", "Gesamtkostenquote", "Total Expense Ratio", "TER"],
+            )
+            or None
+        )
         if fee is not None:
             result["yearly_fee"] = round(float(fee), 4)
 
         # volatility (prefer 3y)
-        vol = self._extract_number_after_label(html, ["Volatilität 3 Jahre", "Volatilität 1 Jahr", "Volatilität"])
+        vol = self._extract_number_after_label(
+            html, ["Volatilität 3 Jahre", "Volatilität 1 Jahr", "Volatilität"]
+        )
         if vol is not None:
             result["volatility"] = round(float(vol), 4)
 

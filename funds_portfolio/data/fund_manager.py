@@ -44,7 +44,9 @@ class FundManager:
             timeseries_dir = os.path.join(os.path.dirname(db_path), "data", "funds")
             if not os.path.isdir(timeseries_dir):
                 timeseries_dir = os.path.join(os.getcwd(), "data", "funds")
-            benchmarks_path = os.path.join(os.path.dirname(db_path), "data", "benchmarks.json")
+            benchmarks_path = os.path.join(
+                os.path.dirname(db_path), "data", "benchmarks.json"
+            )
             if not os.path.exists(benchmarks_path):
                 benchmarks_path = os.path.join(os.getcwd(), "data", "benchmarks.json")
             self._provider = JsonFileProvider(
@@ -72,10 +74,16 @@ class FundManager:
 
     def get_funds_by_asset_class(self, asset_class: str) -> List[Dict]:
         target = (asset_class or "").lower()
-        return [f for f in self.get_all_funds() if (f.get("asset_class") or "").lower() == target]
+        return [
+            f
+            for f in self.get_all_funds()
+            if (f.get("asset_class") or "").lower() == target
+        ]
 
     def get_funds_by_category(self, category: str) -> List[Dict]:
-        return [f for f in self.get_all_funds() if category in (f.get("categories") or [])]
+        return [
+            f for f in self.get_all_funds() if category in (f.get("categories") or [])
+        ]
 
     def get_metadata(self) -> Dict:
         if hasattr(self._provider, "metadata"):

@@ -52,7 +52,9 @@ def _filter_window(
 ) -> List[Tuple[date, float]]:
     if not (start or end):
         return pairs
-    return [(d, v) for d, v in pairs if (not start or d >= start) and (not end or d <= end)]
+    return [
+        (d, v) for d, v in pairs if (not start or d >= start) and (not end or d <= end)
+    ]
 
 
 def aggregate_portfolio_nav(
@@ -98,7 +100,9 @@ def aggregate_portfolio_nav(
         weight = float(entry.get("weight") or 0.0) / total_weight
         if weight <= 0:
             continue
-        pairs = _filter_window(_nav_pairs(entry.get("nav_series") or []), start_d, end_d)
+        pairs = _filter_window(
+            _nav_pairs(entry.get("nav_series") or []), start_d, end_d
+        )
         if not pairs:
             excluded.append(isin)
             continue

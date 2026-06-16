@@ -113,7 +113,9 @@ class JsonFileProvider(DataProvider):
             with open(self.benchmarks_path, "r", encoding="utf-8") as f:
                 self._benchmarks_cache = json.load(f) or {}
         except (OSError, json.JSONDecodeError) as exc:
-            logger.warning("Failed to load benchmarks %s: %s", self.benchmarks_path, exc)
+            logger.warning(
+                "Failed to load benchmarks %s: %s", self.benchmarks_path, exc
+            )
             self._benchmarks_cache = {"benchmarks": {}, "default_by_asset_class": {}}
         return self._benchmarks_cache
 
@@ -132,7 +134,9 @@ class JsonFileProvider(DataProvider):
             for entry in os.scandir(self.timeseries_dir):
                 if entry.is_file() and entry.name.endswith(".json"):
                     timeseries_count += 1
-                    mtime = datetime.fromtimestamp(entry.stat().st_mtime, tz=timezone.utc)
+                    mtime = datetime.fromtimestamp(
+                        entry.stat().st_mtime, tz=timezone.utc
+                    )
                     iso = mtime.isoformat()
                     if last_refresh is None or iso > last_refresh:
                         last_refresh = iso

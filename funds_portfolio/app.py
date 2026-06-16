@@ -333,6 +333,7 @@ def create_app():
 
     def _portfolio_dir_candidates() -> list:
         import tempfile
+
         return [
             "/app/portfolios",
             os.path.join(os.getcwd(), "portfolios"),
@@ -352,24 +353,28 @@ def create_app():
         ts = fm.get_fund_timeseries(isin)
         if not ts:
             return jsonify({"error": "No performance data for ISIN", "isin": isin}), 404
-        return jsonify({
-            "isin": isin.upper(),
-            "as_of": ts.get("as_of"),
-            "currency": ts.get("currency"),
-            "performance": ts.get("performance") or {},
-        }), 200
+        return jsonify(
+            {
+                "isin": isin.upper(),
+                "as_of": ts.get("as_of"),
+                "currency": ts.get("currency"),
+                "performance": ts.get("performance") or {},
+            }
+        ), 200
 
     @app.route("/api/funds/<isin>/risk", methods=["GET"])
     def get_fund_risk(isin: str):
         ts = fm.get_fund_timeseries(isin)
         if not ts:
             return jsonify({"error": "No risk data for ISIN", "isin": isin}), 404
-        return jsonify({
-            "isin": isin.upper(),
-            "as_of": ts.get("as_of"),
-            "volatility": ts.get("volatility") or {},
-            "risk_metrics": ts.get("risk_metrics") or {},
-        }), 200
+        return jsonify(
+            {
+                "isin": isin.upper(),
+                "as_of": ts.get("as_of"),
+                "volatility": ts.get("volatility") or {},
+                "risk_metrics": ts.get("risk_metrics") or {},
+            }
+        ), 200
 
     @app.route("/api/funds/<isin>/breakdown", methods=["GET"])
     def get_fund_breakdown(isin: str):
@@ -378,16 +383,20 @@ def create_app():
             return jsonify({"error": "Fund not found", "isin": isin}), 404
         ts = fm.get_fund_timeseries(isin) or {}
         # Timeseries file (populated by the scraper) wins over catalog hints
-        ac_breakdown = ts.get("asset_class_breakdown") or meta.get("asset_class_breakdown")
-        return jsonify({
-            "isin": isin.upper(),
-            "asset_class": meta.get("asset_class"),
-            "region": meta.get("region"),
-            "asset_class_breakdown": ac_breakdown,
-            "region_breakdown": meta.get("region_breakdown"),
-            "top_holdings": ts.get("top_holdings"),
-            "as_of": ts.get("as_of"),
-        }), 200
+        ac_breakdown = ts.get("asset_class_breakdown") or meta.get(
+            "asset_class_breakdown"
+        )
+        return jsonify(
+            {
+                "isin": isin.upper(),
+                "asset_class": meta.get("asset_class"),
+                "region": meta.get("region"),
+                "asset_class_breakdown": ac_breakdown,
+                "region_breakdown": meta.get("region_breakdown"),
+                "top_holdings": ts.get("top_holdings"),
+                "as_of": ts.get("as_of"),
+            }
+        ), 200
 
     @app.route("/api/portfolio/<portfolio_id>/performance", methods=["GET"])
     def get_portfolio_performance(portfolio_id: str):
@@ -406,7 +415,9 @@ def create_app():
                 continue
             ts = fm.get_fund_timeseries(isin) or {}
             nav_series = ((ts.get("performance") or {}).get("nav_series")) or []
-            weighted_series.append({"isin": isin, "weight": weight, "nav_series": nav_series})
+            weighted_series.append(
+                {"isin": isin, "weight": weight, "nav_series": nav_series}
+            )
 
         # Pick benchmark by dominant asset_class in the portfolio
         breakdown = aggregate_breakdowns(recommendations)
@@ -422,7 +433,9 @@ def create_app():
         bench_nav = (bench or {}).get("nav_series") or []
 
         agg = aggregate_portfolio_nav(weighted_series, bench_nav, start=start, end=end)
-        agg["benchmark"] = {"id": bench_id, "name": (bench or {}).get("name")} if bench_id else None
+        agg["benchmark"] = (
+            {"id": bench_id, "name": (bench or {}).get("name")} if bench_id else None
+        )
         agg["portfolio_id"] = portfolio_id
         return jsonify(agg), 200
 
@@ -444,10 +457,12 @@ def create_app():
                 rec = dict(rec)
                 rec["asset_class_breakdown"] = ts["asset_class_breakdown"]
             enriched.append(rec)
-        return jsonify({
-            "portfolio_id": portfolio_id,
-            "breakdown": aggregate_breakdowns(enriched),
-        }), 200
+        return jsonify(
+            {
+                "portfolio_id": portfolio_id,
+                "breakdown": aggregate_breakdowns(enriched),
+            }
+        ), 200
 
     @app.route("/api/config/stress-periods", methods=["GET"])
     def get_stress_periods():
@@ -461,10 +476,12 @@ def create_app():
             bid: {k: v for k, v in (entry or {}).items() if k != "nav_series"}
             for bid, entry in (cfg.get("benchmarks") or {}).items()
         }
-        return jsonify({
-            "benchmarks": catalog,
-            "default_by_asset_class": cfg.get("default_by_asset_class") or {},
-        }), 200
+        return jsonify(
+            {
+                "benchmarks": catalog,
+                "default_by_asset_class": cfg.get("default_by_asset_class") or {},
+            }
+        ), 200
 
     @app.route("/api/data/health", methods=["GET"])
     def data_health():

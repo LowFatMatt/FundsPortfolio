@@ -77,7 +77,7 @@ class DecisionEngine:
 
     def __init__(
         self,
-        min_candidates: int = 0,   # set the mimimu to zero to avoid relaxations alltogether to find the limits of our funds universe.
+        min_candidates: int = 0,  # set the mimimu to zero to avoid relaxations alltogether to find the limits of our funds universe.
         top_k: int = 15,
         final_fund_count: int = 5,
         max_per_provider: int = 1,
@@ -125,11 +125,12 @@ class DecisionEngine:
         # 1) Basic eligibility test for required fileds: isin + name + fee + sharpe + mdd + (srri or risk_level) + volatility
         before = len(working)
         working = [
-            f for f in working 
-            if f.get("isin") 
+            f
+            for f in working
+            if f.get("isin")
             and f.get("name")
             and f.get("yearly_fee")
-            and f.get("sharpe_ratio") 
+            and f.get("sharpe_ratio")
             and f.get("max_drawdown")
             and (f.get("srri") or f.get("risk_level"))
             and f.get("volatility")
@@ -137,10 +138,10 @@ class DecisionEngine:
         note_filter("required_fields", before, len(working))
 
         # 1.1) Filter out funds categorized as "mixed" since they are volatile in their inner structure.
-        # This needs to be corrected since it seems to filter out too many funds. 
-        #before = len(working)
-        #working = [f for f in working if str(f.get("asset_class") or "").lower() != "mixed"]
-        #note_filter("asset_class_mixed_filter", before, len(working))
+        # This needs to be corrected since it seems to filter out too many funds.
+        # before = len(working)
+        # working = [f for f in working if str(f.get("asset_class") or "").lower() != "mixed"]
+        # note_filter("asset_class_mixed_filter", before, len(working))
 
         # 2) ESG filter
         before = len(working)
@@ -160,18 +161,24 @@ class DecisionEngine:
 
         if etf_pref == "etf_only" and len(post_etf) < self.final_fund_count:
             # Not enough ETFs — fill remaining slots with active funds later
-            trace["relaxations"].append({
-                "name": "etf_only_fallback",
-                "before": len(post_etf),
-                "after": len(working),
-                "reason": (
-                    f"Only {len(post_etf)} ETF(s) available after filtering. "
-                    "Active funds will fill remaining positions."
-                ),
-            })
+            trace["relaxations"].append(
+                {
+                    "name": "etf_only_fallback",
+                    "before": len(post_etf),
+                    "after": len(working),
+                    "reason": (
+                        f"Only {len(post_etf)} ETF(s) available after filtering. "
+                        "Active funds will fill remaining positions."
+                    ),
+                }
+            )
             # Keep the ETF subset; active-fund backfill happens in _select_funds
-            trace["etf_fallback_active_pool"] = [f["isin"] for f in working if not f.get("is_etf")]
-            working = post_etf  # scoring proceeds on ETF-only pool; backfill in selection
+            trace["etf_fallback_active_pool"] = [
+                f["isin"] for f in working if not f.get("is_etf")
+            ]
+            working = (
+                post_etf  # scoring proceeds on ETF-only pool; backfill in selection
+            )
         else:
             working = post_etf
 
@@ -183,14 +190,18 @@ class DecisionEngine:
 
         # 5) Relaxation if too few candidates
         if len(working) < self.min_candidates:
-            relaxed = self._apply_relaxed_risk_band(pre_risk, user_answers, risk_profile)
-            trace["relaxations"].append({
-                "name": "risk_band_relaxation",
-                "before": len(working),
-                "after": len(relaxed),
-                "reason": f"Fewer than {self.min_candidates} candidates; SRRI band widened by ±1.",
-                "details": {"risk_profile": risk_profile},
-            })
+            relaxed = self._apply_relaxed_risk_band(
+                pre_risk, user_answers, risk_profile
+            )
+            trace["relaxations"].append(
+                {
+                    "name": "risk_band_relaxation",
+                    "before": len(working),
+                    "after": len(relaxed),
+                    "reason": f"Fewer than {self.min_candidates} candidates; SRRI band widened by ±1.",
+                    "details": {"risk_profile": risk_profile},
+                }
+            )
             working = relaxed
 
         # Ensure we can return at least final_fund_count recommendations.
@@ -203,13 +214,15 @@ class DecisionEngine:
             and len(working) < self.final_fund_count
             and len(pre_risk) >= self.final_fund_count
         ):
-            trace["relaxations"].append({
-                "name": "final_fund_floor",
-                "before": len(working),
-                "after": len(pre_risk),
-                "reason": "Risk band too restrictive; widened to pre-risk pool to reach minimum fund count.",
-                "details": {"risk_profile": risk_profile},
-            })
+            trace["relaxations"].append(
+                {
+                    "name": "final_fund_floor",
+                    "before": len(working),
+                    "after": len(pre_risk),
+                    "reason": "Risk band too restrictive; widened to pre-risk pool to reach minimum fund count.",
+                    "details": {"risk_profile": risk_profile},
+                }
+            )
             working = pre_risk
 
         # Edge case 1: if still very few funds, add a warning to trace
@@ -241,11 +254,15 @@ class DecisionEngine:
         if etf_fallback_isins:
             active_pool = [f for f in funds if f.get("isin") in etf_fallback_isins]
             # Apply risk band to active fallback pool
-            active_pool = self._apply_risk_band_filter(active_pool, risk_profile) or active_pool
+            active_pool = (
+                self._apply_risk_band_filter(active_pool, risk_profile) or active_pool
+            )
             active_fallback = self._score_funds(active_pool, user_answers, risk_profile)
 
         scored = self._score_funds(working, user_answers, risk_profile)
-        selected = self._select_funds(scored, user_answers, active_fallback=active_fallback)
+        selected = self._select_funds(
+            scored, user_answers, active_fallback=active_fallback
+        )
 
         # 7) Allocate weights
         allocations = self._allocate_weights(selected, user_answers, risk_profile)
@@ -343,7 +360,9 @@ class DecisionEngine:
 
     def _fund_in_risk_band(self, fund: Dict[str, Any], band: Dict[str, Any]) -> bool:
         """Return True if fund satisfies SRRI, and (when present) volatility and MDD checks."""
-        srri = fund.get("srri") if fund.get("srri") is not None else fund.get("risk_level")
+        srri = (
+            fund.get("srri") if fund.get("srri") is not None else fund.get("risk_level")
+        )
         if srri is None:
             return False
         srri_val = float(srri)
@@ -386,25 +405,33 @@ class DecisionEngine:
     def _risk_band_for_profile(self, risk_profile: str) -> Dict[str, Any]:
         if risk_profile == "DEFENSIVE":
             return {
-                "srri_min": 1, "srri_max": 3,
-                "vol_max": 8.0, "vol_min": None,
+                "srri_min": 1,
+                "srri_max": 3,
+                "vol_max": 8.0,
+                "vol_min": None,
                 "mdd_max": 15.0,
             }
         if risk_profile == "OPPORTUNITY":
             return {
-                "srri_min": 4, "srri_max": 7,
-                "vol_max": None, "vol_min": 10.0,
+                "srri_min": 4,
+                "srri_max": 7,
+                "vol_max": None,
+                "vol_min": 10.0,
                 "mdd_max": 50.0,
             }
         # BALANCED
         return {
-            "srri_min": 2, "srri_max": 5,
-            "vol_max": 15.0, "vol_min": 2.0,  # reviewed: vol_min corrected to be 2.0 
+            "srri_min": 2,
+            "srri_max": 5,
+            "vol_max": 15.0,
+            "vol_min": 2.0,  # reviewed: vol_min corrected to be 2.0
             "mdd_max": 30.0,
         }
 
     @staticmethod
-    def _norm10(value: float, vmin: float, vmax: float, higher_is_better: bool = True) -> float:
+    def _norm10(
+        value: float, vmin: float, vmax: float, higher_is_better: bool = True
+    ) -> float:
         """Min-max normalise a value to 0–10 scale."""
         if vmax == vmin:
             return 5.0
@@ -453,7 +480,9 @@ class DecisionEngine:
             fee = self._as_float(f.get("yearly_fee") or 0.0)
             mdd, mdd_source = self._get_mdd(f)
 
-            sharpe_norm = self._norm10(sharpe, sharpe_min, sharpe_max, higher_is_better=True)
+            sharpe_norm = self._norm10(
+                sharpe, sharpe_min, sharpe_max, higher_is_better=True
+            )
             mdd_norm = self._norm10(mdd, mdd_min, mdd_max, higher_is_better=False)
             ter_norm = self._norm10(fee, fee_min, fee_max, higher_is_better=False)
 
@@ -495,7 +524,9 @@ class DecisionEngine:
 
         # ESG boost: +5 pts for Article 8/9 funds when the user prefers ESG.
         # (NONE ignores ESG entirely; ART_8_9_ONLY is a hard filter, not a bonus.)
-        if user_answers.get("esg_preference") == "PREFER_ESG" and self._is_esg_fund(fund):
+        if user_answers.get("esg_preference") == "PREFER_ESG" and self._is_esg_fund(
+            fund
+        ):
             boosts["ESG"] = 5.0
 
         # Regional preference boost
@@ -580,20 +611,18 @@ class DecisionEngine:
             }
 
         if preferred_themes and "NONE" not in preferred_themes:
+
             def _theme_match(f: Dict[str, Any]) -> bool:
                 return str(f.get("theme") or "").upper() in preferred_themes
 
             has_theme = any(_theme_match(f) for f in selected)
             if not has_theme:
                 thematic_candidates = [
-                    f for f in scored
-                    if _theme_match(f) and f not in selected
+                    f for f in scored if _theme_match(f) and f not in selected
                 ]
                 if thematic_candidates:
                     to_insert = thematic_candidates[0]
-                    non_thematic = [
-                        f for f in selected if not _theme_match(f)
-                    ]
+                    non_thematic = [f for f in selected if not _theme_match(f)]
                     if non_thematic:
                         worst = min(
                             non_thematic,
@@ -617,8 +646,13 @@ class DecisionEngine:
                 regional_sorted = sorted(
                     regional,
                     key=lambda x: (
-                        1 if (preferred_themes and "NONE" not in preferred_themes
-                              and _theme_match_drop(x)) else 0,
+                        1
+                        if (
+                            preferred_themes
+                            and "NONE" not in preferred_themes
+                            and _theme_match_drop(x)
+                        )
+                        else 0,
                         x.get("_scores", {}).get("final", 0),
                     ),
                     reverse=True,
@@ -671,7 +705,9 @@ class DecisionEngine:
 
         # Classify and rank funds
         cores = [f for f in selected if self._classify_core_satellite(f) == "core"]
-        satellites = [f for f in selected if self._classify_core_satellite(f) == "satellite"]
+        satellites = [
+            f for f in selected if self._classify_core_satellite(f) == "satellite"
+        ]
 
         # Assign tiers: cores ranked by their quality score, satellites flat
         ranked: List[Tuple[Dict[str, Any], int, bool]] = []
@@ -709,7 +745,9 @@ class DecisionEngine:
                 core_total = sum(weights[i] for i in core_isins)
                 if core_total > 0:
                     for isin in core_isins:
-                        rank_for = next(r for f, r, s in ranked if f["isin"] == isin and not s)
+                        rank_for = next(
+                            r for f, r, s in ranked if f["isin"] == isin and not s
+                        )
                         _, w_max = self._tiered_bounds(rank_for, False)
                         headroom = max(0.0, w_max - weights[isin])
                         add = excess * (weights[isin] / core_total)
@@ -819,7 +857,10 @@ class DecisionEngine:
             preferred_regions = {
                 str(r).lower() for r in (user_answers.get("preferred_regions") or [])
             }
-            if preferred_regions and str(f.get("region") or "").lower() in preferred_regions:
+            if (
+                preferred_regions
+                and str(f.get("region") or "").lower() in preferred_regions
+            ):
                 reasons.append(
                     self._t(
                         language,

@@ -9,7 +9,9 @@ import sys
 
 # The sync scripts live in scripts/ and import sibling helpers by bare name
 # (e.g. `from _german_labels import ...`), so put that dir on the path.
-SCRIPTS_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "scripts")
+SCRIPTS_DIR = os.path.join(
+    os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "scripts"
+)
 if SCRIPTS_DIR not in sys.path:
     sys.path.insert(0, SCRIPTS_DIR)
 
@@ -85,7 +87,9 @@ class TestParseRegionTheme:
         return BeautifulSoup(html, "html.parser")
 
     def test_parses_and_maps(self):
-        region, theme = sfl.parse_region_theme(self._soup("Nordamerika / USA", "Dividenden"))
+        region, theme = sfl.parse_region_theme(
+            self._soup("Nordamerika / USA", "Dividenden")
+        )
         assert region == "north_america"
         assert theme == "dividends"
 

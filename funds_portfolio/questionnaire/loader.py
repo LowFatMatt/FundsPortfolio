@@ -205,9 +205,7 @@ class QuestionnaireLoader:
                 else default_value
             )
             answers[section_id] = value
-            applied.append(
-                f'No answer for "{section_id}" - applied default "{value}"'
-            )
+            applied.append(f'No answer for "{section_id}" - applied default "{value}"')
 
         return answers, applied
 

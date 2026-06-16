@@ -1,6 +1,7 @@
 import json
 import sys
 
+
 def remove_funds_by_isin(file_path: str, isins) -> None:
     """
     Removes fund entries from funds_database.json by their ISIN(s).
@@ -12,14 +13,16 @@ def remove_funds_by_isin(file_path: str, isins) -> None:
         sys.exit(1)
 
     try:
-        with open(file_path, 'r', encoding='utf-8') as f:
+        with open(file_path, "r", encoding="utf-8") as f:
             data = json.load(f)
 
         funds = data.get("funds_database", [])
         original_count = len(funds)
 
         # Remove funds whose ISIN is in the requested set
-        data["funds_database"] = [fund for fund in funds if fund.get("isin") not in isins]
+        data["funds_database"] = [
+            fund for fund in funds if fund.get("isin") not in isins
+        ]
         new_count = len(data["funds_database"])
 
         # Update metadata
@@ -28,7 +31,7 @@ def remove_funds_by_isin(file_path: str, isins) -> None:
             data["metadata"]["total_funds_shown"] = new_count
             data["metadata"]["last_updated"] = "2026-06-10"  # Update to today
 
-        with open(file_path, 'w', encoding='utf-8') as f:
+        with open(file_path, "w", encoding="utf-8") as f:
             json.dump(data, f, indent=2, ensure_ascii=False)
 
         removed = original_count - new_count
@@ -46,6 +49,7 @@ def remove_funds_by_isin(file_path: str, isins) -> None:
         print(f"Error: {e}")
         sys.exit(1)
 
+
 def collect_isins(args) -> list:
     """
     Collects ISINs from CLI args. If no args are given, or a single '-' is
@@ -54,6 +58,7 @@ def collect_isins(args) -> list:
     if not args or args == ["-"]:
         return sys.stdin.read().split()
     return args
+
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:

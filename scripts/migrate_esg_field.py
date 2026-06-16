@@ -16,6 +16,7 @@ Re-running on an already-migrated file is a no-op.
 
 Usage:  python scripts/migrate_esg_field.py [path-to-funds_database.json]
 """
+
 import json
 import sys
 

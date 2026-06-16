@@ -40,9 +40,9 @@ try:
 except Exception:  # pragma: no cover - optional dependency
     PdfReader = None
 
-from funds_portfolio.data.price_fetcher import PriceFetcher
-from funds_portfolio.portfolio.calculator import PortfolioCalculator
-from funds_portfolio.scrapers import get_scraper_for_url
+from funds_portfolio.data.price_fetcher import PriceFetcher  # noqa: E402
+from funds_portfolio.portfolio.calculator import PortfolioCalculator  # noqa: E402
+from funds_portfolio.scrapers import get_scraper_for_url  # noqa: E402
 
 
 def _load_db(path: str) -> Dict:
@@ -382,7 +382,14 @@ def _enrich_from_factsheet(fund: Dict, funds_dir: str) -> Dict[str, int]:
     percent convention (max_drawdown stored as a positive percent). Sharpe is a
     plain ratio (no conversion).
     """
-    applied = {"sharpe": 0, "volatility": 0, "max_drawdown": 0, "srri": 0, "region": 0, "theme": 0}
+    applied = {
+        "sharpe": 0,
+        "volatility": 0,
+        "max_drawdown": 0,
+        "srri": 0,
+        "region": 0,
+        "theme": 0,
+    }
     isin = (fund.get("isin") or "").strip().upper()
     if not isin:
         return applied
@@ -511,7 +518,9 @@ def main() -> None:
         default="data/funds",
         help="Directory of cached per-ISIN factsheet scrapes",
     )
-    parser.add_argument("--volatility", action="store_true", help="Enrich volatility (annualised %%)")
+    parser.add_argument(
+        "--volatility", action="store_true", help="Enrich volatility (annualised %%)"
+    )
     parser.add_argument("--mdd", action="store_true", help="Enrich max_drawdown (%%)")
     parser.add_argument(
         "--refresh-kiid",
@@ -614,16 +623,28 @@ def main() -> None:
             )
             # Apply results returned by scraper/PDF (do not overwrite existing non-empty fields)
             if res:
-                if res.get("yearly_fee") is not None and fund.get("yearly_fee") in (None, ""):
+                if res.get("yearly_fee") is not None and fund.get("yearly_fee") in (
+                    None,
+                    "",
+                ):
                     fund["yearly_fee"] = round(float(res.get("yearly_fee")), 4)
                     updated_fee += 1
-                if res.get("volatility") is not None and fund.get("volatility") in (None, ""):
+                if res.get("volatility") is not None and fund.get("volatility") in (
+                    None,
+                    "",
+                ):
                     fund["volatility"] = res.get("volatility")
                     updated_vol += 1
-                if res.get("max_drawdown") is not None and fund.get("max_drawdown") in (None, ""):
+                if res.get("max_drawdown") is not None and fund.get("max_drawdown") in (
+                    None,
+                    "",
+                ):
                     fund["max_drawdown"] = res.get("max_drawdown")
                     updated_mdd += 1
-                if res.get("sharpe_ratio") is not None and fund.get("sharpe_ratio") in (None, ""):
+                if res.get("sharpe_ratio") is not None and fund.get("sharpe_ratio") in (
+                    None,
+                    "",
+                ):
                     fund["sharpe_ratio"] = res.get("sharpe_ratio")
                     updated_sharpe += 1
                 if res.get("srri") is not None and fund.get("srri") in (None, ""):
@@ -634,15 +655,26 @@ def main() -> None:
                         except Exception:
                             pass
                     updated_srri += 1
-                if res.get("asset_class_breakdown_raw") is not None and fund.get("asset_class_breakdown_raw") in (None, ""):
-                    fund["asset_class_breakdown_raw"] = res.get("asset_class_breakdown_raw")
+                if res.get("asset_class_breakdown_raw") is not None and fund.get(
+                    "asset_class_breakdown_raw"
+                ) in (None, ""):
+                    fund["asset_class_breakdown_raw"] = res.get(
+                        "asset_class_breakdown_raw"
+                    )
                     updated_asset_breakdown += 1
-                if res.get("asset_class_breakdown_translated") is not None and fund.get("asset_class_breakdown_translated") in (None, ""):
-                    fund["asset_class_breakdown_translated"] = res.get("asset_class_breakdown_translated")
+                if res.get("asset_class_breakdown_translated") is not None and fund.get(
+                    "asset_class_breakdown_translated"
+                ) in (None, ""):
+                    fund["asset_class_breakdown_translated"] = res.get(
+                        "asset_class_breakdown_translated"
+                    )
                 if res.get("is_etf") is not None and fund.get("is_etf") in (None, ""):
                     fund["is_etf"] = bool(res.get("is_etf"))
                     updated_is_etf += 1
-                if res.get("esg_label") is not None and fund.get("esg_label") in (None, ""):
+                if res.get("esg_label") is not None and fund.get("esg_label") in (
+                    None,
+                    "",
+                ):
                     fund["esg_label"] = res.get("esg_label")
                     updated_esg += 1
             if status and fund.get("kiid_status") != status:

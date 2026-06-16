@@ -1,5 +1,6 @@
 from urllib.parse import urlparse
 
+
 def get_scraper_for_url(url: str):
     """Return a scraper instance for the given kiid_url, or None if unknown."""
     if not url:

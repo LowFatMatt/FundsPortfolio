@@ -53,6 +53,7 @@ def _base_answers():
 # Original preference / filter tests
 # ---------------------------------------------------------------------------
 
+
 def test_etf_only_filter():
     engine = DecisionEngine(min_candidates=1, top_k=5, final_fund_count=1)
     funds = [
@@ -104,10 +105,22 @@ def test_esg_legacy_value_normalised():
     """Legacy 'esg_enhanced' answers still resolve to the hard filter."""
     engine = DecisionEngine(min_candidates=1, top_k=5, final_fund_count=1)
     funds = [
-        _fund(isin="AAA", name="ESG", srri=4, yearly_fee=0.2, is_etf=True,
-              esg_label="SFDR_ARTICLE_8"),
-        _fund(isin="BBB", name="Plain", srri=4, yearly_fee=0.2, is_etf=True,
-              esg_label=None),
+        _fund(
+            isin="AAA",
+            name="ESG",
+            srri=4,
+            yearly_fee=0.2,
+            is_etf=True,
+            esg_label="SFDR_ARTICLE_8",
+        ),
+        _fund(
+            isin="BBB",
+            name="Plain",
+            srri=4,
+            yearly_fee=0.2,
+            is_etf=True,
+            esg_label=None,
+        ),
     ]
     answers = _base_answers()
     answers["esg_preference"] = "esg_enhanced"  # legacy value
@@ -120,10 +133,22 @@ def test_esg_prefer_boosts_but_does_not_exclude():
     """PREFER_ESG ranks the Article 8/9 fund first but keeps non-ESG funds."""
     engine = DecisionEngine(min_candidates=1, top_k=5, final_fund_count=2)
     funds = [
-        _fund(isin="AAA", name="Plain", srri=4, yearly_fee=0.2, is_etf=True,
-              esg_label=None),
-        _fund(isin="BBB", name="ESG", srri=4, yearly_fee=0.2, is_etf=True,
-              esg_label="SFDR_ARTICLE_8"),
+        _fund(
+            isin="AAA",
+            name="Plain",
+            srri=4,
+            yearly_fee=0.2,
+            is_etf=True,
+            esg_label=None,
+        ),
+        _fund(
+            isin="BBB",
+            name="ESG",
+            srri=4,
+            yearly_fee=0.2,
+            is_etf=True,
+            esg_label="SFDR_ARTICLE_8",
+        ),
     ]
     answers = _base_answers()
     answers["esg_preference"] = "PREFER_ESG"
@@ -257,6 +282,7 @@ def test_explainability_payload_shape():
 # v2 scoring tests
 # ---------------------------------------------------------------------------
 
+
 def test_scoring_mdd_shifts_ranking():
     """Fund with better MDD wins when Sharpe and fee are equal."""
     engine = DecisionEngine(min_candidates=1, top_k=5, final_fund_count=2)
@@ -323,10 +349,15 @@ def test_scoring_scores_include_new_fields():
 # Core-Satellite classification tests
 # ---------------------------------------------------------------------------
 
+
 def test_core_satellite_classification():
     engine = DecisionEngine()
-    core = _fund(isin="A", name="Core", srri=4, yearly_fee=0.2, is_etf=True, theme="none")
-    sat = _fund(isin="B", name="Sat", srri=4, yearly_fee=0.2, is_etf=True, theme="TECHNOLOGY")
+    core = _fund(
+        isin="A", name="Core", srri=4, yearly_fee=0.2, is_etf=True, theme="none"
+    )
+    sat = _fund(
+        isin="B", name="Sat", srri=4, yearly_fee=0.2, is_etf=True, theme="TECHNOLOGY"
+    )
     assert engine._classify_core_satellite(core) == "core"
     assert engine._classify_core_satellite(sat) == "satellite"
 
@@ -336,16 +367,56 @@ def test_satellite_weight_cap_30pct():
     engine = DecisionEngine(min_candidates=1, top_k=10, final_fund_count=5)
     # 2 satellites, 3 core funds — all different providers, different categories
     funds = [
-        _fund(isin="C1", name="Core1", srri=4, yearly_fee=0.1, is_etf=True,
-              theme="none", provider="p1", asset_class="equity"),
-        _fund(isin="C2", name="Core2", srri=3, yearly_fee=0.15, is_etf=True,
-              theme="none", provider="p2", asset_class="bond"),
-        _fund(isin="C3", name="Core3", srri=4, yearly_fee=0.2, is_etf=False,
-              theme="none", provider="p3", asset_class="real_estate"),
-        _fund(isin="S1", name="Sat1", srri=5, yearly_fee=0.5, is_etf=True,
-              theme="TECHNOLOGY", provider="p4", asset_class="equity"),
-        _fund(isin="S2", name="Sat2", srri=5, yearly_fee=0.6, is_etf=True,
-              theme="SUSTAINABILITY", provider="p5", asset_class="equity"),
+        _fund(
+            isin="C1",
+            name="Core1",
+            srri=4,
+            yearly_fee=0.1,
+            is_etf=True,
+            theme="none",
+            provider="p1",
+            asset_class="equity",
+        ),
+        _fund(
+            isin="C2",
+            name="Core2",
+            srri=3,
+            yearly_fee=0.15,
+            is_etf=True,
+            theme="none",
+            provider="p2",
+            asset_class="bond",
+        ),
+        _fund(
+            isin="C3",
+            name="Core3",
+            srri=4,
+            yearly_fee=0.2,
+            is_etf=False,
+            theme="none",
+            provider="p3",
+            asset_class="real_estate",
+        ),
+        _fund(
+            isin="S1",
+            name="Sat1",
+            srri=5,
+            yearly_fee=0.5,
+            is_etf=True,
+            theme="TECHNOLOGY",
+            provider="p4",
+            asset_class="equity",
+        ),
+        _fund(
+            isin="S2",
+            name="Sat2",
+            srri=5,
+            yearly_fee=0.6,
+            is_etf=True,
+            theme="SUSTAINABILITY",
+            provider="p5",
+            asset_class="equity",
+        ),
     ]
     answers = _base_answers()
     result = engine.recommend(answers, funds)
@@ -371,15 +442,32 @@ def test_core_satellite_class_in_output():
 # Edge case tests
 # ---------------------------------------------------------------------------
 
+
 def test_etf_fallback_labelled():
     """When ETF-only is requested but fewer ETFs exist, active funds fill gaps
     and are labelled etf_not_available=True."""
     # Only 1 ETF, need 2 funds
     engine = DecisionEngine(min_candidates=1, top_k=10, final_fund_count=2)
     funds = [
-        _fund(isin="E1", name="ETF", srri=4, yearly_fee=0.2, is_etf=True, provider="p1"),
-        _fund(isin="A1", name="Active", srri=4, yearly_fee=0.3, is_etf=False, provider="p2"),
-        _fund(isin="A2", name="Active2", srri=4, yearly_fee=0.4, is_etf=False, provider="p3"),
+        _fund(
+            isin="E1", name="ETF", srri=4, yearly_fee=0.2, is_etf=True, provider="p1"
+        ),
+        _fund(
+            isin="A1",
+            name="Active",
+            srri=4,
+            yearly_fee=0.3,
+            is_etf=False,
+            provider="p2",
+        ),
+        _fund(
+            isin="A2",
+            name="Active2",
+            srri=4,
+            yearly_fee=0.4,
+            is_etf=False,
+            provider="p3",
+        ),
     ]
     answers = _base_answers()
     answers["etf_preference"] = "etf_only"
@@ -405,17 +493,27 @@ def test_regional_concentration_cap():
     # 5 europe funds + 2 global funds, all different providers
     europe_funds = [
         _fund(
-            isin=f"EU{i}", name=f"Europe{i}", srri=4, yearly_fee=0.1 * i,
-            is_etf=True, region="europe",
-            provider=f"prov-eu-{i}", asset_class="equity" if i % 2 else "bond",
+            isin=f"EU{i}",
+            name=f"Europe{i}",
+            srri=4,
+            yearly_fee=0.1 * i,
+            is_etf=True,
+            region="europe",
+            provider=f"prov-eu-{i}",
+            asset_class="equity" if i % 2 else "bond",
         )
         for i in range(1, 6)
     ]
     global_funds = [
         _fund(
-            isin=f"GL{i}", name=f"Global{i}", srri=4, yearly_fee=0.3 * i,
-            is_etf=True, region="global",
-            provider=f"prov-gl-{i}", asset_class="mixed",
+            isin=f"GL{i}",
+            name=f"Global{i}",
+            srri=4,
+            yearly_fee=0.3 * i,
+            is_etf=True,
+            region="global",
+            provider=f"prov-gl-{i}",
+            asset_class="mixed",
         )
         for i in range(1, 3)
     ]
@@ -435,12 +533,39 @@ def test_thematic_guarantee():
     engine = DecisionEngine(min_candidates=1, top_k=10, final_fund_count=3)
     # 2 high-scoring core funds + 1 low-scoring thematic fund, all different providers/categories
     funds = [
-        _fund(isin="C1", name="Core1", srri=4, yearly_fee=0.05, is_etf=True,
-              sharpe_ratio=2.0, theme="none", provider="p1", asset_class="equity"),
-        _fund(isin="C2", name="Core2", srri=4, yearly_fee=0.05, is_etf=True,
-              sharpe_ratio=2.0, theme="none", provider="p2", asset_class="bond"),
-        _fund(isin="T1", name="Tech", srri=4, yearly_fee=0.8, is_etf=True,
-              sharpe_ratio=0.1, theme="TECHNOLOGY", provider="p3", asset_class="equity"),
+        _fund(
+            isin="C1",
+            name="Core1",
+            srri=4,
+            yearly_fee=0.05,
+            is_etf=True,
+            sharpe_ratio=2.0,
+            theme="none",
+            provider="p1",
+            asset_class="equity",
+        ),
+        _fund(
+            isin="C2",
+            name="Core2",
+            srri=4,
+            yearly_fee=0.05,
+            is_etf=True,
+            sharpe_ratio=2.0,
+            theme="none",
+            provider="p2",
+            asset_class="bond",
+        ),
+        _fund(
+            isin="T1",
+            name="Tech",
+            srri=4,
+            yearly_fee=0.8,
+            is_etf=True,
+            sharpe_ratio=0.1,
+            theme="TECHNOLOGY",
+            provider="p3",
+            asset_class="equity",
+        ),
     ]
     answers = _base_answers()
     answers["preferred_themes"] = ["TECHNOLOGY"]

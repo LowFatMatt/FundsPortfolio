@@ -24,6 +24,7 @@ Conventions (match factsheetslive data/funds files, schema_version 2):
     risk_metrics.sharpe   by horizon, plain ratio (rf = 0)
     risk_metrics.max_drawdown by horizon, NEGATIVE fraction (-0.1602)
 """
+
 from __future__ import annotations
 
 import argparse
@@ -83,7 +84,11 @@ def _cagr(close: pd.Series, days: int) -> Optional[float]:
     start = _price_on_or_before(close, start_date)
     if start is None or start <= 0:
         return None
-    span = (close.index[-1] - close.loc[:start_date].index[-1]).days if not close.loc[:start_date].empty else days
+    span = (
+        (close.index[-1] - close.loc[:start_date].index[-1]).days
+        if not close.loc[:start_date].empty
+        else days
+    )
     span = max(span, 1)
     return round((end / start) ** (365.25 / span) - 1.0, 4)
 
@@ -153,7 +158,9 @@ def _nav_series(close: pd.Series) -> List[Dict[str, Any]]:
     ]
 
 
-def build_record(isin: str, ticker: str, fund_meta: Dict[str, Any], prices: pd.DataFrame) -> Dict[str, Any]:
+def build_record(
+    isin: str, ticker: str, fund_meta: Dict[str, Any], prices: pd.DataFrame
+) -> Dict[str, Any]:
     close = prices["Close"].dropna()
     close = close[~close.index.duplicated(keep="last")].sort_index()
     as_of = close.index[-1].strftime("%Y-%m-%d")
@@ -212,7 +219,9 @@ def atomic_write_json(path: Path, data: Dict[str, Any]) -> None:
     os.replace(tmp, path)
 
 
-def load_funds(db_path: Path, override_file: Optional[Path], sample: Optional[int]) -> List[Dict[str, Any]]:
+def load_funds(
+    db_path: Path, override_file: Optional[Path], sample: Optional[int]
+) -> List[Dict[str, Any]]:
     with open(db_path, "r", encoding="utf-8") as f:
         funds = json.load(f).get("funds_database", [])
     by_isin = {(fnd.get("isin") or "").upper(): fnd for fnd in funds if fnd.get("isin")}
@@ -225,7 +234,9 @@ def load_funds(db_path: Path, override_file: Optional[Path], sample: Optional[in
         funds = [by_isin[i] for i in wanted if i in by_isin]
         missing = [i for i in wanted if i not in by_isin]
         if missing:
-            logger.warning("ISINs in %s not found in DB: %s", override_file, ", ".join(missing))
+            logger.warning(
+                "ISINs in %s not found in DB: %s", override_file, ", ".join(missing)
+            )
     if sample:
         funds = funds[:sample]
     return funds
@@ -235,7 +246,9 @@ def write_reports(results: List[Dict[str, Any]], report_dir: Path) -> None:
     report_dir.mkdir(parents=True, exist_ok=True)
     summary = {
         "written": sum(1 for r in results if r["status"] == "written"),
-        "skipped_existing": sum(1 for r in results if r["status"] == "skipped_existing"),
+        "skipped_existing": sum(
+            1 for r in results if r["status"] == "skipped_existing"
+        ),
         "no_ticker": sum(1 for r in results if r["status"] == "no_ticker"),
         "no_prices": sum(1 for r in results if r["status"] == "no_prices"),
         "empty": sum(1 for r in results if r["status"] == "empty"),
@@ -246,26 +259,63 @@ def write_reports(results: List[Dict[str, Any]], report_dir: Path) -> None:
     )
     logger.info(
         "Done: %d written, %d skipped(existing), %d no-ticker, %d no-prices, %d empty",
-        summary["written"], summary["skipped_existing"], summary["no_ticker"],
-        summary["no_prices"], summary["empty"],
+        summary["written"],
+        summary["skipped_existing"],
+        summary["no_ticker"],
+        summary["no_prices"],
+        summary["empty"],
     )
     no_ticker = [r["isin"] for r in results if r["status"] == "no_ticker"]
     if no_ticker:
-        logger.info("No ticker (add one to funds_database.json to enable): %s", ", ".join(no_ticker))
+        logger.info(
+            "No ticker (add one to funds_database.json to enable): %s",
+            ", ".join(no_ticker),
+        )
 
 
 def main(argv: Optional[List[str]] = None) -> int:
     p = argparse.ArgumentParser(description=__doc__.splitlines()[1])
-    p.add_argument("--db", type=Path, default=DEFAULT_DB, help="Path to funds_database.json")
-    p.add_argument("--output", type=Path, default=DEFAULT_OUTPUT_DIR, help="Output dir for {ISIN}.json")
-    p.add_argument("--report-dir", type=Path, default=DEFAULT_REPORT_DIR, help="Where to write the run report")
-    p.add_argument("--isin-file", type=Path, default=None, help="Only these ISINs (one per line); default = all funds in DB")
-    p.add_argument("--overwrite", action="store_true", help="Regenerate files that already exist (default: skip them)")
-    p.add_argument("--use-isin-fallback", action="store_true", help="Try the ISIN as a Yahoo symbol when a fund has no ticker (rarely works for EU funds)")
-    p.add_argument("--history-years", type=int, default=5, help="Years of daily history to request")
-    p.add_argument("--sample", type=int, default=None, help="Only process the first N funds")
+    p.add_argument(
+        "--db", type=Path, default=DEFAULT_DB, help="Path to funds_database.json"
+    )
+    p.add_argument(
+        "--output",
+        type=Path,
+        default=DEFAULT_OUTPUT_DIR,
+        help="Output dir for {ISIN}.json",
+    )
+    p.add_argument(
+        "--report-dir",
+        type=Path,
+        default=DEFAULT_REPORT_DIR,
+        help="Where to write the run report",
+    )
+    p.add_argument(
+        "--isin-file",
+        type=Path,
+        default=None,
+        help="Only these ISINs (one per line); default = all funds in DB",
+    )
+    p.add_argument(
+        "--overwrite",
+        action="store_true",
+        help="Regenerate files that already exist (default: skip them)",
+    )
+    p.add_argument(
+        "--use-isin-fallback",
+        action="store_true",
+        help="Try the ISIN as a Yahoo symbol when a fund has no ticker (rarely works for EU funds)",
+    )
+    p.add_argument(
+        "--history-years", type=int, default=5, help="Years of daily history to request"
+    )
+    p.add_argument(
+        "--sample", type=int, default=None, help="Only process the first N funds"
+    )
     p.add_argument("--delay", type=float, default=1.0, help="Seconds between requests")
-    p.add_argument("--dry-run", action="store_true", help="Compute but do not write files")
+    p.add_argument(
+        "--dry-run", action="store_true", help="Compute but do not write files"
+    )
     args = p.parse_args(argv)
 
     funds = load_funds(args.db, args.isin_file, args.sample)
@@ -290,19 +340,27 @@ def main(argv: Optional[List[str]] = None) -> int:
 
         prices = fetcher.fetch_prices(identifier)
         if prices is None or prices.empty or len(prices) < 2:
-            results.append({"isin": isin, "status": "no_prices", "identifier": identifier})
+            results.append(
+                {"isin": isin, "status": "no_prices", "identifier": identifier}
+            )
         else:
             record = build_record(isin, identifier, fund, prices)
             if not has_any_data(record):
-                results.append({"isin": isin, "status": "empty", "identifier": identifier})
+                results.append(
+                    {"isin": isin, "status": "empty", "identifier": identifier}
+                )
             else:
                 if not args.dry_run:
                     atomic_write_json(out_path, record)
-                results.append({
-                    "isin": isin, "status": "written", "identifier": identifier,
-                    "nav_points": len(record["performance"]["nav_series"]),
-                    "as_of": record["as_of"],
-                })
+                results.append(
+                    {
+                        "isin": isin,
+                        "status": "written",
+                        "identifier": identifier,
+                        "nav_points": len(record["performance"]["nav_series"]),
+                        "as_of": record["as_of"],
+                    }
+                )
 
         if i < len(funds) and args.delay > 0:
             time.sleep(args.delay)
