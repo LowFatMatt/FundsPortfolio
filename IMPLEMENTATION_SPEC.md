@@ -154,7 +154,7 @@ funds_database.json (~200+ funds)
 │   ├── isin, name, provider, ticker
 │   ├── asset_class, region, theme, categories
 │   ├── risk_level (1-5), srri (1-7), yearly_fee
-│   ├── is_etf, esg_label, esg_article_8, esg_article_9
+│   ├── is_etf, esg_label (null | SFDR_ARTICLE_8 | SFDR_ARTICLE_9)
 │   ├── sharpe_ratio
 │   ├── kiid_url, kiid_status ("verified"|"pending"|"failed")
 │   └── notes

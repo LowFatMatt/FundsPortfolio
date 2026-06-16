@@ -7,7 +7,7 @@ lint:
 	python -m ruff check .
 
 test:
-	python -m pytest
+	python -m pytest tests/
 
 ci: format lint test
 

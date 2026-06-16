@@ -9,8 +9,7 @@
 | Component | File(s) | Notes |
 |-----------|---------|-------|
 | Flask app & API | `funds_portfolio/app.py` | All endpoints (Phase 1 core + Phase 2 charts/breakdowns/health) |
-| Decision engine | `funds_portfolio/portfolio/decision_engine.py` | Filter → score → select → allocate |
-| Portfolio optimizer | `funds_portfolio/portfolio/optimizer.py` | Weight allocation by risk profile |
+| Decision engine | `funds_portfolio/portfolio/decision_engine.py` | Filter → score → select → allocate (Core-Satellite + inverse-vol weighting; integer allocation output) |
 | Sharpe calculator | `funds_portfolio/portfolio/calculator.py` | Risk-adjusted return scoring |
 | Validator | `funds_portfolio/portfolio/validator.py` | Diversification, fee, count checks (max_fee default 1.50%) |
 | Portfolio aggregator | `funds_portfolio/portfolio/aggregator.py` | Phase 2: weighted NAV + breakdown rollups |

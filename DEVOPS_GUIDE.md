@@ -128,14 +128,11 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-          pip install pytest pytest-cov flake8
       
-      - name: Lint with flake8
+      - name: Lint with ruff
         run: |
-          # Stop on errors
-          flake8 funds_portfolio --count --select=E9,F63,F7,F82 --show-source --statistics
-          # Warn on style issues
-          flake8 funds_portfolio --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+          python -m ruff check .
+          python -m ruff format --check .
       
       - name: Run unit tests
         run: |

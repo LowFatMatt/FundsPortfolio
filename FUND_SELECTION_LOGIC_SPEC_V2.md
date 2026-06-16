@@ -42,13 +42,13 @@ Match fund characteristics against the user's selected risk profile. Exclude fun
 
 ### Step 2 — ESG Filter
 
-Apply the user's stated sustainability preferences per IDD Article 9 requirements:
+ESG behaves as a single three-case preference (`esg_preference`), mirroring the ETF preference model. Article 8 and Article 9 are treated together as "sustainable".
 
-- **ESG compliance required:** Exclude all funds without a positive ESG rating or ESG classification
-- **Specific ESG level required (e.g. SFDR Article 8 or Article 9):** Exclude funds not meeting that classification
-- **No ESG preference stated:** No exclusions at this step (ESG may still influence scoring in Step 6)
+- **`ART_8_9_ONLY`** — Hard filter: keep only funds whose `esg_label` is `SFDR_ARTICLE_8` or `SFDR_ARTICLE_9`. (Mandatory IDD sustainability compliance.)
+- **`PREFER_ESG`** — No exclusion here; sustainable funds receive a scoring boost in Step 6.
+- **`NONE`** — ESG is ignored entirely: no filter and no boost.
 
-**Purpose:** Mandatory compliance with IDD sustainability preference integration.
+Sustainability is derived from the single `esg_label` field (`null | SFDR_ARTICLE_8 | SFDR_ARTICLE_9`). The legacy `esg_article_8` / `esg_article_9` boolean fields have been removed.
 
 ### Step 3 — ETF Preference Filter
 
@@ -127,7 +127,7 @@ Apply scoring bonuses according to user preferences **after** the base quality s
 | Preference | Condition | Bonus |
 |------------|-----------|-------|
 | ETF | "Prefer ETFs" selected | +5 pts for all ETF funds |
-| ESG | ESG preference active but not a mandatory filter | +5 pts for all ESG funds |
+| ESG | `PREFER_ESG` selected | +5 pts for Article 8/9 funds |
 | Region | Matching preferred region | +3 pts per fund per matching region |
 | Theme | Matching preferred theme | +3 pts per fund per matching theme |
 
@@ -185,6 +185,12 @@ The resulting weight is clipped to the min/max bounds defined in Step 2.
 **Step 4: Apply regional tilt (if applicable)**
 
 If the user selected regional preferences, funds matching the preferred region receive a **relative weight increase of +20 %** (i.e. × 1.2), capped at the maximum weight for their classification.
+
+**Step 5: Normalise and finalise**
+
+Weights are normalised to sum to 100 %, the satellite total is re-capped at 30 %, and each fund's allocation is rounded to a **whole percent** for output (the largest position absorbs the rounding remainder so the total is exactly 100). API output and the GUI both present integer percentages.
+
+> ⚠️ **The 10 % minimum in the table above is a soft floor, not a hard guarantee.** It is applied at the clipping step, but the subsequent normalisation and the 30 % satellite cap can scale an individual fund below 10 % (most likely with several satellites or 5+ funds). The engine does not re-enforce a per-fund floor after normalisation. If a strict 10 % minimum is ever required, add a post-normalisation floor-and-redistribute step.
 
 #### Allocation by Risk Profile
 
@@ -251,9 +257,9 @@ User preferences are integrated at two points: as hard filters in Phase 1 and as
 
 | Preference | Selection | Action | Stage |
 |------------|-----------|--------|-------|
-| ESG | ESG-compliant required | Hard filter: exclude all non-ESG funds | Phase 1 |
-| ESG | Prefer ESG | Soft boost: +5 pts for ESG funds | Phase 2 |
-| ESG | No preference | No action | — |
+| ESG | `ART_8_9_ONLY` | Hard filter: keep only Article 8/9 funds | Phase 1 |
+| ESG | `PREFER_ESG` | Soft boost: +5 pts for Article 8/9 funds | Phase 2 |
+| ESG | `NONE` | No action (ESG ignored entirely) | — |
 | ETF | 100 % ETFs | Hard filter: exclude all active funds | Phase 1 (Step 3) |
 | ETF | Prefer ETFs | Soft boost: +5 pts for all ETFs | Phase 2 (Step 6) |
 | ETF | No preference | No action | — |
@@ -264,10 +270,11 @@ User preferences are integrated at two points: as hard filters in Phase 1 and as
 
 ### ESG Logic Detail
 
-When no ESG preference is stated:
-- Funds with ESG rating receive a **+5 pt bonus** on their total score
-- ESG classification may serve as a **tiebreaker** when multiple funds have equal total scores
-- ESG classification (SFDR Article 8 / 9) is displayed in the explainability layer for advisers
+When the user selects **`PREFER_ESG`**:
+- Article 8/9 funds (`esg_label` ∈ {`SFDR_ARTICLE_8`, `SFDR_ARTICLE_9`}) receive a **+5 pt bonus** on their total score
+- No funds are excluded
+
+When the user selects **`NONE`**, ESG has no effect on filtering or scoring. The `esg_label` value is still surfaced in the explainability layer for advisers regardless of preference.
 
 ### ETF Logic Detail
 
@@ -351,7 +358,7 @@ The following fund-level fields are required to implement this logic:
 | `yearly_fee` / `ter` | Scoring (cost efficiency) | Yes |
 | `sharpe_ratio` | Scoring (risk-adjusted return) | Yes |
 | `is_etf` | ETF preference filter | Yes |
-| `esg_label` / `esg_article_8` / `esg_article_9` | ESG filter & bonus | Yes |
+| `esg_label` (`null` / `SFDR_ARTICLE_8` / `SFDR_ARTICLE_9`) | ESG filter & bonus | Yes |
 | `region` | Regional preference matching | Yes |
 | `theme` | Thematic preference matching | Yes |
 | `asset_class` | Core/Satellite classification, diversification cap | Yes |
