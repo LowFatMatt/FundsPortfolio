@@ -150,6 +150,15 @@ def create_app():
     def brand_asset(filename: str):
         return send_from_directory(brand["dir"], filename)
 
+    # Flow-Mode wizard definitions (see MODES.md §4) — served like brand assets.
+    flows_dir = (
+        "/app/flows" if os.path.exists("/app/flows") else os.path.join(base_dir, "flows")
+    )
+
+    @app.route("/flows/<path:filename>")
+    def flow_definition(filename: str):
+        return send_from_directory(flows_dir, filename)
+
     # Home page
     @app.route("/")
     def index():

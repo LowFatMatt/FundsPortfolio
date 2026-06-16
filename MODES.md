@@ -1,6 +1,8 @@
 # Multi-Mode UI — Contracts & Architecture
 
-**Status:** Phase 0/1 — contract defined, shared result component extracted.
+**Status:** Phase 3a — contract defined; shared result component + mode handling
+(`?mode=`) live; linear Flow-Mode wizard working for the 5 logic sections
+(`flows/variantA.json`). Phase 3b adds the commercial inline steps.
 
 This document is the binding contract for the multi-mode prototype (Quick-Mode,
 Flow-Mode, future A/B flow variants). All modes share **one logic core, one REST
@@ -76,6 +78,28 @@ One SPA, selected via query parameter (default = `flow`):
 
 Branding (`brand/`) and i18n (`static/i18n/`) are already centralized and apply
 to every mode automatically — no per-mode duplication.
+
+### Why two axes (`mode` + `flowVariant`) instead of `mode=flowA`
+
+`mode` (Quick vs. Flow) and `flowVariant` (which flow layout) vary
+**independently**: a variant change stays within Flow, and Quick has no variant
+at all. Two independent dimensions → two parameters. Keeping them separate means
+a new variant is just a new `flows/X.json` (data lookup, zero code change),
+branching stays simple (`if (mode === 'flow')` instead of `flowA || flowB || …`),
+and the axes can be combined freely later.
+
+### Why Quick is its own mode, not a one-step flow
+
+Quick *could* be modelled as a degenerate single-step flow, and that is the more
+elegant end-state. We keep it separate for now because: (1) Quick is the trusted
+**reference oracle** for the Phase 6 "Quick == Flow for equal inputs" test — it
+must not run through the same wizard code it validates; (2) Quick is a stable
+internal testing/explanation tool that should not be entangled with A/B
+experimentation on the Flow surface; (3) it preserves the working status quo
+while the wizard is built. The expensive parts (field renderers, `renderResults`)
+are already shared, so unifying would save little. **Reversible:** once the
+wizard is proven, Quick can be re-expressed as `flows/quick.json` (one step, all
+sections, `showTraces: true`) and the separate path retired.
 
 ---
 

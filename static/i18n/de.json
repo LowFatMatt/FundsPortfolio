@@ -101,5 +101,9 @@
   "errors.resume_invalid": "Bitte geben Sie eine gültige Portfolio-ID ein.",
   "errors.resume_not_found": "Portfolio-ID nicht gefunden. Sie ist möglicherweise abgelaufen. Starten Sie neu oder versuchen Sie es erneut.",
   "errors.resume_failed": "Portfolio konnte nicht geladen werden.",
-  "ui.badge_active_no_etf": "Aktiv (kein ETF)"
+  "ui.badge_active_no_etf": "Aktiv (kein ETF)",
+  "ui.next": "Weiter",
+  "ui.back": "Zurück",
+  "ui.flow_step": "Schritt",
+  "errors.flow_select_option": "Bitte wählen Sie eine Option aus, um fortzufahren."
 }

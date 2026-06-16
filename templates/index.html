@@ -105,6 +105,27 @@
             </div>
         </div>
 
+        <!-- Flow-Mode wizard (one step at a time) -->
+        <div id="flow-view" class="hidden">
+            <div class="md-card animate-in">
+                <div class="flow-progress">
+                    <div class="flow-progress__track">
+                        <div id="flow-progress-fill" class="flow-progress__fill" style="width:0%"></div>
+                    </div>
+                    <div id="flow-progress-label" class="flow-progress__label"></div>
+                </div>
+
+                <div id="flow-error" class="alert alert-error hidden"></div>
+
+                <div id="flow-step-host"></div>
+
+                <div class="form-actions flow-nav">
+                    <button type="button" id="flow-back-btn" class="btn btn-secondary" data-i18n="ui.back">Back</button>
+                    <button type="button" id="flow-next-btn" class="btn btn-primary" data-i18n="ui.next">Next</button>
+                </div>
+            </div>
+        </div>
+
         <!-- Results -->
         <div id="results-view" class="hidden animate-in">
 

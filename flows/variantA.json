@@ -1,0 +1,12 @@
+{
+  "id": "A",
+  "name": "Mein Fondskompass",
+  "description": "Linear flow variant A. Phase 3a: the five logic-relevant questionnaire sections. Commercial steps (goal, contribution, product, activity) are added in Phase 3b as inline steps. See MODES.md §4.",
+  "steps": [
+    { "id": "risk",    "source": "section", "section": "risk_approach" },
+    { "id": "esg",     "source": "section", "section": "esg_preference" },
+    { "id": "etf",     "source": "section", "section": "etf_preference" },
+    { "id": "regions", "source": "section", "section": "preferred_regions" },
+    { "id": "themes",  "source": "section", "section": "preferred_themes" }
+  ]
+}

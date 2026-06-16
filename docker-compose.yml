@@ -27,6 +27,7 @@ services:
       - ${PWD}/templates:/app/templates
       - ${PWD}/static:/app/static
       - ${PWD}/brand:/app/brand
+      - ${PWD}/flows:/app/flows
 
       # Data directories
       - ${PWD}/portfolios:/app/portfolios

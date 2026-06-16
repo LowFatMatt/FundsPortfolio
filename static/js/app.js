@@ -35,12 +35,39 @@ document.addEventListener('DOMContentLoaded', () => {
     const regionLegend    = document.getElementById('chart-regions-legend');
 
     // -------------------------------------------------------------------------
+    // Mode handling (see MODES.md §3)
+    // `mode` selects the UI flavour; default is `flow`. Anything unrecognised
+    // falls back to flow. Quick-Mode shows the full technical decision trace.
+    // NOTE (interim): until the Phase 3 wizard lands, Flow-Mode reuses the
+    // single-page form; the only visible difference today is trace visibility.
+    // -------------------------------------------------------------------------
+    const urlParams   = new URLSearchParams(window.location.search);
+    const currentMode = (urlParams.get('mode') || 'flow').toLowerCase() === 'quick'
+        ? 'quick'
+        : 'flow';
+    const showTracesForMode = currentMode === 'quick';
+    document.body.dataset.mode = currentMode;
+
+    // -------------------------------------------------------------------------
     // State
     // -------------------------------------------------------------------------
     let currentPortfolioId = null;
     const supportedLangs   = ['en', 'de'];
     let currentLang        = 'en';
     let uiStrings          = {};
+    let questionnaireSections = [];   // raw sections from /api/questionnaire
+
+    // Flow-Mode (wizard) state — see MODES.md §3/§4
+    const flowView         = document.getElementById('flow-view');
+    const flowStepHost     = document.getElementById('flow-step-host');
+    const flowProgressFill = document.getElementById('flow-progress-fill');
+    const flowProgressLabel= document.getElementById('flow-progress-label');
+    const flowBackBtn      = document.getElementById('flow-back-btn');
+    const flowNextBtn      = document.getElementById('flow-next-btn');
+    let flowConfig         = null;    // loaded flows/variant<X>.json
+    let flowAnswers        = {};      // accumulated answers across steps
+    let flowStepIndex      = 0;
+    const flowVariant      = (urlParams.get('flowVariant') || 'A').toUpperCase();
 
     // Phase 2 — portfolio + chart state
     let lastPortfolio      = null;     // most recent /api/portfolio response
@@ -64,9 +91,16 @@ document.addEventListener('DOMContentLoaded', () => {
         currentPortfolioId = null;
         qForm.reset();
         clearResults();
-        showFormView(null);
+        if (currentMode === 'flow') {
+            showFlowView();
+        } else {
+            showFormView(null);
+        }
     });
     resumeForm.addEventListener('submit', handleResume);
+
+    if (flowNextBtn) flowNextBtn.addEventListener('click', flowNext);
+    if (flowBackBtn) flowBackBtn.addEventListener('click', flowBack);
 
     if (expandAllBtn) {
         expandAllBtn.addEventListener('click', () => {
@@ -158,7 +192,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const response = await fetch(`/api/questionnaire?lang=${currentLang}`);
             if (!response.ok) throw new Error(t('errors.load_questionnaire'));
             const data = await response.json();
-            renderForm(data.sections || []);
+            questionnaireSections = data.sections || [];
+            renderForm(questionnaireSections);
             loadingView.classList.add('hidden');
             welcomeView.classList.remove('hidden');
         } catch (err) {
@@ -172,53 +207,56 @@ document.addEventListener('DOMContentLoaded', () => {
     // -------------------------------------------------------------------------
     function renderForm(sections) {
         qFields.innerHTML = '';
+        sections.forEach(section => qFields.appendChild(renderSection(section)));
+    }
 
-        sections.forEach(section => {
-            const group = document.createElement('div');
-            group.className = 'field-group';
+    // Render a single questionnaire section into a `.field-group` element.
+    // Shared by the Quick-Mode form (loop) and the Flow-Mode wizard (one per step).
+    function renderSection(section) {
+        const group = document.createElement('div');
+        group.className = 'field-group';
 
-            // Label
-            const label = document.createElement('label');
-            label.className = 'field-label';
-            label.htmlFor   = section.id;
-            label.textContent = section.title || section.name || section.id;
-            if (section.required) {
-                const star = document.createElement('span');
-                star.className   = 'required-star';
-                star.textContent = ' *';
-                label.appendChild(star);
-            }
-            group.appendChild(label);
+        // Label
+        const label = document.createElement('label');
+        label.className = 'field-label';
+        label.htmlFor   = section.id;
+        label.textContent = section.title || section.name || section.id;
+        if (section.required) {
+            const star = document.createElement('span');
+            star.className   = 'required-star';
+            star.textContent = ' *';
+            label.appendChild(star);
+        }
+        group.appendChild(label);
 
-            // Description
-            if (section.description) {
-                const desc = document.createElement('p');
-                desc.className   = 'field-description';
-                desc.textContent = section.description;
-                group.appendChild(desc);
-            }
+        // Description
+        if (section.description) {
+            const desc = document.createElement('p');
+            desc.className   = 'field-description';
+            desc.textContent = section.description;
+            group.appendChild(desc);
+        }
 
-            const hint = section.display_hint || null;
+        const hint = section.display_hint || null;
 
-            if (hint === 'cards' && section.type === 'single_select') {
-                group.appendChild(renderCardGroup(section));
-            } else if (hint === 'chips') {
-                group.appendChild(renderChipGroup(section));
-            } else if (section.type === 'single_select') {
-                group.appendChild(renderSelectField(section));
-            } else if (section.type === 'multi_select') {
-                group.appendChild(renderCheckboxList(section));
-            } else {
-                const input = document.createElement('input');
-                input.type = 'text';
-                input.id   = section.id;
-                input.name = section.id;
-                if (section.required) input.required = true;
-                group.appendChild(input);
-            }
+        if (hint === 'cards' && section.type === 'single_select') {
+            group.appendChild(renderCardGroup(section));
+        } else if (hint === 'chips') {
+            group.appendChild(renderChipGroup(section));
+        } else if (section.type === 'single_select') {
+            group.appendChild(renderSelectField(section));
+        } else if (section.type === 'multi_select') {
+            group.appendChild(renderCheckboxList(section));
+        } else {
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.id   = section.id;
+            input.name = section.id;
+            if (section.required) input.required = true;
+            group.appendChild(input);
+        }
 
-            qFields.appendChild(group);
-        });
+        return group;
     }
 
     // Card grid (display_hint: "cards")
@@ -414,21 +452,7 @@ document.addEventListener('DOMContentLoaded', () => {
         clearResults();
         setLoadingState(true);
 
-        const formData    = new FormData(qForm);
-        const userAnswers = {};
-
-        for (const [key, value] of formData.entries()) {
-            if (userAnswers[key]) {
-                if (!Array.isArray(userAnswers[key])) userAnswers[key] = [userAnswers[key]];
-                userAnswers[key].push(value);
-            } else {
-                const checkboxes = qForm.querySelectorAll(`input[type="checkbox"][name="${key}"]`);
-                userAnswers[key] = checkboxes.length > 0 ? [value] : value;
-            }
-        }
-
-        // Also gather card-grid radios (they are standard radio inputs, FormData picks them up)
-        // and chip hidden inputs — already picked up by FormData
+        const userAnswers = gatherAnswers(qForm);
 
         const payload = { user_answers: userAnswers, language: currentLang };
         if (currentPortfolioId) payload.portfolio_id = currentPortfolioId;
@@ -448,7 +472,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 throw new Error((data.error || 'Failed to generate portfolio') + details);
             }
 
-            renderResults(data, { showTraces: true });
+            renderResults(data, { showTraces: showTracesForMode });
         } catch (err) {
             showError(err.message);
             setLoadingState(false);
@@ -1063,35 +1087,229 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!currentPortfolioId) activeSessionBanner.classList.add('hidden');
 
         if (prefillAnswers && Object.keys(prefillAnswers).length > 0) {
-            Object.entries(prefillAnswers).forEach(([key, value]) => {
-                const elements = qForm.querySelectorAll(`[name="${key}"]`);
-                if (!elements.length) return;
-
-                if (elements[0].type === 'checkbox') {
-                    const arr = Array.isArray(value) ? value : [value];
-                    elements.forEach(cb => { cb.checked = arr.includes(cb.value); });
-
-                    // Also update chip visual state
-                    elements.forEach(cb => {
-                        const chip = cb.closest('.chip');
-                        if (chip) chip.classList.toggle('selected', cb.checked);
-                    });
-                } else if (elements[0].type === 'radio') {
-                    elements.forEach(radio => {
-                        radio.checked = radio.value === value;
-                        const card = radio.closest('.question-card');
-                        if (card) card.classList.toggle('selected', radio.checked);
-                        const chip = radio.closest('.chip');
-                        if (chip) chip.classList.toggle('selected', radio.checked);
-                    });
-                } else if (elements[0].tagName.toLowerCase() === 'select') {
-                    const optExists = Array.from(elements[0].options).some(o => o.value === value);
-                    if (optExists) elements[0].value = value;
-                } else {
-                    elements[0].value = value;
-                }
-            });
+            applyPrefill(qForm, prefillAnswers);
         }
+    }
+
+    // -------------------------------------------------------------------------
+    // Shared input helpers — gather answers from / prefill answers into any
+    // scope (the Quick-Mode <form> or a Flow-Mode wizard step container).
+    // gatherAnswers mirrors FormData semantics: only checked radios/checkboxes
+    // contribute, checkboxes group into arrays, empty values are dropped.
+    // -------------------------------------------------------------------------
+    function gatherAnswers(scope) {
+        const answers        = {};
+        const checkboxGroups = {};
+        scope.querySelectorAll('input[name], select[name], textarea[name]').forEach(el => {
+            const key = el.name;
+            if (el.type === 'radio') {
+                if (el.checked) answers[key] = el.value;
+            } else if (el.type === 'checkbox') {
+                if (el.checked) (checkboxGroups[key] = checkboxGroups[key] || []).push(el.value);
+            } else if (el.value !== '') {
+                answers[key] = el.value;
+            }
+        });
+        Object.assign(answers, checkboxGroups);
+        return answers;
+    }
+
+    function applyPrefill(scope, answers) {
+        if (!answers) return;
+        Object.entries(answers).forEach(([key, value]) => {
+            const elements = scope.querySelectorAll(`[name="${key}"]`);
+            if (!elements.length) return;
+
+            if (elements[0].type === 'checkbox') {
+                const arr = Array.isArray(value) ? value : [value];
+                elements.forEach(cb => { cb.checked = arr.includes(cb.value); });
+                elements.forEach(cb => {
+                    const chip = cb.closest('.chip');
+                    if (chip) chip.classList.toggle('selected', cb.checked);
+                });
+            } else if (elements[0].type === 'radio') {
+                elements.forEach(radio => {
+                    radio.checked = radio.value === value;
+                    const card = radio.closest('.question-card');
+                    if (card) card.classList.toggle('selected', radio.checked);
+                    const chip = radio.closest('.chip');
+                    if (chip) chip.classList.toggle('selected', radio.checked);
+                });
+            } else if (elements[0].tagName.toLowerCase() === 'select') {
+                const optExists = Array.from(elements[0].options).some(o => o.value === value);
+                if (optExists) elements[0].value = value;
+            } else {
+                elements[0].value = value;
+            }
+        });
+    }
+
+    // -------------------------------------------------------------------------
+    // Flow-Mode wizard (see MODES.md §3/§4)
+    //
+    // Linear, declarative wizard driven by flows/variant<X>.json. Each step
+    // renders one questionnaire section via the shared renderSection(); answers
+    // accumulate in flowAnswers across steps. The final step maps them to the
+    // common input model and issues a single POST /api/portfolio — the exact
+    // same call Quick-Mode makes.
+    // -------------------------------------------------------------------------
+    async function loadFlowConfig() {
+        if (flowConfig) return flowConfig;
+        const response = await fetch(`/flows/variant${flowVariant}.json`);
+        if (!response.ok) throw new Error(`Flow config variant${flowVariant} not found`);
+        flowConfig = await response.json();
+        return flowConfig;
+    }
+
+    // Resolve the section object a step renders.
+    //   source: "section" → look up by id in the loaded questionnaire
+    //   source: "inline"  → use the section object embedded in the step (Phase 3b)
+    function resolveStepSection(step) {
+        if (step.source === 'inline') return step.section;
+        return questionnaireSections.find(s => s.id === step.section) || null;
+    }
+
+    async function showFlowView() {
+        // Reveal the wizard shell first so any config-load error is visible
+        // inside it (showError targets a node inside the hidden form-view).
+        welcomeView.classList.add('hidden');
+        formView.classList.add('hidden');
+        resultsView.classList.add('hidden');
+        flowView.classList.remove('hidden');
+        flowStepHost.innerHTML = '';
+        clearFlowError();
+
+        try {
+            await loadFlowConfig();
+        } catch (err) {
+            showFlowError(err.message);
+            return;
+        }
+        flowAnswers   = {};
+        flowStepIndex = 0;
+        renderFlowStep();
+    }
+
+    function renderFlowStep() {
+        const steps = flowConfig.steps || [];
+        const step  = steps[flowStepIndex];
+        const section = step ? resolveStepSection(step) : null;
+
+        flowStepHost.innerHTML = '';
+        clearFlowError();
+        if (section) {
+            flowStepHost.appendChild(renderSection(section));
+            applyPrefill(flowStepHost, flowAnswers);
+        }
+
+        // Progress
+        const total = steps.length;
+        const pct   = Math.round(((flowStepIndex + 1) / total) * 100);
+        if (flowProgressFill)  flowProgressFill.style.width = pct + '%';
+        if (flowProgressLabel) {
+            flowProgressLabel.textContent =
+                `${t('ui.flow_step', 'Step')} ${flowStepIndex + 1} / ${total}`;
+        }
+
+        // Nav
+        const isLast = flowStepIndex === total - 1;
+        if (flowNextBtn) {
+            flowNextBtn.textContent = isLast
+                ? t('ui.generate_portfolio', 'Generate Portfolio')
+                : t('ui.next', 'Next');
+        }
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Persist the current step's inputs into flowAnswers. Clears the keys this
+    // step owns first, so deselecting (e.g. unchecking all chips) is honoured.
+    function persistCurrentStep() {
+        const owned = new Set(
+            Array.from(flowStepHost.querySelectorAll('[name]')).map(el => el.name)
+        );
+        owned.forEach(key => delete flowAnswers[key]);
+        Object.assign(flowAnswers, gatherAnswers(flowStepHost));
+    }
+
+    function currentStepValid() {
+        const step    = flowConfig.steps[flowStepIndex];
+        const section = step ? resolveStepSection(step) : null;
+        if (!section || !section.required) return true;
+        const value = flowAnswers[section.id];
+        if (section.type === 'multi_select') return Array.isArray(value) && value.length > 0;
+        return value != null && value !== '';
+    }
+
+    function flowNext() {
+        persistCurrentStep();
+        if (!currentStepValid()) {
+            showFlowError(t('errors.flow_select_option', 'Please choose an option to continue.'));
+            return;
+        }
+        if (flowStepIndex >= flowConfig.steps.length - 1) {
+            finalizeFlow();
+            return;
+        }
+        flowStepIndex++;
+        renderFlowStep();
+    }
+
+    function flowBack() {
+        persistCurrentStep();
+        if (flowStepIndex === 0) {
+            flowView.classList.add('hidden');
+            welcomeView.classList.remove('hidden');
+            return;
+        }
+        flowStepIndex--;
+        renderFlowStep();
+    }
+
+    // Phase 3a: the wizard's 5 steps are schema sections, so their keys already
+    // match user_answers. Phase 3b replaces this with the real adapter
+    // (region Ja/Nein → preferred_regions, plus commercial-field passthrough).
+    function mapFlowToUserAnswers(answers) {
+        return { ...answers };
+    }
+
+    async function finalizeFlow() {
+        if (flowNextBtn) flowNextBtn.disabled = true;
+        const payload = {
+            user_answers: mapFlowToUserAnswers(flowAnswers),
+            language: currentLang,
+        };
+        if (currentPortfolioId) payload.portfolio_id = currentPortfolioId;
+
+        try {
+            const response = await fetch('/api/portfolio', {
+                method:  'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body:    JSON.stringify(payload),
+            });
+            const data = await response.json();
+            if (!response.ok) {
+                const details = data.details?.length ? `\nReason: ${data.details.join('; ')}` : '';
+                throw new Error((data.error || 'Failed to generate portfolio') + details);
+            }
+            flowView.classList.add('hidden');
+            renderResults(data, { showTraces: false });
+        } catch (err) {
+            showFlowError(err.message);
+        } finally {
+            if (flowNextBtn) flowNextBtn.disabled = false;
+        }
+    }
+
+    function showFlowError(msg) {
+        let box = document.getElementById('flow-error');
+        if (!box) return;
+        box.textContent = msg;
+        box.classList.remove('hidden');
+    }
+
+    function clearFlowError() {
+        const box = document.getElementById('flow-error');
+        if (box) box.classList.add('hidden');
     }
 
     // -------------------------------------------------------------------------

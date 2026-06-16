@@ -12,6 +12,7 @@ COPY config/ ./config/
 COPY templates/ ./templates/
 COPY static/ ./static/
 COPY brand/ ./brand/
+COPY flows/ ./flows/
 COPY funds_database.json preferences_schema.json data_sources.yaml ./
 
 # Phase 2: per-ISIN time-series, benchmarks, stress-period config.

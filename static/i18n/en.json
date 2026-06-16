@@ -101,5 +101,9 @@
   "errors.resume_invalid": "Please enter a valid Portfolio ID",
   "errors.resume_not_found": "Portfolio ID not found. It may have expired. Start fresh or try again.",
   "errors.resume_failed": "Failed to load portfolio.",
-  "ui.badge_active_no_etf": "active (no ETF)"
+  "ui.badge_active_no_etf": "active (no ETF)",
+  "ui.next": "Next",
+  "ui.back": "Back",
+  "ui.flow_step": "Step",
+  "errors.flow_select_option": "Please choose an option to continue."
 }

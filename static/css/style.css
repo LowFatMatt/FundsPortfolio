@@ -1313,3 +1313,31 @@ select option {
     clip: rect(0,0,0,0);
     white-space: nowrap;
 }
+
+/* ── Flow-Mode wizard (see MODES.md §3/§4) ──────────────────────────── */
+.flow-progress {
+    margin-bottom: 1.75rem;
+}
+.flow-progress__track {
+    height: 6px;
+    border-radius: 999px;
+    background: var(--md-sys-color-surface-variant, rgba(48, 54, 61, 0.5));
+    overflow: hidden;
+}
+.flow-progress__fill {
+    height: 100%;
+    border-radius: 999px;
+    background: var(--md-sys-color-primary);
+    transition: width 0.3s ease;
+}
+.flow-progress__label {
+    margin-top: 0.5rem;
+    font-size: 0.85rem;
+    color: var(--md-sys-color-on-surface-variant, var(--text-secondary));
+}
+.flow-nav {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
