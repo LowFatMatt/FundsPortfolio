@@ -1341,3 +1341,61 @@ select option {
     gap: 1rem;
     margin-top: 1.5rem;
 }
+
+/* Flow-Mode number inputs (e.g. contribution amounts) */
+.flow-number {
+    position: relative;
+    display: flex;
+    align-items: center;
+    max-width: 260px;
+}
+.flow-number__input {
+    width: 100%;
+    padding: 0.75rem 2.25rem 0.75rem 0.9rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--md-sys-color-on-surface, var(--text-primary));
+    background: var(--md-sys-color-surface, var(--input-bg));
+    border: 2px solid var(--md-sys-color-outline-variant, var(--input-border));
+    border-radius: var(--radius-input, 8px);
+    outline: none;
+    transition: border-color 0.2s;
+}
+.flow-number__input:focus {
+    border-color: var(--md-sys-color-primary);
+}
+.flow-number__suffix {
+    position: absolute;
+    right: 0.9rem;
+    font-weight: 700;
+    color: var(--md-sys-color-on-surface-variant, var(--text-secondary));
+    pointer-events: none;
+}
+
+/* Multi-select card indicator (display_hint:"cards" on a multi_select) */
+.question-card__check {
+    position: absolute;
+    top: 0.875rem;
+    left: 0.875rem;
+    width: 20px;
+    height: 20px;
+    border-radius: 6px;
+    border: 2px solid var(--md-sys-color-outline);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: border-color 0.15s ease, background 0.15s ease;
+}
+.question-card.selected .question-card__check {
+    border-color: var(--md-sys-color-primary);
+    background: var(--md-sys-color-primary);
+}
+.question-card.selected .question-card__check::after {
+    content: '';
+    width: 10px;
+    height: 6px;
+    border-left: 2px solid var(--md-sys-color-on-primary);
+    border-bottom: 2px solid var(--md-sys-color-on-primary);
+    transform: translateY(-1px) rotate(-45deg);
+}

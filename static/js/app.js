@@ -241,12 +241,34 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (hint === 'cards' && section.type === 'single_select') {
             group.appendChild(renderCardGroup(section));
+        } else if (hint === 'cards' && section.type === 'multi_select') {
+            group.appendChild(renderMultiCardGroup(section));
         } else if (hint === 'chips') {
             group.appendChild(renderChipGroup(section));
         } else if (section.type === 'single_select') {
             group.appendChild(renderSelectField(section));
         } else if (section.type === 'multi_select') {
             group.appendChild(renderCheckboxList(section));
+        } else if (section.type === 'number') {
+            const wrap = document.createElement('div');
+            wrap.className = 'flow-number';
+            const input = document.createElement('input');
+            input.type = 'number';
+            input.id   = section.id;
+            input.name = section.id;
+            input.className = 'flow-number__input';
+            if (section.min  != null) input.min  = section.min;
+            if (section.step != null) input.step = section.step;
+            if (section.value != null) input.value = section.value;
+            if (section.required) input.required = true;
+            wrap.appendChild(input);
+            if (section.suffix) {
+                const suffix = document.createElement('span');
+                suffix.className   = 'flow-number__suffix';
+                suffix.textContent = section.suffix;
+                wrap.appendChild(suffix);
+            }
+            group.appendChild(wrap);
         } else {
             const input = document.createElement('input');
             input.type = 'text';
@@ -300,6 +322,62 @@ document.addEventListener('DOMContentLoaded', () => {
                 grid.querySelectorAll('.question-card').forEach(c => c.classList.remove('selected'));
                 card.classList.add('selected');
                 radio.checked = true;
+            });
+
+            grid.appendChild(card);
+        });
+
+        return grid;
+    }
+
+    // Multi-select card grid (display_hint: "cards" on a multi_select).
+    // Optional `section.max` caps the number of simultaneously selected cards.
+    function renderMultiCardGroup(section) {
+        const grid = document.createElement('div');
+        grid.className = 'question-card-grid';
+        const max = Number(section.max) || 0; // 0 = unlimited
+
+        section.options.forEach(opt => {
+            const card = document.createElement('div');
+            card.className   = 'question-card';
+            card.dataset.value = opt.value;
+
+            const cb = document.createElement('input');
+            cb.type  = 'checkbox';
+            cb.name  = section.id;
+            cb.value = opt.value;
+            cb.id    = `${section.id}_${opt.id}`;
+            card.appendChild(cb);
+
+            const dot = document.createElement('div');
+            dot.className = 'question-card__check';
+            card.appendChild(dot);
+
+            const icon = document.createElement('div');
+            icon.className = 'question-card__icon';
+            icon.innerHTML = getCardIcon(section.id, opt.id);
+            card.appendChild(icon);
+
+            const title = document.createElement('div');
+            title.className   = 'question-card__title';
+            title.textContent = opt.label;
+            card.appendChild(title);
+
+            card.addEventListener('click', () => {
+                const isSelected = card.classList.contains('selected');
+                if (!isSelected && max) {
+                    const count = grid.querySelectorAll('.question-card.selected').length;
+                    if (count >= max) {
+                        showFlowError(
+                            t('errors.flow_max_selection', 'You can select up to {max} options.')
+                                .replace('{max}', max)
+                        );
+                        return;
+                    }
+                }
+                clearFlowError();
+                card.classList.toggle('selected');
+                cb.checked = card.classList.contains('selected');
             });
 
             grid.appendChild(card);
@@ -1122,8 +1200,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (elements[0].type === 'checkbox') {
                 const arr = Array.isArray(value) ? value : [value];
-                elements.forEach(cb => { cb.checked = arr.includes(cb.value); });
                 elements.forEach(cb => {
+                    cb.checked = arr.includes(cb.value);
+                    const card = cb.closest('.question-card');
+                    if (card) card.classList.toggle('selected', cb.checked);
                     const chip = cb.closest('.chip');
                     if (chip) chip.classList.toggle('selected', cb.checked);
                 });
@@ -1148,10 +1228,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // Flow-Mode wizard (see MODES.md §3/§4)
     //
     // Linear, declarative wizard driven by flows/variant<X>.json. Each step
-    // renders one questionnaire section via the shared renderSection(); answers
-    // accumulate in flowAnswers across steps. The final step maps them to the
-    // common input model and issues a single POST /api/portfolio — the exact
-    // same call Quick-Mode makes.
+    // renders one or more fields (questionnaire sections or inline fields) via
+    // the shared renderSection(); answers accumulate in flowAnswers across
+    // steps. The final step maps them to the common input model and issues a
+    // single POST /api/portfolio — the exact same call Quick-Mode makes.
     // -------------------------------------------------------------------------
     async function loadFlowConfig() {
         if (flowConfig) return flowConfig;
@@ -1161,12 +1241,46 @@ document.addEventListener('DOMContentLoaded', () => {
         return flowConfig;
     }
 
-    // Resolve the section object a step renders.
-    //   source: "section" → look up by id in the loaded questionnaire
-    //   source: "inline"  → use the section object embedded in the step (Phase 3b)
-    function resolveStepSection(step) {
-        if (step.source === 'inline') return step.section;
-        return questionnaireSections.find(s => s.id === step.section) || null;
+    // Resolve the section object(s) a step renders, as an array (a step may
+    // hold several fields, e.g. the contribution step's two number inputs).
+    //   source: "section" → look up by id in the loaded questionnaire (already localized)
+    //   source: "inline"  → section/fields embedded in the step (localized here)
+    function stepSections(step) {
+        if (!step) return [];
+        if (step.source === 'inline') {
+            const raw = step.fields ? step.fields : (step.section ? [step.section] : []);
+            return raw.map(localizeSection);
+        }
+        const sec = questionnaireSections.find(s => s.id === step.section);
+        if (!sec) return [];
+        // Per-step presentation overrides (e.g. render a chips section as cards
+        // with a max limit in the flow) — clone so the shared section is intact.
+        if (step.display_hint || step.max != null) {
+            return [{
+                ...sec,
+                display_hint: step.display_hint || sec.display_hint,
+                max: step.max != null ? step.max : sec.max,
+            }];
+        }
+        return [sec];
+    }
+
+    // Pick a localized string from a {de,en} object (or pass a plain string through).
+    function loc(val) {
+        if (val && typeof val === 'object' && !Array.isArray(val)) {
+            return val[currentLang] || val.en || val.de || Object.values(val)[0] || '';
+        }
+        return val;
+    }
+
+    function localizeSection(section) {
+        return {
+            ...section,
+            name:        loc(section.name),
+            title:       loc(section.title),
+            description: loc(section.description),
+            options:     (section.options || []).map(o => ({ ...o, label: loc(o.label) })),
+        };
     }
 
     async function showFlowView() {
@@ -1193,14 +1307,12 @@ document.addEventListener('DOMContentLoaded', () => {
     function renderFlowStep() {
         const steps = flowConfig.steps || [];
         const step  = steps[flowStepIndex];
-        const section = step ? resolveStepSection(step) : null;
+        const sections = stepSections(step);
 
         flowStepHost.innerHTML = '';
         clearFlowError();
-        if (section) {
-            flowStepHost.appendChild(renderSection(section));
-            applyPrefill(flowStepHost, flowAnswers);
-        }
+        sections.forEach(section => flowStepHost.appendChild(renderSection(section)));
+        applyPrefill(flowStepHost, flowAnswers);
 
         // Progress
         const total = steps.length;
@@ -1232,12 +1344,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function currentStepValid() {
-        const step    = flowConfig.steps[flowStepIndex];
-        const section = step ? resolveStepSection(step) : null;
-        if (!section || !section.required) return true;
-        const value = flowAnswers[section.id];
-        if (section.type === 'multi_select') return Array.isArray(value) && value.length > 0;
-        return value != null && value !== '';
+        return stepSections(flowConfig.steps[flowStepIndex]).every(section => {
+            if (!section.required) return true;
+            const value = flowAnswers[section.id];
+            if (section.type === 'multi_select') return Array.isArray(value) && value.length > 0;
+            return value != null && value !== '';
+        });
     }
 
     function flowNext() {
@@ -1265,9 +1377,13 @@ document.addEventListener('DOMContentLoaded', () => {
         renderFlowStep();
     }
 
-    // Phase 3a: the wizard's 5 steps are schema sections, so their keys already
-    // match user_answers. Phase 3b replaces this with the real adapter
-    // (region Ja/Nein → preferred_regions, plus commercial-field passthrough).
+    // Map accumulated flow answers to the common input model (MODES.md §1).
+    // Logic-relevant steps use questionnaire sections, so their keys already
+    // match the schema (risk_approach, esg_preference, …). Commercial inline
+    // fields (anlageziel, beitrag, produkt, …) pass through unchanged: the
+    // engine ignores unknown keys, but they are persisted with the portfolio
+    // for documentation (the "send extras" decision). No region/theme Ja-Nein
+    // adapter is needed — variant A reuses the multi-select sections directly.
     function mapFlowToUserAnswers(answers) {
         return { ...answers };
     }

@@ -1,12 +1,106 @@
 {
   "id": "A",
   "name": "Mein Fondskompass",
-  "description": "Linear flow variant A. Phase 3a: the five logic-relevant questionnaire sections. Commercial steps (goal, contribution, product, activity) are added in Phase 3b as inline steps. See MODES.md §4.",
+  "description": "Linear flow variant A (Phase 3b). Mirrors the click-dummy journey: commercial inline steps + the five logic-relevant questionnaire sections. Inline labels are bilingual ({de,en}); section steps are localized by the /api/questionnaire endpoint. Conditional branching (Komfort skip, region/theme Ja/Nein) is deferred to Phase 4 — here every step is shown in sequence. See MODES.md §4.",
   "steps": [
-    { "id": "risk",    "source": "section", "section": "risk_approach" },
-    { "id": "esg",     "source": "section", "section": "esg_preference" },
-    { "id": "etf",     "source": "section", "section": "etf_preference" },
-    { "id": "regions", "source": "section", "section": "preferred_regions" },
-    { "id": "themes",  "source": "section", "section": "preferred_themes" }
+    {
+      "id": "goal",
+      "source": "inline",
+      "section": {
+        "id": "anlageziel",
+        "type": "single_select",
+        "display_hint": "cards",
+        "required": true,
+        "name": { "de": "Welches Anlageziel haben Sie?", "en": "What is your investment goal?" },
+        "description": { "de": "Wählen Sie das Ziel, das am besten zu Ihrer Situation passt.", "en": "Choose the goal that best fits your situation." },
+        "options": [
+          { "id": "altersvorsorge", "value": "altersvorsorge", "label": { "de": "Altersvorsorge", "en": "Retirement provision" } },
+          { "id": "vermoegensaufbau", "value": "vermoegensaufbau", "label": { "de": "Vermögensaufbau", "en": "Wealth building" } },
+          { "id": "kapitalanlage", "value": "kapitalanlage", "label": { "de": "Kapitalanlage", "en": "Capital investment" } }
+        ]
+      }
+    },
+    {
+      "id": "payment",
+      "source": "inline",
+      "section": {
+        "id": "beitrag",
+        "type": "single_select",
+        "display_hint": "cards",
+        "required": true,
+        "name": { "de": "Wie soll Ihr Beitrag gezahlt werden?", "en": "How would you like to contribute?" },
+        "description": { "de": "Wählen Sie Ihre bevorzugte Zahlungsweise.", "en": "Choose your preferred payment method." },
+        "options": [
+          { "id": "laufend", "value": "laufend", "label": { "de": "Laufender Beitrag", "en": "Recurring contribution" } },
+          { "id": "einmalig", "value": "einmalig", "label": { "de": "Einmalbeitrag", "en": "One-off contribution" } },
+          { "id": "beides", "value": "beides", "label": { "de": "Beides", "en": "Both" } }
+        ]
+      }
+    },
+    {
+      "id": "contribution",
+      "source": "inline",
+      "fields": [
+        {
+          "id": "beitragLaufend",
+          "type": "number",
+          "required": false,
+          "min": 25,
+          "step": 5,
+          "value": 100,
+          "suffix": "€",
+          "name": { "de": "Monatlicher Beitrag", "en": "Monthly contribution" },
+          "description": { "de": "Mindestbeitrag: 25 € monatlich.", "en": "Minimum: €25 per month." }
+        },
+        {
+          "id": "beitragEinmalig",
+          "type": "number",
+          "required": false,
+          "min": 1000,
+          "step": 500,
+          "value": 10000,
+          "suffix": "€",
+          "name": { "de": "Einmalbeitrag", "en": "One-off contribution" },
+          "description": { "de": "Mindesteinmalbeitrag: 1.000 €.", "en": "Minimum one-off: €1,000." }
+        }
+      ]
+    },
+    {
+      "id": "product",
+      "source": "inline",
+      "section": {
+        "id": "produkt",
+        "type": "single_select",
+        "display_hint": "cards",
+        "required": true,
+        "name": { "de": "Welche Rentenversicherung kommt für Sie in Frage?", "en": "Which pension product suits you?" },
+        "description": { "de": "Wählen Sie das Produkt, das zu Ihren Zielen und Ihrer Risikobereitschaft passt.", "en": "Choose the product that matches your goals and risk appetite." },
+        "options": [
+          { "id": "fondsrente_vario", "value": "FondsRente Vario", "label": { "de": "FondsRente Vario – clever investieren, flexibel profitieren", "en": "FondsRente Vario – invest smartly, stay flexible" } },
+          { "id": "garantrente_vario", "value": "GarantRente Vario", "label": { "de": "GarantRente Vario – Sicherheit trifft Renditechancen", "en": "GarantRente Vario – security meets opportunity" } }
+        ]
+      }
+    },
+    { "id": "risk",   "source": "section", "section": "risk_approach" },
+    { "id": "esg",    "source": "section", "section": "esg_preference" },
+    { "id": "etf",    "source": "section", "section": "etf_preference" },
+    {
+      "id": "activity",
+      "source": "inline",
+      "section": {
+        "id": "aktivitaet",
+        "type": "single_select",
+        "display_hint": "cards",
+        "required": true,
+        "name": { "de": "Wie aktiv möchten Sie Ihr Fondsportfolio gestalten?", "en": "How actively do you want to shape your portfolio?" },
+        "description": { "de": "Wählen Sie, wie viel Mitgestaltung Sie sich wünschen.", "en": "Choose how much you want to be involved." },
+        "options": [
+          { "id": "komfort", "value": "Komfort-Kunde", "label": { "de": "Komfort-Kunde – Management durch die Provinzial Experten", "en": "Comfort client – managed by Provinzial experts" } },
+          { "id": "aktiv", "value": "Aktiv-Kunde", "label": { "de": "Aktiv-Kunde – selbst zusammenstellen und anpassen", "en": "Active client – build and adjust it yourself" } }
+        ]
+      }
+    },
+    { "id": "regions", "source": "section", "section": "preferred_regions", "display_hint": "cards" },
+    { "id": "themes",  "source": "section", "section": "preferred_themes", "display_hint": "cards", "max": 2 }
   ]
 }

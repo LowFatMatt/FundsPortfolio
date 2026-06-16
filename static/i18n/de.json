@@ -105,5 +105,6 @@
   "ui.next": "Weiter",
   "ui.back": "Zurück",
   "ui.flow_step": "Schritt",
-  "errors.flow_select_option": "Bitte wählen Sie eine Option aus, um fortzufahren."
+  "errors.flow_select_option": "Bitte wählen Sie eine Option aus, um fortzufahren.",
+  "errors.flow_max_selection": "Sie können bis zu {max} Optionen auswählen."
 }

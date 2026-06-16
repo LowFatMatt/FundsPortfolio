@@ -1,8 +1,10 @@
 # Multi-Mode UI — Contracts & Architecture
 
-**Status:** Phase 3a — contract defined; shared result component + mode handling
-(`?mode=`) live; linear Flow-Mode wizard working for the 5 logic sections
-(`flows/variantA.json`). Phase 3b adds the commercial inline steps.
+**Status:** Phase 3b — contract defined; shared result component + mode handling
+(`?mode=`) live; linear Flow-Mode wizard reproduces the full click-dummy journey
+(commercial inline steps + 5 logic sections) via `flows/variantA.json`. Commercial
+fields are collected and persisted but ignored by the engine. Conditional
+branching (Komfort skip, region/theme Ja/Nein) is deferred to Phase 4.
 
 This document is the binding contract for the multi-mode prototype (Quick-Mode,
 Flow-Mode, future A/B flow variants). All modes share **one logic core, one REST
@@ -87,6 +89,18 @@ at all. Two independent dimensions → two parameters. Keeping them separate mea
 a new variant is just a new `flows/X.json` (data lookup, zero code change),
 branching stays simple (`if (mode === 'flow')` instead of `flowA || flowB || …`),
 and the axes can be combined freely later.
+
+### Resuming a portfolio across modes
+
+A portfolio's `user_answers` carries whatever the originating mode collected —
+for Flow-Mode that includes the commercial extras (`anlageziel`, `beitrag`,
+`produkt`, …). When you **resume** such a portfolio in **Quick-Mode** and
+regenerate, only the five logic sections are re-collected (the Quick form has no
+inputs for the commercial fields), so the extras are dropped from the new
+portfolio. This is expected and intentional: the recommendation is identical
+(the engine never used those fields), and it doubles as a handy way to **strip a
+portfolio down to its logic-relevant inputs**. Resume currently always opens the
+Quick form, even in Flow-Mode; prefilling the wizard is a later enhancement.
 
 ### Why Quick is its own mode, not a one-step flow
 
