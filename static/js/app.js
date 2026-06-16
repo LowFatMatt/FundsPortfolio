@@ -857,7 +857,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 </td>
                 <td><span class="star-rating" title="${t('ui.detail_quality_score', 'Quality score')}: ${rec.quality_score ?? '—'}">${stars}</span></td>
                 <td><span class="badge ${badgeCls}">${escHtml(assetLabel)}</span></td>
-                <td><span class="fund-alloc">${(rec.allocation_percent || 0).toFixed(1)}%</span></td>
+                <td><span class="fund-alloc">${Math.round(rec.allocation_percent || 0)}%</span></td>
                 <td>
                     <button class="fund-expand-btn" aria-expanded="false" aria-label="${t('ui.detail_show', 'Show details')}" data-idx="${idx}">
                         <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">

@@ -788,7 +788,7 @@ class DecisionEngine:
 
         for f in selected:
             isin = f["isin"]
-            alloc = round(weights.get(isin, 0.0) * 100, 0)
+            alloc = int(round(weights.get(isin, 0.0) * 100))
 
             reasons = []
             if f.get("is_etf"):
@@ -897,11 +897,9 @@ class DecisionEngine:
 
         # Fix rounding to sum 100
         total = sum(r["allocation_percent"] for r in recs)
-        diff = round(100.0 - total, 2)
+        diff = int(round(100 - total))
         if recs and abs(diff) > 0:
-            recs[0]["allocation_percent"] = round(
-                recs[0]["allocation_percent"] + diff, 2
-            )
+            recs[0]["allocation_percent"] = recs[0]["allocation_percent"] + diff
 
         return recs, explanations
 
