@@ -144,5 +144,13 @@ answers owned by hidden steps are not sent in the final POST. Variant B uses
 this for the Komfort skip (`aktivitaet notEquals "Komfort-Kunde"`) and the
 region/theme Ja/Nein gates (`set_region`/`set_themes equals "ja"`).
 
+`showIf` also works at the **field level** inside an inline `fields` step: a
+field with an unmet condition is hidden while the step itself stays visible.
+The contribution step uses this so only the relevant amount field shows per
+payment mode (`beitragLaufend` when `beitrag notEquals "einmalig"`,
+`beitragEinmalig` when `beitrag notEquals "laufend"`). The Next/"Generate"
+button label is re-evaluated live as selections change, since the deciding
+answer (e.g. Komfort vs. Aktiv) is made on the very step that governs it.
+
 **Adding a variant:** drop a new `flows/variant<X>.json` and open
 `?mode=flow&flowVariant=<X>` — no code change.

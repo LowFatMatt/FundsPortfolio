@@ -49,6 +49,7 @@
           "step": 5,
           "value": 100,
           "suffix": "€",
+          "showIf": { "field": "beitrag", "notEquals": "einmalig" },
           "name": { "de": "Monatlicher Beitrag", "en": "Monthly contribution" },
           "description": { "de": "Mindestbeitrag: 25 € monatlich.", "en": "Minimum: €25 per month." }
         },
@@ -60,6 +61,7 @@
           "step": 500,
           "value": 10000,
           "suffix": "€",
+          "showIf": { "field": "beitrag", "notEquals": "laufend" },
           "name": { "de": "Einmalbeitrag", "en": "One-off contribution" },
           "description": { "de": "Mindesteinmalbeitrag: 1.000 €.", "en": "Minimum one-off: €1,000." }
         }

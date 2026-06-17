@@ -101,6 +101,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (flowNextBtn) flowNextBtn.addEventListener('click', flowNext);
     if (flowBackBtn) flowBackBtn.addEventListener('click', flowBack);
+    if (flowStepHost) {
+        flowStepHost.addEventListener('click',  onFlowStepInteract);
+        flowStepHost.addEventListener('change', onFlowStepInteract);
+    }
 
     if (expandAllBtn) {
         expandAllBtn.addEventListener('click', () => {
@@ -1235,7 +1239,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // -------------------------------------------------------------------------
     async function loadFlowConfig() {
         if (flowConfig) return flowConfig;
-        const response = await fetch(`/flows/variant${flowVariant}.json`);
+        const response = await fetch(`/flows/variant${flowVariant}.json`, { cache: 'no-store' });
         if (!response.ok) throw new Error(`Flow config variant${flowVariant} not found`);
         flowConfig = await response.json();
         return flowConfig;
@@ -1337,7 +1341,9 @@ document.addEventListener('DOMContentLoaded', () => {
     function renderFlowStep() {
         const steps = flowConfig.steps || [];
         const step  = steps[flowStepIndex];
-        const sections = stepSections(step);
+        // Field-level visibility: within a step, fields with an unmet `showIf`
+        // are hidden (e.g. only the relevant contribution field per payment mode).
+        const sections = stepSections(step).filter(stepVisible);
 
         flowStepHost.innerHTML = '';
         clearFlowError();
@@ -1355,14 +1361,28 @@ document.addEventListener('DOMContentLoaded', () => {
                 `${t('ui.flow_step', 'Step')} ${pos} / ${total}`;
         }
 
-        // Nav
-        const isLast = nextVisibleIndex(flowStepIndex) === -1;
-        if (flowNextBtn) {
-            flowNextBtn.textContent = isLast
-                ? t('ui.generate_portfolio', 'Generate Portfolio')
-                : t('ui.next', 'Next');
-        }
+        setFlowNavLabel();
         window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Whether the current step is the last visible one (→ "Generate" vs "Next").
+    // Recomputed live because the deciding answer (e.g. Komfort vs Aktiv) is
+    // chosen on the very step whose lookahead it governs.
+    function setFlowNavLabel() {
+        if (!flowNextBtn) return;
+        const isLast = nextVisibleIndex(flowStepIndex) === -1;
+        flowNextBtn.textContent = isLast
+            ? t('ui.generate_portfolio', 'Generate Portfolio')
+            : t('ui.next', 'Next');
+    }
+
+    // Re-sync answers + nav label whenever the user changes a selection on the
+    // current step (card/chip clicks set inputs programmatically, so we listen
+    // on the host rather than relying on native change events alone).
+    function onFlowStepInteract() {
+        if (!flowConfig || flowView.classList.contains('hidden')) return;
+        persistCurrentStep();
+        setFlowNavLabel();
     }
 
     // Persist the current step's inputs into flowAnswers. Clears the keys this
