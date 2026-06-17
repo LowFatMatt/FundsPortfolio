@@ -80,7 +80,7 @@ class DecisionEngine:
         min_candidates: int = 0,  # set the mimimu to zero to avoid relaxations alltogether to find the limits of our funds universe.
         top_k: int = 15,
         final_fund_count: int = 5,
-        max_per_provider: int = 1,
+        max_per_provider: int = 5,  # the value "5" ultimately disables the provider cap
         max_per_category: int = 2,
     ):
         self.min_candidates = min_candidates
