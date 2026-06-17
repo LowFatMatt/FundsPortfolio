@@ -1,0 +1,159 @@
+{
+  "id": "B",
+  "name": "Mein Fondskompass (geführt)",
+  "description": "Conditional flow variant B (Phase 4). Same commercial + logic steps as variant A, but dummy-faithful guided navigation: choosing 'Komfort-Kunde' at the activity step skips straight to the result, and region/theme selection is gated behind a Ja/Nein question (showIf). Hidden steps' answers are not sent. See MODES.md §4.",
+  "steps": [
+    {
+      "id": "goal",
+      "source": "inline",
+      "section": {
+        "id": "anlageziel",
+        "type": "single_select",
+        "display_hint": "cards",
+        "required": true,
+        "name": { "de": "Welches Anlageziel haben Sie?", "en": "What is your investment goal?" },
+        "description": { "de": "Wählen Sie das Ziel, das am besten zu Ihrer Situation passt.", "en": "Choose the goal that best fits your situation." },
+        "options": [
+          { "id": "altersvorsorge", "value": "altersvorsorge", "label": { "de": "Altersvorsorge", "en": "Retirement provision" } },
+          { "id": "vermoegensaufbau", "value": "vermoegensaufbau", "label": { "de": "Vermögensaufbau", "en": "Wealth building" } },
+          { "id": "kapitalanlage", "value": "kapitalanlage", "label": { "de": "Kapitalanlage", "en": "Capital investment" } }
+        ]
+      }
+    },
+    {
+      "id": "payment",
+      "source": "inline",
+      "section": {
+        "id": "beitrag",
+        "type": "single_select",
+        "display_hint": "cards",
+        "required": true,
+        "name": { "de": "Wie soll Ihr Beitrag gezahlt werden?", "en": "How would you like to contribute?" },
+        "description": { "de": "Wählen Sie Ihre bevorzugte Zahlungsweise.", "en": "Choose your preferred payment method." },
+        "options": [
+          { "id": "laufend", "value": "laufend", "label": { "de": "Laufender Beitrag", "en": "Recurring contribution" } },
+          { "id": "einmalig", "value": "einmalig", "label": { "de": "Einmalbeitrag", "en": "One-off contribution" } },
+          { "id": "beides", "value": "beides", "label": { "de": "Beides", "en": "Both" } }
+        ]
+      }
+    },
+    {
+      "id": "contribution",
+      "source": "inline",
+      "fields": [
+        {
+          "id": "beitragLaufend",
+          "type": "number",
+          "required": false,
+          "min": 25,
+          "step": 5,
+          "value": 100,
+          "suffix": "€",
+          "name": { "de": "Monatlicher Beitrag", "en": "Monthly contribution" },
+          "description": { "de": "Mindestbeitrag: 25 € monatlich.", "en": "Minimum: €25 per month." }
+        },
+        {
+          "id": "beitragEinmalig",
+          "type": "number",
+          "required": false,
+          "min": 1000,
+          "step": 500,
+          "value": 10000,
+          "suffix": "€",
+          "name": { "de": "Einmalbeitrag", "en": "One-off contribution" },
+          "description": { "de": "Mindesteinmalbeitrag: 1.000 €.", "en": "Minimum one-off: €1,000." }
+        }
+      ]
+    },
+    {
+      "id": "product",
+      "source": "inline",
+      "section": {
+        "id": "produkt",
+        "type": "single_select",
+        "display_hint": "cards",
+        "required": true,
+        "name": { "de": "Welche Rentenversicherung kommt für Sie in Frage?", "en": "Which pension product suits you?" },
+        "description": { "de": "Wählen Sie das Produkt, das zu Ihren Zielen und Ihrer Risikobereitschaft passt.", "en": "Choose the product that matches your goals and risk appetite." },
+        "options": [
+          { "id": "fondsrente_vario", "value": "FondsRente Vario", "label": { "de": "FondsRente Vario – clever investieren, flexibel profitieren", "en": "FondsRente Vario – invest smartly, stay flexible" } },
+          { "id": "garantrente_vario", "value": "GarantRente Vario", "label": { "de": "GarantRente Vario – Sicherheit trifft Renditechancen", "en": "GarantRente Vario – security meets opportunity" } }
+        ]
+      }
+    },
+    { "id": "risk", "source": "section", "section": "risk_approach" },
+    { "id": "esg",  "source": "section", "section": "esg_preference" },
+    { "id": "etf",  "source": "section", "section": "etf_preference" },
+    {
+      "id": "activity",
+      "source": "inline",
+      "section": {
+        "id": "aktivitaet",
+        "type": "single_select",
+        "display_hint": "cards",
+        "required": true,
+        "name": { "de": "Wie aktiv möchten Sie Ihr Fondsportfolio gestalten?", "en": "How actively do you want to shape your portfolio?" },
+        "description": { "de": "Komfort-Kunden erhalten direkt einen Vorschlag; Aktiv-Kunden wählen Region und Themen selbst.", "en": "Comfort clients get a direct proposal; active clients choose region and themes themselves." },
+        "options": [
+          { "id": "komfort", "value": "Komfort-Kunde", "label": { "de": "Komfort-Kunde – Management durch die Provinzial Experten", "en": "Comfort client – managed by Provinzial experts" } },
+          { "id": "aktiv", "value": "Aktiv-Kunde", "label": { "de": "Aktiv-Kunde – selbst zusammenstellen und anpassen", "en": "Active client – build and adjust it yourself" } }
+        ]
+      }
+    },
+    {
+      "id": "region_gate",
+      "source": "inline",
+      "showIf": { "field": "aktivitaet", "notEquals": "Komfort-Kunde" },
+      "section": {
+        "id": "set_region",
+        "type": "single_select",
+        "display_hint": "cards",
+        "required": true,
+        "name": { "de": "Möchten Sie eine Region besonders gewichten?", "en": "Do you want to weight a specific region?" },
+        "description": { "de": "Sie können gezielt regionale Schwerpunkte setzen.", "en": "You can deliberately set regional focuses." },
+        "options": [
+          { "id": "nein", "value": "nein", "label": { "de": "Keine Präferenz", "en": "No preference" } },
+          { "id": "ja", "value": "ja", "label": { "de": "Ja, Region auswählen", "en": "Yes, choose a region" } }
+        ]
+      }
+    },
+    {
+      "id": "regions",
+      "source": "section",
+      "section": "preferred_regions",
+      "display_hint": "cards",
+      "showIf": { "allOf": [
+        { "field": "aktivitaet", "notEquals": "Komfort-Kunde" },
+        { "field": "set_region", "equals": "ja" }
+      ] }
+    },
+    {
+      "id": "themes_gate",
+      "source": "inline",
+      "showIf": { "field": "aktivitaet", "notEquals": "Komfort-Kunde" },
+      "section": {
+        "id": "set_themes",
+        "type": "single_select",
+        "display_hint": "cards",
+        "required": true,
+        "name": { "de": "Welche Themen und Trends sollen abgebildet sein?", "en": "Which themes and trends should be reflected?" },
+        "description": { "de": "Entscheiden Sie, ob Sie thematische Schwerpunkte setzen möchten.", "en": "Decide whether you want thematic focuses." },
+        "options": [
+          { "id": "nein", "value": "nein", "label": { "de": "Keine Präferenz", "en": "No preference" } },
+          { "id": "ja", "value": "ja", "label": { "de": "Ja, Themen auswählen", "en": "Yes, choose themes" } }
+        ]
+      }
+    },
+    {
+      "id": "themes",
+      "source": "section",
+      "section": "preferred_themes",
+      "display_hint": "cards",
+      "max": 2,
+      "showIf": { "allOf": [
+        { "field": "aktivitaet", "notEquals": "Komfort-Kunde" },
+        { "field": "set_themes", "equals": "ja" }
+      ] }
+    }
+  ]
+}

@@ -1283,6 +1283,36 @@ document.addEventListener('DOMContentLoaded', () => {
         };
     }
 
+    // Conditional visibility — a step may declare `showIf`, either a single
+    // condition or { allOf: [conditions] }. A condition is { field, equals } or
+    // { field, notEquals }, evaluated against accumulated answers. Steps whose
+    // condition fails are skipped during navigation (and dropped from progress).
+    function evalCond(c) {
+        const v = flowAnswers[c.field];
+        if ('equals' in c)    return v === c.equals;
+        if ('notEquals' in c) return v !== c.notEquals;
+        return true;
+    }
+    function stepVisible(step) {
+        const cond = step && step.showIf;
+        if (!cond) return true;
+        if (Array.isArray(cond.allOf)) return cond.allOf.every(evalCond);
+        return evalCond(cond);
+    }
+    function visibleSteps() {
+        return (flowConfig.steps || []).filter(stepVisible);
+    }
+    function nextVisibleIndex(from) {
+        const steps = flowConfig.steps || [];
+        for (let i = from + 1; i < steps.length; i++) if (stepVisible(steps[i])) return i;
+        return -1;
+    }
+    function prevVisibleIndex(from) {
+        const steps = flowConfig.steps || [];
+        for (let i = from - 1; i >= 0; i--) if (stepVisible(steps[i])) return i;
+        return -1;
+    }
+
     async function showFlowView() {
         // Reveal the wizard shell first so any config-load error is visible
         // inside it (showError targets a node inside the hidden form-view).
@@ -1300,7 +1330,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
         flowAnswers   = {};
-        flowStepIndex = 0;
+        flowStepIndex = Math.max(0, nextVisibleIndex(-1));
         renderFlowStep();
     }
 
@@ -1314,17 +1344,19 @@ document.addEventListener('DOMContentLoaded', () => {
         sections.forEach(section => flowStepHost.appendChild(renderSection(section)));
         applyPrefill(flowStepHost, flowAnswers);
 
-        // Progress
-        const total = steps.length;
-        const pct   = Math.round(((flowStepIndex + 1) / total) * 100);
+        // Progress — counts only currently-visible steps
+        const vis   = visibleSteps();
+        const total = vis.length;
+        const pos   = vis.indexOf(step) + 1;
+        const pct   = total ? Math.round((pos / total) * 100) : 0;
         if (flowProgressFill)  flowProgressFill.style.width = pct + '%';
         if (flowProgressLabel) {
             flowProgressLabel.textContent =
-                `${t('ui.flow_step', 'Step')} ${flowStepIndex + 1} / ${total}`;
+                `${t('ui.flow_step', 'Step')} ${pos} / ${total}`;
         }
 
         // Nav
-        const isLast = flowStepIndex === total - 1;
+        const isLast = nextVisibleIndex(flowStepIndex) === -1;
         if (flowNextBtn) {
             flowNextBtn.textContent = isLast
                 ? t('ui.generate_portfolio', 'Generate Portfolio')
@@ -1358,22 +1390,24 @@ document.addEventListener('DOMContentLoaded', () => {
             showFlowError(t('errors.flow_select_option', 'Please choose an option to continue.'));
             return;
         }
-        if (flowStepIndex >= flowConfig.steps.length - 1) {
+        const next = nextVisibleIndex(flowStepIndex);
+        if (next === -1) {
             finalizeFlow();
             return;
         }
-        flowStepIndex++;
+        flowStepIndex = next;
         renderFlowStep();
     }
 
     function flowBack() {
         persistCurrentStep();
-        if (flowStepIndex === 0) {
+        const prev = prevVisibleIndex(flowStepIndex);
+        if (prev === -1) {
             flowView.classList.add('hidden');
             welcomeView.classList.remove('hidden');
             return;
         }
-        flowStepIndex--;
+        flowStepIndex = prev;
         renderFlowStep();
     }
 
@@ -1385,7 +1419,16 @@ document.addEventListener('DOMContentLoaded', () => {
     // for documentation (the "send extras" decision). No region/theme Ja-Nein
     // adapter is needed — variant A reuses the multi-select sections directly.
     function mapFlowToUserAnswers(answers) {
-        return { ...answers };
+        // Drop answers owned by currently-hidden steps so a Komfort skip or a
+        // "Nein" gate doesn't leak stale region/theme selections from earlier
+        // back-navigation. Everything else (logic keys + extras) passes through.
+        const hidden = new Set();
+        (flowConfig.steps || [])
+            .filter(step => !stepVisible(step))
+            .forEach(step => stepSections(step).forEach(s => hidden.add(s.id)));
+        const out = {};
+        Object.entries(answers).forEach(([k, v]) => { if (!hidden.has(k)) out[k] = v; });
+        return out;
     }
 
     async function finalizeFlow() {

@@ -1,10 +1,10 @@
 # Multi-Mode UI — Contracts & Architecture
 
-**Status:** Phase 3b — contract defined; shared result component + mode handling
-(`?mode=`) live; linear Flow-Mode wizard reproduces the full click-dummy journey
-(commercial inline steps + 5 logic sections) via `flows/variantA.json`. Commercial
-fields are collected and persisted but ignored by the engine. Conditional
-branching (Komfort skip, region/theme Ja/Nein) is deferred to Phase 4.
+**Status:** Phase 4 — contract defined; shared result component + mode handling
+(`?mode=`) live. Two flow variants: A (`flows/variantA.json`, linear reference)
+and B (`flows/variantB.json`, dummy-faithful with conditional navigation —
+Komfort skip + region/theme Ja/Nein gates). Switch via `?flowVariant=A|B`.
+Commercial fields are collected/persisted but ignored by the engine.
 
 This document is the binding contract for the multi-mode prototype (Quick-Mode,
 Flow-Mode, future A/B flow variants). All modes share **one logic core, one REST
@@ -117,10 +117,32 @@ sections, `showTraces: true`) and the separate path retired.
 
 ---
 
-## 4. Flow definitions (planned, Phase 3+)
+## 4. Flow definitions
 
-Flow step grouping/ordering lives in **separate declarative configs** (e.g.
-`flows/variantA.json`) that reference questionnaire section IDs — decoupled from
+Flow step grouping/ordering lives in **separate declarative configs**
+(`flows/variant<X>.json`, served at `/flows/...`) — decoupled from
 `preferences_schema.json` so A/B reordering needs no schema changes. The wizard
 accumulates answers in the frontend and issues **one** `POST /api/portfolio`
 at the final step (identical call to Quick-Mode).
+
+**Step shape:**
+- `{ "source": "section", "section": "<id>" }` — render a questionnaire section
+  (localized by the API). Optional `display_hint` / `max` override its
+  presentation in the flow only (e.g. render a `chips` section as `cards` with a
+  selection cap), without touching the shared schema.
+- `{ "source": "inline", "section": {…} }` or `{ "source": "inline", "fields": [{…}] }`
+  — fields defined in the config itself (commercial steps, number inputs). Inline
+  labels/descriptions are bilingual objects `{ "de": …, "en": … }`, resolved to
+  the active language at render time. Field `type` supports `single_select`,
+  `multi_select`, and `number` (with `min`/`step`/`value`/`suffix`).
+
+**Conditional navigation** (`showIf`): any step may declare
+`"showIf": { "field": "<id>", "equals"|"notEquals": "<value>" }` or
+`"showIf": { "allOf": [ <conditions> ] }`. Steps whose condition fails are
+skipped during next/back navigation and excluded from the progress count;
+answers owned by hidden steps are not sent in the final POST. Variant B uses
+this for the Komfort skip (`aktivitaet notEquals "Komfort-Kunde"`) and the
+region/theme Ja/Nein gates (`set_region`/`set_themes equals "ja"`).
+
+**Adding a variant:** drop a new `flows/variant<X>.json` and open
+`?mode=flow&flowVariant=<X>` — no code change.
