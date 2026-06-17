@@ -149,5 +149,49 @@ def test_quick_flow_equivalence(mock_ticker, client):
     assert fingerprint(quick) == fingerprint(flow)
 
 
+@patch("funds_portfolio.data.price_fetcher.yf.Ticker")
+def test_decision_trace_stages(mock_ticker, client):
+    """The decision trace exposes the ranking, selection and allocation stages
+    so the recommendation is transparent (see MODES.md §1)."""
+    mock_instance = MagicMock()
+    mock_instance.history.return_value = MagicMock(empty=True)
+    mock_ticker.return_value = mock_instance
+
+    answers = {
+        "risk_approach": "aggressive",
+        "esg_preference": "PREFER_ESG",
+        "etf_preference": "prefer_etf",
+        "preferred_regions": ["global"],
+        "preferred_themes": ["technology"],
+    }
+    resp = client.post("/api/portfolio", json={"user_answers": answers})
+    assert resp.status_code == 201
+    trace = resp.json["decision_trace"]
+
+    # Ranking stage: bounded to top_k, each candidate carries a score breakdown
+    ranking = trace["ranking"]
+    assert ranking["formula"] == {"sharpe": 5, "mdd": 3, "ter": 2}
+    assert 0 < len(ranking["candidates"]) <= ranking["top_k"]
+    valid_status = {
+        "selected", "skipped_provider_cap", "skipped_category_cap",
+        "dropped_thematic", "dropped_regional_cap", "not_reached",
+    }
+    for c in ranking["candidates"]:
+        assert c["status"] in valid_status
+        assert {"rank", "isin", "base", "boosts", "final"} <= set(c)
+    # Exactly the recommended funds are marked "selected"
+    selected = [c for c in ranking["candidates"] if c["status"] == "selected"]
+    assert len(selected) == len(resp.json["recommendations"])
+
+    # Selection + allocation stages present
+    assert "events" in trace["selection"] and "caps" in trace["selection"]
+    alloc = trace["allocation"]
+    assert "satellite_cap_applied" in alloc
+    assert len(alloc["funds"]) == len(resp.json["recommendations"])
+    for fund in alloc["funds"]:
+        assert fund["class"] in {"core", "satellite"}
+        assert {"inv_vol_raw", "tier_bounds", "after_clip", "final_weight"} <= set(fund)
+
+
 if __name__ == "__main__":
     pytest.main([__file__, "-v"])

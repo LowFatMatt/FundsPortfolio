@@ -26,6 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const decisionSummaryText = document.getElementById('decision-summary-text');
     const decisionFilters = document.getElementById('decision-filters');
     const userAnswersFilters = document.getElementById('user-answers-filters');
+    const decisionTraceDetail = document.getElementById('decision-trace-detail');
     const langSelect      = document.getElementById('lang-select');
     const fundTableBody   = document.getElementById('fund-table-body');
     const fundCount       = document.getElementById('fund-count');
@@ -612,6 +613,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             }
         }
+
+        renderDecisionTrace(portfolio.decision_trace, showTraces);
 
         // Render user answers as filter pills (same styling as decision-filters)
         if (userAnswersFilters) {
@@ -1515,6 +1518,179 @@ document.addEventListener('DOMContentLoaded', () => {
         span.className   = 'decision-filter';
         span.textContent = text;
         return span;
+    }
+
+    // -------------------------------------------------------------------------
+    // Deep decision trace (Quick-Mode only — see MODES.md §1/§2)
+    // Renders the ranking/scoring, selection adjustments and allocation
+    // breakdown. Hidden in Flow-Mode (showTraces=false).
+    // -------------------------------------------------------------------------
+    const TRACE_STATUS = {
+        selected:             { key: 'ui.trace_status_selected',  fallback: 'Selected',            cls: 'trace-status--ok' },
+        skipped_provider_cap: { key: 'ui.trace_status_provider',  fallback: 'Skipped · provider cap', cls: 'trace-status--skip' },
+        skipped_category_cap: { key: 'ui.trace_status_category',  fallback: 'Skipped · category cap', cls: 'trace-status--skip' },
+        dropped_thematic:     { key: 'ui.trace_status_thematic',  fallback: 'Dropped · theme swap', cls: 'trace-status--drop' },
+        dropped_regional_cap: { key: 'ui.trace_status_regional',  fallback: 'Dropped · regional cap', cls: 'trace-status--drop' },
+        not_reached:          { key: 'ui.trace_status_not_reached', fallback: 'Not reached',        cls: 'trace-status--muted' },
+    };
+
+    function pct(frac) {
+        return frac == null ? '—' : `${(Number(frac) * 100).toFixed(1)}%`;
+    }
+
+    function fmtBoosts(boosts) {
+        const entries = Object.entries(boosts || {});
+        if (!entries.length) return '—';
+        return entries.map(([k, v]) => `${k} +${v}`).join(', ');
+    }
+
+    function renderDecisionTrace(trace, showTraces) {
+        const host = decisionTraceDetail;
+        if (!host) return;
+        host.innerHTML = '';
+        const hasTrace = !!(trace && (trace.ranking || trace.selection || trace.allocation));
+        host.classList.toggle('hidden', !showTraces || !hasTrace);
+        if (!showTraces || !hasTrace) return;
+
+        const heading = (text) => {
+            const h = document.createElement('h3');
+            h.className = 'decision-trace__heading';
+            h.textContent = text;
+            host.appendChild(h);
+        };
+        const note = (text) => {
+            const p = document.createElement('p');
+            p.className = 'decision-trace__note';
+            p.textContent = text;
+            host.appendChild(p);
+        };
+
+        // Ranking & selection
+        const ranking = trace.ranking;
+        if (ranking?.candidates?.length) {
+            heading(t('ui.trace_ranking_title', 'Ranking & selection'));
+            const f = ranking.formula || {};
+            note(t('ui.trace_formula',
+                'Base score = Sharpe×{s} + max-drawdown×{m} + TER×{t} (each normalised 0–10); preference boosts are added on top.')
+                .replace('{s}', f.sharpe).replace('{m}', f.mdd).replace('{t}', f.ter));
+            host.appendChild(buildRankingTable(ranking.candidates));
+        }
+
+        // Selection adjustments (not obvious from the ranking table alone)
+        const shownTypes = ['thematic_insert', 'regional_cap_drop', 'regional_cap_fill', 'caps_relaxed', 'etf_fallback_fill'];
+        const events = (trace.selection?.events || []).filter(e => shownTypes.includes(e.type));
+        if (events.length) {
+            heading(t('ui.trace_events_title', 'Adjustments'));
+            host.appendChild(buildEventList(events));
+        }
+
+        // Allocation
+        const alloc = trace.allocation;
+        if (alloc?.funds?.length) {
+            heading(t('ui.trace_alloc_title', 'Allocation'));
+            if (alloc.satellite_cap_applied) {
+                note(t('ui.trace_sat_cap', 'Satellite total was capped at 30%.'));
+            }
+            host.appendChild(buildAllocationTable(alloc.funds));
+        }
+    }
+
+    function buildRankingTable(candidates) {
+        const table = document.createElement('table');
+        table.className = 'trace-table';
+        table.innerHTML = `
+            <thead><tr>
+                <th>#</th>
+                <th>${t('ui.col_fund', 'Fund')}</th>
+                <th>${t('ui.trace_col_base', 'Base')}</th>
+                <th>${t('ui.trace_col_boosts', 'Boosts')}</th>
+                <th>${t('ui.trace_col_final', 'Final')}</th>
+                <th>${t('ui.trace_col_status', 'Status')}</th>
+            </tr></thead>`;
+        const tbody = document.createElement('tbody');
+        candidates.forEach(c => {
+            const st = TRACE_STATUS[c.status] || TRACE_STATUS.not_reached;
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td>${c.rank}</td>
+                <td>
+                    <div class="trace-fund-name">${escHtml(c.name || c.isin || '')}</div>
+                    <div class="trace-fund-sub">${escHtml(c.provider || '')}</div>
+                </td>
+                <td>${c.base ?? '—'}</td>
+                <td>${escHtml(fmtBoosts(c.boosts))}</td>
+                <td><strong>${c.final ?? '—'}</strong></td>
+                <td><span class="trace-status ${st.cls}">${t(st.key, st.fallback)}</span></td>`;
+            tbody.appendChild(tr);
+        });
+        table.appendChild(tbody);
+        return table;
+    }
+
+    function buildEventList(events) {
+        const ul = document.createElement('ul');
+        ul.className = 'decision-trace__events';
+        events.forEach(e => {
+            let text;
+            switch (e.type) {
+                case 'thematic_insert':
+                    text = t('ui.trace_ev_thematic', 'Theme guarantee: {in} replaced {out}.')
+                        .replace('{in}', e.inserted_name || e.inserted)
+                        .replace('{out}', e.dropped_name || e.dropped);
+                    break;
+                case 'regional_cap_drop':
+                    text = t('ui.trace_ev_regdrop', 'Regional cap: dropped {name}.').replace('{name}', e.name || e.isin);
+                    break;
+                case 'regional_cap_fill':
+                    text = t('ui.trace_ev_regfill', 'Regional cap: added {name}.').replace('{name}', e.name || e.isin);
+                    break;
+                case 'caps_relaxed':
+                    text = t('ui.trace_ev_relaxed', 'Diversification caps relaxed to reach the target fund count.');
+                    break;
+                case 'etf_fallback_fill':
+                    text = t('ui.trace_ev_etffill', 'ETF-only fallback: added active fund {name}.').replace('{name}', e.name || e.isin);
+                    break;
+                default:
+                    text = e.type;
+            }
+            const li = document.createElement('li');
+            li.textContent = text;
+            ul.appendChild(li);
+        });
+        return ul;
+    }
+
+    function buildAllocationTable(funds) {
+        const table = document.createElement('table');
+        table.className = 'trace-table';
+        table.innerHTML = `
+            <thead><tr>
+                <th>${t('ui.col_fund', 'Fund')}</th>
+                <th>${t('ui.trace_col_class', 'Class')}</th>
+                <th>${t('ui.trace_col_invvol', 'Inv-vol')}</th>
+                <th>${t('ui.trace_col_clip', 'After clip')}</th>
+                <th>${t('ui.trace_col_tilt', 'Tilt')}</th>
+                <th>${t('ui.trace_col_weight', 'Weight')}</th>
+            </tr></thead>`;
+        const tbody = document.createElement('tbody');
+        funds.forEach(f => {
+            const cls = f.class === 'satellite'
+                ? t('ui.class_satellite', 'Satellite')
+                : t('ui.class_core', 'Core');
+            const bounds = Array.isArray(f.tier_bounds)
+                ? ` (${pct(f.tier_bounds[0])}–${pct(f.tier_bounds[1])})` : '';
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td><div class="trace-fund-name">${escHtml(f.name || f.isin || '')}</div></td>
+                <td>${escHtml(cls)}</td>
+                <td>${pct(f.inv_vol_raw)}</td>
+                <td>${pct(f.after_clip)}<span class="trace-fund-sub">${bounds}</span></td>
+                <td>${f.regional_tilt ? '×1.2' : '—'}</td>
+                <td><strong>${pct(f.final_weight)}</strong></td>`;
+            tbody.appendChild(tr);
+        });
+        table.appendChild(tbody);
+        return table;
     }
 
     function escHtml(str) {

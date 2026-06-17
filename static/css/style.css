@@ -1399,3 +1399,75 @@ select option {
     border-bottom: 2px solid var(--md-sys-color-on-primary);
     transform: translateY(-1px) rotate(-45deg);
 }
+
+/* ── Deep decision trace (Quick-Mode) ───────────────────────────────── */
+.decision-trace-detail {
+    margin-top: 1.5rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--md-sys-color-outline-variant);
+}
+.decision-trace__heading {
+    font-size: var(--md-typescale-title-small-size, 1rem);
+    font-weight: 600;
+    color: var(--md-sys-color-on-surface);
+    margin: 1.25rem 0 0.25rem;
+}
+.decision-trace__heading:first-child { margin-top: 0; }
+.decision-trace__note {
+    font-size: 0.8rem;
+    color: var(--md-sys-color-on-surface-variant);
+    margin: 0 0 0.6rem;
+}
+.decision-trace__events {
+    margin: 0.25rem 0 0;
+    padding-left: 1.1rem;
+    color: var(--md-sys-color-on-surface);
+    font-size: 0.85rem;
+}
+.decision-trace__events li { margin: 0.2rem 0; }
+
+.trace-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.82rem;
+}
+.trace-table th,
+.trace-table td {
+    text-align: left;
+    padding: 0.45rem 0.5rem;
+    border-bottom: 1px solid var(--md-sys-color-outline-variant);
+    vertical-align: top;
+}
+.trace-table th {
+    color: var(--md-sys-color-on-surface-variant);
+    font-weight: 600;
+}
+.trace-fund-name { color: var(--md-sys-color-on-surface); }
+.trace-fund-sub {
+    color: var(--md-sys-color-on-surface-variant);
+    font-size: 0.72rem;
+}
+.trace-status {
+    display: inline-block;
+    padding: 0.1rem 0.5rem;
+    border-radius: var(--radius-pill, 999px);
+    font-size: 0.72rem;
+    font-weight: 600;
+    white-space: nowrap;
+}
+.trace-status--ok {
+    background: var(--md-sys-color-success-container);
+    color: var(--md-sys-color-on-success-container);
+}
+.trace-status--skip {
+    background: var(--md-sys-color-warning-container);
+    color: var(--md-sys-color-on-warning-container);
+}
+.trace-status--drop {
+    background: var(--md-sys-color-error-container);
+    color: var(--md-sys-color-on-error-container);
+}
+.trace-status--muted {
+    background: var(--md-sys-color-surface-variant);
+    color: var(--md-sys-color-on-surface-variant);
+}

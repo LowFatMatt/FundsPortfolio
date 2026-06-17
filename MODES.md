@@ -40,7 +40,15 @@ these fields:
 | `explanations.summary` | user-facing decision summary |
 | `decision_trace.filters[]` | **technical trace:** filter steps `{name, before, after}` |
 | `decision_trace.relaxations[]` | **technical trace:** relaxed constraints `{name, before, after, reason}` |
+| `decision_trace.ranking` | **technical trace:** `{formula, top_k, candidates[]}` — the top_k scored pool with per-candidate breakdown (`base`, `sharpe_norm`, `mdd_norm`, `ter_norm`, `boosts`, `final`) and selection `status` (selected / skipped_provider_cap / skipped_category_cap / dropped_thematic / dropped_regional_cap / not_reached) |
+| `decision_trace.selection` | **technical trace:** `{caps, events[]}` — diversification caps and selection adjustments (provider/category-cap skips, caps_relaxed, thematic_insert, regional_cap_drop/fill, etf_fallback_fill) |
+| `decision_trace.allocation` | **technical trace:** `{satellite_cap_applied, funds[]}` — per-fund weighting: `class` (core/satellite), `inv_vol_raw`, `tier_bounds`, `after_clip`, `regional_tilt`, `final_weight` |
 | `user_answers` | echo of the submitted answers |
+
+The `ranking`/`selection`/`allocation` stages are **recording only** — the
+engine computes them as a by-product of the existing pipeline and they never
+influence the recommendation. Quick-Mode renders them in the Preferences tab;
+Flow-Mode (`showTraces: false`) hides them.
 
 **Partial input:** `ql.apply_defaults()` already injects defaults for missing
 logic-relevant answers, so the endpoint tolerates incomplete `user_answers`

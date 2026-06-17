@@ -260,12 +260,27 @@ class DecisionEngine:
             active_fallback = self._score_funds(active_pool, user_answers, risk_profile)
 
         scored = self._score_funds(working, user_answers, risk_profile)
+        trace["selection"] = {
+            "caps": {
+                "max_per_provider": self.max_per_provider,
+                "max_per_category": self.max_per_category,
+            },
+            "events": [],
+        }
         selected = self._select_funds(
-            scored, user_answers, active_fallback=active_fallback
+            scored, user_answers, active_fallback=active_fallback, trace=trace
         )
 
         # 7) Allocate weights
-        allocations = self._allocate_weights(selected, user_answers, risk_profile)
+        trace["allocation"] = {"satellite_cap_applied": False, "funds": []}
+        allocations = self._allocate_weights(
+            selected, user_answers, risk_profile, trace=trace
+        )
+
+        # Ranking trace: the top_k pool with per-candidate score breakdown and
+        # final selection status. Records the initial sort (performance/vol +
+        # boosts) and which funds were skipped/dropped and why. Recording only.
+        trace["ranking"] = self._build_ranking_trace(scored, selected, trace)
 
         # 8) Build recommendations and explanations
         recommendations, explanations = self._build_recommendations(
@@ -554,11 +569,19 @@ class DecisionEngine:
         scored: List[Dict[str, Any]],
         user_answers: Optional[Dict[str, Any]] = None,
         active_fallback: Optional[List[Dict[str, Any]]] = None,
+        trace: Optional[Dict[str, Any]] = None,
     ) -> List[Dict[str, Any]]:
         pool = scored[: self.top_k]
         selected: List[Dict[str, Any]] = []
         provider_count: Dict[str, int] = {}
         category_count: Dict[str, int] = {}
+
+        # Trace-only: record selection decisions without affecting them.
+        events = trace["selection"]["events"] if trace and "selection" in trace else None
+
+        def _note(event: Dict[str, Any]) -> None:
+            if events is not None:
+                events.append(event)
 
         def category_for(f: Dict[str, Any]) -> str:
             return str(f.get("asset_class") or "other").lower()
@@ -567,8 +590,20 @@ class DecisionEngine:
             provider = f.get("provider") or "unknown"
             category = category_for(f)
             if provider_count.get(provider, 0) >= self.max_per_provider:
+                _note({
+                    "type": "provider_cap_skip",
+                    "isin": f.get("isin"),
+                    "name": f.get("name"),
+                    "provider": provider,
+                })
                 continue
             if category_count.get(category, 0) >= self.max_per_category:
+                _note({
+                    "type": "category_cap_skip",
+                    "isin": f.get("isin"),
+                    "name": f.get("name"),
+                    "category": category,
+                })
                 continue
             selected.append(f)
             provider_count[provider] = provider_count.get(provider, 0) + 1
@@ -578,12 +613,16 @@ class DecisionEngine:
 
         if len(selected) < self.final_fund_count:
             # Relax diversification caps to reach target count
+            added: List[str] = []
             for f in pool:
                 if f in selected:
                     continue
                 selected.append(f)
+                added.append(f.get("isin"))
                 if len(selected) >= self.final_fund_count:
                     break
+            if added:
+                _note({"type": "caps_relaxed", "added": added})
 
         # Edge case 2: ETF-only fallback — fill remaining slots with active funds
         if active_fallback and len(selected) < self.final_fund_count:
@@ -595,6 +634,11 @@ class DecisionEngine:
                 f_copy["etf_not_available"] = True
                 selected.append(f_copy)
                 selected_isins.add(f["isin"])
+                _note({
+                    "type": "etf_fallback_fill",
+                    "isin": f.get("isin"),
+                    "name": f.get("name"),
+                })
                 if len(selected) >= self.final_fund_count:
                     break
 
@@ -630,6 +674,13 @@ class DecisionEngine:
                         )
                         selected.remove(worst)
                         selected.append(to_insert)
+                        _note({
+                            "type": "thematic_insert",
+                            "inserted": to_insert.get("isin"),
+                            "inserted_name": to_insert.get("name"),
+                            "dropped": worst.get("isin"),
+                            "dropped_name": worst.get("name"),
+                        })
 
         # Edge case 3: Regional concentration cap — max 3 of 5 from same preferred region
         def _region_match(f: Dict[str, Any]) -> bool:
@@ -658,6 +709,12 @@ class DecisionEngine:
                     reverse=True,
                 )
                 to_drop = {f["isin"] for f in regional_sorted[3:]}
+                for f in regional_sorted[3:]:
+                    _note({
+                        "type": "regional_cap_drop",
+                        "isin": f.get("isin"),
+                        "name": f.get("name"),
+                    })
                 selected = [f for f in selected if f["isin"] not in to_drop]
                 selected_isins = {f["isin"] for f in selected}
                 for f in scored:
@@ -669,8 +726,66 @@ class DecisionEngine:
                         continue  # already have 3
                     selected.append(f)
                     selected_isins.add(f["isin"])
+                    _note({
+                        "type": "regional_cap_fill",
+                        "isin": f.get("isin"),
+                        "name": f.get("name"),
+                    })
 
         return selected
+
+    def _build_ranking_trace(
+        self,
+        scored: List[Dict[str, Any]],
+        selected: List[Dict[str, Any]],
+        trace: Dict[str, Any],
+    ) -> Dict[str, Any]:
+        """Build the ranking-stage trace: the top_k pool with per-candidate
+        score breakdown (base + boosts → final) and final selection status.
+        Recording only — does not influence the recommendation.
+        """
+        selected_isins = {f.get("isin") for f in selected}
+
+        # Map a non-selected candidate to the reason it didn't make the cut.
+        status_by_isin: Dict[str, str] = {}
+        for ev in trace.get("selection", {}).get("events", []):
+            etype = ev.get("type")
+            if etype == "provider_cap_skip":
+                status_by_isin.setdefault(ev["isin"], "skipped_provider_cap")
+            elif etype == "category_cap_skip":
+                status_by_isin.setdefault(ev["isin"], "skipped_category_cap")
+            elif etype == "thematic_insert":
+                status_by_isin.setdefault(ev["dropped"], "dropped_thematic")
+            elif etype == "regional_cap_drop":
+                status_by_isin.setdefault(ev["isin"], "dropped_regional_cap")
+
+        candidates = []
+        for rank, f in enumerate(scored[: self.top_k], start=1):
+            sc = f.get("_scores", {})
+            isin = f.get("isin")
+            if isin in selected_isins:
+                status = "selected"
+            else:
+                status = status_by_isin.get(isin, "not_reached")
+            candidates.append({
+                "rank": rank,
+                "isin": isin,
+                "name": f.get("name"),
+                "provider": f.get("provider"),
+                "base": sc.get("base"),
+                "sharpe_norm": sc.get("sharpe_norm"),
+                "mdd_norm": sc.get("mdd_norm"),
+                "ter_norm": sc.get("ter_norm"),
+                "boosts": sc.get("boosts", {}),
+                "final": sc.get("final"),
+                "status": status,
+            })
+
+        return {
+            "formula": {"sharpe": 5, "mdd": 3, "ter": 2},
+            "top_k": self.top_k,
+            "candidates": candidates,
+        }
 
     # --- Core-Satellite helpers ---
     @staticmethod
@@ -699,9 +814,14 @@ class DecisionEngine:
         selected: List[Dict[str, Any]],
         user_answers: Dict[str, Any],
         risk_profile: str,
+        trace: Optional[Dict[str, Any]] = None,
     ) -> Dict[str, float]:
         if not selected:
             return {}
+
+        # Trace-only: per-fund weighting breakdown, populated as we go.
+        alloc_rec: Dict[str, Dict[str, Any]] = {}
+        sat_cap_applied = False
 
         # Classify and rank funds
         cores = [f for f in selected if self._classify_core_satellite(f) == "core"]
@@ -730,11 +850,21 @@ class DecisionEngine:
             isin = f["isin"]
             w_min, w_max = self._tiered_bounds(rank, is_sat)
             weights[isin] = max(w_min, min(w_max, raw_weights[isin]))
+            alloc_rec[isin] = {
+                "isin": isin,
+                "name": f.get("name"),
+                "class": "satellite" if is_sat else "core",
+                "inv_vol_raw": round(raw_weights[isin], 4),
+                "tier_bounds": [w_min, w_max],
+                "after_clip": round(weights[isin], 4),
+                "regional_tilt": False,
+            }
 
         # Enforce satellite total cap (30%)
         sat_isins = {f["isin"] for f in satellites}
         sat_total = sum(weights[i] for i in sat_isins)
         if sat_total > 0.30:
+            sat_cap_applied = True
             scale = 0.30 / sat_total
             for isin in sat_isins:
                 weights[isin] *= scale
@@ -766,6 +896,8 @@ class DecisionEngine:
                         isin in sat_isins,
                     )
                     weights[isin] = min(weights[isin] * 1.2, w_max)
+                    if isin in alloc_rec:
+                        alloc_rec[isin]["regional_tilt"] = True
 
         # Normalise to sum to 1.0
         weights = self._normalize(weights)
@@ -775,6 +907,7 @@ class DecisionEngine:
         sat_isins = {f["isin"] for f in satellites}
         sat_total = sum(weights.get(i, 0.0) for i in sat_isins)
         if sat_total > 0.30:
+            sat_cap_applied = True
             scale = 0.30 / sat_total
             for isin in sat_isins:
                 if isin in weights:
@@ -788,6 +921,15 @@ class DecisionEngine:
                 cscale = target_core / core_total
                 for isin in core_isins:
                     weights[isin] = weights[isin] * cscale
+
+        # Trace-only: finalise the per-fund allocation breakdown.
+        if trace is not None and "allocation" in trace:
+            for isin, rec in alloc_rec.items():
+                rec["final_weight"] = round(weights.get(isin, 0.0), 4)
+            trace["allocation"]["satellite_cap_applied"] = sat_cap_applied
+            trace["allocation"]["funds"] = [
+                alloc_rec[f["isin"]] for f in selected if f["isin"] in alloc_rec
+            ]
 
         return weights
 
