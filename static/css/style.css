@@ -1321,7 +1321,7 @@ select option {
 .flow-progress__track {
     height: 6px;
     border-radius: 999px;
-    background: var(--md-sys-color-surface-variant, rgba(48, 54, 61, 0.5));
+    background: var(--md-sys-color-surface-variant);
     overflow: hidden;
 }
 .flow-progress__fill {
@@ -1333,7 +1333,7 @@ select option {
 .flow-progress__label {
     margin-top: 0.5rem;
     font-size: 0.85rem;
-    color: var(--md-sys-color-on-surface-variant, var(--text-secondary));
+    color: var(--md-sys-color-on-surface-variant);
 }
 .flow-nav {
     display: flex;
@@ -1354,9 +1354,9 @@ select option {
     padding: 0.75rem 2.25rem 0.75rem 0.9rem;
     font-size: 1.1rem;
     font-weight: 600;
-    color: var(--md-sys-color-on-surface, var(--text-primary));
-    background: var(--md-sys-color-surface, var(--input-bg));
-    border: 2px solid var(--md-sys-color-outline-variant, var(--input-border));
+    color: var(--md-sys-color-on-surface);
+    background: var(--md-sys-color-surface);
+    border: 2px solid var(--md-sys-color-outline-variant);
     border-radius: var(--radius-input, 8px);
     outline: none;
     transition: border-color 0.2s;
@@ -1368,7 +1368,7 @@ select option {
     position: absolute;
     right: 0.9rem;
     font-weight: 700;
-    color: var(--md-sys-color-on-surface-variant, var(--text-secondary));
+    color: var(--md-sys-color-on-surface-variant);
     pointer-events: none;
 }
 

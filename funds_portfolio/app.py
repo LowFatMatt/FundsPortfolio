@@ -152,7 +152,9 @@ def create_app():
 
     # Flow-Mode wizard definitions (see MODES.md §4) — served like brand assets.
     flows_dir = (
-        "/app/flows" if os.path.exists("/app/flows") else os.path.join(base_dir, "flows")
+        "/app/flows"
+        if os.path.exists("/app/flows")
+        else os.path.join(base_dir, "flows")
     )
 
     @app.route("/flows/<path:filename>")

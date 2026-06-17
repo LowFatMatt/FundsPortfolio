@@ -24,6 +24,14 @@ FundsPortfolio is a Flask-based portfolio recommender for investment funds. It l
 2. `PYTHONPATH=. python -m funds_portfolio.app`
 3. Open `http://localhost:5000/`
 
+**UI Modes**
+
+The same app and API serve two UI modes, selected by query parameter (see [MODES.md](MODES.md)):
+- `http://localhost:5000/?mode=quick` → **Quick-Mode**: single-page form + full decision trace (logic testing).
+- `http://localhost:5000/` or `?mode=flow` → **Flow-Mode**: a multi-step wizard (default). `?flowVariant=A` is the linear reference flow; `?flowVariant=B` adds dummy-faithful guided navigation (Komfort skip + region/theme gates).
+
+Both modes collect inputs differently but issue the **same** `POST /api/portfolio` call and render results through one shared component. Flow definitions live in [flows/](flows/) as declarative JSON.
+
 **API Endpoints**
 
 Core (Phase 1):

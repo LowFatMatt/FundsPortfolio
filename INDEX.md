@@ -25,6 +25,7 @@
 | i18n | `static/i18n/` | UI strings in `en.json` / `de.json` (incl. `stress.*`, period & vol labels) |
 | Scraper (offline) | `scripts/sync_factsheetslive.py` | Pulls per-ISIN data into `data/funds/{ISIN}.json` |
 | Customer catalog tools | `scripts/build_customer_catalog.py`, `scripts/select_customer.py` | Phase 2.5: build a customer-specific catalog and activate it |
+| UI modes & flows | `MODES.md`, `flows/`, `static/js/app.js` | Quick-Mode (`?mode=quick`) + Flow-Mode wizard (`?mode=flow&flowVariant=A\|B`); shared result component; declarative flow configs |
 
 ---
 
@@ -40,6 +41,7 @@
 | `DEVOPS_README.md` | DevOps summary: design decisions, security checklist |
 | `GITHUB_ACTIONS_GUIDE.md` | CI/CD troubleshooting & best practices reference |
 | `GITHUB_ACTIONS_SETUP.md` | GitHub secrets & workflow configuration |
+| `MODES.md` | UI modes (Quick/Flow), the single-API contract, shared result component, declarative flow definitions (`showIf`, A/B variants) |
 | `BRANDING_GUIDE.md` | Brand pack format, token schema, adding themes |
 | `I18N_GUIDE.md` | i18n structure, adding languages, fallback behaviour |
 | `CONTRIBUTING.md` | How to contribute, CLA, PR workflow |

@@ -97,5 +97,57 @@ def test_index_route(client):
     assert b"<html" in response.data
 
 
+def test_flow_definition_endpoint(client):
+    """Flow-Mode wizard configs are served as JSON with a `steps` array."""
+    for variant in ("A", "B"):
+        response = client.get(f"/flows/variant{variant}.json")
+        assert response.status_code == 200
+        data = response.json
+        assert isinstance(data.get("steps"), list) and data["steps"]
+
+
+@patch("funds_portfolio.data.price_fetcher.yf.Ticker")
+def test_quick_flow_equivalence(mock_ticker, client):
+    """Quick-Mode and Flow-Mode hit the same endpoint and must yield the same
+    portfolio for the same logic-relevant inputs.
+
+    The Flow payload carries extra commercial fields (anlageziel, beitrag,
+    produkt, …) that the engine does not consume. This proves both that the API
+    is mode-agnostic and that the extras never influence the recommendation.
+    See MODES.md §1.
+    """
+    mock_instance = MagicMock()
+    mock_instance.history.return_value = MagicMock(empty=True)
+    mock_ticker.return_value = mock_instance
+
+    logic_answers = {
+        "risk_approach": "moderate",
+        "esg_preference": "NONE",
+        "etf_preference": "prefer_etf",
+        "preferred_regions": ["global"],
+        "preferred_themes": ["none"],
+    }
+    flow_answers = {
+        **logic_answers,
+        "anlageziel": "altersvorsorge",
+        "beitrag": "beides",
+        "beitragLaufend": "150",
+        "beitragEinmalig": "10000",
+        "produkt": "FondsRente Vario",
+        "aktivitaet": "Aktiv-Kunde",
+    }
+
+    quick = client.post("/api/portfolio", json={"user_answers": logic_answers})
+    flow = client.post("/api/portfolio", json={"user_answers": flow_answers})
+    assert quick.status_code == 201 and flow.status_code == 201
+
+    def fingerprint(resp):
+        data = resp.json
+        recs = [(r["isin"], r["allocation_percent"]) for r in data["recommendations"]]
+        return data["risk_profile"], recs
+
+    assert fingerprint(quick) == fingerprint(flow)
+
+
 if __name__ == "__main__":
     pytest.main([__file__, "-v"])
