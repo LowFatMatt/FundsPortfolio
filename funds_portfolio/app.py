@@ -194,6 +194,43 @@ def create_app():
     def health():
         return jsonify({"status": "ok"}), 200
 
+    # ---- OpenAPI documentation ----
+    # Spec lives next to this module so the docker COPY/bind-mount picks it up
+    # automatically; Swagger UI is loaded from a CDN to avoid vendoring assets.
+    openapi_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "openapi.yaml")
+
+    @app.route("/openapi.yaml")
+    def openapi_spec():
+        if not os.path.exists(openapi_path):
+            return jsonify({"error": "OpenAPI spec not found"}), 404
+        with open(openapi_path, "r", encoding="utf-8") as f:
+            return f.read(), 200, {"Content-Type": "application/yaml"}
+
+    @app.route("/docs")
+    def api_docs():
+        return render_template_string(
+            """<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FundsPortfolio API – Docs</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swagger-ui-dist@5/swagger-ui.css">
+</head>
+<body>
+  <div id="swagger-ui"></div>
+  <script src="https://cdn.jsdelivr.net/npm/swagger-ui-dist@5/swagger-ui-bundle.js"></script>
+  <script>
+    window.ui = SwaggerUIBundle({
+      url: "/openapi.yaml",
+      dom_id: "#swagger-ui",
+      deepLinking: true,
+    });
+  </script>
+</body>
+</html>"""
+        )
+
     from funds_portfolio.questionnaire.loader import get_questionnaire_loader
     from funds_portfolio.data.fund_manager import get_fund_manager
     from funds_portfolio.portfolio.validator import PortfolioValidator

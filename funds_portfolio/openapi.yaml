@@ -1,0 +1,494 @@
+openapi: 3.0.3
+info:
+  title: FundsPortfolio API
+  version: "1.0.0"
+  description: >
+    REST API of the FundsPortfolio service. Builds risk-profiled fund
+    portfolio recommendations from a questionnaire and serves per-fund and
+    per-portfolio time-series, risk and breakdown data.
+  contact:
+    name: FundsPortfolio
+servers:
+  - url: /
+    description: Same origin as this documentation page
+
+tags:
+  - name: Meta
+    description: Health and service status
+  - name: Questionnaire
+    description: Questionnaire definition
+  - name: Portfolio
+    description: Portfolio creation and retrieval
+  - name: Funds
+    description: Fund catalog and per-fund data
+  - name: Config
+    description: Static configuration (benchmarks, stress periods)
+
+paths:
+  /health:
+    get:
+      tags: [Meta]
+      summary: Liveness probe
+      operationId: getHealth
+      responses:
+        "200":
+          description: Service is up
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: ok
+
+  /api/data/health:
+    get:
+      tags: [Meta]
+      summary: Data layer health
+      description: Reports availability and freshness of the underlying data sources.
+      operationId: getDataHealth
+      responses:
+        "200":
+          description: Data health report
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+
+  /api/questionnaire:
+    get:
+      tags: [Questionnaire]
+      summary: Get the questionnaire definition
+      operationId: getQuestionnaire
+      parameters:
+        - name: lang
+          in: query
+          required: false
+          description: >
+            ISO 639-1 language code (e.g. `de`, `en`). If omitted, the first
+            language from the `Accept-Language` header is used.
+          schema:
+            type: string
+            example: de
+      responses:
+        "200":
+          description: Questionnaire structure (questions, options, metadata)
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+
+  /api/portfolio:
+    post:
+      tags: [Portfolio]
+      summary: Create a portfolio recommendation
+      description: >
+        Validates the supplied questionnaire answers, runs the decision engine
+        and persists the resulting portfolio. Returns the full portfolio object.
+      operationId: createPortfolio
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreatePortfolioRequest"
+      responses:
+        "201":
+          description: Portfolio created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Portfolio"
+        "400":
+          description: Missing or invalid input
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationError"
+        "422":
+          description: >
+            No eligible funds after filtering, or generated portfolio failed
+            output validation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /api/portfolio/{portfolio_id}:
+    get:
+      tags: [Portfolio]
+      summary: Retrieve a stored portfolio
+      operationId: getPortfolio
+      parameters:
+        - $ref: "#/components/parameters/PortfolioId"
+      responses:
+        "200":
+          description: Stored portfolio
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Portfolio"
+        "404":
+          description: Portfolio not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /api/portfolio/{portfolio_id}/performance:
+    get:
+      tags: [Portfolio]
+      summary: Weighted portfolio NAV series vs. benchmark
+      operationId: getPortfolioPerformance
+      parameters:
+        - $ref: "#/components/parameters/PortfolioId"
+        - name: from
+          in: query
+          required: false
+          description: Start date (ISO 8601, inclusive)
+          schema:
+            type: string
+            format: date
+        - name: to
+          in: query
+          required: false
+          description: End date (ISO 8601, inclusive)
+          schema:
+            type: string
+            format: date
+      responses:
+        "200":
+          description: Aggregated portfolio NAV and benchmark
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  portfolio_id:
+                    type: string
+                  benchmark:
+                    type: object
+                    nullable: true
+                    properties:
+                      id:
+                        type: string
+                      name:
+                        type: string
+                additionalProperties: true
+        "404":
+          description: Portfolio not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /api/portfolio/{portfolio_id}/breakdown:
+    get:
+      tags: [Portfolio]
+      summary: Aggregated asset-class / region breakdown
+      operationId: getPortfolioBreakdown
+      parameters:
+        - $ref: "#/components/parameters/PortfolioId"
+      responses:
+        "200":
+          description: Portfolio breakdown
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  portfolio_id:
+                    type: string
+                  breakdown:
+                    type: object
+                    additionalProperties: true
+        "404":
+          description: Portfolio not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /api/funds:
+    get:
+      tags: [Funds]
+      summary: List all funds in the catalog
+      operationId: getFunds
+      responses:
+        "200":
+          description: Fund catalog
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  funds:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Fund"
+                  count:
+                    type: integer
+
+  /api/funds/{isin}/performance:
+    get:
+      tags: [Funds]
+      summary: Per-fund performance time-series
+      operationId: getFundPerformance
+      parameters:
+        - $ref: "#/components/parameters/Isin"
+      responses:
+        "200":
+          description: Performance data
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  isin:
+                    type: string
+                  as_of:
+                    type: string
+                  currency:
+                    type: string
+                  performance:
+                    type: object
+                    additionalProperties: true
+        "404":
+          description: No performance data for ISIN
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /api/funds/{isin}/risk:
+    get:
+      tags: [Funds]
+      summary: Per-fund risk metrics
+      operationId: getFundRisk
+      parameters:
+        - $ref: "#/components/parameters/Isin"
+      responses:
+        "200":
+          description: Risk data
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  isin:
+                    type: string
+                  as_of:
+                    type: string
+                  volatility:
+                    type: object
+                    additionalProperties: true
+                  risk_metrics:
+                    type: object
+                    additionalProperties: true
+        "404":
+          description: No risk data for ISIN
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /api/funds/{isin}/breakdown:
+    get:
+      tags: [Funds]
+      summary: Per-fund asset-class / region breakdown and holdings
+      operationId: getFundBreakdown
+      parameters:
+        - $ref: "#/components/parameters/Isin"
+      responses:
+        "200":
+          description: Fund breakdown
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  isin:
+                    type: string
+                  asset_class:
+                    type: string
+                  region:
+                    type: string
+                  asset_class_breakdown:
+                    type: object
+                    nullable: true
+                    additionalProperties: true
+                  region_breakdown:
+                    type: object
+                    nullable: true
+                    additionalProperties: true
+                  top_holdings:
+                    type: array
+                    nullable: true
+                    items:
+                      type: object
+                      additionalProperties: true
+                  as_of:
+                    type: string
+        "404":
+          description: Fund not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /api/config/stress-periods:
+    get:
+      tags: [Config]
+      summary: List configured stress periods
+      operationId: getStressPeriods
+      responses:
+        "200":
+          description: Stress period definitions
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  stress_periods:
+                    type: array
+                    items:
+                      type: object
+                      additionalProperties: true
+
+  /api/config/benchmarks:
+    get:
+      tags: [Config]
+      summary: List benchmark catalog
+      description: NAV series are stripped from this endpoint to keep responses small.
+      operationId: getBenchmarks
+      responses:
+        "200":
+          description: Benchmark catalog
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  benchmarks:
+                    type: object
+                    additionalProperties: true
+                  default_by_asset_class:
+                    type: object
+                    additionalProperties:
+                      type: string
+
+components:
+  parameters:
+    PortfolioId:
+      name: portfolio_id
+      in: path
+      required: true
+      description: "Portfolio identifier, e.g. `port_20260618_a1b2c3d4`"
+      schema:
+        type: string
+    Isin:
+      name: isin
+      in: path
+      required: true
+      description: Fund ISIN code (case-insensitive)
+      schema:
+        type: string
+        example: DE0008474503
+
+  schemas:
+    CreatePortfolioRequest:
+      type: object
+      required: [user_answers]
+      properties:
+        user_answers:
+          type: object
+          description: Map of questionnaire question id to answer value.
+          additionalProperties: true
+        language:
+          type: string
+          description: Language code; falls back to `lang`, then `Accept-Language`.
+          example: de
+        lang:
+          type: string
+          example: de
+        portfolio_id:
+          type: string
+          description: Optional client-supplied id; auto-generated if omitted.
+
+    Recommendation:
+      type: object
+      properties:
+        isin:
+          type: string
+        name:
+          type: string
+        allocation_percent:
+          type: number
+          format: float
+        rationale:
+          type: string
+      additionalProperties: true
+
+    Portfolio:
+      type: object
+      properties:
+        portfolio_id:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        user_answers:
+          type: object
+          additionalProperties: true
+        calculated_metrics:
+          type: object
+          additionalProperties: true
+        risk_profile:
+          type: string
+          nullable: true
+        portfolio_metrics:
+          type: object
+          additionalProperties: true
+        explanations:
+          type: object
+          additionalProperties: true
+        decision_trace:
+          type: object
+          additionalProperties: true
+        recommendations:
+          type: array
+          items:
+            $ref: "#/components/schemas/Recommendation"
+        server_logs:
+          type: array
+          items:
+            type: string
+
+    Fund:
+      type: object
+      description: Fund catalog entry (shape varies by data source).
+      additionalProperties: true
+
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+      additionalProperties: true
+
+    ValidationError:
+      type: object
+      properties:
+        error:
+          type: string
+          example: Validation failed
+        details:
+          type: array
+          items:
+            type: string
