@@ -173,8 +173,12 @@ def test_decision_trace_stages(mock_ticker, client):
     assert ranking["formula"] == {"sharpe": 5, "mdd": 3, "ter": 2}
     assert 0 < len(ranking["candidates"]) <= ranking["top_k"]
     valid_status = {
-        "selected", "skipped_provider_cap", "skipped_category_cap",
-        "dropped_thematic", "dropped_regional_cap", "not_reached",
+        "selected",
+        "skipped_provider_cap",
+        "skipped_category_cap",
+        "dropped_thematic",
+        "dropped_regional_cap",
+        "not_reached",
     }
     for c in ranking["candidates"]:
         assert c["status"] in valid_status

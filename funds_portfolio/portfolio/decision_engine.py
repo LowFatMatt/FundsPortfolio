@@ -577,7 +577,9 @@ class DecisionEngine:
         category_count: Dict[str, int] = {}
 
         # Trace-only: record selection decisions without affecting them.
-        events = trace["selection"]["events"] if trace and "selection" in trace else None
+        events = (
+            trace["selection"]["events"] if trace and "selection" in trace else None
+        )
 
         def _note(event: Dict[str, Any]) -> None:
             if events is not None:
@@ -590,20 +592,24 @@ class DecisionEngine:
             provider = f.get("provider") or "unknown"
             category = category_for(f)
             if provider_count.get(provider, 0) >= self.max_per_provider:
-                _note({
-                    "type": "provider_cap_skip",
-                    "isin": f.get("isin"),
-                    "name": f.get("name"),
-                    "provider": provider,
-                })
+                _note(
+                    {
+                        "type": "provider_cap_skip",
+                        "isin": f.get("isin"),
+                        "name": f.get("name"),
+                        "provider": provider,
+                    }
+                )
                 continue
             if category_count.get(category, 0) >= self.max_per_category:
-                _note({
-                    "type": "category_cap_skip",
-                    "isin": f.get("isin"),
-                    "name": f.get("name"),
-                    "category": category,
-                })
+                _note(
+                    {
+                        "type": "category_cap_skip",
+                        "isin": f.get("isin"),
+                        "name": f.get("name"),
+                        "category": category,
+                    }
+                )
                 continue
             selected.append(f)
             provider_count[provider] = provider_count.get(provider, 0) + 1
@@ -634,11 +640,13 @@ class DecisionEngine:
                 f_copy["etf_not_available"] = True
                 selected.append(f_copy)
                 selected_isins.add(f["isin"])
-                _note({
-                    "type": "etf_fallback_fill",
-                    "isin": f.get("isin"),
-                    "name": f.get("name"),
-                })
+                _note(
+                    {
+                        "type": "etf_fallback_fill",
+                        "isin": f.get("isin"),
+                        "name": f.get("name"),
+                    }
+                )
                 if len(selected) >= self.final_fund_count:
                     break
 
@@ -674,13 +682,15 @@ class DecisionEngine:
                         )
                         selected.remove(worst)
                         selected.append(to_insert)
-                        _note({
-                            "type": "thematic_insert",
-                            "inserted": to_insert.get("isin"),
-                            "inserted_name": to_insert.get("name"),
-                            "dropped": worst.get("isin"),
-                            "dropped_name": worst.get("name"),
-                        })
+                        _note(
+                            {
+                                "type": "thematic_insert",
+                                "inserted": to_insert.get("isin"),
+                                "inserted_name": to_insert.get("name"),
+                                "dropped": worst.get("isin"),
+                                "dropped_name": worst.get("name"),
+                            }
+                        )
 
         # Edge case 3: Regional concentration cap — max 3 of 5 from same preferred region
         def _region_match(f: Dict[str, Any]) -> bool:
@@ -710,11 +720,13 @@ class DecisionEngine:
                 )
                 to_drop = {f["isin"] for f in regional_sorted[3:]}
                 for f in regional_sorted[3:]:
-                    _note({
-                        "type": "regional_cap_drop",
-                        "isin": f.get("isin"),
-                        "name": f.get("name"),
-                    })
+                    _note(
+                        {
+                            "type": "regional_cap_drop",
+                            "isin": f.get("isin"),
+                            "name": f.get("name"),
+                        }
+                    )
                 selected = [f for f in selected if f["isin"] not in to_drop]
                 selected_isins = {f["isin"] for f in selected}
                 for f in scored:
@@ -726,11 +738,13 @@ class DecisionEngine:
                         continue  # already have 3
                     selected.append(f)
                     selected_isins.add(f["isin"])
-                    _note({
-                        "type": "regional_cap_fill",
-                        "isin": f.get("isin"),
-                        "name": f.get("name"),
-                    })
+                    _note(
+                        {
+                            "type": "regional_cap_fill",
+                            "isin": f.get("isin"),
+                            "name": f.get("name"),
+                        }
+                    )
 
         return selected
 
@@ -767,19 +781,21 @@ class DecisionEngine:
                 status = "selected"
             else:
                 status = status_by_isin.get(isin, "not_reached")
-            candidates.append({
-                "rank": rank,
-                "isin": isin,
-                "name": f.get("name"),
-                "provider": f.get("provider"),
-                "base": sc.get("base"),
-                "sharpe_norm": sc.get("sharpe_norm"),
-                "mdd_norm": sc.get("mdd_norm"),
-                "ter_norm": sc.get("ter_norm"),
-                "boosts": sc.get("boosts", {}),
-                "final": sc.get("final"),
-                "status": status,
-            })
+            candidates.append(
+                {
+                    "rank": rank,
+                    "isin": isin,
+                    "name": f.get("name"),
+                    "provider": f.get("provider"),
+                    "base": sc.get("base"),
+                    "sharpe_norm": sc.get("sharpe_norm"),
+                    "mdd_norm": sc.get("mdd_norm"),
+                    "ter_norm": sc.get("ter_norm"),
+                    "boosts": sc.get("boosts", {}),
+                    "final": sc.get("final"),
+                    "status": status,
+                }
+            )
 
         return {
             "formula": {"sharpe": 5, "mdd": 3, "ter": 2},
