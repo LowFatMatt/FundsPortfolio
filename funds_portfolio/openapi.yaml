@@ -426,8 +426,8 @@ components:
         name:
           type: string
         allocation_percent:
-          type: number
-          format: float
+          type: integer
+          description: Whole-percent allocation; engine guarantees the set sums to 100.
         rationale:
           type: string
       additionalProperties: true
