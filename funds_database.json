@@ -608,7 +608,7 @@
       "url": "https://www.deka-etf.de/etf/deka-euro-stoxx-50-ucits-etf",
       "kiid_url": "https://www.justetf.com/en/etf-profile.html?isin=DE000ETFL029",
       "asset_class": "equity",
-      "region": "euroland",
+      "region": "europe",
       "categories": [
         "etf",
         "eurozone_equity"
@@ -639,7 +639,7 @@
       "url": null,
       "kiid_url": "https://www.justetf.com/en/etf-profile.html?isin=DE000ETFL466",
       "asset_class": "mixed",
-      "region": "euroland",
+      "region": "europe",
       "categories": [
         "equity"
       ],
@@ -723,7 +723,7 @@
       "url": null,
       "kiid_url": "https://www.finanzen.net/fonds/LU0195950992",
       "asset_class": "mixed",
-      "region": "southeast_asia",
+      "region": "asia",
       "categories": [
         "equity"
       ],
@@ -804,7 +804,7 @@
       "url": null,
       "kiid_url": "https://www.justetf.com/en/etf-profile.html?isin=DE000ETFL318",
       "asset_class": "mixed",
-      "region": "japan",
+      "region": "asia",
       "categories": [
         "equity"
       ],
@@ -1233,7 +1233,7 @@
       "yearly_fee": 2.0,
       "is_etf": false,
       "esg_label": null,
-      "theme": "security_defense",
+      "theme": "defense",
       "srri": 4,
       "sharpe_ratio": 0.2,
       "volatility": 14.41,
@@ -1262,7 +1262,7 @@
       "yearly_fee": 0.4,
       "is_etf": true,
       "esg_label": null,
-      "theme": "security_defense",
+      "theme": "defense",
       "srri": 4,
       "sharpe_ratio": -0.078152,
       "volatility": 30.2353,
@@ -1423,7 +1423,7 @@
       "url": null,
       "kiid_url": "https://www.finanzen.net/fonds/LU0290355717",
       "asset_class": "mixed",
-      "region": "euroland",
+      "region": "europe",
       "categories": [
         "equity"
       ],
@@ -1450,7 +1450,7 @@
       "url": null,
       "kiid_url": "https://www.justetf.com/en/etf-profile.html?isin=LU1650491282",
       "asset_class": "mixed",
-      "region": "euroland",
+      "region": "europe",
       "categories": [
         "equity"
       ],
