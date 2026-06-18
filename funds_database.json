@@ -527,7 +527,7 @@
       "url": null,
       "kiid_url": "https://www.finanzen.net/fonds/DE000A41NN66",
       "asset_class": "mixed",
-      "region": "global",
+      "region": "europe",
       "categories": [
         "equity"
       ],
@@ -554,7 +554,7 @@
       "url": null,
       "kiid_url": "https://www.justetf.com/en/etf-profile.html?isin=DE000ETFL284",
       "asset_class": "mixed",
-      "region": "global",
+      "region": "europe",
       "categories": [
         "equity"
       ],
@@ -581,7 +581,7 @@
       "url": null,
       "kiid_url": "https://www.finanzen.net/fonds/LU1865159435",
       "asset_class": "mixed",
-      "region": "global",
+      "region": "europe",
       "categories": [
         "equity"
       ],
@@ -608,7 +608,7 @@
       "url": "https://www.deka-etf.de/etf/deka-euro-stoxx-50-ucits-etf",
       "kiid_url": "https://www.justetf.com/en/etf-profile.html?isin=DE000ETFL029",
       "asset_class": "equity",
-      "region": "europe",
+      "region": "euroland",
       "categories": [
         "etf",
         "eurozone_equity"
@@ -639,7 +639,7 @@
       "url": null,
       "kiid_url": "https://www.justetf.com/en/etf-profile.html?isin=DE000ETFL466",
       "asset_class": "mixed",
-      "region": "global",
+      "region": "euroland",
       "categories": [
         "equity"
       ],
@@ -696,7 +696,7 @@
       "url": null,
       "kiid_url": "https://www.justetf.com/en/etf-profile.html?isin=DE000ETFL540",
       "asset_class": "mixed",
-      "region": "global",
+      "region": "germany",
       "categories": [
         "equity"
       ],
@@ -704,7 +704,7 @@
       "yearly_fee": 0.2,
       "is_etf": true,
       "esg_label": "SFDR_ARTICLE_9",
-      "theme": "NONE",
+      "theme": "sustainability",
       "srri": 4,
       "sharpe_ratio": 0.262892,
       "volatility": 17.7097,
@@ -723,7 +723,7 @@
       "url": null,
       "kiid_url": "https://www.finanzen.net/fonds/LU0195950992",
       "asset_class": "mixed",
-      "region": "global",
+      "region": "southeast_asia",
       "categories": [
         "equity"
       ],
@@ -750,7 +750,7 @@
       "url": null,
       "kiid_url": "https://www.finanzen.net/fonds/LU3179669893",
       "asset_class": "mixed",
-      "region": "global",
+      "region": "emerging_markets",
       "categories": [
         "equity"
       ],
@@ -777,7 +777,7 @@
       "url": null,
       "kiid_url": "https://www.justetf.com/en/etf-profile.html?isin=LU1681045370",
       "asset_class": "mixed",
-      "region": "global",
+      "region": "emerging_markets",
       "categories": [
         "equity"
       ],
@@ -804,7 +804,7 @@
       "url": null,
       "kiid_url": "https://www.justetf.com/en/etf-profile.html?isin=DE000ETFL318",
       "asset_class": "mixed",
-      "region": "global",
+      "region": "japan",
       "categories": [
         "equity"
       ],
@@ -812,7 +812,7 @@
       "yearly_fee": 0.26,
       "is_etf": true,
       "esg_label": "SFDR_ARTICLE_9",
-      "theme": "NONE",
+      "theme": "sustainability",
       "srri": 4,
       "sharpe_ratio": 0.412412,
       "volatility": 16.5737,
@@ -900,7 +900,7 @@
       "yearly_fee": 0.5,
       "is_etf": false,
       "esg_label": "SFDR_ARTICLE_8",
-      "theme": "NONE",
+      "theme": "dividends",
       "srri": 4,
       "sharpe_ratio": 0.796299,
       "volatility": 44.3691,
@@ -927,7 +927,7 @@
       "yearly_fee": 0.7,
       "is_etf": true,
       "esg_label": "SFDR_ARTICLE_8",
-      "theme": "NONE",
+      "theme": "energy",
       "srri": 4,
       "sharpe_ratio": 0.3233,
       "volatility": 24.44,
@@ -954,7 +954,7 @@
       "yearly_fee": 1.5,
       "is_etf": false,
       "esg_label": "SFDR_ARTICLE_8",
-      "theme": "NONE",
+      "theme": "infrastructure",
       "srri": 4,
       "sharpe_ratio": 1.109911,
       "volatility": 19.131,
@@ -1014,7 +1014,7 @@
       "yearly_fee": 1.52,
       "is_etf": false,
       "esg_label": null,
-      "theme": "technology",
+      "theme": "ai_robotic",
       "srri": 5,
       "sharpe_ratio": 0.99,
       "volatility": 21.17,
@@ -1043,7 +1043,7 @@
       "yearly_fee": 1.4,
       "is_etf": false,
       "esg_label": "SFDR_ARTICLE_8",
-      "theme": "NONE",
+      "theme": "technology",
       "srri": 4,
       "sharpe_ratio": 0.89,
       "volatility": 17.37,
@@ -1070,7 +1070,7 @@
       "yearly_fee": 0.3,
       "is_etf": true,
       "esg_label": null,
-      "theme": "NONE",
+      "theme": "technology",
       "srri": 4,
       "sharpe_ratio": 1.032333,
       "volatility": 22.4772,
@@ -1097,7 +1097,7 @@
       "yearly_fee": 1.22,
       "is_etf": false,
       "esg_label": "SFDR_ARTICLE_8",
-      "theme": "NONE",
+      "theme": "infrastructure",
       "srri": 4,
       "sharpe_ratio": 0.358873,
       "volatility": 12.2159,
@@ -1124,7 +1124,7 @@
       "yearly_fee": 1.21,
       "is_etf": false,
       "esg_label": "SFDR_ARTICLE_8",
-      "theme": "NONE",
+      "theme": "sustainability",
       "srri": 4,
       "sharpe_ratio": 0.627536,
       "volatility": 17.1954,
@@ -1151,7 +1151,7 @@
       "yearly_fee": 0.7,
       "is_etf": true,
       "esg_label": "SFDR_ARTICLE_8",
-      "theme": "NONE",
+      "theme": "water",
       "srri": 4,
       "sharpe_ratio": -0.285308,
       "volatility": 14.5632,
@@ -1178,7 +1178,7 @@
       "yearly_fee": 1.74,
       "is_etf": false,
       "esg_label": null,
-      "theme": "NONE",
+      "theme": "commodities",
       "srri": 4,
       "sharpe_ratio": 0.56,
       "volatility": 32.67,
@@ -1205,7 +1205,7 @@
       "yearly_fee": 1.66,
       "is_etf": false,
       "esg_label": null,
-      "theme": "NONE",
+      "theme": "commodities",
       "srri": 4,
       "sharpe_ratio": 0.42,
       "volatility": 26.67,
@@ -1233,7 +1233,7 @@
       "yearly_fee": 2.0,
       "is_etf": false,
       "esg_label": null,
-      "theme": "defense",
+      "theme": "security_defense",
       "srri": 4,
       "sharpe_ratio": 0.2,
       "volatility": 14.41,
@@ -1254,7 +1254,7 @@
       "url": null,
       "kiid_url": "https://www.justetf.com/en/etf-profile.html?isin=DE000ETFL664",
       "asset_class": "mixed",
-      "region": "global",
+      "region": "europe",
       "categories": [
         "equity"
       ],
@@ -1262,7 +1262,7 @@
       "yearly_fee": 0.4,
       "is_etf": true,
       "esg_label": null,
-      "theme": "NONE",
+      "theme": "security_defense",
       "srri": 4,
       "sharpe_ratio": -0.078152,
       "volatility": 30.2353,
@@ -1396,7 +1396,7 @@
       "url": null,
       "kiid_url": "https://www.justetf.com/en/etf-profile.html?isin=LU1437018168",
       "asset_class": "mixed",
-      "region": "global",
+      "region": "europe",
       "categories": [
         "equity"
       ],
@@ -1423,7 +1423,7 @@
       "url": null,
       "kiid_url": "https://www.finanzen.net/fonds/LU0290355717",
       "asset_class": "mixed",
-      "region": "global",
+      "region": "euroland",
       "categories": [
         "equity"
       ],
@@ -1450,7 +1450,7 @@
       "url": null,
       "kiid_url": "https://www.justetf.com/en/etf-profile.html?isin=LU1650491282",
       "asset_class": "mixed",
-      "region": "global",
+      "region": "euroland",
       "categories": [
         "equity"
       ],
@@ -1477,7 +1477,7 @@
       "url": null,
       "kiid_url": "https://www.justetf.com/en/etf-profile.html?isin=DE000ETFL227",
       "asset_class": "mixed",
-      "region": "global",
+      "region": "germany",
       "categories": [
         "equity"
       ],
@@ -1654,7 +1654,7 @@
       "url": null,
       "kiid_url": "https://www.finanzen.net/fonds/DE000DK0EF98",
       "asset_class": "mixed",
-      "region": "global",
+      "region": "europe",
       "categories": [
         "equity"
       ],
@@ -1662,7 +1662,7 @@
       "yearly_fee": 1.7,
       "is_etf": false,
       "esg_label": "SFDR_ARTICLE_8",
-      "theme": "NONE",
+      "theme": "dividends",
       "srri": 4,
       "sharpe_ratio": 0.9879,
       "volatility": 10.72,
@@ -1675,7 +1675,7 @@
     },
     {
       "isin": "DE000A3ERM93",
-      "ticker": "0P0001TG3T.F",
+      "ticker": "ACV.DE",
       "name": "ACATIS Value Event Fonds V",
       "provider": "Acatis Investment",
       "url": null,
@@ -1765,7 +1765,7 @@
     },
     {
       "isin": "LU2437374510",
-      "ticker": "0P0001ODLW.F",
+      "ticker": "SYOC.DU",
       "name": "Swisscanto (LU) Portfolio Fund Sustainable Balanced (EUR) DT",
       "provider": "Swisscanto",
       "url": null,
@@ -1792,7 +1792,7 @@
     },
     {
       "isin": "LU2737649090",
-      "ticker": "0P0001S95Q.F",
+      "ticker": "0P0000ZP4P.F",
       "name": "Flossbach von Storch SICAV - Multiple Opportunities H",
       "provider": "Flossbach von Storch",
       "url": null,
