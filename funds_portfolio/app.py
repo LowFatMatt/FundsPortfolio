@@ -197,7 +197,9 @@ def create_app():
     # ---- OpenAPI documentation ----
     # Spec lives next to this module so the docker COPY/bind-mount picks it up
     # automatically; Swagger UI is loaded from a CDN to avoid vendoring assets.
-    openapi_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "openapi.yaml")
+    openapi_path = os.path.join(
+        os.path.dirname(os.path.abspath(__file__)), "openapi.yaml"
+    )
 
     @app.route("/openapi.yaml")
     def openapi_spec():
