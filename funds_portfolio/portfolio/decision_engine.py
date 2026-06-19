@@ -78,7 +78,7 @@ class DecisionEngine:
     def __init__(
         self,
         min_candidates: int = 0,  # set the mimimu to zero to avoid relaxations alltogether to find the limits of our funds universe.
-        top_k: int = 18,
+        top_k: int = 65,  # seting it to numer of available funds (65) in the universe disables capping
         final_fund_count: int = 5,
         max_per_provider: int = 5,  # the value "5" ultimately disables the provider cap
         max_per_category: int = 5,  # dito
@@ -418,6 +418,9 @@ class DecisionEngine:
         return [f for f in funds if self._fund_in_risk_band(f, relaxed)]
 
     def _risk_band_for_profile(self, risk_profile: str) -> Dict[str, Any]:
+        # NOTE: Slide 8 is the ultimate truth specifying the risk bands. 
+        # The document contains other values in further sildes which 
+        #  do not reflect the final specification.
         if risk_profile == "DEFENSIVE":
             return {
                 "srri_min": 1,
@@ -436,10 +439,10 @@ class DecisionEngine:
             }
         # BALANCED
         return {
-            "srri_min": 2,
+            "srri_min": 2, 
             "srri_max": 5,
             "vol_max": 15.0,
-            "vol_min": 2.0,  # reviewed: vol_min corrected to be 2.0
+            "vol_min": 5.0,  # reviewed 2: vol_min corrected to be 5.0 (see Spec. Pg./Sld. 8)
             "mdd_max": 30.0,
         }
 
