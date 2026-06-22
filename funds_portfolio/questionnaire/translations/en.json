@@ -27,7 +27,6 @@
     "preferred_regions": {
       "name": "Which regions would you like to invest in?",
       "options": {
-        "region_global": "Global",
         "region_germany": "Germany",
         "region_europe": "Europe",
         "region_north_america": "North America",

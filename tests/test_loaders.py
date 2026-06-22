@@ -203,7 +203,7 @@ class TestQuestionnaireLoader:
         assert "loss_tolerance" not in answers
         assert answers["esg_preference"] == "NONE"
         assert answers["etf_preference"] == "no_preference"
-        assert answers["preferred_regions"] == ["global"]
+        assert answers["preferred_regions"] == []
         assert answers["preferred_themes"] == ["none"]
         # The injected defaults are reported for logging
         assert len(applied) == 4
@@ -227,7 +227,6 @@ class TestQuestionnaireLoader:
             "north_america",
             "asia",
             "emerging_markets",
-            "global",
         ]
 
     def test_theme_whitelist_exposes_new_themes(self):

@@ -121,11 +121,6 @@
             "id": "region_emerging",
             "label": "Emerging Markets – high-growth developing economies",
             "value": "emerging_markets"
-          },
-          {
-            "id": "region_global",
-            "label": "Global – anything not covered by the regions above",
-            "value": "global"
           }
         ]
       },
@@ -205,7 +200,7 @@
       "esg_preference": "string (value from options: NONE | PREFER_ESG | ART_8_9_ONLY)",
       "etf_preference": "string (value from options: no_preference | prefer_etf | etf_only)",
       "preferred_regions": [
-        "array of strings (values from options: germany | europe | north_america | asia | emerging_markets | global)"
+        "array of strings (values from options: germany | europe | north_america | asia | emerging_markets)"
       ],
       "preferred_themes": [
         "array of strings (values from options: none | sustainability | technology | healthcare | commodities | infrastructure | defense | energy | megatrends | water | ai_robotics | dividends)"

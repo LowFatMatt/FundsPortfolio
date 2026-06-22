@@ -30,7 +30,6 @@
       "name": "Welche Regionen möchten Sie bevorzugen?",
       "description": "Wählen Sie alles, was Sie interessiert. Wir nutzen dies, um regionale Schwerpunkte zu setzen und das Portfolio dennoch zu diversifizieren.",
       "options": {
-        "region_global": "Global",
         "region_germany": "Deutschland",
         "region_europe": "Europa",
         "region_north_america": "Nordamerika",

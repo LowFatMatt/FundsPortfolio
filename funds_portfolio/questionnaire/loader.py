@@ -181,7 +181,7 @@ class QuestionnaireLoader:
         "risk_approach": "conservative",
         "esg_preference": "NONE",
         "etf_preference": "no_preference",
-        "preferred_regions": ["global"],
+        "preferred_regions": [],
         "preferred_themes": ["none"],
     }
 
@@ -390,7 +390,6 @@ class QuestionnaireLoader:
             "north_america": "North America - US and Canadian markets",
             "asia": "Asia - developed and emerging Asia",
             "emerging_markets": "Emerging Markets - high-growth developing economies",
-            "global": "Global - anything not covered by the regions above",
         }
 
         canonical_regions = [
@@ -399,7 +398,6 @@ class QuestionnaireLoader:
             "north_america",
             "asia",
             "emerging_markets",
-            "global",
         ]
 
         options = []
