@@ -51,6 +51,13 @@ EXPLICIT_REGIONS: set = {
     "emerging_markets",
 }
 
+# Define boost values for preferences. These are added to the base score to influence ranking.
+BOOST_ELEVATORS: Dict[str, float] = {
+    "ETF": 30.0,
+    "ESG": 30.0,
+    "Region": 25.0,
+    "Theme": 25.0
+}
 
 def _region_matches(fund_region: str, preferred: set) -> bool:
     """Return True if a fund's region satisfies the user's preferred regions.
@@ -536,23 +543,28 @@ class DecisionEngine:
     ) -> Dict[str, float]:
         boosts: Dict[str, float] = {}
 
+        # Boost are now configured to be higher to significantly change the ranking:
+        # see BOOST_ELEVATORS at the top of the file. 
+
         # ETF preference boost
         if user_answers.get("etf_preference") == "prefer_etf" and fund.get("is_etf"):
-            boosts["ETF"] = 5.0
+            boosts["ETF"] = BOOST_ELEVATORS["ETF"]
 
-        # ESG boost: +5 pts for Article 8/9 funds when the user prefers ESG.
+        # ESG boost: Article 8/9 funds when the user prefers ESG.
         # (NONE ignores ESG entirely; ART_8_9_ONLY is a hard filter, not a bonus.)
         if user_answers.get("esg_preference") == "PREFER_ESG" and self._is_esg_fund(
             fund
         ):
-            boosts["ESG"] = 5.0
+            boosts["ESG"] = BOOST_ELEVATORS["ESG"]
 
         # Regional preference boost
         preferred_regions = {
             str(r).lower() for r in (user_answers.get("preferred_regions") or [])
         }
-        if preferred_regions and _region_matches(fund.get("region"), preferred_regions):
-            boosts["Region"] = 3.0
+        ##if preferred_regions and _region_matches(fund.get("region"), preferred_regions):
+        ## Auskommentiert, um wieder nur auf die "einfache" Region zu schauen.
+        if preferred_regions and fund.get("region").lower() in preferred_regions:
+            boosts["Region"] = BOOST_ELEVATORS["Region"]
 
         # Thematic preference boost
         preferred_themes = {
@@ -563,7 +575,7 @@ class DecisionEngine:
             and "NONE" not in preferred_themes
             and str(fund.get("theme") or "").upper() in preferred_themes
         ):
-            boosts["Theme"] = 3.0
+            boosts["Theme"] = BOOST_ELEVATORS["Theme"]
 
         return boosts
 
