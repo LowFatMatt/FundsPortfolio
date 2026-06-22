@@ -53,10 +53,10 @@ EXPLICIT_REGIONS: set = {
 
 # Define boost values for preferences. These are added to the base score to influence ranking.
 BOOST_ELEVATORS: Dict[str, float] = {
-    "ETF": 30.0,
-    "ESG": 30.0,
-    "Region": 25.0,
-    "Theme": 25.0,
+    "ETF": 20.0,
+    "ESG": 20.0,
+    "Region": 30.0,
+    "Theme": 30.0,
 }
 
 
