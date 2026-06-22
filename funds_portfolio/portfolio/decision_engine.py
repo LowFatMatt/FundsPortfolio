@@ -56,8 +56,9 @@ BOOST_ELEVATORS: Dict[str, float] = {
     "ETF": 30.0,
     "ESG": 30.0,
     "Region": 25.0,
-    "Theme": 25.0
+    "Theme": 25.0,
 }
+
 
 def _region_matches(fund_region: str, preferred: set) -> bool:
     """Return True if a fund's region satisfies the user's preferred regions.
@@ -425,8 +426,8 @@ class DecisionEngine:
         return [f for f in funds if self._fund_in_risk_band(f, relaxed)]
 
     def _risk_band_for_profile(self, risk_profile: str) -> Dict[str, Any]:
-        # NOTE: Slide 8 is the ultimate truth specifying the risk bands. 
-        # The document contains other values in further sildes which 
+        # NOTE: Slide 8 is the ultimate truth specifying the risk bands.
+        # The document contains other values in further sildes which
         #  do not reflect the final specification.
         if risk_profile == "DEFENSIVE":
             return {
@@ -446,7 +447,7 @@ class DecisionEngine:
             }
         # BALANCED
         return {
-            "srri_min": 2, 
+            "srri_min": 2,
             "srri_max": 5,
             "vol_max": 15.0,
             "vol_min": 5.0,  # reviewed 2: vol_min corrected to be 5.0 (see Spec. Pg./Sld. 8)
@@ -544,7 +545,7 @@ class DecisionEngine:
         boosts: Dict[str, float] = {}
 
         # Boost are now configured to be higher to significantly change the ranking:
-        # see BOOST_ELEVATORS at the top of the file. 
+        # see BOOST_ELEVATORS at the top of the file.
 
         # ETF preference boost
         if user_answers.get("etf_preference") == "prefer_etf" and fund.get("is_etf"):

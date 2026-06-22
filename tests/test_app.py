@@ -124,7 +124,7 @@ def test_quick_flow_equivalence(mock_ticker, client):
         "risk_approach": "moderate",
         "esg_preference": "NONE",
         "etf_preference": "prefer_etf",
-        "preferred_regions": ["global"],
+        "preferred_regions": ["europe"],
         "preferred_themes": ["none"],
     }
     flow_answers = {
@@ -161,7 +161,7 @@ def test_decision_trace_stages(mock_ticker, client):
         "risk_approach": "aggressive",
         "esg_preference": "PREFER_ESG",
         "etf_preference": "prefer_etf",
-        "preferred_regions": ["global"],
+        "preferred_regions": ["europe", "north_america"],
         "preferred_themes": ["technology"],
     }
     resp = client.post("/api/portfolio", json={"user_answers": answers})
