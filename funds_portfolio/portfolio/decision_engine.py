@@ -56,7 +56,7 @@ BOOST_ELEVATORS: Dict[str, float] = {
     "ETF": 20.0,
     "ESG": 20.0,
     "Region": 30.0,
-    "Theme": 30.0,
+    "Theme": 45.0,
 }
 
 
