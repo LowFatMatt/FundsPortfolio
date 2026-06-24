@@ -90,12 +90,14 @@ class DecisionEngine:
         final_fund_count: int = 5,
         max_per_provider: int = 5,  # the value "5" ultimately disables the provider cap
         max_per_category: int = 5,  # dito
+        min_allocation_percentage: int = 10,  # minimum allocation percentage for any fund in the final portfolio
     ):
         self.min_candidates = min_candidates
         self.top_k = top_k
         self.final_fund_count = final_fund_count
         self.max_per_provider = max_per_provider
         self.max_per_category = max_per_category
+        self.min_allocation_percentage = min_allocation_percentage
         self._translations = self._load_translations()
 
     def recommend(
@@ -954,10 +956,28 @@ class DecisionEngine:
                 for isin in core_isins:
                     weights[isin] = weights[isin] * cscale
 
+        # Enforce the per-fund minimum allocation as the final step, so it holds
+        # after every prior redistribution (clip → satellite cap → tilt →
+        # normalise). Lifts any sub-floor fund to the floor and reclaims the
+        # deficit from funds with surplus above it.
+        floor_applied = False
+        floor = self.min_allocation_percentage / 100.0
+        if floor > 0:
+            before_floor = dict(weights)
+            weights = self._enforce_min_allocation(weights, floor)
+            floor_applied = any(
+                abs(weights.get(i, 0.0) - before_floor.get(i, 0.0)) > 1e-9
+                for i in weights
+            )
+
         # Trace-only: finalise the per-fund allocation breakdown.
         if trace is not None and "allocation" in trace:
             for isin, rec in alloc_rec.items():
                 rec["final_weight"] = round(weights.get(isin, 0.0), 4)
+            trace["allocation"]["min_allocation_applied"] = floor_applied
+            trace["allocation"]["min_allocation_percentage"] = (
+                self.min_allocation_percentage
+            )
             trace["allocation"]["satellite_cap_applied"] = sat_cap_applied
             trace["allocation"]["funds"] = [
                 alloc_rec[f["isin"]] for f in selected if f["isin"] in alloc_rec
@@ -970,6 +990,50 @@ class DecisionEngine:
         weights: Dict[str, float], wmin: float, wmax: float
     ) -> Dict[str, float]:
         return {k: max(wmin, min(wmax, v)) for k, v in weights.items()}
+
+    def _enforce_min_allocation(
+        self, weights: Dict[str, float], floor: float
+    ) -> Dict[str, float]:
+        """Guarantee every fund holds at least ``floor`` of the portfolio.
+
+        Lifts any fund below ``floor`` up to it, and reclaims the deficit from
+        funds above ``floor`` in proportion to their surplus (the classic
+        "water-filling" floor). Input is assumed normalised (sums to 1.0); the
+        result is re-normalised and also sums to 1.0.
+
+        If ``floor`` is infeasible for the fund count (floor × n > 1, e.g. six
+        funds at a 20% floor), no per-fund floor can hold, so an equal split is
+        the closest achievable allocation.
+        """
+        if not weights:
+            return weights
+        n = len(weights)
+        if floor * n > 1.0 + 1e-9:
+            logger.warning(
+                "min allocation %.0f%% infeasible for %d funds; using equal split",
+                floor * 100,
+                n,
+            )
+            return {k: 1.0 / n for k in weights}
+
+        weights = dict(weights)
+        # One proportional pass restores the floor without pushing any donor
+        # below it (deficit ≤ donor surplus whenever the floor is feasible); the
+        # loop is a float-safety backstop.
+        for _ in range(n):
+            deficit = sum(floor - w for w in weights.values() if w < floor)
+            if deficit <= 1e-12:
+                break
+            donor_surplus = sum(w - floor for w in weights.values() if w > floor)
+            if donor_surplus <= 0:
+                break
+            for k, w in weights.items():
+                if w < floor:
+                    weights[k] = floor
+                elif w > floor:
+                    weights[k] = w - deficit * (w - floor) / donor_surplus
+
+        return self._normalize(weights)
 
     @staticmethod
     def _normalize(weights: Dict[str, float]) -> Dict[str, float]:
