@@ -682,33 +682,54 @@ class DecisionEngine:
 
         if preferred_themes and "NONE" not in preferred_themes:
 
-            def _theme_match(f: Dict[str, Any]) -> bool:
-                return str(f.get("theme") or "").upper() in preferred_themes
+            def _fund_theme(f: Dict[str, Any]) -> str:
+                return str(f.get("theme") or "").upper()
 
-            has_theme = any(_theme_match(f) for f in selected)
-            if not has_theme:
-                thematic_candidates = [
-                    f for f in scored if _theme_match(f) and f not in selected
+            # Guarantee *each* preferred theme (max 2) is represented by at
+            # least one fund. For every theme still missing, swap in the best
+            # available matching fund and drop the worst-scoring fund that
+            # matches none of the preferred themes — so a fund already covering
+            # the other theme is never sacrificed. At most one swap per missing
+            # theme, which the 2-theme selection cap keeps to ≤2 swaps total.
+            for theme in sorted(preferred_themes):
+                if any(_fund_theme(f) == theme for f in selected):
+                    continue
+                candidates = [
+                    f for f in scored if _fund_theme(f) == theme and f not in selected
                 ]
-                if thematic_candidates:
-                    to_insert = thematic_candidates[0]
-                    non_thematic = [f for f in selected if not _theme_match(f)]
-                    if non_thematic:
-                        worst = min(
-                            non_thematic,
-                            key=lambda x: x.get("_scores", {}).get("final", 0),
-                        )
-                        selected.remove(worst)
-                        selected.append(to_insert)
-                        _note(
-                            {
-                                "type": "thematic_insert",
-                                "inserted": to_insert.get("isin"),
-                                "inserted_name": to_insert.get("name"),
-                                "dropped": worst.get("isin"),
-                                "dropped_name": worst.get("name"),
-                            }
-                        )
+                if not candidates:
+                    continue  # no fund carries this theme in the universe
+                to_insert = candidates[0]
+                non_thematic = [
+                    f for f in selected if _fund_theme(f) not in preferred_themes
+                ]
+                if not non_thematic:
+                    _note(
+                        {
+                            "type": "thematic_insert_skipped",
+                            "theme": theme,
+                            "isin": to_insert.get("isin"),
+                            "name": to_insert.get("name"),
+                            "reason": "no non-thematic fund available to swap out",
+                        }
+                    )
+                    continue
+                worst = min(
+                    non_thematic,
+                    key=lambda x: x.get("_scores", {}).get("final", 0),
+                )
+                selected.remove(worst)
+                selected.append(to_insert)
+                _note(
+                    {
+                        "type": "thematic_insert",
+                        "theme": theme,
+                        "inserted": to_insert.get("isin"),
+                        "inserted_name": to_insert.get("name"),
+                        "dropped": worst.get("isin"),
+                        "dropped_name": worst.get("name"),
+                    }
+                )
 
         # Edge case 3: Regional concentration cap — max 3 of 5 from same preferred region
         def _region_match(f: Dict[str, Any]) -> bool:

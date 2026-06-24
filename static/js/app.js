@@ -397,8 +397,11 @@ document.addEventListener('DOMContentLoaded', () => {
         wrap.className = 'chip-grid';
 
         const isMulti = section.type === 'multi_select';
+        const max = Number(section.max) || 0; // 0 = unlimited
 
-        section.options.forEach(opt => {
+        // Options flagged selectable:false (e.g. the theme "none" default) are
+        // valid values but not offered as chips.
+        section.options.filter(opt => opt.selectable !== false).forEach(opt => {
             const chip = document.createElement('div');
             chip.className = 'chip';
             chip.dataset.value = opt.value;
@@ -421,6 +424,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
             chip.addEventListener('click', () => {
                 if (isMulti) {
+                    const willSelect = !chip.classList.contains('selected');
+                    if (willSelect && max) {
+                        const count = wrap.querySelectorAll('.chip.selected').length;
+                        if (count >= max) {
+                            showFlowError(
+                                t('errors.flow_max_selection', 'You can select up to {max} options.')
+                                    .replace('{max}', max)
+                            );
+                            return;
+                        }
+                    }
+                    clearFlowError();
                     chip.classList.toggle('selected');
                     input.checked = chip.classList.contains('selected');
                 } else {

@@ -131,11 +131,13 @@
         "type": "multi_select",
         "display_hint": "chips",
         "required": false,
+        "max": 2,
         "options": [
           {
             "id": "theme_none",
             "label": "No specific theme",
-            "value": "none"
+            "value": "none",
+            "selectable": false
           },
           {
             "id": "theme_sustainability",

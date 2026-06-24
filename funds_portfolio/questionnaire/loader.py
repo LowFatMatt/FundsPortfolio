@@ -252,6 +252,17 @@ class QuestionnaireLoader:
                     errors.append(f'Field "{section_id}" must be an array')
                     continue
 
+                max_sel = section.get("max")
+                if (
+                    isinstance(max_sel, int)
+                    and max_sel > 0
+                    and len(user_value) > max_sel
+                ):
+                    errors.append(
+                        f'Field "{section_id}" allows at most {max_sel} '
+                        f"selection(s), got {len(user_value)}."
+                    )
+
                 for val in user_value:
                     if val not in valid_values:
                         errors.append(
@@ -453,14 +464,18 @@ class QuestionnaireLoader:
 
         options = []
         for value in canonical_themes:
-            options.append(
-                {
-                    "id": f"theme_{value}",
-                    "label": label_map[value],
-                    "value": value,
-                    "fund_count": counts.get(value.upper(), 0),
-                }
-            )
+            opt = {
+                "id": f"theme_{value}",
+                "label": label_map[value],
+                "value": value,
+                "fund_count": counts.get(value.upper(), 0),
+            }
+            # "none" stays a valid value (it is the no-preference default and
+            # still validates), but it is not offered as a selectable chip:
+            # users express "no theme" by simply selecting nothing.
+            if value == "none":
+                opt["selectable"] = False
+            options.append(opt)
         return options
 
 
