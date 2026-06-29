@@ -1,0 +1,242 @@
+{
+  "n_answers": 1691,
+  "pref_score": {
+    "count": 1691,
+    "mean": 0.6532567711413365,
+    "median": 0.666,
+    "min": 0.362,
+    "max": 1.0
+  },
+  "risk_adherence": {
+    "count": 1691,
+    "mean": 1.0,
+    "median": 1.0,
+    "min": 1.0,
+    "max": 1.0
+  },
+  "esg_match": {
+    "count": 1691,
+    "mean": 0.8071850975753992,
+    "median": 1.0,
+    "min": 0.0,
+    "max": 1.0
+  },
+  "etf_match": {
+    "count": 1691,
+    "mean": 0.8793199290360734,
+    "median": 1.0,
+    "min": 0.0,
+    "max": 1.0
+  },
+  "region_match": {
+    "count": 1691,
+    "mean": 0.3333353045535186,
+    "median": 0.3,
+    "min": 0.0,
+    "max": 1.0
+  },
+  "theme_match": {
+    "count": 1691,
+    "mean": 0.25764044943820225,
+    "median": 0.3,
+    "min": 0.0,
+    "max": 1.0
+  },
+  "theme_exposure_match": {
+    "count": 1691,
+    "mean": 0.137397989355411,
+    "median": 0.1,
+    "min": 0.0,
+    "max": 1.0
+  },
+  "theme_coverage": {
+    "count": 1691,
+    "mean": 0.3778829095209935,
+    "median": 0.5,
+    "min": 0.0,
+    "max": 1.0
+  },
+  "div_score": {
+    "count": 1691,
+    "mean": 0.626742755765819,
+    "median": 0.6333,
+    "min": 0.3333,
+    "max": 0.8333
+  },
+  "provider_div": {
+    "count": 1691,
+    "mean": 0.39172087522176224,
+    "median": 0.4,
+    "min": 0.0,
+    "max": 1.0
+  },
+  "asset_div": {
+    "count": 1691,
+    "mean": 0.3694855115316381,
+    "median": 0.4,
+    "min": 0.0,
+    "max": 0.4
+  },
+  "region_div": {
+    "count": 1691,
+    "mean": 0.4474275576581904,
+    "median": 0.4,
+    "min": 0.0,
+    "max": 1.0
+  },
+  "provider_hhi": {
+    "count": 1691,
+    "mean": 0.6249406268480189,
+    "median": 0.52,
+    "min": 0.0,
+    "max": 1.0
+  },
+  "asset_hhi": {
+    "count": 1691,
+    "mean": 0.5880544056771141,
+    "median": 0.5338,
+    "min": 0.0,
+    "max": 1.0
+  },
+  "region_hhi": {
+    "count": 1691,
+    "mean": 0.5582223536369012,
+    "median": 0.52,
+    "min": 0.0,
+    "max": 1.0
+  },
+  "satellite_total": {
+    "count": 1691,
+    "mean": 0.24698994677705502,
+    "median": 0.27,
+    "min": 0.0,
+    "max": 1.0
+  },
+  "satellite_cap_ok": {
+    "count": 1691,
+    "mean": 0.7368421052631579,
+    "median": 1.0,
+    "min": 0.0,
+    "max": 1.0
+  },
+  "min_allocation_ok": {
+    "count": 1691,
+    "mean": 0.9923122412773506,
+    "median": 1.0,
+    "min": 0.0,
+    "max": 1.0
+  },
+  "completeness": {
+    "count": 1691,
+    "mean": 0.8227084565345949,
+    "median": 1.0,
+    "min": 0.0,
+    "max": 1.0
+  },
+  "overall": {
+    "count": 1691,
+    "mean": 0.6400094618568895,
+    "median": 0.655,
+    "min": 0.3667,
+    "max": 0.8525
+  },
+  "base_gap_top5": {
+    "count": 1691,
+    "mean": -5.4624470727380245,
+    "median": -2.092,
+    "min": -35.756,
+    "max": 0.0
+  },
+  "hijack_gap": {
+    "count": 1691,
+    "mean": 16.559461856889413,
+    "median": 9.61,
+    "min": 0.0,
+    "max": 79.92
+  },
+  "boost_dependency": {
+    "count": 1691,
+    "mean": 0.2539751034890597,
+    "median": 0.2651,
+    "min": 0.0,
+    "max": 0.6471
+  },
+  "thematic_inserts": {
+    "count": 1691,
+    "mean": 0.1850975753991721,
+    "median": 0,
+    "min": 0,
+    "max": 2
+  },
+  "regional_drops": {
+    "count": 1691,
+    "mean": 0.11827321111768184,
+    "median": 0,
+    "min": 0,
+    "max": 2
+  },
+  "relaxation_count": {
+    "count": 1691,
+    "mean": 0.0,
+    "median": 0,
+    "min": 0,
+    "max": 0
+  },
+  "num_funds": {
+    "count": 1691,
+    "mean": 4.113542282672975,
+    "median": 5,
+    "min": 0,
+    "max": 5
+  },
+  "weighted_fee": {
+    "count": 1629,
+    "mean": 0.5265758133824432,
+    "median": 0.426,
+    "min": 0.182,
+    "max": 1.438
+  },
+  "srri_proxy": {
+    "count": 1629,
+    "mean": 4.383057090239411,
+    "median": 4,
+    "min": 3,
+    "max": 6
+  },
+  "distinct_providers": {
+    "count": 1691,
+    "mean": 1.9586043761088114,
+    "median": 2,
+    "min": 0,
+    "max": 5
+  },
+  "distinct_asset_classes": {
+    "count": 1691,
+    "mean": 1.8474275576581904,
+    "median": 2,
+    "min": 0,
+    "max": 2
+  },
+  "distinct_regions": {
+    "count": 1691,
+    "mean": 2.2371377882909522,
+    "median": 2,
+    "min": 0,
+    "max": 5
+  },
+  "conditional": {
+    "n_region_active": 1638,
+    "n_theme_active": 1665,
+    "region_match_when_active": 0.3117643467643468,
+    "theme_match_when_active": 0.24604804804804806,
+    "theme_coverage_when_active": 0.36816816816816816
+  },
+  "behavior": {
+    "pct_complete": 0.6292134831460674,
+    "pct_empty": 0.03666469544648137,
+    "pct_hijack": 0.5653459491425192,
+    "pct_satellite_cap_ok": 0.7368421052631579,
+    "pct_min_alloc_ok": 0.9923122412773506,
+    "pct_risk_clean": 1.0
+  }
+}

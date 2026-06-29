@@ -55,6 +55,10 @@ reports/
 *.csv
 *.xlsx
 
+# Eval harness output (regenerable via scripts/eval_decision_engine.py).
+# A single frozen baseline is kept under eval_baseline/ (tracked) for comparison.
+eval_results*/
+
 # Logs
 logs/
 *.log
