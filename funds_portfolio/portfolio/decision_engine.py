@@ -91,7 +91,9 @@ class DecisionEngine:
         max_per_provider: int = 5,  # the value "5" ultimately disables the provider cap
         max_per_category: int = 5,  # dito
         min_allocation_percentage: int = 10,  # minimum allocation percentage for any fund in the final portfolio
-        boost_elevators: Optional[Dict[str, float]] = None,  # per-preference scoring boosts; defaults to the module BOOST_ELEVATORS
+        boost_elevators: Optional[
+            Dict[str, float]
+        ] = None,  # per-preference scoring boosts; defaults to the module BOOST_ELEVATORS
     ):
         self.min_candidates = min_candidates
         self.top_k = top_k

@@ -110,9 +110,7 @@ def main() -> None:
     )
     log = logging.getLogger("tune")
 
-    grid = build_answer_grid(
-        max_regions=args.max_regions, max_themes=args.max_themes
-    )
+    grid = build_answer_grid(max_regions=args.max_regions, max_themes=args.max_themes)
     log.info("answer grid: %s", grid_summary(grid))
     if args.answer_grid_cap is not None:
         grid = cap_grid(grid, args.answer_grid_cap)

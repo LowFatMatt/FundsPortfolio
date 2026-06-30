@@ -71,7 +71,9 @@ def compute_metrics(
 
     esg_pref = str(user_answers.get("esg_preference") or "NONE")
     etf_pref = str(user_answers.get("etf_preference") or "no_preference")
-    pref_regions = {str(r).lower() for r in (user_answers.get("preferred_regions") or [])}
+    pref_regions = {
+        str(r).lower() for r in (user_answers.get("preferred_regions") or [])
+    }
     pref_themes = {str(t).lower() for t in (user_answers.get("preferred_themes") or [])}
     regions_active = bool(pref_regions)
     themes_active = bool(pref_themes)
@@ -97,9 +99,7 @@ def compute_metrics(
         esg_match = (
             1.0
             if recs
-            and all(
-                str(r.get("esg_label") or "").upper() in _ESG_LABELS for r in recs
-            )
+            and all(str(r.get("esg_label") or "").upper() in _ESG_LABELS for r in recs)
             else esg_share
         )
     else:  # PREFER_ESG
@@ -128,9 +128,7 @@ def compute_metrics(
         # Coverage: fraction of *requested* regions that appear among the
         # selected funds' region tags (symmetric to theme_coverage). Uses the
         # fund region field, consistent with region_exposures above.
-        selected_regions = {
-            str(r.get("region") or "").lower() for r in recs
-        } - {""}
+        selected_regions = {str(r.get("region") or "").lower() for r in recs} - {""}
         covered = sum(1 for rg in pref_regions if rg in selected_regions)
         region_coverage = covered / len(pref_regions) if pref_regions else 1.0
     # Strict "every requested region was represented" boolean (only meaningful
@@ -138,9 +136,7 @@ def compute_metrics(
     region_full_match = bool(regions_active and region_coverage >= 1.0)
 
     theme_exposures = pmetrics.get("theme_exposures") or {}
-    selected_themes = {
-        str(r.get("theme") or "").lower() for r in recs
-    } - {"none", ""}
+    selected_themes = {str(r.get("theme") or "").lower() for r in recs} - {"none", ""}
     if not themes_active:
         theme_exposure_match = 1.0
         theme_coverage = 1.0
@@ -222,9 +218,7 @@ def compute_metrics(
         [c.get("base") for c in candidates if c.get("base") is not None],
         reverse=True,
     )
-    top5_mean = (
-        _mean(all_bases_sorted[:final_fund_count]) if all_bases_sorted else 0.0
-    )
+    top5_mean = _mean(all_bases_sorted[:final_fund_count]) if all_bases_sorted else 0.0
     sel_mean_base = _mean(sel_bases)
     min_sel_base = min(sel_bases) if sel_bases else 0.0
     max_nonsel_base = max(nonsel_bases) if nonsel_bases else 0.0
@@ -245,12 +239,7 @@ def compute_metrics(
             boosts = c.get("boosts") or {}
             sel_boost_totals.append(sum(_as_float(v) for v in boosts.values()))
     boost_dependency = (
-        _mean(
-            [
-                (b / f if f else 0.0)
-                for b, f in zip(sel_boost_totals, sel_finals)
-            ]
-        )
+        _mean([(b / f if f else 0.0) for b, f in zip(sel_boost_totals, sel_finals)])
         if sel_finals
         else 0.0
     )

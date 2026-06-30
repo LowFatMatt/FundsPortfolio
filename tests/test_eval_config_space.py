@@ -21,7 +21,7 @@ def test_default_grid_brackets_live_values():
 def test_default_config_count_includes_spec_baseline():
     configs = build_boost_configs()  # default grid
     # 6^4 grid combos, live is on the grid (deduped), spec (Theme=3) is added.
-    assert len(configs) == 6 ** 4 + 1
+    assert len(configs) == 6**4 + 1
 
 
 def test_baselines_present_and_flagged():

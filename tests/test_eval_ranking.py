@@ -8,7 +8,12 @@ from funds_portfolio.eval.ranking import (
     pareto_front,
     rank_configs,
 )
-from funds_portfolio.eval.reporter import accumulate, aggregate, finalize, new_accumulator
+from funds_portfolio.eval.reporter import (
+    accumulate,
+    aggregate,
+    finalize,
+    new_accumulator,
+)
 
 
 def _stat(cid, pref, div, hijack=0.0, base_gap=0.0, kind=None):
@@ -84,28 +89,65 @@ def test_streaming_accumulator_matches_phase1_aggregate():
     # Feeding the same records through the Phase 1 aggregate and the Phase 2
     # streaming accumulator must yield identical means.
     records = [
-        {"pref_score": 0.8, "div_score": 0.6, "overall": 0.7, "num_funds": 5,
-         "empty": False, "hijack_detected": True, "satellite_cap_ok": 1.0,
-         "min_allocation_ok": 1.0, "risk_adherence": 1.0, "regions_active": True,
-         "themes_active": False, "region_match": 0.5, "theme_match": 1.0,
-         "theme_coverage": 1.0, "region_coverage": 0.5,
-         "theme_full_match": False, "region_full_match": False,
-         "base_gap_top5": -4.0, "hijack_gap": 10.0,
-         "boost_dependency": 0.3, "weighted_fee": 0.4, "srri_proxy": 4,
-         "distinct_providers": 3},
-        {"pref_score": 0.6, "div_score": 0.8, "overall": 0.7, "num_funds": 5,
-         "empty": False, "hijack_detected": False, "satellite_cap_ok": 1.0,
-         "min_allocation_ok": 1.0, "risk_adherence": 1.0, "regions_active": True,
-         "themes_active": True, "region_match": 0.4, "theme_match": 0.5,
-         "theme_coverage": 0.5, "region_coverage": 1.0,
-         "theme_full_match": False, "region_full_match": True,
-         "base_gap_top5": -6.0, "hijack_gap": 12.0,
-         "boost_dependency": 0.4, "weighted_fee": 0.5, "srri_proxy": 5,
-         "distinct_providers": 4},
+        {
+            "pref_score": 0.8,
+            "div_score": 0.6,
+            "overall": 0.7,
+            "num_funds": 5,
+            "empty": False,
+            "hijack_detected": True,
+            "satellite_cap_ok": 1.0,
+            "min_allocation_ok": 1.0,
+            "risk_adherence": 1.0,
+            "regions_active": True,
+            "themes_active": False,
+            "region_match": 0.5,
+            "theme_match": 1.0,
+            "theme_coverage": 1.0,
+            "region_coverage": 0.5,
+            "theme_full_match": False,
+            "region_full_match": False,
+            "base_gap_top5": -4.0,
+            "hijack_gap": 10.0,
+            "boost_dependency": 0.3,
+            "weighted_fee": 0.4,
+            "srri_proxy": 4,
+            "distinct_providers": 3,
+        },
+        {
+            "pref_score": 0.6,
+            "div_score": 0.8,
+            "overall": 0.7,
+            "num_funds": 5,
+            "empty": False,
+            "hijack_detected": False,
+            "satellite_cap_ok": 1.0,
+            "min_allocation_ok": 1.0,
+            "risk_adherence": 1.0,
+            "regions_active": True,
+            "themes_active": True,
+            "region_match": 0.4,
+            "theme_match": 0.5,
+            "theme_coverage": 0.5,
+            "region_coverage": 1.0,
+            "theme_full_match": False,
+            "region_full_match": True,
+            "base_gap_top5": -6.0,
+            "hijack_gap": 12.0,
+            "boost_dependency": 0.4,
+            "weighted_fee": 0.5,
+            "srri_proxy": 5,
+            "distinct_providers": 4,
+        },
     ]
     summary = aggregate(records)
-    config = {"config_id": "c", "label": "c", "boost_elevators": {},
-              "is_baseline": False, "baseline_kind": None}
+    config = {
+        "config_id": "c",
+        "label": "c",
+        "boost_elevators": {},
+        "is_baseline": False,
+        "baseline_kind": None,
+    }
     acc = new_accumulator(config)
     for r in records:
         accumulate(acc, r)
@@ -127,5 +169,5 @@ def test_streaming_accumulator_matches_phase1_aggregate():
         summary["behavior"]["pct_region_full_match"]
     )
     assert fin["pct_region_full_match"] == pytest.approx(0.5)  # 1 of 2 region-active
-    assert fin["pct_theme_full_match"] == pytest.approx(0.0)   # 0 of 1 theme-active
+    assert fin["pct_theme_full_match"] == pytest.approx(0.0)  # 0 of 1 theme-active
     assert fin["region_coverage_when_active"] == pytest.approx(0.75)  # (0.5+1.0)/2

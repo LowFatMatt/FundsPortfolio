@@ -36,8 +36,18 @@ def tiny_universe(tmp_path):
     funds = [
         _fund("F1", "global", "NONE", esg_label="SFDR_ARTICLE_8"),
         _fund("F2", "north_america", "NONE", volatility=12.0),
-        _fund("F3", "europe", "NONE", srri=2, risk_level=2, volatility=3.0,
-              max_drawdown=5.0, asset_class="bond", is_etf=False, esg_label="SFDR_ARTICLE_8"),
+        _fund(
+            "F3",
+            "europe",
+            "NONE",
+            srri=2,
+            risk_level=2,
+            volatility=3.0,
+            max_drawdown=5.0,
+            asset_class="bond",
+            is_etf=False,
+            esg_label="SFDR_ARTICLE_8",
+        ),
         _fund("F4", "global", "ai_robotics", volatility=14.0, is_etf=False),
         _fund("F5", "global", "energy", volatility=11.0, esg_label="SFDR_ARTICLE_8"),
         _fund("F6", "asia", "NONE", volatility=13.0),
@@ -53,9 +63,18 @@ def test_runner_returns_one_record_per_answer(tiny_universe):
     assert len(records) == len(grid)
     first = records[0]
     for key in (
-        "answer_id", "risk_approach", "esg_preference", "etf_preference",
-        "preferred_regions", "preferred_themes", "n_regions", "n_themes",
-        "pref_score", "div_score", "overall", "num_funds",
+        "answer_id",
+        "risk_approach",
+        "esg_preference",
+        "etf_preference",
+        "preferred_regions",
+        "preferred_themes",
+        "n_regions",
+        "n_themes",
+        "pref_score",
+        "div_score",
+        "overall",
+        "num_funds",
     ):
         assert key in first
 
@@ -78,8 +97,12 @@ def test_runner_produces_valid_fund_counts(tiny_universe):
 def test_sweep_returns_one_stat_per_config_and_is_deterministic(tiny_universe):
     grid = cap_grid(build_answer_grid(max_regions=1, max_themes=1), 8)
     configs = build_boost_configs([0, 5, 20])  # includes live + spec baselines
-    stats_a = run_sweep(grid, configs, universe_path=tiny_universe, workers=1, progress=False)
-    stats_b = run_sweep(grid, configs, universe_path=tiny_universe, workers=1, progress=False)
+    stats_a = run_sweep(
+        grid, configs, universe_path=tiny_universe, workers=1, progress=False
+    )
+    stats_b = run_sweep(
+        grid, configs, universe_path=tiny_universe, workers=1, progress=False
+    )
     assert len(stats_a) == len(configs)
     # Same per-config means on re-run (deterministic).
     for a, b in zip(stats_a, stats_b):
@@ -87,14 +110,23 @@ def test_sweep_returns_one_stat_per_config_and_is_deterministic(tiny_universe):
         assert a["overall_mean"] == b["overall_mean"]
     # Required output keys present.
     for s in stats_a:
-        assert {"config_id", "boost_elevators", "n", "overall_mean",
-                "pref_score_mean", "div_score_mean", "pct_hijack"} <= set(s)
+        assert {
+            "config_id",
+            "boost_elevators",
+            "n",
+            "overall_mean",
+            "pref_score_mean",
+            "div_score_mean",
+            "pct_hijack",
+        } <= set(s)
 
 
 def test_sweep_ranks_and_diffs_against_live(tiny_universe):
     grid = cap_grid(build_answer_grid(max_regions=1, max_themes=1), 8)
     configs = build_boost_configs([0, 5, 20])
-    stats = run_sweep(grid, configs, universe_path=tiny_universe, workers=1, progress=False)
+    stats = run_sweep(
+        grid, configs, universe_path=tiny_universe, workers=1, progress=False
+    )
     add_diff_vs_live(stats)
     ranked = rank_configs(stats)
     assert ranked[0]["rank"] == 1

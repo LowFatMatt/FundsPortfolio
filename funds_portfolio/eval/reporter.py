@@ -81,7 +81,9 @@ def _dist(values: Sequence[Any]) -> Dict[str, Any]:
     }
 
 
-def _fraction(records: List[Dict[str, Any]], pred: Callable[[Dict[str, Any]], bool]) -> float:
+def _fraction(
+    records: List[Dict[str, Any]], pred: Callable[[Dict[str, Any]], bool]
+) -> float:
     if not records:
         return 0.0
     return sum(1 for r in records if pred(r)) / len(records)
@@ -140,9 +142,7 @@ def aggregate(records: List[Dict[str, Any]]) -> Dict[str, Any]:
         "pct_min_alloc_ok": _fraction(
             records, lambda r: r.get("min_allocation_ok") == 1.0
         ),
-        "pct_risk_clean": _fraction(
-            records, lambda r: r.get("risk_adherence") == 1.0
-        ),
+        "pct_risk_clean": _fraction(records, lambda r: r.get("risk_adherence") == 1.0),
         "pct_theme_full_match": _cond_fraction(
             records,
             lambda r: r.get("themes_active"),
@@ -371,19 +371,44 @@ def finalize(acc: Dict[str, Any]) -> Dict[str, Any]:
 # Phase 2: sweep output (expects stats already ranked + diffed by ranking.py)
 # --------------------------------------------------------------------------- #
 _SWEEP_CSV_COLUMNS = [
-    "rank", "config_id", "label", "ETF", "ESG", "Region", "Theme",
-    "is_baseline", "baseline_kind", "pareto_optimal", "composite", "n",
-    "overall_mean", "pref_score_mean", "div_score_mean",
-    "pct_complete", "pct_empty", "pct_hijack", "pct_satellite_cap_ok",
+    "rank",
+    "config_id",
+    "label",
+    "ETF",
+    "ESG",
+    "Region",
+    "Theme",
+    "is_baseline",
+    "baseline_kind",
+    "pareto_optimal",
+    "composite",
+    "n",
+    "overall_mean",
+    "pref_score_mean",
+    "div_score_mean",
+    "pct_complete",
+    "pct_empty",
+    "pct_hijack",
+    "pct_satellite_cap_ok",
     "pct_min_alloc_ok",
-    "base_gap_top5_mean", "hijack_gap_mean", "boost_dependency_mean",
-    "region_match_when_active", "theme_match_when_active",
-    "theme_coverage_when_active", "region_coverage_when_active",
-    "pct_theme_full_match", "pct_region_full_match",
-    "provider_div_mean", "distinct_providers_mean",
-    "diff_overall", "diff_pref_score", "diff_div_score",
-    "diff_pct_hijack", "diff_base_gap_top5",
-    "diff_pct_theme_full_match", "diff_pct_region_full_match",
+    "base_gap_top5_mean",
+    "hijack_gap_mean",
+    "boost_dependency_mean",
+    "region_match_when_active",
+    "theme_match_when_active",
+    "theme_coverage_when_active",
+    "region_coverage_when_active",
+    "pct_theme_full_match",
+    "pct_region_full_match",
+    "provider_div_mean",
+    "distinct_providers_mean",
+    "diff_overall",
+    "diff_pref_score",
+    "diff_div_score",
+    "diff_pct_hijack",
+    "diff_base_gap_top5",
+    "diff_pct_theme_full_match",
+    "diff_pct_region_full_match",
 ]
 
 
@@ -507,8 +532,10 @@ def write_sweep_markdown(
     ]
     for s in stats[:10]:
         b = s["boost_elevators"]
-        base = "live" if s.get("baseline_kind") == "live" else (
-            "spec" if s.get("baseline_kind") == "spec" else ""
+        base = (
+            "live"
+            if s.get("baseline_kind") == "live"
+            else ("spec" if s.get("baseline_kind") == "spec" else "")
         )
         tag = (" " + base) if base else ""
         lines.append(

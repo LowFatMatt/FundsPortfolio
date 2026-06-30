@@ -111,7 +111,9 @@ def _engine_for(config: Dict[str, Any]):
     return eng
 
 
-def _eval_pair(task: Tuple[Dict[str, Any], Dict[str, Any]]) -> Tuple[str, Dict[str, Any]]:
+def _eval_pair(
+    task: Tuple[Dict[str, Any], Dict[str, Any]],
+) -> Tuple[str, Dict[str, Any]]:
     config, answer = task
     eng = _engine_for(config)
     result = eng.recommend(answer, _SWEEP_WORKER["funds"])
@@ -148,9 +150,7 @@ def run_sweep(
         with ctx.Pool(
             workers, initializer=_init_sweep_worker, initargs=(universe_path,)
         ) as pool:
-            for i, rec in enumerate(
-                pool.imap(_eval_pair, task_iter, chunksize=128), 1
-            ):
+            for i, rec in enumerate(pool.imap(_eval_pair, task_iter, chunksize=128), 1):
                 _fold(rec)
                 if progress and (i % 5000 == 0 or i == total):
                     logger.info("sweep %d/%d (configs=%d)", i, total, len(configs))
