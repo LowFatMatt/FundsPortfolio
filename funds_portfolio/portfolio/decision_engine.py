@@ -91,6 +91,7 @@ class DecisionEngine:
         max_per_provider: int = 5,  # the value "5" ultimately disables the provider cap
         max_per_category: int = 5,  # dito
         min_allocation_percentage: int = 10,  # minimum allocation percentage for any fund in the final portfolio
+        boost_elevators: Optional[Dict[str, float]] = None,  # per-preference scoring boosts; defaults to the module BOOST_ELEVATORS
     ):
         self.min_candidates = min_candidates
         self.top_k = top_k
@@ -98,6 +99,11 @@ class DecisionEngine:
         self.max_per_provider = max_per_provider
         self.max_per_category = max_per_category
         self.min_allocation_percentage = min_allocation_percentage
+        # Copy so a caller-supplied dict (or the module constant) is never
+        # mutated in place, and so each instance is isolated for the eval sweep.
+        self._boost_elevators: Dict[str, float] = dict(
+            boost_elevators if boost_elevators is not None else BOOST_ELEVATORS
+        )
         self._translations = self._load_translations()
 
     def recommend(
@@ -551,14 +557,14 @@ class DecisionEngine:
 
         # ETF preference boost
         if user_answers.get("etf_preference") == "prefer_etf" and fund.get("is_etf"):
-            boosts["ETF"] = BOOST_ELEVATORS["ETF"]
+            boosts["ETF"] = self._boost_elevators["ETF"]
 
         # ESG boost: Article 8/9 funds when the user prefers ESG.
         # (NONE ignores ESG entirely; ART_8_9_ONLY is a hard filter, not a bonus.)
         if user_answers.get("esg_preference") == "PREFER_ESG" and self._is_esg_fund(
             fund
         ):
-            boosts["ESG"] = BOOST_ELEVATORS["ESG"]
+            boosts["ESG"] = self._boost_elevators["ESG"]
 
         # Regional preference boost
         preferred_regions = {
@@ -567,7 +573,7 @@ class DecisionEngine:
         ##if preferred_regions and _region_matches(fund.get("region"), preferred_regions):
         ## Auskommentiert, um wieder nur auf die "einfache" Region zu schauen.
         if preferred_regions and fund.get("region").lower() in preferred_regions:
-            boosts["Region"] = BOOST_ELEVATORS["Region"]
+            boosts["Region"] = self._boost_elevators["Region"]
 
         # Thematic preference boost
         preferred_themes = {
@@ -578,7 +584,7 @@ class DecisionEngine:
             and "NONE" not in preferred_themes
             and str(fund.get("theme") or "").upper() in preferred_themes
         ):
-            boosts["Theme"] = BOOST_ELEVATORS["Theme"]
+            boosts["Theme"] = self._boost_elevators["Theme"]
 
         return boosts
 

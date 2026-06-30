@@ -1,24 +1,44 @@
-"""In-process runner: execute ``DecisionEngine.recommend`` over an answer grid.
+"""In-process runner: execute DecisionEngine.recommend over answer grids.
 
-Phase 1 runs the *current* engine config only (no sweep). Each worker loads the
-fund universe once and constructs one ``DecisionEngine`` with the in-tree
-defaults, then evaluates its slice of the grid. Embarrassingly parallel;
-``workers=1`` runs single-process (used by tests and debugging).
+Two entry points:
+- ``run_grid``  — one engine config over an answer grid (Phase 1 baseline).
+- ``run_sweep`` — many configs over an answer grid (Phase 2 tuning). Results
+  stream into per-config accumulators (see ``reporter``), so the full
+  configs×answers product never sits in memory.
+
+``workers=1`` runs single-process (tests, debugging, clean tracebacks).
 """
 
 from __future__ import annotations
 
+import itertools
 import logging
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, Tuple
 
 from .metrics import compute_metrics
+from .reporter import accumulate, finalize, new_accumulator
 
 logger = logging.getLogger(__name__)
 
-# Per-worker state, populated by ``_init_worker``.
 _WORKER: Dict[str, Any] = {}
+_SWEEP_WORKER: Dict[str, Any] = {"funds": None, "engines": {}}
 
 
+def _flatten_answer(answer: Dict[str, Any]) -> Dict[str, Any]:
+    return {
+        "risk_approach": answer["risk_approach"],
+        "esg_preference": answer["esg_preference"],
+        "etf_preference": answer["etf_preference"],
+        "preferred_regions": ",".join(answer["preferred_regions"]),
+        "preferred_themes": ",".join(answer["preferred_themes"]),
+        "n_regions": len(answer["preferred_regions"]),
+        "n_themes": len(answer["preferred_themes"]),
+    }
+
+
+# --------------------------------------------------------------------------- #
+# Phase 1: single config
+# --------------------------------------------------------------------------- #
 def _init_worker(
     universe_path: Optional[str], engine_kwargs: Optional[Dict[str, Any]]
 ) -> None:
@@ -30,21 +50,9 @@ def _init_worker(
 
 
 def _eval_answer(answer: Dict[str, Any]) -> Dict[str, Any]:
-    funds = _WORKER["funds"]
-    engine = _WORKER["engine"]
-    result = engine.recommend(answer, funds)
+    result = _WORKER["engine"].recommend(answer, _WORKER["funds"])
     metrics = compute_metrics(answer, result)
-    return {
-        "answer_id": answer["id"],
-        "risk_approach": answer["risk_approach"],
-        "esg_preference": answer["esg_preference"],
-        "etf_preference": answer["etf_preference"],
-        "preferred_regions": ",".join(answer["preferred_regions"]),
-        "preferred_themes": ",".join(answer["preferred_themes"]),
-        "n_regions": len(answer["preferred_regions"]),
-        "n_themes": len(answer["preferred_themes"]),
-        **metrics,
-    }
+    return {"answer_id": answer["id"], **_flatten_answer(answer), **metrics}
 
 
 def run_grid(
@@ -72,7 +80,6 @@ def run_grid(
                     logger.info("eval %d/%d", i, total)
             return records
 
-    # single process — keeps tests simple and gives usable tracebacks
     _init_worker(universe_path, engine_kwargs)
     records = []
     for i, answer in enumerate(grid, 1):
@@ -80,3 +87,78 @@ def run_grid(
         if progress and (i % 1000 == 0 or i == total):
             logger.info("eval %d/%d", i, total)
     return records
+
+
+# --------------------------------------------------------------------------- #
+# Phase 2: config sweep
+# --------------------------------------------------------------------------- #
+def _init_sweep_worker(universe_path: Optional[str]) -> None:
+    from funds_portfolio.data.fund_manager import FundManager
+
+    _SWEEP_WORKER["funds"] = FundManager(universe_path).get_all_funds()
+    _SWEEP_WORKER["engines"] = {}
+
+
+def _engine_for(config: Dict[str, Any]):
+    engines = _SWEEP_WORKER["engines"]
+    cid = config["config_id"]
+    eng = engines.get(cid)
+    if eng is None:
+        from funds_portfolio.portfolio.decision_engine import DecisionEngine
+
+        eng = DecisionEngine(**config["engine_kwargs"])
+        engines[cid] = eng
+    return eng
+
+
+def _eval_pair(task: Tuple[Dict[str, Any], Dict[str, Any]]) -> Tuple[str, Dict[str, Any]]:
+    config, answer = task
+    eng = _engine_for(config)
+    result = eng.recommend(answer, _SWEEP_WORKER["funds"])
+    metrics = compute_metrics(answer, result)
+    record = {"answer_id": answer["id"], **_flatten_answer(answer), **metrics}
+    return config["config_id"], record
+
+
+def run_sweep(
+    grid: List[Dict[str, Any]],
+    configs: List[Dict[str, Any]],
+    universe_path: Optional[str] = None,
+    workers: int = 1,
+    progress: bool = True,
+) -> List[Dict[str, Any]]:
+    """Run every config over every answer; return per-config stats (finalized).
+
+    Streams (config, answer) pairs through ``_eval_pair`` and folds each result
+    into a per-config accumulator, so memory is O(#configs), not O(#configs ×
+    #answers).
+    """
+    accs = {c["config_id"]: new_accumulator(c) for c in configs}
+    total = len(grid) * len(configs)
+    task_iter = itertools.product(configs, grid)
+
+    def _fold(rec: Tuple[str, Dict[str, Any]]) -> None:
+        cid, record = rec
+        accumulate(accs[cid], record)
+
+    if workers and workers > 1:
+        import multiprocessing as mp
+
+        ctx = mp.get_context("spawn")
+        with ctx.Pool(
+            workers, initializer=_init_sweep_worker, initargs=(universe_path,)
+        ) as pool:
+            for i, rec in enumerate(
+                pool.imap(_eval_pair, task_iter, chunksize=128), 1
+            ):
+                _fold(rec)
+                if progress and (i % 5000 == 0 or i == total):
+                    logger.info("sweep %d/%d (configs=%d)", i, total, len(configs))
+    else:
+        _init_sweep_worker(universe_path)
+        for i, task in enumerate(task_iter, 1):
+            _fold(_eval_pair(task))
+            if progress and (i % 5000 == 0 or i == total):
+                logger.info("sweep %d/%d (configs=%d)", i, total, len(configs))
+
+    return [finalize(accs[c["config_id"]]) for c in configs]

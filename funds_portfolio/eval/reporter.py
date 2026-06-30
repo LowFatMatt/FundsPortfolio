@@ -1,8 +1,13 @@
-"""Aggregate eval records into CSV / JSON / markdown summaries (single config).
+"""Reporting for the eval harness.
 
-Phase 1 produces per-answer metrics plus an aggregate snapshot of the *current*
-config. No ranking or Pareto analysis yet — that arrives with the Phase 2
-config sweep.
+Two layers:
+- Phase 1 (single config): ``aggregate`` over per-answer records -> CSV/JSON/markdown.
+- Phase 2 (sweep): a streaming ``ConfigAccumulator`` so per-(answer,config)
+  pairs never need to be held in memory, plus per-config CSV / markdown writers.
+
+The accumulator tracks running sum / min / max / count for every numeric
+metric and the behavioural booleans, mirroring the Phase 1 ``aggregate`` output
+per config.
 """
 
 from __future__ import annotations
@@ -12,7 +17,7 @@ import json
 import statistics
 from typing import Any, Callable, Dict, List, Sequence
 
-# Metrics aggregated as distributions (mean/median/min/max).
+# Metrics aggregated as distributions (mean/min/max) per config.
 NUMERIC_METRICS = [
     "pref_score",
     "risk_adherence",
@@ -48,7 +53,20 @@ NUMERIC_METRICS = [
     "distinct_regions",
 ]
 
+# Boolean per-answer conditions -> fractions per config.
+BOOL_METRICS: Dict[str, Callable[[Dict[str, Any]], bool]] = {
+    "pct_complete": lambda r: r.get("num_funds") == 5,
+    "pct_empty": lambda r: bool(r.get("empty")),
+    "pct_hijack": lambda r: bool(r.get("hijack_detected")),
+    "pct_satellite_cap_ok": lambda r: r.get("satellite_cap_ok") == 1.0,
+    "pct_min_alloc_ok": lambda r: r.get("min_allocation_ok") == 1.0,
+    "pct_risk_clean": lambda r: r.get("risk_adherence") == 1.0,
+}
 
+
+# --------------------------------------------------------------------------- #
+# Phase 1: single-config aggregate
+# --------------------------------------------------------------------------- #
 def _dist(values: Sequence[Any]) -> Dict[str, Any]:
     vals = [v for v in values if v is not None]
     if not vals:
@@ -207,5 +225,239 @@ def write_markdown(
         f"- regional_drops: {_fmt(summary['regional_drops']['mean'])}",
         "",
     ]
+    with open(path, "w", encoding="utf-8") as f:
+        f.write("\n".join(lines))
+
+
+# --------------------------------------------------------------------------- #
+# Phase 2: streaming per-config accumulator
+# --------------------------------------------------------------------------- #
+def new_accumulator(config: Dict[str, Any]) -> Dict[str, Any]:
+    return {
+        "config_id": config["config_id"],
+        "label": config["label"],
+        "boost_elevators": config.get("boost_elevators"),
+        "is_baseline": config.get("is_baseline", False),
+        "baseline_kind": config.get("baseline_kind"),
+        "count": 0,
+        "sum": {m: 0.0 for m in NUMERIC_METRICS},
+        "cnt": {m: 0 for m in NUMERIC_METRICS},
+        "min": {m: None for m in NUMERIC_METRICS},
+        "max": {m: None for m in NUMERIC_METRICS},
+        "bool_count": {k: 0 for k in BOOL_METRICS},
+        "region_active_sum": 0.0,
+        "region_active_count": 0,
+        "theme_active_sum": 0.0,
+        "theme_active_count": 0,
+        "theme_coverage_active_sum": 0.0,
+    }
+
+
+def accumulate(acc: Dict[str, Any], record: Dict[str, Any]) -> None:
+    """Fold one per-answer record into a config accumulator."""
+    acc["count"] += 1
+    for m in NUMERIC_METRICS:
+        v = record.get(m)
+        if v is None:
+            continue
+        try:
+            fv = float(v)
+        except (TypeError, ValueError):
+            continue
+        acc["sum"][m] += fv
+        acc["cnt"][m] += 1
+        if acc["min"][m] is None or fv < acc["min"][m]:
+            acc["min"][m] = fv
+        if acc["max"][m] is None or fv > acc["max"][m]:
+            acc["max"][m] = fv
+    for key, pred in BOOL_METRICS.items():
+        if pred(record):
+            acc["bool_count"][key] += 1
+    if record.get("regions_active"):
+        acc["region_active_sum"] += float(record.get("region_match") or 0.0)
+        acc["region_active_count"] += 1
+    if record.get("themes_active"):
+        acc["theme_active_sum"] += float(record.get("theme_match") or 0.0)
+        acc["theme_active_count"] += 1
+        acc["theme_coverage_active_sum"] += float(record.get("theme_coverage") or 0.0)
+
+
+def finalize(acc: Dict[str, Any]) -> Dict[str, Any]:
+    """Reduce an accumulator into a per-config stats dict."""
+    out: Dict[str, Any] = {
+        "config_id": acc["config_id"],
+        "label": acc["label"],
+        "boost_elevators": acc["boost_elevators"],
+        "is_baseline": acc["is_baseline"],
+        "baseline_kind": acc["baseline_kind"],
+        "n": acc["count"],
+    }
+    for m in NUMERIC_METRICS:
+        c = acc["cnt"][m]
+        out[f"{m}_mean"] = (acc["sum"][m] / c) if c else None
+        out[f"{m}_min"] = acc["min"][m]
+        out[f"{m}_max"] = acc["max"][m]
+    n = acc["count"] or 1
+    for key in BOOL_METRICS:
+        out[key] = acc["bool_count"][key] / n
+    rac = acc["region_active_count"]
+    tac = acc["theme_active_count"]
+    out["region_match_when_active"] = (acc["region_active_sum"] / rac) if rac else None
+    out["theme_match_when_active"] = (acc["theme_active_sum"] / tac) if tac else None
+    out["theme_coverage_when_active"] = (
+        (acc["theme_coverage_active_sum"] / tac) if tac else None
+    )
+    out["n_region_active"] = rac
+    out["n_theme_active"] = tac
+    return out
+
+
+# --------------------------------------------------------------------------- #
+# Phase 2: sweep output (expects stats already ranked + diffed by ranking.py)
+# --------------------------------------------------------------------------- #
+_SWEEP_CSV_COLUMNS = [
+    "rank", "config_id", "label", "ETF", "ESG", "Region", "Theme",
+    "is_baseline", "baseline_kind", "pareto_optimal", "composite", "n",
+    "overall_mean", "pref_score_mean", "div_score_mean",
+    "pct_complete", "pct_empty", "pct_hijack", "pct_satellite_cap_ok",
+    "pct_min_alloc_ok",
+    "base_gap_top5_mean", "hijack_gap_mean", "boost_dependency_mean",
+    "region_match_when_active", "theme_match_when_active",
+    "theme_coverage_when_active",
+    "provider_div_mean", "distinct_providers_mean",
+    "diff_overall", "diff_pref_score", "diff_div_score",
+    "diff_pct_hijack", "diff_base_gap_top5",
+]
+
+
+def _config_row(stat: Dict[str, Any]) -> Dict[str, Any]:
+    boosts = stat.get("boost_elevators") or {}
+    diff = stat.get("diff_vs_live") or {}
+    row: Dict[str, Any] = {
+        "rank": stat.get("rank"),
+        "config_id": stat.get("config_id"),
+        "label": stat.get("label"),
+        "ETF": boosts.get("ETF"),
+        "ESG": boosts.get("ESG"),
+        "Region": boosts.get("Region"),
+        "Theme": boosts.get("Theme"),
+        "is_baseline": stat.get("is_baseline"),
+        "baseline_kind": stat.get("baseline_kind"),
+        "pareto_optimal": stat.get("pareto_optimal"),
+        "composite": stat.get("composite"),
+        "n": stat.get("n"),
+        "overall_mean": stat.get("overall_mean"),
+        "pref_score_mean": stat.get("pref_score_mean"),
+        "div_score_mean": stat.get("div_score_mean"),
+        "pct_complete": stat.get("pct_complete"),
+        "pct_empty": stat.get("pct_empty"),
+        "pct_hijack": stat.get("pct_hijack"),
+        "pct_satellite_cap_ok": stat.get("pct_satellite_cap_ok"),
+        "pct_min_alloc_ok": stat.get("pct_min_alloc_ok"),
+        "base_gap_top5_mean": stat.get("base_gap_top5_mean"),
+        "hijack_gap_mean": stat.get("hijack_gap_mean"),
+        "boost_dependency_mean": stat.get("boost_dependency_mean"),
+        "region_match_when_active": stat.get("region_match_when_active"),
+        "theme_match_when_active": stat.get("theme_match_when_active"),
+        "theme_coverage_when_active": stat.get("theme_coverage_when_active"),
+        "provider_div_mean": stat.get("provider_div_mean"),
+        "distinct_providers_mean": stat.get("distinct_providers_mean"),
+        "diff_overall": diff.get("overall"),
+        "diff_pref_score": diff.get("pref_score"),
+        "diff_div_score": diff.get("div_score"),
+        "diff_pct_hijack": diff.get("pct_hijack"),
+        "diff_base_gap_top5": diff.get("base_gap_top5"),
+    }
+    return row
+
+
+def write_configs_csv(stats: List[Dict[str, Any]], path: str) -> None:
+    """One row per config, ranked best-first (use after rank_configs)."""
+    with open(path, "w", newline="", encoding="utf-8") as f:
+        writer = csv.DictWriter(f, fieldnames=_SWEEP_CSV_COLUMNS)
+        writer.writeheader()
+        for stat in stats:
+            writer.writerow(_config_row(stat))
+
+
+def write_sweep_markdown(
+    stats: List[Dict[str, Any]],
+    path: str,
+    *,
+    n_answers: int = 0,
+    pref_weight: float = 0.5,
+    div_weight: float = 0.5,
+    hijack_penalty: float = 0.0,
+) -> None:
+    """Render the sweep recommendation: winner, diff vs live, top-10, Pareto."""
+    if not stats:
+        with open(path, "w", encoding="utf-8") as f:
+            f.write("# Decision-Engine Sweep\n\n(no configs)\n")
+        return
+
+    winner = stats[0]
+    live = next((s for s in stats if s.get("baseline_kind") == "live"), None)
+    pareto = [s for s in stats if s.get("pareto_optimal")]
+
+    def _g(s, k):
+        v = s.get(f"{k}_mean", s.get(k))
+        return f"{v:.3f}" if isinstance(v, (int, float)) else "n/a"
+
+    def _d(s, k):
+        v = (s.get("diff_vs_live") or {}).get(k)
+        return f"{v:+.3f}" if isinstance(v, (int, float)) else "n/a"
+
+    wb = winner["boost_elevators"]
+    lines: List[str] = [
+        "# Decision-Engine Boost Sweep",
+        "",
+        f"- Answer sets per config: {n_answers or winner.get('n', '?')}",
+        f"- Configs evaluated: {len(stats)}",
+        f"- Objective: {pref_weight:.0%} preference + {div_weight:.0%} diversification"
+        + (f" - {hijack_penalty:.2f} x pct_hijack" if hijack_penalty else ""),
+        f"- Pareto-optimal configs: {len(pareto)}",
+        "",
+        "## Recommended config (rank 1)",
+        f"- boosts: ETF={wb['ETF']:.0f} ESG={wb['ESG']:.0f} "
+        f"Region={wb['Region']:.0f} Theme={wb['Theme']:.0f}",
+        f"- composite: {_g(winner, 'composite')}  "
+        f"(overall {_g(winner, 'overall')}, pref {_g(winner, 'pref_score')}, "
+        f"div {_g(winner, 'div_score')})",
+        f"- pct_hijack: {_g(winner, 'pct_hijack')}  "
+        f"base_gap_top5: {_g(winner, 'base_gap_top5')}",
+        f"- region_match (active): {_g(winner, 'region_match_when_active')}  "
+        f"theme_coverage: {_g(winner, 'theme_coverage_when_active')}",
+        "",
+        "## Diff vs current live config (positive overall = better)",
+        f"- overall: {_d(winner, 'overall')}",
+        f"- pref_score: {_d(winner, 'pref_score')}",
+        f"- div_score: {_d(winner, 'div_score')}",
+        f"- pct_hijack: {_d(winner, 'pct_hijack')} (negative = less hijacking)",
+        f"- base_gap_top5: {_d(winner, 'base_gap_top5')} (positive = less quality loss)",
+        "",
+        "## Top 10 configs",
+        "| rank | ETF | ESG | Reg | Thm | overall | pref | div | pct_hijack | base_gap_top5 | d_overall | d_pct_hijack | pareto |",
+        "|------|-----|-----|-----|-----|---------|------|-----|------------|---------------|-----------|--------------|--------|",
+    ]
+    for s in stats[:10]:
+        b = s["boost_elevators"]
+        base = "live" if s.get("baseline_kind") == "live" else (
+            "spec" if s.get("baseline_kind") == "spec" else ""
+        )
+        tag = (" " + base) if base else ""
+        lines.append(
+            f"| {s.get('rank')} | {b['ETF']:.0f} | {b['ESG']:.0f} | "
+            f"{b['Region']:.0f} | {b['Theme']:.0f} | {_g(s, 'overall')} | "
+            f"{_g(s, 'pref_score')} | {_g(s, 'div_score')} | {_g(s, 'pct_hijack')} | "
+            f"{_g(s, 'base_gap_top5')} | {_d(s, 'overall')} | {_d(s, 'pct_hijack')} | "
+            f"{'yes' if s.get('pareto_optimal') else ''}{tag} |"
+        )
+    if live is not None:
+        lines.append("")
+        lines.append(
+            f"Live baseline rank: {live.get('rank')} "
+            f"(overall {_g(live, 'overall')}, pct_hijack {_g(live, 'pct_hijack')})"
+        )
+    lines.append("")
     with open(path, "w", encoding="utf-8") as f:
         f.write("\n".join(lines))

@@ -8,7 +8,7 @@ configuration. It is tracked in git so Phase-2 config sweeps can diff against it
 
 - **Captured:** 2026-06-29
 - **Config:** current in-tree `DecisionEngine` defaults
-  - [`BOOST_ELEVATORS`](../funds_portfolio/portfolio/decision_engine.py:55) = `{ETF: 20, ESG: 20, Region: 30, Theme: 30}`
+  - [`BOOST_ELEVATORS`](../funds_portfolio/portfolio/decision_engine.py:55) = `{ETF: 20, ESG: 20, Region: 30, Theme: 45}`
   - constructor: `min_candidates=0` (relaxations off), `top_k=65`,
     `final_fund_count=5`, `max_per_provider=5`, `max_per_category=5`
     (diversification caps effectively off), `min_allocation_percentage=10`
