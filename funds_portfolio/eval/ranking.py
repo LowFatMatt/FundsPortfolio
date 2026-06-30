@@ -29,6 +29,9 @@ _DIRECT_METRICS = [
     "region_match_when_active",
     "theme_match_when_active",
     "theme_coverage_when_active",
+    "region_coverage_when_active",
+    "pct_theme_full_match",
+    "pct_region_full_match",
 ]
 
 _DIFF_KEYS = [
@@ -39,6 +42,8 @@ _DIFF_KEYS = [
     "base_gap_top5",
     "region_match_when_active",
     "theme_coverage_when_active",
+    "pct_theme_full_match",
+    "pct_region_full_match",
 ]
 
 

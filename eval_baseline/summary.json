@@ -56,6 +56,13 @@
     "min": 0.0,
     "max": 1.0
   },
+  "region_coverage": {
+    "count": 1691,
+    "mean": 0.37419455943228863,
+    "median": 0.3333,
+    "min": 0.0,
+    "max": 1.0
+  },
   "div_score": {
     "count": 1691,
     "mean": 0.626742755765819,
@@ -237,6 +244,8 @@
     "pct_hijack": 0.5653459491425192,
     "pct_satellite_cap_ok": 0.7368421052631579,
     "pct_min_alloc_ok": 0.9923122412773506,
-    "pct_risk_clean": 1.0
+    "pct_risk_clean": 1.0,
+    "pct_theme_full_match": 0.22822822822822822,
+    "pct_region_full_match": 0.11782661782661782
   }
 }

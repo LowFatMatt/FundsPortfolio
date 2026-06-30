@@ -15,6 +15,7 @@
 - region_match: 0.333
 - theme_match: 0.258
 - theme_coverage: 0.378
+- region_coverage: 0.374
 - region_match (when active, n=1638): 0.312
 - theme_match (when active, n=1665): 0.246
 
@@ -33,6 +34,8 @@
 - pct_satellite_cap_ok: 0.737
 - pct_min_alloc_ok: 0.992
 - pct_risk_clean: 1.000
+- pct_theme_full_match (of theme-active): 0.228
+- pct_region_full_match (of region-active): 0.118
 
 ## Boost-hijack diagnostic (mean; reported, not in objective)
 - base_gap_top5: -5.462 (selected mean base minus pure-quality top-5 mean base; negative = boosts overrode quality)

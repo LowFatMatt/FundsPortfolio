@@ -15,7 +15,7 @@ from __future__ import annotations
 import csv
 import json
 import statistics
-from typing import Any, Callable, Dict, List, Sequence
+from typing import Any, Callable, Dict, List, Optional, Sequence
 
 # Metrics aggregated as distributions (mean/min/max) per config.
 NUMERIC_METRICS = [
@@ -27,6 +27,7 @@ NUMERIC_METRICS = [
     "theme_match",
     "theme_exposure_match",
     "theme_coverage",
+    "region_coverage",
     "div_score",
     "provider_div",
     "asset_div",
@@ -86,6 +87,22 @@ def _fraction(records: List[Dict[str, Any]], pred: Callable[[Dict[str, Any]], bo
     return sum(1 for r in records if pred(r)) / len(records)
 
 
+def _cond_fraction(
+    records: List[Dict[str, Any]],
+    active_pred: Callable[[Dict[str, Any]], bool],
+    met_pred: Callable[[Dict[str, Any]], bool],
+) -> Optional[float]:
+    """Fraction of *active* records that satisfy ``met_pred`` (None if no active).
+
+    Used for the theme/region full-match rates, whose denominator is the subset
+    of answers that actually expressed that preference.
+    """
+    active = [r for r in records if active_pred(r)]
+    if not active:
+        return None
+    return sum(1 for r in active if met_pred(r)) / len(active)
+
+
 def aggregate(records: List[Dict[str, Any]]) -> Dict[str, Any]:
     """Aggregate per-answer records into a single-config summary."""
     summary: Dict[str, Any] = {"n_answers": len(records)}
@@ -125,6 +142,16 @@ def aggregate(records: List[Dict[str, Any]]) -> Dict[str, Any]:
         ),
         "pct_risk_clean": _fraction(
             records, lambda r: r.get("risk_adherence") == 1.0
+        ),
+        "pct_theme_full_match": _cond_fraction(
+            records,
+            lambda r: r.get("themes_active"),
+            lambda r: bool(r.get("theme_full_match")),
+        ),
+        "pct_region_full_match": _cond_fraction(
+            records,
+            lambda r: r.get("regions_active"),
+            lambda r: bool(r.get("region_full_match")),
         ),
     }
     return summary
@@ -190,6 +217,7 @@ def write_markdown(
         f"- region_match: {_fmt(summary['region_match']['mean'])}",
         f"- theme_match: {_fmt(summary['theme_match']['mean'])}",
         f"- theme_coverage: {_fmt(summary['theme_coverage']['mean'])}",
+        f"- region_coverage: {_fmt(summary['region_coverage']['mean'])}",
         f"- region_match (when active, n={cond['n_region_active']}): "
         f"{_fmt(cond['region_match_when_active'])}",
         f"- theme_match (when active, n={cond['n_theme_active']}): "
@@ -211,6 +239,8 @@ def write_markdown(
         f"- pct_satellite_cap_ok: {beh['pct_satellite_cap_ok']:.3f}",
         f"- pct_min_alloc_ok: {beh['pct_min_alloc_ok']:.3f}",
         f"- pct_risk_clean: {beh['pct_risk_clean']:.3f}",
+        f"- pct_theme_full_match (of theme-active): {_fmt(beh['pct_theme_full_match'])}",
+        f"- pct_region_full_match (of region-active): {_fmt(beh['pct_region_full_match'])}",
         "",
         "## Boost-hijack diagnostic (mean; reported, not in objective)",
         f"- base_gap_top5: {_fmt(summary['base_gap_top5']['mean'])} "
@@ -250,6 +280,11 @@ def new_accumulator(config: Dict[str, Any]) -> Dict[str, Any]:
         "theme_active_sum": 0.0,
         "theme_active_count": 0,
         "theme_coverage_active_sum": 0.0,
+        "region_coverage_active_sum": 0.0,
+        "theme_full_count": 0,
+        "theme_full_sum": 0,
+        "region_full_count": 0,
+        "region_full_sum": 0,
     }
 
 
@@ -276,10 +311,17 @@ def accumulate(acc: Dict[str, Any], record: Dict[str, Any]) -> None:
     if record.get("regions_active"):
         acc["region_active_sum"] += float(record.get("region_match") or 0.0)
         acc["region_active_count"] += 1
+        acc["region_coverage_active_sum"] += float(record.get("region_coverage") or 0.0)
+        acc["region_full_count"] += 1
+        if record.get("region_full_match"):
+            acc["region_full_sum"] += 1
     if record.get("themes_active"):
         acc["theme_active_sum"] += float(record.get("theme_match") or 0.0)
         acc["theme_active_count"] += 1
         acc["theme_coverage_active_sum"] += float(record.get("theme_coverage") or 0.0)
+        acc["theme_full_count"] += 1
+        if record.get("theme_full_match"):
+            acc["theme_full_sum"] += 1
 
 
 def finalize(acc: Dict[str, Any]) -> Dict[str, Any]:
@@ -307,6 +349,19 @@ def finalize(acc: Dict[str, Any]) -> Dict[str, Any]:
     out["theme_coverage_when_active"] = (
         (acc["theme_coverage_active_sum"] / tac) if tac else None
     )
+    out["region_coverage_when_active"] = (
+        (acc["region_coverage_active_sum"] / rac) if rac else None
+    )
+    out["pct_theme_full_match"] = (
+        (acc["theme_full_sum"] / acc["theme_full_count"])
+        if acc["theme_full_count"]
+        else None
+    )
+    out["pct_region_full_match"] = (
+        (acc["region_full_sum"] / acc["region_full_count"])
+        if acc["region_full_count"]
+        else None
+    )
     out["n_region_active"] = rac
     out["n_theme_active"] = tac
     return out
@@ -323,10 +378,12 @@ _SWEEP_CSV_COLUMNS = [
     "pct_min_alloc_ok",
     "base_gap_top5_mean", "hijack_gap_mean", "boost_dependency_mean",
     "region_match_when_active", "theme_match_when_active",
-    "theme_coverage_when_active",
+    "theme_coverage_when_active", "region_coverage_when_active",
+    "pct_theme_full_match", "pct_region_full_match",
     "provider_div_mean", "distinct_providers_mean",
     "diff_overall", "diff_pref_score", "diff_div_score",
     "diff_pct_hijack", "diff_base_gap_top5",
+    "diff_pct_theme_full_match", "diff_pct_region_full_match",
 ]
 
 
@@ -360,6 +417,9 @@ def _config_row(stat: Dict[str, Any]) -> Dict[str, Any]:
         "region_match_when_active": stat.get("region_match_when_active"),
         "theme_match_when_active": stat.get("theme_match_when_active"),
         "theme_coverage_when_active": stat.get("theme_coverage_when_active"),
+        "region_coverage_when_active": stat.get("region_coverage_when_active"),
+        "pct_theme_full_match": stat.get("pct_theme_full_match"),
+        "pct_region_full_match": stat.get("pct_region_full_match"),
         "provider_div_mean": stat.get("provider_div_mean"),
         "distinct_providers_mean": stat.get("distinct_providers_mean"),
         "diff_overall": diff.get("overall"),
@@ -367,6 +427,8 @@ def _config_row(stat: Dict[str, Any]) -> Dict[str, Any]:
         "diff_div_score": diff.get("div_score"),
         "diff_pct_hijack": diff.get("pct_hijack"),
         "diff_base_gap_top5": diff.get("base_gap_top5"),
+        "diff_pct_theme_full_match": diff.get("pct_theme_full_match"),
+        "diff_pct_region_full_match": diff.get("pct_region_full_match"),
     }
     return row
 
@@ -427,6 +489,8 @@ def write_sweep_markdown(
         f"base_gap_top5: {_g(winner, 'base_gap_top5')}",
         f"- region_match (active): {_g(winner, 'region_match_when_active')}  "
         f"theme_coverage: {_g(winner, 'theme_coverage_when_active')}",
+        f"- pct_theme_full_match: {_g(winner, 'pct_theme_full_match')}  "
+        f"pct_region_full_match: {_g(winner, 'pct_region_full_match')}",
         "",
         "## Diff vs current live config (positive overall = better)",
         f"- overall: {_d(winner, 'overall')}",
@@ -434,6 +498,8 @@ def write_sweep_markdown(
         f"- div_score: {_d(winner, 'div_score')}",
         f"- pct_hijack: {_d(winner, 'pct_hijack')} (negative = less hijacking)",
         f"- base_gap_top5: {_d(winner, 'base_gap_top5')} (positive = less quality loss)",
+        f"- pct_theme_full_match: {_d(winner, 'pct_theme_full_match')} (positive = more themes fully met)",
+        f"- pct_region_full_match: {_d(winner, 'pct_region_full_match')} (positive = more regions fully met)",
         "",
         "## Top 10 configs",
         "| rank | ETF | ESG | Reg | Thm | overall | pref | div | pct_hijack | base_gap_top5 | d_overall | d_pct_hijack | pareto |",

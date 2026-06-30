@@ -148,6 +148,42 @@ def test_no_preferences_vacuously_satisfied():
     assert m["themes_active"] is False
 
 
+def test_region_coverage_and_full_match_flags():
+    answers = {
+        "risk_approach": "aggressive", "esg_preference": "PREFER_ESG",
+        "etf_preference": "prefer_etf",
+        "preferred_regions": ["north_america"],
+        "preferred_themes": ["ai_robotics"],
+    }
+    m = compute_metrics(answers, _synthetic_result())
+    # north_america is present among selected funds -> fully covered.
+    assert m["region_coverage"] == pytest.approx(1.0, abs=1e-9)
+    assert m["region_full_match"] is True
+    assert m["theme_full_match"] is True  # ai_robotics is present
+
+    # Asking for a region not in the portfolio drops coverage < 1.0.
+    answers2 = dict(answers)
+    answers2["preferred_regions"] = ["north_america", "asia"]
+    m2 = compute_metrics(answers2, _synthetic_result())
+    assert m2["region_coverage"] == pytest.approx(0.5, abs=1e-9)
+    assert m2["region_full_match"] is False
+
+
+def test_full_match_flags_false_when_preference_inactive():
+    result = _synthetic_result()
+    answers = {
+        "risk_approach": "moderate", "esg_preference": "NONE",
+        "etf_preference": "no_preference",
+        "preferred_regions": [], "preferred_themes": [],
+    }
+    m = compute_metrics(answers, result)
+    # Vacuous 1.0 coverage, but "full match" is False because nothing was asked.
+    assert m["region_coverage"] == 1.0
+    assert m["theme_coverage"] == 1.0
+    assert m["region_full_match"] is False
+    assert m["theme_full_match"] is False
+
+
 def test_empty_portfolio_handling():
     answers = {
         "risk_approach": "conservative", "esg_preference": "ART_8_9_ONLY",

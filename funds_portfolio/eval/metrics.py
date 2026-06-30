@@ -117,6 +117,7 @@ def compute_metrics(
     region_exposures = pmetrics.get("region_exposures") or {}
     if not regions_active:
         region_match = 1.0
+        region_coverage = 1.0
     else:
         match_weight = sum(
             _as_float(v)
@@ -124,6 +125,17 @@ def compute_metrics(
             if str(k).lower() in pref_regions
         )
         region_match = max(0.0, min(1.0, match_weight))
+        # Coverage: fraction of *requested* regions that appear among the
+        # selected funds' region tags (symmetric to theme_coverage). Uses the
+        # fund region field, consistent with region_exposures above.
+        selected_regions = {
+            str(r.get("region") or "").lower() for r in recs
+        } - {""}
+        covered = sum(1 for rg in pref_regions if rg in selected_regions)
+        region_coverage = covered / len(pref_regions) if pref_regions else 1.0
+    # Strict "every requested region was represented" boolean (only meaningful
+    # when the preference was active). Used for the full-match rate.
+    region_full_match = bool(regions_active and region_coverage >= 1.0)
 
     theme_exposures = pmetrics.get("theme_exposures") or {}
     selected_themes = {
@@ -142,6 +154,9 @@ def compute_metrics(
         covered = sum(1 for t in pref_themes if t in selected_themes)
         theme_coverage = covered / len(pref_themes) if pref_themes else 1.0
     theme_match = (theme_exposure_match + theme_coverage) / 2.0
+    # Strict "every requested theme was represented" boolean. Companion to
+    # region_full_match above.
+    theme_full_match = bool(themes_active and theme_coverage >= 1.0)
 
     pref_components: List[float] = [risk_adherence, esg_match, etf_match]
     if regions_active:
@@ -265,9 +280,12 @@ def compute_metrics(
         "esg_match": round(esg_match, 4),
         "etf_match": round(etf_match, 4),
         "region_match": round(region_match, 4),
+        "region_coverage": round(region_coverage, 4),
         "theme_match": round(theme_match, 4),
         "theme_exposure_match": round(theme_exposure_match, 4),
         "theme_coverage": round(theme_coverage, 4),
+        "region_full_match": region_full_match,
+        "theme_full_match": theme_full_match,
         "regions_active": regions_active,
         "themes_active": themes_active,
         # diversification

@@ -46,5 +46,14 @@ through the live engine reproduces the same 5 funds, and the reported
 | pct_hijack | 0.565 |
 | base_gap_top5 (mean) | −5.462 |
 | region_match (when active) | 0.312 |
+| region_coverage (mean) | 0.374 |
 | theme_coverage (mean) | 0.378 |
+| **pct_theme_full_match (of theme-active)** | **0.228** |
+| **pct_region_full_match (of region-active)** | **0.118** |
 | pct_complete (5 funds) | 0.629 |
+
+> Read-out: under the current config only **22.8 %** of theme-requesting
+> portfolios and **11.8 %** of region-requesting portfolios fully satisfy the
+> requested preferences (every requested theme/region represented). The two
+> explicit-preference dimensions are where satisfaction collapses — the high
+> `preference (mean) 0.653` is carried by risk/ESG/ETF.
