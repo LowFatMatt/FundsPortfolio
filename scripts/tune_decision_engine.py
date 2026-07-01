@@ -47,7 +47,7 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--universe", default="funds_database.json")
     parser.add_argument("--answer-grid-cap", type=int, default=None)
-    parser.add_argument("--max-regions", type=int, default=None)
+    parser.add_argument("--max-regions", type=int, default=2)
     parser.add_argument("--max-themes", type=int, default=2)
     parser.add_argument(
         "--boost-grid",
