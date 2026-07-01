@@ -52,12 +52,19 @@ EXPLICIT_REGIONS: set = {
 }
 
 # Define boost values for preferences. These are added to the base score to influence ranking.
+#
 BOOST_ELEVATORS: Dict[str, float] = {
-    "ETF": 20.0,
-    "ESG": 20.0,
-    "Region": 30.0,
-    "Theme": 45.0,
+    "ETF": 60.0,
+    "ESG": 45.0,
+    "Region": 60.0,
+    "Theme": 5.0,
 }
+#BOOST_ELEVATORS: Dict[str, float] = {
+#    "ETF": 20.0,
+#    "ESG": 20.0,
+#    "Region": 30.0,
+#    "Theme": 45.0,
+#}
 
 
 def _region_matches(fund_region: str, preferred: set) -> bool:
