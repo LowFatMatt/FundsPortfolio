@@ -229,6 +229,20 @@ class TestQuestionnaireLoader:
             "emerging_markets",
         ]
 
+    def test_multi_select_sections_declare_max_two(self):
+        """Both multi-select sections (regions, themes) cap at 2 selections.
+
+        This is the single source of truth the GUI reads (renderChipGroup uses
+        section.max) so region chips enforce the same limit themes already do.
+        """
+        ql = QuestionnaireLoader(Q_SCHEMA_PATH)
+        for section_id in ("preferred_regions", "preferred_themes"):
+            section = ql.get_section_by_id(section_id)
+            assert section.get("type") == "multi_select"
+            assert section.get("max") == 2, (
+                f"{section_id} must declare max==2 (GUI single source of truth)"
+            )
+
     def test_theme_whitelist_exposes_new_themes(self):
         """Theme options include new themes even with no backing funds."""
         ql = QuestionnaireLoader(Q_SCHEMA_PATH)

@@ -609,6 +609,10 @@ document.addEventListener('DOMContentLoaded', () => {
             weightedFeeVal.textContent = fee != null ? `${Number(fee).toFixed(3)}%` : '—';
         }
 
+        // Preference-satisfaction summary (single source of truth:
+        // portfolio.portfolio_metrics.preference_satisfaction, computed by the engine).
+        renderPreferenceSatisfaction(portfolio);
+
         // Decision summary (Preferences tab)
         if (decisionSummaryText) {
             decisionSummaryText.textContent =
@@ -1557,6 +1561,30 @@ document.addEventListener('DOMContentLoaded', () => {
         const entries = Object.entries(boosts || {});
         if (!entries.length) return '—';
         return entries.map(([k, v]) => `${k} +${v}`).join(', ');
+    }
+
+    // Preference-satisfaction display — Summary tab shows the full sentence,
+    // Preferences tab shows the short "x/y". Both read the single source of
+    // truth computed by the engine (portfolio_metrics.preference_satisfaction).
+    function renderPreferenceSatisfaction(portfolio) {
+        const ps = portfolio.portfolio_metrics?.preference_satisfaction;
+        const summaryEl = document.getElementById('pref-satisfaction-summary');
+        const shortEl = document.getElementById('pref-satisfaction-short');
+        if (!ps) {
+            if (summaryEl) summaryEl.textContent = '—';
+            if (shortEl) shortEl.textContent = '';
+            return;
+        }
+        if (summaryEl) {
+            summaryEl.textContent = t(
+                'ui.pref_summary',
+                '{fulfilled} of {total} preferences fulfilled.'
+            ).replace('{fulfilled}', ps.fulfilled).replace('{total}', ps.total);
+        }
+        if (shortEl) {
+            shortEl.textContent = t('ui.pref_summary_short', 'Preferences fulfilled: {x}')
+                .replace('{x}', ps.display);
+        }
     }
 
     function renderDecisionTrace(trace, showTraces) {

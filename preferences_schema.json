@@ -96,6 +96,7 @@
         "type": "multi_select",
         "display_hint": "chips",
         "required": false,
+        "max": 2,
         "options": [
           {
             "id": "region_germany",

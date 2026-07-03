@@ -17,6 +17,8 @@ import logging
 import os
 import json
 
+from .preference_match import preference_satisfaction
+
 logger = logging.getLogger(__name__)
 
 # SRRI → approximate MDD proxy (positive %, e.g. 20.0 = 20%)
@@ -318,6 +320,18 @@ class DecisionEngine:
 
         # 9) Portfolio metrics
         metrics = self._compute_portfolio_metrics(recommendations, risk_profile)
+
+        # Preference-satisfaction breakdown — single source of truth shared by
+        # the engine output, the decision trace, the eval harness, and the GUI
+        # summary/preferences tabs (see funds_portfolio/portfolio/preference_match.py).
+        pref_sat = preference_satisfaction(
+            user_answers,
+            recommendations,
+            relaxations=trace.get("relaxations") or [],
+            used_fallback_risk=bool(trace.get("used_fallback_risk")),
+        )
+        metrics["preference_satisfaction"] = pref_sat
+        trace["preference_satisfaction"] = pref_sat
 
         # Summary string for UI
         summary = self._build_summary(
