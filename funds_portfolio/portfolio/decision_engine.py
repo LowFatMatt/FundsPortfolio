@@ -56,8 +56,8 @@ EXPLICIT_REGIONS: set = {
 BOOST_ELEVATORS: Dict[str, float] = {
     "ETF": 60.0,
     "ESG": 45.0,
-    "Region": 60.0,
-    "Theme": 5.0,
+    "Region": 70.0,
+    "Theme": 70.0,
 }
 #BOOST_ELEVATORS: Dict[str, float] = {
 #    "ETF": 20.0,
