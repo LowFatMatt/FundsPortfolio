@@ -211,6 +211,31 @@ def test_no_preferences_vacuously_satisfied():
     assert m["themes_active"] is False
 
 
+def test_etf_share_recomputed_from_recs_without_engine_field():
+    """etf_match must come from the recommendations, not fall back to an ESG
+    number — regression for the old `esg_share` fallback at the etf computation."""
+    recs = [
+        {"isin": "A", "allocation_percent": 40, "is_etf": True},
+        {"isin": "B", "allocation_percent": 60, "is_etf": False},
+    ]
+    # portfolio_metrics deliberately OMITS etf_share; old code would have fallen
+    # back to esg_share here. esg_share is 0 (no esg_label) so the bug would
+    # have silently reported etf_match=0 instead of the true 0.4.
+    result = {
+        "recommendations": recs,
+        "portfolio_metrics": {"risk_profile": "BALANCED"},
+        "decision_trace": {},
+        "risk_profile": "BALANCED",
+    }
+    answers = {
+        "risk_approach": "moderate", "esg_preference": "NONE",
+        "etf_preference": "prefer_etf",
+        "preferred_regions": [], "preferred_themes": [],
+    }
+    m = compute_metrics(answers, result)
+    assert m["etf_match"] == pytest.approx(0.4, abs=1e-9)
+
+
 def test_region_coverage_and_full_match_flags():
     answers = {
         "risk_approach": "aggressive",

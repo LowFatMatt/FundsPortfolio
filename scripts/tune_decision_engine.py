@@ -68,8 +68,39 @@ def parse_args() -> argparse.Namespace:
         action="store_true",
         help="Skip writing the regression snapshot for the winning config.",
     )
+    parser.add_argument(
+        "--no-thematic-guarantee",
+        action="store_true",
+        help="Disable the thematic force-insert guarantee (default: on). Used to "
+        "isolate the Theme boost's effect, which the guarantee otherwise masks.",
+    )
+    parser.add_argument(
+        "--no-regional-cap",
+        action="store_true",
+        help="Disable the regional concentration cap (max 3 of 5 from one preferred "
+        "region; default: on). Used to isolate the Region boost's effect.",
+    )
     parser.add_argument("--out", default="eval_results_sweep")
     return parser.parse_args()
+
+
+def _regime_kwargs(args) -> dict:
+    """Engine kwargs derived from the guarantee/cap flags (empty if all default)."""
+    kw = {}
+    if args.no_thematic_guarantee:
+        kw["thematic_guarantee"] = False
+    if args.no_regional_cap:
+        kw["regional_cap"] = False
+    return kw
+
+
+def _regime_label(args) -> str:
+    flags = []
+    if args.no_thematic_guarantee:
+        flags.append("no_thematic_guarantee")
+    if args.no_regional_cap:
+        flags.append("no_regional_cap")
+    return ",".join(flags) if flags else "default"
 
 
 def collect_snapshot(grid, boosts, universe_path):
@@ -118,7 +149,16 @@ def main() -> None:
 
     boost_values = [float(v) for v in args.boost_grid.split(",")]
     configs = build_boost_configs(boost_values)
-    log.info("boost configs: %d (grid=%s)", len(configs), boost_values)
+    regime_kw = _regime_kwargs(args)
+    regime_label = _regime_label(args)
+    if regime_kw:
+        for c in configs:
+            c["engine_kwargs"] = {**c["engine_kwargs"], **regime_kw}
+        log.info("regime overrides: %s", regime_kw)
+    log.info(
+        "boost configs: %d (grid=%s, regime=%s)",
+        len(configs), boost_values, regime_label,
+    )
 
     stats = run_sweep(grid, configs, universe_path=args.universe, workers=args.workers)
     add_diff_vs_live(stats)
@@ -150,11 +190,14 @@ def main() -> None:
         pref_weight=args.pref_weight,
         div_weight=args.div_weight,
         hijack_penalty=args.hijack_penalty,
+        regime=regime_label,
     )
 
     winner = ranked[0]
     if not args.no_snapshot:
-        snap = collect_snapshot(grid, winner["boost_elevators"], args.universe)
+        snap = collect_snapshot(
+            grid, winner["boost_elevators"], args.universe, regime_kw
+        )
         snap_path = os.path.join(
             args.out, f"regression_snapshot_{winner['config_id']}.json"
         )

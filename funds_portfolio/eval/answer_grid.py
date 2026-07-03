@@ -35,6 +35,8 @@ REGIONS: List[str] = [
     "asia",
     "emerging_markets",
 ]
+MAX_REGIONS_DEFAULT = 2  # preferences_schema.json does not cap regions, but the UI does (max 2).
+
 # Themes follow the response_schema vocabulary (11 themes incl. "energy", which
 # at least one fund carries). "none" is excluded — it means "no theme".
 THEMES: List[str] = [
@@ -80,7 +82,7 @@ def _subsets(options: Sequence[str], max_size: Optional[int]) -> List[List[str]]
 
 def build_answer_grid(
     *,
-    max_regions: Optional[int] = None,
+    max_regions: Optional[int] = MAX_REGIONS_DEFAULT,
     max_themes: int = MAX_THEMES_DEFAULT,
     regions: Optional[Sequence[str]] = None,
     themes: Optional[Sequence[str]] = None,

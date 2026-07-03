@@ -106,13 +106,19 @@ def compute_metrics(
         esg_match = esg_share
 
     active_fallbacks = sum(1 for r in recs if r.get("etf_not_available"))
-    etf_share_m = _as_float(pmetrics.get("etf_share"), esg_share)
+    # Compute the ETF allocation share directly from the recommendations so the
+    # metric never depends on the engine's portfolio_metrics being present (and
+    # never falls back to an unrelated ESG number — the previous fallback here
+    # was a copy-paste contamination).
+    etf_share = (
+        sum(_alloc_weight(r) for r in recs if r.get("is_etf")) / total_weight
+    )
     if etf_pref == "no_preference":
         etf_match = 1.0
     elif etf_pref == "etf_only":
-        etf_match = 1.0 if not active_fallbacks else max(0.0, etf_share_m)
+        etf_match = 1.0 if not active_fallbacks else max(0.0, etf_share)
     else:  # prefer_etf
-        etf_match = _as_float(pmetrics.get("etf_share"), 0.0)
+        etf_match = etf_share
 
     region_exposures = pmetrics.get("region_exposures") or {}
     if not regions_active:

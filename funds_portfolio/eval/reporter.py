@@ -475,6 +475,7 @@ def write_sweep_markdown(
     pref_weight: float = 0.5,
     div_weight: float = 0.5,
     hijack_penalty: float = 0.0,
+    regime: str = "default",
 ) -> None:
     """Render the sweep recommendation: winner, diff vs live, top-10, Pareto."""
     if not stats:
@@ -503,6 +504,8 @@ def write_sweep_markdown(
         f"- Objective: {pref_weight:.0%} preference + {div_weight:.0%} diversification"
         + (f" - {hijack_penalty:.2f} x pct_hijack" if hijack_penalty else ""),
         f"- Pareto-optimal configs: {len(pareto)}",
+        f"- Regime: {regime} "
+        "(thematic_guarantee / regional_cap engine flags applied during the sweep)",
         "",
         "## Recommended config (rank 1)",
         f"- boosts: ETF={wb['ETF']:.0f} ESG={wb['ESG']:.0f} "

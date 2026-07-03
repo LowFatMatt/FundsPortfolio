@@ -101,6 +101,8 @@ class DecisionEngine:
         boost_elevators: Optional[
             Dict[str, float]
         ] = None,  # per-preference scoring boosts; defaults to the module BOOST_ELEVATORS
+        thematic_guarantee: bool = True,  # force-insert a fund for each missing preferred theme (see _select_funds)
+        regional_cap: bool = True,  # cap at 3 of 5 funds from the same preferred region (see _select_funds)
     ):
         self.min_candidates = min_candidates
         self.top_k = top_k
@@ -108,6 +110,8 @@ class DecisionEngine:
         self.max_per_provider = max_per_provider
         self.max_per_category = max_per_category
         self.min_allocation_percentage = min_allocation_percentage
+        self.thematic_guarantee = thematic_guarantee
+        self.regional_cap = regional_cap
         # Copy so a caller-supplied dict (or the module constant) is never
         # mutated in place, and so each instance is isolated for the eval sweep.
         self._boost_elevators: Dict[str, float] = dict(
@@ -695,7 +699,7 @@ class DecisionEngine:
                 str(r).lower() for r in (user_answers.get("preferred_regions") or [])
             }
 
-        if preferred_themes and "NONE" not in preferred_themes:
+        if self.thematic_guarantee and preferred_themes and "NONE" not in preferred_themes:
 
             def _fund_theme(f: Dict[str, Any]) -> str:
                 return str(f.get("theme") or "").upper()
@@ -750,7 +754,7 @@ class DecisionEngine:
         def _region_match(f: Dict[str, Any]) -> bool:
             return _region_matches(f.get("region"), preferred_regions)
 
-        if preferred_regions and len(selected) > 3:
+        if self.regional_cap and preferred_regions and len(selected) > 3:
             regional = [f for f in selected if _region_match(f)]
             if len(regional) > 3:
                 # Keep top 3, preferring thematic matches so the user's theme
