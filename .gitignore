@@ -70,8 +70,9 @@ temp/
 *.tmp
 .~*
 
-# Notes in the designated Folder
+# Notes and Plans in designated Folders
 notes/
+plans/
 
 # Docker
 docker-compose.override.yml
