@@ -104,7 +104,9 @@ class DecisionEngine:
             Dict[str, float]
         ] = None,  # per-preference scoring boosts; defaults to the module BOOST_ELEVATORS
         thematic_guarantee: bool = True,  # force-insert a fund for each missing preferred theme (see _select_funds)
-        regional_cap: bool = True,  # cap at 3 of 5 funds from the same preferred region (see _select_funds)
+        regional_guarantee: bool = True,  # force-insert a fund for each missing preferred region (see _select_funds)
+        regional_cap: bool = True,  # per-value cap: max 2 funds of the SAME preferred region (see _select_funds)
+        theme_cap: bool = True,  # per-value cap: max 2 funds of the SAME preferred theme (see _select_funds)
     ):
         self.min_candidates = min_candidates
         self.top_k = top_k
@@ -113,7 +115,9 @@ class DecisionEngine:
         self.max_per_category = max_per_category
         self.min_allocation_percentage = min_allocation_percentage
         self.thematic_guarantee = thematic_guarantee
+        self.regional_guarantee = regional_guarantee
         self.regional_cap = regional_cap
+        self.theme_cap = theme_cap
         # Copy so a caller-supplied dict (or the module constant) is never
         # mutated in place, and so each instance is isolated for the eval sweep.
         self._boost_elevators: Dict[str, float] = dict(
@@ -701,8 +705,22 @@ class DecisionEngine:
                 if len(selected) >= self.final_fund_count:
                     break
 
-        # Thematic guarantee: if user has a theme preference and a matching fund
-        # exists in the scored pool but didn't make the cut, force it in.
+        # ---- Preference guarantees and per-value concentration caps ----------
+        #
+        # Pipeline order (see plans/2026-07-03 for the full design):
+        #   1. Thematic guarantee   — force-insert a fund for each missing
+        #      preferred theme.  Inserted funds are PROTECTED.
+        #   2. Regional guarantee   — force-insert a fund for each missing
+        #      preferred region.  Inserted funds are PROTECTED.
+        #   3. Regional cap         — max 2 of the SAME preferred region
+        #      (per-value, not total).  Only non-protected excess is trimmed.
+        #   4. Theme cap            — max 2 of the SAME preferred theme
+        #      (per-value).  Only non-protected excess is trimmed.
+        #
+        # Cross-dimension safety: a fund in the _protected set is never dropped
+        # by any cap, and a guarantee only drops the lowest-scored non-protected
+        # fund — so guaranteeing one dimension never evicts the other's coverage.
+
         preferred_themes: set = set()
         preferred_regions: set = set()
         if user_answers:
@@ -712,18 +730,19 @@ class DecisionEngine:
             preferred_regions = {
                 str(r).lower() for r in (user_answers.get("preferred_regions") or [])
             }
+        _protected: set = set()  # ISINs inserted by a guarantee — never dropped
 
+        def _fund_theme(f: Dict[str, Any]) -> str:
+            return str(f.get("theme") or "").upper()
+
+        def _fund_region(f: Dict[str, Any]) -> str:
+            return str(f.get("region") or "").lower()
+
+        def _final(f: Dict[str, Any]) -> float:
+            return f.get("_scores", {}).get("final", 0)
+
+        # --- 1) Thematic guarantee ------------------------------------------
         if self.thematic_guarantee and preferred_themes and "NONE" not in preferred_themes:
-
-            def _fund_theme(f: Dict[str, Any]) -> str:
-                return str(f.get("theme") or "").upper()
-
-            # Guarantee *each* preferred theme (max 2) is represented by at
-            # least one fund. For every theme still missing, swap in the best
-            # available matching fund and drop the worst-scoring fund that
-            # matches none of the preferred themes — so a fund already covering
-            # the other theme is never sacrificed. At most one swap per missing
-            # theme, which the 2-theme selection cap keeps to ≤2 swaps total.
             for theme in sorted(preferred_themes):
                 if any(_fund_theme(f) == theme for f in selected):
                     continue
@@ -733,26 +752,30 @@ class DecisionEngine:
                 if not candidates:
                     continue  # no fund carries this theme in the universe
                 to_insert = candidates[0]
-                non_thematic = [
-                    f for f in selected if _fund_theme(f) not in preferred_themes
+                # Drop the lowest-scored non-protected fund that matches none of
+                # the preferred themes — so a fund already covering another
+                # preferred theme (or a guaranteed region fund) is never sacrificed.
+                droppable = [
+                    f for f in selected
+                    if f["isin"] not in _protected
+                    and _fund_theme(f) not in preferred_themes
+                    and _fund_region(f) not in preferred_regions
                 ]
-                if not non_thematic:
+                if not droppable:
                     _note(
                         {
                             "type": "thematic_insert_skipped",
                             "theme": theme,
                             "isin": to_insert.get("isin"),
                             "name": to_insert.get("name"),
-                            "reason": "no non-thematic fund available to swap out",
+                            "reason": "no non-protected non-thematic fund available to swap out",
                         }
                     )
                     continue
-                worst = min(
-                    non_thematic,
-                    key=lambda x: x.get("_scores", {}).get("final", 0),
-                )
+                worst = min(droppable, key=_final)
                 selected.remove(worst)
                 selected.append(to_insert)
+                _protected.add(to_insert["isin"])
                 _note(
                     {
                         "type": "thematic_insert",
@@ -764,57 +787,103 @@ class DecisionEngine:
                     }
                 )
 
-        # Edge case 3: Regional concentration cap — max 3 of 5 from same preferred region
-        def _region_match(f: Dict[str, Any]) -> bool:
-            return _region_matches(f.get("region"), preferred_regions)
-
-        if self.regional_cap and preferred_regions and len(selected) > 3:
-            regional = [f for f in selected if _region_match(f)]
-            if len(regional) > 3:
-                # Keep top 3, preferring thematic matches so the user's theme
-                # preference is not sacrificed to the regional cap.
-                def _theme_match_drop(f: Dict[str, Any]) -> bool:
-                    return str(f.get("theme") or "").upper() in preferred_themes
-
-                regional_sorted = sorted(
-                    regional,
-                    key=lambda x: (
-                        1
-                        if (
-                            preferred_themes
-                            and "NONE" not in preferred_themes
-                            and _theme_match_drop(x)
-                        )
-                        else 0,
-                        x.get("_scores", {}).get("final", 0),
-                    ),
-                    reverse=True,
+        # --- 2) Regional guarantee ------------------------------------------
+        if self.regional_guarantee and preferred_regions:
+            for region in sorted(preferred_regions):
+                if any(_fund_region(f) == region for f in selected):
+                    continue
+                candidates = [
+                    f for f in scored if _fund_region(f) == region and f not in selected
+                ]
+                if not candidates:
+                    _note(
+                        {
+                            "type": "regional_insert_skipped",
+                            "region": region,
+                            "reason": "no fund carrying this region in the universe",
+                        }
+                    )
+                    continue
+                to_insert = candidates[0]
+                # Drop the lowest-scored non-protected fund that matches none of
+                # the preferred regions — cross-dimension safe (won't evict a
+                # guaranteed theme fund or an existing preferred-region fund).
+                droppable = [
+                    f for f in selected
+                    if f["isin"] not in _protected
+                    and not _region_matches(f.get("region"), preferred_regions)
+                    and _fund_theme(f) not in preferred_themes
+                ]
+                if not droppable:
+                    _note(
+                        {
+                            "type": "regional_insert_skipped",
+                            "region": region,
+                            "isin": to_insert.get("isin"),
+                            "name": to_insert.get("name"),
+                            "reason": "no non-protected non-regional fund available to swap out",
+                        }
+                    )
+                    continue
+                worst = min(droppable, key=_final)
+                selected.remove(worst)
+                selected.append(to_insert)
+                _protected.add(to_insert["isin"])
+                _note(
+                    {
+                        "type": "regional_insert",
+                        "region": region,
+                        "inserted": to_insert.get("isin"),
+                        "inserted_name": to_insert.get("name"),
+                        "dropped": worst.get("isin"),
+                        "dropped_name": worst.get("name"),
+                    }
                 )
-                to_drop = {f["isin"] for f in regional_sorted[3:]}
-                for f in regional_sorted[3:]:
+
+        # --- 3) Regional cap: max 2 of the SAME preferred region ------------
+        # We may have to revisit this: 
+        #   What about other regional concentrations, that do not result from preferences?
+        if self.regional_cap and preferred_regions:
+            for region in sorted(preferred_regions):
+                while True:
+                    same = [
+                        f for f in selected if _fund_region(f) == region
+                    ]
+                    if len(same) <= 2:
+                        break
+                    # Drop the lowest-scored non-protected same-region fund.
+                    droppable = [f for f in same if f["isin"] not in _protected]
+                    if not droppable:
+                        break  # all same-region funds are protected — can't cap
+                    worst = min(droppable, key=_final)
+                    selected.remove(worst)
                     _note(
                         {
                             "type": "regional_cap_drop",
-                            "isin": f.get("isin"),
-                            "name": f.get("name"),
+                            "region": region,
+                            "isin": worst.get("isin"),
+                            "name": worst.get("name"),
                         }
                     )
-                selected = [f for f in selected if f["isin"] not in to_drop]
-                selected_isins = {f["isin"] for f in selected}
-                for f in scored:
-                    if len(selected) >= self.final_fund_count:
+
+        # --- 4) Theme cap: max 2 of the SAME preferred theme ----------------
+        if self.theme_cap and preferred_themes and "NONE" not in preferred_themes:
+            for theme in sorted(preferred_themes):
+                while True:
+                    same = [f for f in selected if _fund_theme(f) == theme]
+                    if len(same) <= 2:
                         break
-                    if f["isin"] in selected_isins:
-                        continue
-                    if _region_match(f):
-                        continue  # already have 3
-                    selected.append(f)
-                    selected_isins.add(f["isin"])
+                    droppable = [f for f in same if f["isin"] not in _protected]
+                    if not droppable:
+                        break
+                    worst = min(droppable, key=_final)
+                    selected.remove(worst)
                     _note(
                         {
-                            "type": "regional_cap_fill",
-                            "isin": f.get("isin"),
-                            "name": f.get("name"),
+                            "type": "theme_cap_drop",
+                            "theme": theme,
+                            "isin": worst.get("isin"),
+                            "name": worst.get("name"),
                         }
                     )
 
@@ -842,8 +911,12 @@ class DecisionEngine:
                 status_by_isin.setdefault(ev["isin"], "skipped_category_cap")
             elif etype == "thematic_insert":
                 status_by_isin.setdefault(ev["dropped"], "dropped_thematic")
+            elif etype == "regional_insert":
+                status_by_isin.setdefault(ev["dropped"], "dropped_regional")
             elif etype == "regional_cap_drop":
                 status_by_isin.setdefault(ev["isin"], "dropped_regional_cap")
+            elif etype == "theme_cap_drop":
+                status_by_isin.setdefault(ev["isin"], "dropped_theme_cap")
 
         candidates = []
         for rank, f in enumerate(scored[: self.top_k], start=1):

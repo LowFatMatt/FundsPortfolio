@@ -855,14 +855,20 @@ document.addEventListener('DOMContentLoaded', () => {
             enabled: !!stressEnabled[p.id],
         }));
 
+        const fundSeries = perf.fund_series || [];
+
         window.FundsCharts.renderPerformanceChart('chart-performance', {
             portfolio: perf.portfolio_series || [],
+            funds: fundSeries,
             benchmark: perf.benchmark
                 ? { series: perf.benchmark_series || [], label: perf.benchmark.name || t('ui.benchmark', 'Benchmark') }
                 : null,
             stressBands,
             labels: { portfolio: t('ui.portfolio', 'Portfolio'), benchmark: t('ui.benchmark', 'Benchmark') },
         });
+
+        // Per-fund on/off chips — toggle each fund dataset's visibility.
+        renderFundToggles(fundSeries);
 
         if (notes) {
             const parts = [];
@@ -1585,6 +1591,51 @@ document.addEventListener('DOMContentLoaded', () => {
             shortEl.textContent = t('ui.pref_summary_short', 'Preferences fulfilled: {x}')
                 .replace('{x}', ps.display);
         }
+    }
+
+    // Per-fund toggle chips for the Performance tab — each chip controls the
+    // visibility of one fund's NAV line in the performance chart.
+    function renderFundToggles(fundSeries) {
+        const chartFrame = document.querySelector('#tab-perf .chart-frame');
+        if (!chartFrame || !fundSeries.length) return;
+
+        // Remove any existing toggle row before re-rendering.
+        const existing = chartFrame.querySelector('.fund-toggles');
+        if (existing) existing.remove();
+
+        const row = document.createElement('div');
+        row.className = 'fund-toggles stress-overlay-toggles';
+        row.setAttribute('aria-label', t('ui.fund_toggle_label', 'Toggle individual fund lines'));
+
+        const palette = ['#5B6770', '#7D5260', '#2E7D32', '#E65100', '#0277BD', '#6D4C41'];
+
+        fundSeries.forEach((fund, i) => {
+            const color = palette[i % palette.length];
+            const chip = document.createElement('button');
+            chip.className = 'stress-toggle active';
+            chip.type = 'button';
+            chip.dataset.isin = fund.isin;
+            chip.innerHTML = `<span class="stress-toggle__dot" style="background:${color}"></span><span>${fund.name || fund.isin}</span>`;
+
+            chip.addEventListener('click', () => {
+                const canvas = document.getElementById('chart-performance');
+                const chart = window.Chart.getChart(canvas);
+                if (!chart) return;
+                // Dataset index 0 = portfolio; funds start at 1.
+                const dsIndex = chart.data.datasets.findIndex(
+                    (ds, idx) => idx > 0 && ds._fundIsin === fund.isin
+                );
+                if (dsIndex >= 0) {
+                    chart.setDatasetVisibility(dsIndex, !chart.isDatasetVisible(dsIndex));
+                    chip.classList.toggle('active');
+                    chart.update();
+                }
+            });
+
+            row.appendChild(chip);
+        });
+
+        chartFrame.insertBefore(row, chartFrame.firstChild);
     }
 
     function renderDecisionTrace(trace, showTraces) {

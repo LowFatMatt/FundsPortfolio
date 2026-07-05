@@ -82,6 +82,7 @@
   "ui.label_pref_satisfaction": "Preferences Fulfilled",
   "ui.pref_summary": "{fulfilled} of {total} preferences fulfilled.",
   "ui.pref_summary_short": "Preferences fulfilled: {x}",
+  "ui.fund_toggle_label": "Toggle individual fund lines",
   "ui.footer_contact": "Kontakt",
   "ui.footer_advice": "Beratung",
   "ui.footer_feedback": "Feedback",

@@ -82,6 +82,7 @@
   "ui.label_pref_satisfaction": "Erfüllte Präferenzen",
   "ui.pref_summary": "{fulfilled} von {total} Präferenzen erfüllt.",
   "ui.pref_summary_short": "Erfüllte Präferenzen: {x}",
+  "ui.fund_toggle_label": "Einzelne Fondslinien ein-/ausblenden",
   "ui.footer_contact": "Kontakt",
   "ui.footer_advice": "Beratung",
   "ui.footer_feedback": "Feedback",

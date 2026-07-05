@@ -136,8 +136,13 @@
         return `rgba(${r},${g},${b},${alpha})`;
     }
 
+    // Qualitative palette derived from the brand primary token (#6750A4).
+    // Portfolio line always uses the brand primary; per-fund lines cycle the
+    // rest. Falls back beyond 6 funds to Chart.js defaults.
+    const FUND_PALETTE = ['#5B6770', '#7D5260', '#2E7D32', '#E65100', '#0277BD', '#6D4C41'];
+
     function renderPerformanceChart(canvasId, opts) {
-        const { portfolio = [], benchmark = null, stressBands = [], labels = {} } = opts || {};
+        const { portfolio = [], benchmark = null, stressBands = [], funds = [], labels = {} } = opts || {};
         if (!window.Chart) return;
         const canvas = document.getElementById(canvasId);
         if (!canvas) return;
@@ -148,11 +153,28 @@
             data: portfolio.map(p => ({ x: p.d, y: p.v })),
             borderColor: '#6750A4',
             backgroundColor: 'rgba(103,80,164,0.10)',
-            borderWidth: 2,
+            borderWidth: 2.5,   // portfolio line is slightly thicker
             tension: 0.25,
             pointRadius: 0,
             fill: false,
         }];
+
+        // Per-fund rebased NAV lines — thinner, each a distinct colour.
+        funds.forEach((fund, i) => {
+            const series = fund.series || [];
+            if (!series.length) return;
+            datasets.push({
+                label: fund.name || fund.isin || `Fund ${i + 1}`,
+                data: series.map(p => ({ x: p.d, y: p.v })),
+                borderColor: FUND_PALETTE[i % FUND_PALETTE.length],
+                borderWidth: 1,   // thinner than the portfolio line
+                tension: 0.25,
+                pointRadius: 0,
+                fill: false,
+                hidden: false,    // visible by default; chips toggle this
+                _fundIsin: fund.isin,
+            });
+        });
 
         if (benchmark && benchmark.series && benchmark.series.length) {
             datasets.push({

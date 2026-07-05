@@ -77,8 +77,20 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--no-regional-cap",
         action="store_true",
-        help="Disable the regional concentration cap (max 3 of 5 from one preferred "
-        "region; default: on). Used to isolate the Region boost's effect.",
+        help="Disable the per-value regional cap (max 2 of same preferred region; "
+        "default: on). Used to isolate the Region boost's effect.",
+    )
+    parser.add_argument(
+        "--no-regional-guarantee",
+        action="store_true",
+        help="Disable the regional guarantee (force-insert a fund for each missing "
+        "preferred region; default: on). Used to isolate the Region boost's effect.",
+    )
+    parser.add_argument(
+        "--no-theme-cap",
+        action="store_true",
+        help="Disable the per-value theme cap (max 2 of same preferred theme; "
+        "default: on).",
     )
     parser.add_argument("--out", default="eval_results_sweep")
     return parser.parse_args()
@@ -89,8 +101,12 @@ def _regime_kwargs(args) -> dict:
     kw = {}
     if args.no_thematic_guarantee:
         kw["thematic_guarantee"] = False
+    if args.no_regional_guarantee:
+        kw["regional_guarantee"] = False
     if args.no_regional_cap:
         kw["regional_cap"] = False
+    if args.no_theme_cap:
+        kw["theme_cap"] = False
     return kw
 
 
@@ -98,8 +114,12 @@ def _regime_label(args) -> str:
     flags = []
     if args.no_thematic_guarantee:
         flags.append("no_thematic_guarantee")
+    if args.no_regional_guarantee:
+        flags.append("no_regional_guarantee")
     if args.no_regional_cap:
         flags.append("no_regional_cap")
+    if args.no_theme_cap:
+        flags.append("no_theme_cap")
     return ",".join(flags) if flags else "default"
 
 

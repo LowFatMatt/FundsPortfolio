@@ -162,19 +162,49 @@ def aggregate_portfolio_nav(
     for isin in list(re_weights.keys()):
         re_weights[isin] = re_weights[isin] / re_weight_total
 
+    # Build name lookup from weighted_series entries (callers can attach a name)
+    name_map: Dict[str, str] = {
+        (s.get("isin") or ""): (s.get("name") or s.get("isin") or "")
+        for s in weighted_series
+    }
+
+    # Pre-compute per-fund NAV lookup once (avoid rebuilding dict per date)
+    fund_nav: Dict[str, Dict[date, float]] = {}
+    for isin, (_w, pairs) in parsed.items():
+        fund_nav[isin] = dict(pairs)
+
+    fund_series: List[Dict[str, Any]] = []
     for d in common_dates:
         v = 0.0
-        for isin, (weight, pairs) in parsed.items():
-            if isin not in re_weights:
-                continue
-            nav_by_date = dict(pairs)
-            nav = nav_by_date.get(d)
+        for isin in re_weights:
+            nav = fund_nav[isin].get(d)
             if nav is None:
                 v = None  # type: ignore[assignment]
                 break
             v += re_weights[isin] * (nav / rebase_map[isin]) * 100.0
         if v is not None:
             portfolio_series.append({"d": d.isoformat(), "v": round(v, 4)})
+
+    # Per-fund rebased NAV series (same common window, same rebase to 100)
+    for isin in re_weights:
+        nav_by_date = fund_nav[isin]
+        base = rebase_map[isin]
+        if not base:
+            continue
+        series = [
+            {"d": d.isoformat(), "v": round(nav_by_date[d] / base * 100.0, 4)}
+            for d in common_dates
+            if d in nav_by_date and nav_by_date[d] is not None
+        ]
+        if series:
+            fund_series.append(
+                {
+                    "isin": isin,
+                    "name": name_map.get(isin, isin),
+                    "weight": round(re_weights[isin], 4),
+                    "series": series,
+                }
+            )
 
     benchmark_out: Optional[List[Dict[str, Any]]] = None
     if benchmark_series:
@@ -191,6 +221,7 @@ def aggregate_portfolio_nav(
         "as_of": common_dates[-1].isoformat() if common_dates else None,
         "currency": "EUR",
         "portfolio_series": portfolio_series,
+        "fund_series": fund_series,
         "benchmark_series": benchmark_out,
         "excluded_isins": excluded,
         "notes": notes,

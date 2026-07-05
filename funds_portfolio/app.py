@@ -466,7 +466,12 @@ def create_app():
             ts = fm.get_fund_timeseries(isin) or {}
             nav_series = ((ts.get("performance") or {}).get("nav_series")) or []
             weighted_series.append(
-                {"isin": isin, "weight": weight, "nav_series": nav_series}
+                {
+                    "isin": isin,
+                    "name": rec.get("name") or isin,
+                    "weight": weight,
+                    "nav_series": nav_series,
+                }
             )
 
         # Pick benchmark by dominant asset_class in the portfolio
