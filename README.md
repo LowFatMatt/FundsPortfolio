@@ -122,9 +122,11 @@ To switch between customers at runtime without touching the active file:
 - `data/funds/{ISIN}.json` → per-ISIN scraped time-series (Phase 2)
 - `data/benchmarks.json`, `data/stress_periods.json` → chart config
 
-**License**
+**Disclaimer**
 This is a prototype project and does not provide financial advice.
 
+**License**
+This projcet runs a dual licaencing policy. Please refer to LICENSE.md for details. 
 
 
 
