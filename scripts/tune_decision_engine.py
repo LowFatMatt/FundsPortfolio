@@ -177,7 +177,9 @@ def main() -> None:
         log.info("regime overrides: %s", regime_kw)
     log.info(
         "boost configs: %d (grid=%s, regime=%s)",
-        len(configs), boost_values, regime_label,
+        len(configs),
+        boost_values,
+        regime_label,
     )
 
     stats = run_sweep(grid, configs, universe_path=args.universe, workers=args.workers)

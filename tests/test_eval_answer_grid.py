@@ -11,7 +11,9 @@ from funds_portfolio.eval.answer_grid import (
 def test_default_grid_count_matches_combinatorics():
     # Default max_regions=2 (UI cap), max_themes=2.
     grid = build_answer_grid()
-    region_subsets = 1 + len(REGIONS) + len(REGIONS) * (len(REGIONS) - 1) // 2  # C(5,0..2)=16
+    region_subsets = (
+        1 + len(REGIONS) + len(REGIONS) * (len(REGIONS) - 1) // 2
+    )  # C(5,0..2)=16
     theme_subsets = 1 + 11 + 55  # C(11,0..2)
     expected = 3 * 3 * 3 * region_subsets * theme_subsets
     assert len(grid) == expected == 28_944
@@ -52,7 +54,9 @@ def test_all_region_and_theme_cardinalities_present():
 
     # The unconstrained grid (max_regions=None) reaches all 0..5 region cardinalities.
     full = build_answer_grid(max_regions=None)
-    assert {len(a["preferred_regions"]) for a in full} == set(range(0, len(REGIONS) + 1))
+    assert {len(a["preferred_regions"]) for a in full} == set(
+        range(0, len(REGIONS) + 1)
+    )
 
 
 def test_max_regions_and_max_themes_shrink_grid():

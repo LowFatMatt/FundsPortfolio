@@ -61,12 +61,12 @@ BOOST_ELEVATORS: Dict[str, float] = {
     "Region": 70.0,
     "Theme": 70.0,
 }
-#BOOST_ELEVATORS: Dict[str, float] = {
+# BOOST_ELEVATORS: Dict[str, float] = {
 #    "ETF": 20.0,
 #    "ESG": 20.0,
 #    "Region": 30.0,
 #    "Theme": 45.0,
-#}
+# }
 
 
 def _region_matches(fund_region: str, preferred: set) -> bool:
@@ -742,7 +742,11 @@ class DecisionEngine:
             return f.get("_scores", {}).get("final", 0)
 
         # --- 1) Thematic guarantee ------------------------------------------
-        if self.thematic_guarantee and preferred_themes and "NONE" not in preferred_themes:
+        if (
+            self.thematic_guarantee
+            and preferred_themes
+            and "NONE" not in preferred_themes
+        ):
             for theme in sorted(preferred_themes):
                 if any(_fund_theme(f) == theme for f in selected):
                     continue
@@ -756,7 +760,8 @@ class DecisionEngine:
                 # the preferred themes — so a fund already covering another
                 # preferred theme (or a guaranteed region fund) is never sacrificed.
                 droppable = [
-                    f for f in selected
+                    f
+                    for f in selected
                     if f["isin"] not in _protected
                     and _fund_theme(f) not in preferred_themes
                     and _fund_region(f) not in preferred_regions
@@ -809,7 +814,8 @@ class DecisionEngine:
                 # the preferred regions — cross-dimension safe (won't evict a
                 # guaranteed theme fund or an existing preferred-region fund).
                 droppable = [
-                    f for f in selected
+                    f
+                    for f in selected
                     if f["isin"] not in _protected
                     and not _region_matches(f.get("region"), preferred_regions)
                     and _fund_theme(f) not in preferred_themes
@@ -841,14 +847,12 @@ class DecisionEngine:
                 )
 
         # --- 3) Regional cap: max 2 of the SAME preferred region ------------
-        # We may have to revisit this: 
+        # We may have to revisit this:
         #   What about other regional concentrations, that do not result from preferences?
         if self.regional_cap and preferred_regions:
             for region in sorted(preferred_regions):
                 while True:
-                    same = [
-                        f for f in selected if _fund_region(f) == region
-                    ]
+                    same = [f for f in selected if _fund_region(f) == region]
                     if len(same) <= 2:
                         break
                     # Drop the lowest-scored non-protected same-region fund.

@@ -98,7 +98,7 @@ def preference_satisfaction(
     )
 
     # --- preferred_regions (one slot per requested chip) ---
-    for region in (user_answers.get("preferred_regions") or []):
+    for region in user_answers.get("preferred_regions") or []:
         region_l = str(region).lower()
         fulfilled = any(str(r.get("region") or "").lower() == region_l for r in recs)
         per_item.append(
@@ -106,7 +106,7 @@ def preference_satisfaction(
         )
 
     # --- preferred_themes (one slot per requested chip) ---
-    for theme in (user_answers.get("preferred_themes") or []):
+    for theme in user_answers.get("preferred_themes") or []:
         if str(theme).lower() == "none":
             continue  # "none" means "no theme preference" — not a real request
         theme_l = str(theme).lower()

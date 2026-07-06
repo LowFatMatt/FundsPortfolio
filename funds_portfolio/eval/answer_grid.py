@@ -35,7 +35,9 @@ REGIONS: List[str] = [
     "asia",
     "emerging_markets",
 ]
-MAX_REGIONS_DEFAULT = 2  # preferences_schema.json does not cap regions, but the UI does (max 2).
+MAX_REGIONS_DEFAULT = (
+    2  # preferences_schema.json does not cap regions, but the UI does (max 2).
+)
 
 # Themes follow the response_schema vocabulary (11 themes incl. "energy", which
 # at least one fund carries). "none" is excluded — it means "no theme".

@@ -110,9 +110,7 @@ def compute_metrics(
     # metric never depends on the engine's portfolio_metrics being present (and
     # never falls back to an unrelated ESG number — the previous fallback here
     # was a copy-paste contamination).
-    etf_share = (
-        sum(_alloc_weight(r) for r in recs if r.get("is_etf")) / total_weight
-    )
+    etf_share = sum(_alloc_weight(r) for r in recs if r.get("is_etf")) / total_weight
     if etf_pref == "no_preference":
         etf_match = 1.0
     elif etf_pref == "etf_only":

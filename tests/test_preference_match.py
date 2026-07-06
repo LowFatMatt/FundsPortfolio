@@ -8,19 +8,25 @@ set-membership across selected funds, and reuse of the engine's trait semantics
 from funds_portfolio.portfolio.preference_match import preference_satisfaction
 
 
-def _rec(region="global", theme="NONE", is_etf=True, esg_label=None,
-         etf_not_available=False):
+def _rec(
+    region="global", theme="NONE", is_etf=True, esg_label=None, etf_not_available=False
+):
     return {
-        "region": region, "theme": theme, "is_etf": is_etf,
-        "esg_label": esg_label, "etf_not_available": etf_not_available,
+        "region": region,
+        "theme": theme,
+        "is_etf": is_etf,
+        "esg_label": esg_label,
+        "etf_not_available": etf_not_available,
     }
 
 
 def _eng_q():  # engine questions: aggressive + PREFER_ESG + prefer_etf, no region/theme
     return {
-        "risk_approach": "aggressive", "esg_preference": "PREFER_ESG",
+        "risk_approach": "aggressive",
+        "esg_preference": "PREFER_ESG",
         "etf_preference": "prefer_etf",
-        "preferred_regions": [], "preferred_themes": [],
+        "preferred_regions": [],
+        "preferred_themes": [],
     }
 
 
@@ -33,7 +39,9 @@ def test_minimum_denominator_is_three_single_selects():
     assert ps["fulfilled"] == 3
     assert ps["display"] == "3/3"
     assert [it["dimension"] for it in ps["per_item"]] == [
-        "risk_approach", "esg_preference", "etf_preference"
+        "risk_approach",
+        "esg_preference",
+        "etf_preference",
     ]
 
 
@@ -56,8 +64,8 @@ def test_users_worked_example_full_fulfillment():
     answers["preferred_regions"] = ["asia"]
     answers["preferred_themes"] = ["water"]
     recs = [
-        _rec(region="asia", esg_label="SFDR_ARTICLE_8"),                       # asia+esg+etf
-        _rec(theme="water"),                                                   # water
+        _rec(region="asia", esg_label="SFDR_ARTICLE_8"),  # asia+esg+etf
+        _rec(theme="water"),  # water
     ]
     ps = preference_satisfaction(answers, recs)
     assert ps["total"] == 5
@@ -73,8 +81,10 @@ def test_users_worked_example_full_fulfillment():
 
 def test_risk_not_fulfilled_when_relaxation_used():
     ps = preference_satisfaction(
-        _eng_q(), [_rec(esg_label="SFDR_ARTICLE_8")],
-        relaxations=[{"name": "x"}], used_fallback_risk=False,
+        _eng_q(),
+        [_rec(esg_label="SFDR_ARTICLE_8")],
+        relaxations=[{"name": "x"}],
+        used_fallback_risk=False,
     )
     risk = next(it for it in ps["per_item"] if it["dimension"] == "risk_approach")
     assert risk["fulfilled"] is False

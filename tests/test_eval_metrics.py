@@ -228,9 +228,11 @@ def test_etf_share_recomputed_from_recs_without_engine_field():
         "risk_profile": "BALANCED",
     }
     answers = {
-        "risk_approach": "moderate", "esg_preference": "NONE",
+        "risk_approach": "moderate",
+        "esg_preference": "NONE",
         "etf_preference": "prefer_etf",
-        "preferred_regions": [], "preferred_themes": [],
+        "preferred_regions": [],
+        "preferred_themes": [],
     }
     m = compute_metrics(answers, result)
     assert m["etf_match"] == pytest.approx(0.4, abs=1e-9)
