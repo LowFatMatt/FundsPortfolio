@@ -93,6 +93,7 @@ THEME_COLUMNS: List[str] = [f"pref_theme_{t}" for t in THEMES]
 CSV_COLUMNS: List[str] = [
     "answer_id",
     "portfolio_file",
+    "status",
     # user_answers
     "risk_approach",
     "esg_preference",
@@ -179,10 +180,41 @@ def _init_inprocess(universe_path: str, language: Optional[str]) -> None:
     _WORKER["language"] = language
 
 
+def _envelope(
+    result: Optional[Dict[str, Any]] = None,
+    error: Optional[str] = None,
+    status: Optional[str] = None,
+) -> Dict[str, Any]:
+    """Normalise any backend outcome to one shape with a ``status`` flag.
+
+    status is "ok" (>=1 recommendation), "empty" (0 recommendations, no error),
+    or "error" (backend raised / 5xx / transport failure). Failed/empty
+    portfolios are *recorded*, never raised, so a single bad input (e.g. a
+    hard-filter combo with no matching funds -> HTTP 4xx) cannot abort a
+    multi-thousand run.
+    """
+    res = dict(result or {})
+    res.setdefault("recommendations", [])
+    res.setdefault("risk_profile", None)
+    res.setdefault("portfolio_metrics", {})
+    res.setdefault("explanations", {})
+    res.setdefault("decision_trace", {})
+    if status is None:
+        status = "error" if error else ("ok" if res["recommendations"] else "empty")
+    res["status"] = status
+    res["error"] = error
+    return res
+
+
 def _run_inprocess(answer: Dict[str, Any]) -> Dict[str, Any]:
-    return _WORKER["engine"].recommend(
-        answer, _WORKER["funds"], language=_WORKER["language"]
-    )
+    try:
+        result = _WORKER["engine"].recommend(
+            answer, _WORKER["funds"], language=_WORKER["language"]
+        )
+        return _envelope(result)
+    except Exception as exc:  # pragma: no cover - defensive, keeps the run alive
+        logger.exception("in-process recommend failed for answer %s", answer.get("id"))
+        return _envelope({}, error=str(exc))
 
 
 def generate_inprocess(
@@ -265,25 +297,55 @@ def _run_http(
     timeout: float,
     retries: int,
 ) -> Dict[str, Any]:
-    resp = _http_post_with_retries(answer, base_url, language, timeout, retries)
+    """POST one answer; never raises.
+
+    A 4xx 'cannot generate portfolio' (e.g. a hard-filter combo with no matching
+    funds) is a *non-viable* outcome and is recorded as an ``empty`` envelope —
+    not a fatal error. 5xx / transport failures become ``error`` envelopes. The
+    body usually carries ``decision_trace`` explaining why filters eliminated
+    everything; we keep it for later analysis.
+    """
+    try:
+        resp = _http_post_with_retries(answer, base_url, language, timeout, retries)
+    except Exception as exc:
+        logger.error("HTTP transport error for answer %s: %s", answer.get("id"), exc)
+        return _envelope({}, error=f"transport: {exc}", status="error")
+
     try:
         data = resp.json()
     except ValueError:
         data = {}
-    if resp.status_code >= 400:
-        raise RuntimeError(
-            f"HTTP {resp.status_code} for answer {answer.get('id')}: {str(data)[:300]}"
+
+    body_trace = data.get("decision_trace") or {}
+    if resp.status_code >= 500:
+        logger.warning(
+            "HTTP %d (server) for answer %s after retries -> error envelope",
+            resp.status_code, answer.get("id"),
         )
-    # Normalise the API payload to the engine's result shape.
+        return _envelope(
+            {"decision_trace": body_trace}, error=f"HTTP {resp.status_code}", status="error"
+        )
+    if resp.status_code >= 400:
+        logger.info(
+            "HTTP %d (cannot generate portfolio) for answer %s -> empty envelope",
+            resp.status_code, answer.get("id"),
+        )
+        return _envelope(
+            {"decision_trace": body_trace}, error=f"HTTP {resp.status_code}", status="empty"
+        )
+
+    # 2xx: normalise the API payload to the engine's result shape.
     pmetrics = data.get("portfolio_metrics") or {}
-    return {
-        "portfolio_id": data.get("portfolio_id"),
-        "recommendations": data.get("recommendations", []),
-        "risk_profile": data.get("risk_profile") or pmetrics.get("risk_profile"),
-        "portfolio_metrics": pmetrics,
-        "explanations": data.get("explanations") or {},
-        "decision_trace": data.get("decision_trace") or {},
-    }
+    return _envelope(
+        {
+            "portfolio_id": data.get("portfolio_id"),
+            "recommendations": data.get("recommendations", []),
+            "risk_profile": data.get("risk_profile") or pmetrics.get("risk_profile"),
+            "portfolio_metrics": pmetrics,
+            "explanations": data.get("explanations") or {},
+            "decision_trace": body_trace,
+        }
+    )
 
 
 def generate_http(
@@ -394,18 +456,20 @@ def write_portfolio_json(
 def build_csv_row(
     answer: Dict[str, Any], result: Dict[str, Any], portfolio_file: str
 ) -> Dict[str, Any]:
-    """Flatten one (answer, result) into the CSV schema (``CSV_COLUMNS``)."""
-    ps = extract_preference_satisfaction(result, answer)
-    # Map (dimension, value_lower) -> fulfilled for the per-dimension columns.
-    fulfilled_by_dim_value: Dict[Tuple[str, str], Any] = {}
-    for item in ps.get("per_item") or []:
-        dim = item.get("dimension")
-        val = str(item.get("value") or "").lower()
-        fulfilled_by_dim_value[(dim, val)] = bool(item.get("fulfilled"))
+    """Flatten one (answer, result) into the CSV schema (``CSV_COLUMNS``).
 
+    For non-ok results (``status != "ok"``) the preference_satisfaction columns
+    are left blank: an empty/failed portfolio has no meaningful satisfaction,
+    and synthesising one from zero recommendations would be misleading.
+    """
+    status = result.get("status", "ok")
+
+    # Defaults: identity + user_answers always populated; preference_satisfaction
+    # columns blank unless status == "ok".
     row: Dict[str, Any] = {
         "answer_id": answer["id"],
         "portfolio_file": portfolio_file,
+        "status": status,
         "risk_approach": answer["risk_approach"],
         "esg_preference": answer["esg_preference"],
         "etf_preference": answer["etf_preference"],
@@ -413,23 +477,42 @@ def build_csv_row(
         "preferred_themes": "|".join(answer["preferred_themes"]),
         "n_regions": len(answer["preferred_regions"]),
         "n_themes": len(answer["preferred_themes"]),
-        "pref_fulfilled": ps.get("fulfilled"),
-        "pref_total": ps.get("total"),
-        "pref_display": ps.get("display"),
-        "pref_risk_approach": fulfilled_by_dim_value.get(
-            ("risk_approach", str(answer["risk_approach"]).lower())
-        ),
-        "pref_esg_preference": fulfilled_by_dim_value.get(
-            ("esg_preference", str(answer["esg_preference"]).lower())
-        ),
-        "pref_etf_preference": fulfilled_by_dim_value.get(
-            ("etf_preference", str(answer["etf_preference"]).lower())
-        ),
+        "pref_fulfilled": None,
+        "pref_total": None,
+        "pref_display": None,
+        "pref_risk_approach": None,
+        "pref_esg_preference": None,
+        "pref_etf_preference": None,
     }
     for r in REGIONS:
-        row[f"pref_region_{r}"] = fulfilled_by_dim_value.get(("preferred_regions", r))
+        row[f"pref_region_{r}"] = None
     for t in THEMES:
-        row[f"pref_theme_{t}"] = fulfilled_by_dim_value.get(("preferred_themes", t))
+        row[f"pref_theme_{t}"] = None
+
+    if status == "ok":
+        ps = extract_preference_satisfaction(result, answer)
+        # Map (dimension, value_lower) -> fulfilled for the per-dimension columns.
+        fulfilled_by_dim_value: Dict[Tuple[str, str], Any] = {}
+        for item in ps.get("per_item") or []:
+            dim = item.get("dimension")
+            val = str(item.get("value") or "").lower()
+            fulfilled_by_dim_value[(dim, val)] = bool(item.get("fulfilled"))
+        row["pref_fulfilled"] = ps.get("fulfilled")
+        row["pref_total"] = ps.get("total")
+        row["pref_display"] = ps.get("display")
+        row["pref_risk_approach"] = fulfilled_by_dim_value.get(
+            ("risk_approach", str(answer["risk_approach"]).lower())
+        )
+        row["pref_esg_preference"] = fulfilled_by_dim_value.get(
+            ("esg_preference", str(answer["esg_preference"]).lower())
+        )
+        row["pref_etf_preference"] = fulfilled_by_dim_value.get(
+            ("etf_preference", str(answer["etf_preference"]).lower())
+        )
+        for r in REGIONS:
+            row[f"pref_region_{r}"] = fulfilled_by_dim_value.get(("preferred_regions", r))
+        for t in THEMES:
+            row[f"pref_theme_{t}"] = fulfilled_by_dim_value.get(("preferred_themes", t))
     return row
 
 
@@ -648,6 +731,25 @@ def main() -> None:
         step2_rows.append(build_csv_row(a, r, rel))
     logger.info("wrote %d step-2 portfolios", len(step2_rows))
 
+    # Status tallies (ok / empty / error) for visibility on partial runs.
+    probe_status = Counter(r.get("status", "ok") for r in probe_results)
+    step2_status = Counter(r.get("status", "ok") for r in step2_results)
+    logger.info(
+        "step-1 status: ok=%d empty=%d error=%d",
+        probe_status.get("ok", 0), probe_status.get("empty", 0), probe_status.get("error", 0),
+    )
+    logger.info(
+        "step-2 status: ok=%d empty=%d error=%d",
+        step2_status.get("ok", 0), step2_status.get("empty", 0), step2_status.get("error", 0),
+    )
+    n_step2_not_ok = step2_status.get("empty", 0) + step2_status.get("error", 0)
+    if n_step2_not_ok:
+        logger.warning(
+            "%d step-2 portfolio(s) could not be generated "
+            "(see the status column / per-portfolio JSON); run continues.",
+            n_step2_not_ok,
+        )
+
     # 6) CSVs + manifest.
     write_csv(os.path.join(args.out, "portfolios.csv"), step2_rows)
     write_csv(os.path.join(args.out, "step1_probes.csv"), probe_rows)
@@ -657,6 +759,8 @@ def main() -> None:
         "n_requested": args.n,
         "n_generated_step2": len(step2_rows),
         "n_step1_probes": len(probe_rows),
+        "status_counts_step1": dict(probe_status),
+        "status_counts_step2": dict(step2_status),
         "backend": args.backend,
         "base_url": args.base_url if args.backend == "http" else None,
         "language": args.language,
@@ -677,9 +781,11 @@ def main() -> None:
     write_json(manifest, os.path.join(args.out, "manifest.json"))
 
     logger.info("wrote outputs to %s", args.out)
+    n_step2_ok = step2_status.get("ok", 0)
     print(
-        f"Done. {len(step2_rows)} step-2 portfolios + {len(probe_rows)} step-1 probes "
-        f"written to {args.out}/"
+        f"Done. {n_step2_ok} step-2 portfolios generated"
+        + (f" (+ {n_step2_not_ok} empty/failed)" if n_step2_not_ok else "")
+        + f" + {len(probe_rows)} step-1 probes written to {args.out}/"
     )
     print(
         f"  - {portfolios_dir_rel}/  ({len(step2_rows)} *.json) + portfolios.csv\n"
