@@ -45,9 +45,15 @@ Examples
     # parallel in-process
     PYTHONPATH=. python scripts/generate_test_portfolios.py --n 3000 --workers 4
 
-    # against the live API (sequential; re-run-safe via --seed)
+    # against the live API (sequential)
     PYTHONPATH=. python scripts/generate_test_portfolios.py --n 3000 \
         --backend http --base-url http://fundsportfolio.team79.rocks:5000
+
+    # seed-driven selection: --strategy random makes --seed pick a different,
+    # reproducible subset of the answer grid each run (default 'stride' is
+    # deterministic and ignores --seed).
+    PYTHONPATH=. python scripts/generate_test_portfolios.py --n 3000 \
+        --strategy random --seed 24 --out gen_seed24
 
     # narrower space
     PYTHONPATH=. python scripts/generate_test_portfolios.py --n 500 \
@@ -90,27 +96,31 @@ logger = logging.getLogger("genportfolios")
 # "requested & failed").
 REGION_COLUMNS: List[str] = [f"pref_region_{r}" for r in REGIONS]
 THEME_COLUMNS: List[str] = [f"pref_theme_{t}" for t in THEMES]
-CSV_COLUMNS: List[str] = [
-    "answer_id",
-    "portfolio_file",
-    "status",
-    # user_answers
-    "risk_approach",
-    "esg_preference",
-    "etf_preference",
-    "preferred_regions",
-    "preferred_themes",
-    "n_regions",
-    "n_themes",
-    # preference_satisfaction (summary)
-    "pref_fulfilled",
-    "pref_total",
-    "pref_display",
-    # preference_satisfaction (per single-select dimension; always present)
-    "pref_risk_approach",
-    "pref_esg_preference",
-    "pref_etf_preference",
-] + REGION_COLUMNS + THEME_COLUMNS
+CSV_COLUMNS: List[str] = (
+    [
+        "answer_id",
+        "portfolio_file",
+        "status",
+        # user_answers
+        "risk_approach",
+        "esg_preference",
+        "etf_preference",
+        "preferred_regions",
+        "preferred_themes",
+        "n_regions",
+        "n_themes",
+        # preference_satisfaction (summary)
+        "pref_fulfilled",
+        "pref_total",
+        "pref_display",
+        # preference_satisfaction (per single-select dimension; always present)
+        "pref_risk_approach",
+        "pref_esg_preference",
+        "pref_etf_preference",
+    ]
+    + REGION_COLUMNS
+    + THEME_COLUMNS
+)
 
 
 # --------------------------------------------------------------------------- #
@@ -162,6 +172,30 @@ def stratum_breakdown(
             }
         )
     return rows
+
+
+def select_step2(
+    candidates: List[Dict[str, Any]],
+    n: int,
+    *,
+    strategy: str = "stride",
+    seed: int = 42,
+) -> List[Dict[str, Any]]:
+    """Pick the final ``n`` step-2 answers from the viable-stratum candidates.
+
+    - ``strategy="stride"`` (default): deterministic stride via ``cap_grid`` —
+      evenly spread across the grid, identical on every run, and **independent
+      of ``seed``**.
+    - ``strategy="random"``: seeded shuffle, then take the first ``n`` —
+      reproducible per ``seed``; **different seeds select different (but still
+      all-viable) subsets**.
+    """
+    if strategy == "random":
+        rng = random.Random(seed)
+        shuffled = list(candidates)
+        rng.shuffle(shuffled)
+        return shuffled[:n]
+    return cap_grid(candidates, n)
 
 
 # --------------------------------------------------------------------------- #
@@ -240,7 +274,9 @@ def generate_inprocess(
             initializer=_init_inprocess,
             initargs=(universe_path, language),
         ) as pool:
-            for i, res in enumerate(pool.imap(_run_inprocess, answers, chunksize=64), 1):
+            for i, res in enumerate(
+                pool.imap(_run_inprocess, answers, chunksize=64), 1
+            ):
                 results.append(res)
                 if progress and (i % progress_every == 0 or i == total):
                     logger.info("inprocess %d/%d", i, total)
@@ -273,14 +309,20 @@ def _http_post_with_retries(
             resp = requests.post(url, json=payload, timeout=timeout)
             if resp.status_code >= 500 and attempt <= retries:
                 logger.warning(
-                    "HTTP %d on %s, retry %d/%d", resp.status_code, url, attempt, retries
+                    "HTTP %d on %s, retry %d/%d",
+                    resp.status_code,
+                    url,
+                    attempt,
+                    retries,
                 )
                 time.sleep(1)
                 continue
             return resp
         except requests.RequestException as exc:
             last_exc = exc
-            logger.warning("RequestException on %s, retry %d/%d: %s", url, attempt, retries, exc)
+            logger.warning(
+                "RequestException on %s, retry %d/%d: %s", url, attempt, retries, exc
+            )
             if attempt <= retries:
                 time.sleep(1)
                 continue
@@ -320,18 +362,24 @@ def _run_http(
     if resp.status_code >= 500:
         logger.warning(
             "HTTP %d (server) for answer %s after retries -> error envelope",
-            resp.status_code, answer.get("id"),
+            resp.status_code,
+            answer.get("id"),
         )
         return _envelope(
-            {"decision_trace": body_trace}, error=f"HTTP {resp.status_code}", status="error"
+            {"decision_trace": body_trace},
+            error=f"HTTP {resp.status_code}",
+            status="error",
         )
     if resp.status_code >= 400:
         logger.info(
             "HTTP %d (cannot generate portfolio) for answer %s -> empty envelope",
-            resp.status_code, answer.get("id"),
+            resp.status_code,
+            answer.get("id"),
         )
         return _envelope(
-            {"decision_trace": body_trace}, error=f"HTTP {resp.status_code}", status="empty"
+            {"decision_trace": body_trace},
+            error=f"HTTP {resp.status_code}",
+            status="empty",
         )
 
     # 2xx: normalise the API payload to the engine's result shape.
@@ -510,7 +558,9 @@ def build_csv_row(
             ("etf_preference", str(answer["etf_preference"]).lower())
         )
         for r in REGIONS:
-            row[f"pref_region_{r}"] = fulfilled_by_dim_value.get(("preferred_regions", r))
+            row[f"pref_region_{r}"] = fulfilled_by_dim_value.get(
+                ("preferred_regions", r)
+            )
         for t in THEMES:
             row[f"pref_theme_{t}"] = fulfilled_by_dim_value.get(("preferred_themes", t))
     return row
@@ -549,18 +599,25 @@ def print_dry_run_summary(
     print(f"max_regions    : {args.max_regions}")
     print(f"max_themes     : {args.max_themes}")
     print(f"n requested    : {args.n}")
+    print(
+        f"strategy       : {args.strategy}"
+        + (
+            "  (seed has no effect; deterministic stride)"
+            if args.strategy == "stride"
+            else f"  (seed={args.seed} controls the subset)"
+        )
+    )
     print(f"seed           : {args.seed}")
     print("-" * 72)
     print(f"full grid      : {grid_summary(grid)}")
     print(f"step-1 probes  : {len(step1)}  (risk x esg x etf, no regions/themes)")
     print(f"step-2 pool    : {len(step2_pool)}  (>=1 region or theme chip)")
     print(
-        f"viable strata  : {len(viable)}/{len(step1)}  "
-        "(probes that returned >=1 fund)"
+        f"viable strata  : {len(viable)}/{len(step1)}  (probes that returned >=1 fund)"
     )
     print(
         f"step-2 viable  : {len(step2_candidates)} candidates "
-        f"-> stride cap to {args.n} = {len(final_step2)} to generate"
+        f"-> {args.strategy} to {args.n} = {len(final_step2)} to generate"
     )
     if len(final_step2) < args.n:
         print(
@@ -624,12 +681,24 @@ def parse_args() -> argparse.Namespace:
         default="http://fundsportfolio.team79.rocks:5000",
         help="Base URL for --backend http (default: live service).",
     )
-    parser.add_argument("--language", default="de", help="Language passed to the engine/API.")
+    parser.add_argument(
+        "--language", default="de", help="Language passed to the engine/API."
+    )
     parser.add_argument(
         "--seed",
         type=int,
         default=42,
-        help="Global RNG seed for HTTP/random reproducibility (default: 42).",
+        help="RNG seed. Only affects --strategy random (different seed -> "
+        "different subset) and HTTP reproducibility; ignored by the default "
+        "--strategy stride (default: 42).",
+    )
+    parser.add_argument(
+        "--strategy",
+        choices=["stride", "random"],
+        default="stride",
+        help="How to pick the N step-2 answers from the viable candidates. "
+        "'stride' (default) = deterministic, evenly spread, ignores --seed. "
+        "'random' = seeded shuffle; --seed controls which subset is picked.",
     )
     parser.add_argument(
         "--dry-run",
@@ -662,9 +731,7 @@ def main() -> None:
     grid = build_answer_grid(max_regions=args.max_regions, max_themes=args.max_themes)
     logger.info("full grid: %s", grid_summary(grid))
     step1, step2_pool = split_two_step(grid)
-    logger.info(
-        "split: step-1 probes=%d, step-2 pool=%d", len(step1), len(step2_pool)
-    )
+    logger.info("split: step-1 probes=%d, step-2 pool=%d", len(step1), len(step2_pool))
 
     # 2) Step 1: run the hard-filter probes to learn which strata are viable.
     #    Dry-run always uses the in-process engine for planning (fast, no server).
@@ -688,11 +755,15 @@ def main() -> None:
             viable.add(_stratum(a))
     logger.info("viable (risk,esg,etf) strata: %d/%d", len(viable), len(step1))
 
-    # 3) Step 2: keep only viable-stratum answers, then deterministic stride to N.
+    # 3) Step 2: keep only viable-stratum answers, then pick N of them.
     step2_candidates = [a for a in step2_pool if _stratum(a) in viable]
     logger.info("step-2 candidates (viable strata): %d", len(step2_candidates))
-    final_step2 = cap_grid(step2_candidates, args.n)
-    logger.info("step-2 final (stride cap to %d): %d", args.n, len(final_step2))
+    final_step2 = select_step2(
+        step2_candidates, args.n, strategy=args.strategy, seed=args.seed
+    )
+    logger.info(
+        "step-2 final (strategy=%s, n=%d): %d", args.strategy, args.n, len(final_step2)
+    )
     if len(final_step2) < args.n:
         logger.warning(
             "only %d viable step-2 candidates (< --n=%d); generating all of them.",
@@ -736,11 +807,15 @@ def main() -> None:
     step2_status = Counter(r.get("status", "ok") for r in step2_results)
     logger.info(
         "step-1 status: ok=%d empty=%d error=%d",
-        probe_status.get("ok", 0), probe_status.get("empty", 0), probe_status.get("error", 0),
+        probe_status.get("ok", 0),
+        probe_status.get("empty", 0),
+        probe_status.get("error", 0),
     )
     logger.info(
         "step-2 status: ok=%d empty=%d error=%d",
-        step2_status.get("ok", 0), step2_status.get("empty", 0), step2_status.get("error", 0),
+        step2_status.get("ok", 0),
+        step2_status.get("empty", 0),
+        step2_status.get("error", 0),
     )
     n_step2_not_ok = step2_status.get("empty", 0) + step2_status.get("error", 0)
     if n_step2_not_ok:
@@ -768,6 +843,7 @@ def main() -> None:
         "max_regions": args.max_regions,
         "max_themes": args.max_themes,
         "seed": args.seed,
+        "strategy": args.strategy,
         "engine": "DecisionEngine (production defaults)",
         "grid_summary_full": grid_summary(grid),
         "grid_summary_step2": grid_summary(step2_candidates),
