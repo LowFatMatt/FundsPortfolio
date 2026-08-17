@@ -43,8 +43,8 @@ NUMERIC_METRICS = [
     "base_gap_top5",
     "hijack_gap",
     "boost_dependency",
-    "thematic_inserts",
-    "regional_drops",
+    "pass1_coverage_picks",
+    "quota_skips",
     "relaxation_count",
     "num_funds",
     "weighted_fee",
@@ -251,8 +251,8 @@ def write_markdown(
         "fund leapfrogged a higher-base one via boosts)",
         f"- boost_dependency: {_fmt(summary['boost_dependency']['mean'])} "
         "(boost share of selected funds' final score)",
-        f"- thematic_inserts: {_fmt(summary['thematic_inserts']['mean'])}",
-        f"- regional_drops: {_fmt(summary['regional_drops']['mean'])}",
+        f"- pass1_coverage_picks: {_fmt(summary['pass1_coverage_picks']['mean'])}",
+        f"- quota_skips: {_fmt(summary['quota_skips']['mean'])}",
         "",
     ]
     with open(path, "w", encoding="utf-8") as f:
@@ -504,8 +504,7 @@ def write_sweep_markdown(
         f"- Objective: {pref_weight:.0%} preference + {div_weight:.0%} diversification"
         + (f" - {hijack_penalty:.2f} x pct_hijack" if hijack_penalty else ""),
         f"- Pareto-optimal configs: {len(pareto)}",
-        f"- Regime: {regime} "
-        "(thematic_guarantee / regional_cap engine flags applied during the sweep)",
+        f"- Regime: {regime} (guarantee/cap engine flags applied during the sweep)",
         "",
         "## Recommended config (rank 1)",
         f"- boosts: ETF={wb['ETF']:.0f} ESG={wb['ESG']:.0f} "

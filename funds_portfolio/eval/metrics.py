@@ -249,8 +249,13 @@ def compute_metrics(
     )
 
     events = (trace.get("selection", {}) or {}).get("events") or []
-    thematic_inserts = sum(1 for e in events if e.get("type") == "thematic_insert")
-    regional_drops = sum(1 for e in events if e.get("type") == "regional_cap_drop")
+    pass1_coverage_picks = sum(1 for e in events if e.get("type") == "pass1_select")
+    quota_skips = sum(
+        1
+        for e in events
+        if e.get("type") == "selection_skip"
+        and e.get("reason") in ("theme_quota", "region_quota")
+    )
 
     # ---------------- Composite ----------------
     weight_sum = pref_weight + div_weight
@@ -303,8 +308,8 @@ def compute_metrics(
         "hijack_detected": hijack_detected,
         "hijack_gap": round(hijack_gap, 4),
         "boost_dependency": round(boost_dependency, 4),
-        "thematic_inserts": thematic_inserts,
-        "regional_drops": regional_drops,
+        "pass1_coverage_picks": pass1_coverage_picks,
+        "quota_skips": quota_skips,
         "relaxation_count": len(relaxations),
         "used_fallback_risk": used_fallback,
     }

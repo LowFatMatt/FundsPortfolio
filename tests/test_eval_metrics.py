@@ -118,7 +118,7 @@ def _synthetic_result():
     decision_trace = {
         "relaxations": [],
         "used_fallback_risk": False,
-        "selection": {"events": [{"type": "thematic_insert"}]},
+        "selection": {"events": [{"type": "pass1_select"}]},
         "ranking": {"candidates": candidates},
     }
     return {
@@ -189,7 +189,7 @@ def test_boost_hijack_diagnostic_detects_leapfrog():
     assert m["hijack_gap"] == pytest.approx(24.89, abs=1e-2)
     # selected mean base (65.672) below pure-quality top-5 mean (70.65) -> negative
     assert m["base_gap_top5"] == pytest.approx(-4.98, abs=1e-2)
-    assert m["thematic_inserts"] == 1
+    assert m["pass1_coverage_picks"] == 1
     assert 0.0 < m["boost_dependency"] < 1.0
 
 

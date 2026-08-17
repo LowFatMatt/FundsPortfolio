@@ -174,17 +174,20 @@ def test_decision_trace_stages(mock_ticker, client):
     assert 0 < len(ranking["candidates"]) <= ranking["top_k"]
     valid_status = {
         "selected",
+        "selected_pass1_coverage",
         "skipped_provider_cap",
         "skipped_category_cap",
-        "dropped_thematic",
-        "dropped_regional_cap",
+        "skipped_theme_quota",
+        "skipped_region_quota",
         "not_reached",
     }
     for c in ranking["candidates"]:
         assert c["status"] in valid_status
         assert {"rank", "isin", "base", "boosts", "final"} <= set(c)
-    # Exactly the recommended funds are marked "selected"
-    selected = [c for c in ranking["candidates"] if c["status"] == "selected"]
+    # Exactly the recommended funds are marked "selected*"
+    selected = [
+        c for c in ranking["candidates"] if str(c["status"]).startswith("selected")
+    ]
     assert len(selected) == len(resp.json["recommendations"])
 
     # Selection + allocation stages present

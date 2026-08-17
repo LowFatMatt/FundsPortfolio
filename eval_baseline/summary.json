@@ -2,8 +2,8 @@
   "n_answers": 1691,
   "pref_score": {
     "count": 1691,
-    "mean": 0.6532567711413365,
-    "median": 0.666,
+    "mean": 0.66453914843288,
+    "median": 0.677,
     "min": 0.362,
     "max": 1.0
   },
@@ -16,119 +16,119 @@
   },
   "esg_match": {
     "count": 1691,
-    "mean": 0.8071850975753992,
+    "mean": 0.8085038438793614,
     "median": 1.0,
     "min": 0.0,
     "max": 1.0
   },
   "etf_match": {
     "count": 1691,
-    "mean": 0.8793199290360734,
+    "mean": 0.8822590183323478,
     "median": 1.0,
     "min": 0.0,
     "max": 1.0
   },
   "region_match": {
     "count": 1691,
-    "mean": 0.3333353045535186,
-    "median": 0.3,
+    "mean": 0.3997811945594323,
+    "median": 0.39,
     "min": 0.0,
     "max": 1.0
   },
   "theme_match": {
     "count": 1691,
-    "mean": 0.25764044943820225,
+    "mean": 0.24276167947959787,
     "median": 0.3,
     "min": 0.0,
     "max": 1.0
   },
   "theme_exposure_match": {
     "count": 1691,
-    "mean": 0.137397989355411,
+    "mean": 0.11118864577173271,
     "median": 0.1,
     "min": 0.0,
     "max": 1.0
   },
   "theme_coverage": {
     "count": 1691,
-    "mean": 0.3778829095209935,
+    "mean": 0.37433471318746303,
     "median": 0.5,
     "min": 0.0,
     "max": 1.0
   },
   "region_coverage": {
     "count": 1691,
-    "mean": 0.37419455943228863,
-    "median": 0.3333,
+    "mean": 0.4750027202838557,
+    "median": 0.4,
     "min": 0.0,
     "max": 1.0
   },
   "div_score": {
     "count": 1691,
-    "mean": 0.626742755765819,
+    "mean": 0.638671850975754,
     "median": 0.6333,
     "min": 0.3333,
-    "max": 0.8333
+    "max": 0.8667
   },
   "provider_div": {
     "count": 1691,
-    "mean": 0.39172087522176224,
+    "mean": 0.415257244234181,
     "median": 0.4,
     "min": 0.0,
     "max": 1.0
   },
   "asset_div": {
     "count": 1691,
-    "mean": 0.3694855115316381,
+    "mean": 0.3678296865759905,
     "median": 0.4,
     "min": 0.0,
     "max": 0.4
   },
   "region_div": {
     "count": 1691,
-    "mean": 0.4474275576581904,
+    "mean": 0.4864577173270254,
     "median": 0.4,
     "min": 0.0,
     "max": 1.0
   },
   "provider_hhi": {
     "count": 1691,
-    "mean": 0.6249406268480189,
-    "median": 0.52,
+    "mean": 0.6090677705499705,
+    "median": 0.5162,
     "min": 0.0,
     "max": 1.0
   },
   "asset_hhi": {
     "count": 1691,
-    "mean": 0.5880544056771141,
-    "median": 0.5338,
+    "mean": 0.5797701951507983,
+    "median": 0.5288,
     "min": 0.0,
     "max": 1.0
   },
   "region_hhi": {
     "count": 1691,
-    "mean": 0.5582223536369012,
-    "median": 0.52,
+    "mean": 0.5360857480780603,
+    "median": 0.5128,
     "min": 0.0,
     "max": 1.0
   },
   "satellite_total": {
     "count": 1691,
-    "mean": 0.24698994677705502,
+    "mean": 0.23674157303370785,
     "median": 0.27,
     "min": 0.0,
     "max": 1.0
   },
   "satellite_cap_ok": {
     "count": 1691,
-    "mean": 0.7368421052631579,
+    "mean": 0.7421643997634536,
     "median": 1.0,
     "min": 0.0,
     "max": 1.0
   },
   "min_allocation_ok": {
     "count": 1691,
-    "mean": 0.9923122412773506,
+    "mean": 0.9976345357776464,
     "median": 1.0,
     "min": 0.0,
     "max": 1.0
@@ -142,45 +142,45 @@
   },
   "overall": {
     "count": 1691,
-    "mean": 0.6400094618568895,
-    "median": 0.655,
+    "mean": 0.6516108219988173,
+    "median": 0.6667,
     "min": 0.3667,
-    "max": 0.8525
+    "max": 0.8833
   },
   "base_gap_top5": {
     "count": 1691,
-    "mean": -5.4624470727380245,
-    "median": -2.092,
-    "min": -35.756,
+    "mean": -7.494210526315789,
+    "median": -3.688,
+    "min": -41.432,
     "max": 0.0
   },
   "hijack_gap": {
     "count": 1691,
-    "mean": 16.559461856889413,
-    "median": 9.61,
+    "mean": 21.01733885274985,
+    "median": 15.86,
     "min": 0.0,
-    "max": 79.92
+    "max": 82.5
   },
   "boost_dependency": {
     "count": 1691,
-    "mean": 0.2539751034890597,
-    "median": 0.2651,
+    "mean": 0.37702347723240687,
+    "median": 0.4296,
     "min": 0.0,
-    "max": 0.6471
+    "max": 0.7675
   },
-  "thematic_inserts": {
+  "pass1_coverage_picks": {
     "count": 1691,
-    "mean": 0.1850975753991721,
+    "mean": 1.674748669426375,
+    "median": 1,
+    "min": 0,
+    "max": 5
+  },
+  "quota_skips": {
+    "count": 1691,
+    "mean": 0.6298048492016558,
     "median": 0,
     "min": 0,
-    "max": 2
-  },
-  "regional_drops": {
-    "count": 1691,
-    "mean": 0.11827321111768184,
-    "median": 0,
-    "min": 0,
-    "max": 2
+    "max": 8
   },
   "relaxation_count": {
     "count": 1691,
@@ -198,10 +198,10 @@
   },
   "weighted_fee": {
     "count": 1629,
-    "mean": 0.5265758133824432,
-    "median": 0.426,
-    "min": 0.182,
-    "max": 1.438
+    "mean": 0.5604806629834255,
+    "median": 0.441,
+    "min": 0.173,
+    "max": 1.79
   },
   "srri_proxy": {
     "count": 1629,
@@ -212,21 +212,21 @@
   },
   "distinct_providers": {
     "count": 1691,
-    "mean": 1.9586043761088114,
+    "mean": 2.0762862211709048,
     "median": 2,
     "min": 0,
     "max": 5
   },
   "distinct_asset_classes": {
     "count": 1691,
-    "mean": 1.8474275576581904,
+    "mean": 1.8391484328799528,
     "median": 2,
     "min": 0,
     "max": 2
   },
   "distinct_regions": {
     "count": 1691,
-    "mean": 2.2371377882909522,
+    "mean": 2.432288586635127,
     "median": 2,
     "min": 0,
     "max": 5
@@ -234,18 +234,18 @@
   "conditional": {
     "n_region_active": 1638,
     "n_theme_active": 1665,
-    "region_match_when_active": 0.3117643467643468,
-    "theme_match_when_active": 0.24604804804804806,
-    "theme_coverage_when_active": 0.36816816816816816
+    "region_match_when_active": 0.38036019536019533,
+    "theme_match_when_active": 0.23093693693693693,
+    "theme_coverage_when_active": 0.36456456456456454
   },
   "behavior": {
     "pct_complete": 0.6292134831460674,
     "pct_empty": 0.03666469544648137,
-    "pct_hijack": 0.5653459491425192,
-    "pct_satellite_cap_ok": 0.7368421052631579,
-    "pct_min_alloc_ok": 0.9923122412773506,
+    "pct_hijack": 0.563571850975754,
+    "pct_satellite_cap_ok": 0.7421643997634536,
+    "pct_min_alloc_ok": 0.9976345357776464,
     "pct_risk_clean": 1.0,
-    "pct_theme_full_match": 0.22822822822822822,
-    "pct_region_full_match": 0.11782661782661782
+    "pct_theme_full_match": 0.22342342342342342,
+    "pct_region_full_match": 0.29426129426129427
   }
 }

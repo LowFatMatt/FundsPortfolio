@@ -99,6 +99,7 @@ class DecisionEngine:
         final_fund_count: int = 5,
         max_per_provider: int = 5,  # the value "5" ultimately disables the provider cap
         max_per_category: int = 5,  # dito
+        max_per_preferred_value: int = 2,  # per-value quota: max funds of the SAME preferred theme/region
         min_allocation_percentage: int = 10,  # minimum allocation percentage for any fund in the final portfolio
         boost_elevators: Optional[
             Dict[str, float]
@@ -113,6 +114,7 @@ class DecisionEngine:
         self.final_fund_count = final_fund_count
         self.max_per_provider = max_per_provider
         self.max_per_category = max_per_category
+        self.max_per_preferred_value = max_per_preferred_value
         self.min_allocation_percentage = min_allocation_percentage
         self.thematic_guarantee = thematic_guarantee
         self.regional_guarantee = regional_guarantee
@@ -299,6 +301,7 @@ class DecisionEngine:
             "caps": {
                 "max_per_provider": self.max_per_provider,
                 "max_per_category": self.max_per_category,
+                "max_per_preferred_value": self.max_per_preferred_value,
             },
             "events": [],
         }
@@ -628,6 +631,9 @@ class DecisionEngine:
     ) -> List[Dict[str, Any]]:
         pool = scored[: self.top_k]
         selected: List[Dict[str, Any]] = []
+        selected_isins: set = set()
+        theme_count: Dict[str, int] = {}
+        region_count: Dict[str, int] = {}
         provider_count: Dict[str, int] = {}
         category_count: Dict[str, int] = {}
 
@@ -643,15 +649,209 @@ class DecisionEngine:
         def category_for(f: Dict[str, Any]) -> str:
             return str(f.get("asset_class") or "other").lower()
 
+        def _fund_theme(f: Dict[str, Any]) -> str:
+            return str(f.get("theme") or "").upper()
+
+        def _fund_region(f: Dict[str, Any]) -> str:
+            return str(f.get("region") or "").lower()
+
+        preferred_themes: set = set()
+        preferred_regions: set = set()
+        if user_answers:
+            preferred_themes = {
+                str(t).upper() for t in (user_answers.get("preferred_themes") or [])
+            }
+            preferred_regions = {
+                str(r).lower() for r in (user_answers.get("preferred_regions") or [])
+            }
+
+        # "NONE" is the no-preference placeholder (mirrors the boost logic):
+        # it disables both the theme quota and the theme coverage pass.
+        quota_themes: set = (
+            set(preferred_themes)
+            if (preferred_themes and "NONE" not in preferred_themes)
+            else set()
+        )
+        # Preferred values that participate in the coverage pass (pass 1). The
+        # guarantee toggles gate pass 1 per dimension; the cap toggles below
+        # gate the per-kind maxima (quota skips) independently of coverage.
+        coverage_themes: set = set(quota_themes) if self.thematic_guarantee else set()
+        coverage_regions: set = (
+            set(preferred_regions) if self.regional_guarantee else set()
+        )
+
+        def _coverage_dims() -> List[Tuple[str, str]]:
+            """(dimension, value) pairs covered by pass 1, deterministic order."""
+            return [
+                *(("theme", t) for t in sorted(coverage_themes)),
+                *(("region", r) for r in sorted(coverage_regions)),
+            ]
+
+        def _dim_satisfied(dimension: str, value: str) -> bool:
+            for g in selected:
+                if dimension == "theme" and _fund_theme(g) == value:
+                    return True
+                if dimension == "region" and _fund_region(g) == value:
+                    return True
+            return False
+
+        def _quota_violations(f: Dict[str, Any]) -> List[str]:
+            """Preferred dimensions whose per-kind maximum ``f`` would exceed."""
+            v: List[str] = []
+            if self.theme_cap:
+                t = _fund_theme(f)
+                if (
+                    t in quota_themes
+                    and theme_count.get(t, 0) >= self.max_per_preferred_value
+                ):
+                    v.append(f"theme:{t}")
+            if self.regional_cap:
+                r = _fund_region(f)
+                if (
+                    r in preferred_regions
+                    and region_count.get(r, 0) >= self.max_per_preferred_value
+                ):
+                    v.append(f"region:{r}")
+            return v
+
+        def _carried_dims(f: Dict[str, Any]) -> List[Dict[str, str]]:
+            """All coverage dimensions this fund carries (matcher is identical
+            to the boost matcher, so "carries a boost" ⇔ "can serve coverage")."""
+            dims: List[Dict[str, str]] = []
+            t, r = _fund_theme(f), _fund_region(f)
+            if t in coverage_themes:
+                dims.append({"dimension": "theme", "value": t})
+            if r in coverage_regions:
+                dims.append({"dimension": "region", "value": r})
+            return dims
+
+        def _select(f: Dict[str, Any]) -> None:
+            selected.append(f)
+            selected_isins.add(f.get("isin"))
+            t, r = _fund_theme(f), _fund_region(f)
+            if t in quota_themes:
+                theme_count[t] = theme_count.get(t, 0) + 1
+            if r in preferred_regions:
+                region_count[r] = region_count.get(r, 0) + 1
+            provider = f.get("provider") or "unknown"
+            provider_count[provider] = provider_count.get(provider, 0) + 1
+            cat = category_for(f)
+            category_count[cat] = category_count.get(cat, 0) + 1
+
+        # ---- Pass 1: coverage-first walk over the FULL ranking --------------
+        # Guarantees must not depend on top_k: scan every scored fund, in
+        # quality order, and select a fund only if it matches at least one
+        # still-unsatisfied preferred dimension. Each pick therefore satisfies
+        # at least one new value, so pass 1 is bounded by the number of
+        # preferred values. Provider/category caps are deliberately ignored
+        # here (guarantee strength, as with the previous force-insert logic).
+        if coverage_themes or coverage_regions:
+            # Sweep A — quota-compliant coverage picks, in quality order.
+            breach_candidates: Dict[str, Dict[str, Any]] = {}
+            for f in scored:
+                if len(selected) >= self.final_fund_count:
+                    break
+                if f.get("isin") in selected_isins:
+                    continue
+                carried = _carried_dims(f)
+                if not carried:
+                    continue
+                matched = [
+                    d for d in carried if not _dim_satisfied(d["dimension"], d["value"])
+                ]
+                if not matched:
+                    continue
+                if _quota_violations(f):
+                    # Skip for now — a quota-compliant candidate may exist
+                    # lower in the ranking. Keep the best-ranked fallback per
+                    # dimension in case no compliant candidate exists at all.
+                    for d in matched:
+                        breach_candidates.setdefault(
+                            f"{d['dimension']}:{d['value']}", f
+                        )
+                    continue
+                _select(f)
+                _note(
+                    {
+                        "type": "pass1_select",
+                        "pass": 1,
+                        "isin": f.get("isin"),
+                        "name": f.get("name"),
+                        "matched": matched,
+                        "also_satisfies": [d for d in carried if d not in matched],
+                    }
+                )
+
+            # Sweep B — coverage beats quota: a preferred value that is still
+            # unsatisfied and whose best carrying fund would breach the
+            # per-kind maximum is covered anyway and the breach is logged. An
+            # unfulfilled preference is worse than a rare extra fund of the
+            # same kind.
+            for dimension, value in _coverage_dims():
+                if len(selected) >= self.final_fund_count:
+                    break
+                if _dim_satisfied(dimension, value):
+                    continue
+                cand = breach_candidates.get(f"{dimension}:{value}")
+                if cand is None or cand.get("isin") in selected_isins:
+                    continue
+                breaches = _quota_violations(cand)
+                carried = _carried_dims(cand)
+                matched = [{"dimension": dimension, "value": value}]
+                _select(cand)
+                _note(
+                    {
+                        "type": "pass1_select",
+                        "pass": 1,
+                        "isin": cand.get("isin"),
+                        "name": cand.get("name"),
+                        "matched": matched,
+                        "also_satisfies": [d for d in carried if d not in matched],
+                        "quota_breached": breaches,
+                    }
+                )
+
+            # Values that could not be covered: distinguish "no candidate in
+            # the universe at all" from "portfolio filled before coverage".
+            for dimension, value in _coverage_dims():
+                if _dim_satisfied(dimension, value):
+                    continue
+                has_candidate = any(
+                    (_fund_theme(g) if dimension == "theme" else _fund_region(g))
+                    == value
+                    for g in scored
+                )
+                _note(
+                    {
+                        "type": "coverage_unfulfillable",
+                        "dimension": dimension,
+                        "value": value,
+                        "reason": (
+                            "no fund carrying this value in the universe"
+                            if not has_candidate
+                            else "portfolio filled before this value could be covered"
+                        ),
+                    }
+                )
+
+        # ---- Pass 2: fill from the top of the top_k pool -------------------
+        # The effective pool is smaller than top_k: funds already selected in
+        # pass 1 are excluded — a fund must never be selected twice.
         for f in pool:
+            if len(selected) >= self.final_fund_count:
+                break
+            if f.get("isin") in selected_isins:
+                continue
             provider = f.get("provider") or "unknown"
             category = category_for(f)
             if provider_count.get(provider, 0) >= self.max_per_provider:
                 _note(
                     {
-                        "type": "provider_cap_skip",
+                        "type": "selection_skip",
+                        "pass": 2,
                         "isin": f.get("isin"),
                         "name": f.get("name"),
+                        "reason": "provider_cap",
                         "provider": provider,
                     }
                 )
@@ -659,26 +859,51 @@ class DecisionEngine:
             if category_count.get(category, 0) >= self.max_per_category:
                 _note(
                     {
-                        "type": "category_cap_skip",
+                        "type": "selection_skip",
+                        "pass": 2,
                         "isin": f.get("isin"),
                         "name": f.get("name"),
+                        "reason": "category_cap",
                         "category": category,
                     }
                 )
                 continue
-            selected.append(f)
-            provider_count[provider] = provider_count.get(provider, 0) + 1
-            category_count[category] = category_count.get(category, 0) + 1
-            if len(selected) >= self.final_fund_count:
-                break
+            quota = _quota_violations(f)
+            if quota:
+                _note(
+                    {
+                        "type": "selection_skip",
+                        "pass": 2,
+                        "isin": f.get("isin"),
+                        "name": f.get("name"),
+                        "reason": (
+                            "theme_quota"
+                            if any(q.startswith("theme:") for q in quota)
+                            else "region_quota"
+                        ),
+                        "dimensions": quota,
+                    }
+                )
+                continue
+            _select(f)
+            _note(
+                {
+                    "type": "pass2_select",
+                    "pass": 2,
+                    "isin": f.get("isin"),
+                    "name": f.get("name"),
+                }
+            )
 
         if len(selected) < self.final_fund_count:
-            # Relax diversification caps to reach target count
+            # Relax diversification caps (provider/category/per-kind quota) to
+            # reach the target count — completeness outranks diversification,
+            # and an additive append can never shrink the portfolio.
             added: List[str] = []
             for f in pool:
-                if f in selected:
+                if f.get("isin") in selected_isins:
                     continue
-                selected.append(f)
+                _select(f)
                 added.append(f.get("isin"))
                 if len(selected) >= self.final_fund_count:
                     break
@@ -687,7 +912,6 @@ class DecisionEngine:
 
         # Edge case 2: ETF-only fallback — fill remaining slots with active funds
         if active_fallback and len(selected) < self.final_fund_count:
-            selected_isins = {f["isin"] for f in selected}
             for f in active_fallback:
                 if f["isin"] in selected_isins:
                     continue
@@ -705,192 +929,6 @@ class DecisionEngine:
                 if len(selected) >= self.final_fund_count:
                     break
 
-        # ---- Preference guarantees and per-value concentration caps ----------
-        #
-        # Pipeline order (see plans/2026-07-03 for the full design):
-        #   1. Thematic guarantee   — force-insert a fund for each missing
-        #      preferred theme.  Inserted funds are PROTECTED.
-        #   2. Regional guarantee   — force-insert a fund for each missing
-        #      preferred region.  Inserted funds are PROTECTED.
-        #   3. Regional cap         — max 2 of the SAME preferred region
-        #      (per-value, not total).  Only non-protected excess is trimmed.
-        #   4. Theme cap            — max 2 of the SAME preferred theme
-        #      (per-value).  Only non-protected excess is trimmed.
-        #
-        # Cross-dimension safety: a fund in the _protected set is never dropped
-        # by any cap, and a guarantee only drops the lowest-scored non-protected
-        # fund — so guaranteeing one dimension never evicts the other's coverage.
-
-        preferred_themes: set = set()
-        preferred_regions: set = set()
-        if user_answers:
-            preferred_themes = {
-                str(t).upper() for t in (user_answers.get("preferred_themes") or [])
-            }
-            preferred_regions = {
-                str(r).lower() for r in (user_answers.get("preferred_regions") or [])
-            }
-        _protected: set = set()  # ISINs inserted by a guarantee — never dropped
-
-        def _fund_theme(f: Dict[str, Any]) -> str:
-            return str(f.get("theme") or "").upper()
-
-        def _fund_region(f: Dict[str, Any]) -> str:
-            return str(f.get("region") or "").lower()
-
-        def _final(f: Dict[str, Any]) -> float:
-            return f.get("_scores", {}).get("final", 0)
-
-        # --- 1) Thematic guarantee ------------------------------------------
-        if (
-            self.thematic_guarantee
-            and preferred_themes
-            and "NONE" not in preferred_themes
-        ):
-            for theme in sorted(preferred_themes):
-                if any(_fund_theme(f) == theme for f in selected):
-                    continue
-                candidates = [
-                    f for f in scored if _fund_theme(f) == theme and f not in selected
-                ]
-                if not candidates:
-                    continue  # no fund carries this theme in the universe
-                to_insert = candidates[0]
-                # Drop the lowest-scored non-protected fund that matches none of
-                # the preferred themes — so a fund already covering another
-                # preferred theme (or a guaranteed region fund) is never sacrificed.
-                droppable = [
-                    f
-                    for f in selected
-                    if f["isin"] not in _protected
-                    and _fund_theme(f) not in preferred_themes
-                    and _fund_region(f) not in preferred_regions
-                ]
-                if not droppable:
-                    _note(
-                        {
-                            "type": "thematic_insert_skipped",
-                            "theme": theme,
-                            "isin": to_insert.get("isin"),
-                            "name": to_insert.get("name"),
-                            "reason": "no non-protected non-thematic fund available to swap out",
-                        }
-                    )
-                    continue
-                worst = min(droppable, key=_final)
-                selected.remove(worst)
-                selected.append(to_insert)
-                _protected.add(to_insert["isin"])
-                _note(
-                    {
-                        "type": "thematic_insert",
-                        "theme": theme,
-                        "inserted": to_insert.get("isin"),
-                        "inserted_name": to_insert.get("name"),
-                        "dropped": worst.get("isin"),
-                        "dropped_name": worst.get("name"),
-                    }
-                )
-
-        # --- 2) Regional guarantee ------------------------------------------
-        if self.regional_guarantee and preferred_regions:
-            for region in sorted(preferred_regions):
-                if any(_fund_region(f) == region for f in selected):
-                    continue
-                candidates = [
-                    f for f in scored if _fund_region(f) == region and f not in selected
-                ]
-                if not candidates:
-                    _note(
-                        {
-                            "type": "regional_insert_skipped",
-                            "region": region,
-                            "reason": "no fund carrying this region in the universe",
-                        }
-                    )
-                    continue
-                to_insert = candidates[0]
-                # Drop the lowest-scored non-protected fund that matches none of
-                # the preferred regions — cross-dimension safe (won't evict a
-                # guaranteed theme fund or an existing preferred-region fund).
-                droppable = [
-                    f
-                    for f in selected
-                    if f["isin"] not in _protected
-                    and not _region_matches(f.get("region"), preferred_regions)
-                    and _fund_theme(f) not in preferred_themes
-                ]
-                if not droppable:
-                    _note(
-                        {
-                            "type": "regional_insert_skipped",
-                            "region": region,
-                            "isin": to_insert.get("isin"),
-                            "name": to_insert.get("name"),
-                            "reason": "no non-protected non-regional fund available to swap out",
-                        }
-                    )
-                    continue
-                worst = min(droppable, key=_final)
-                selected.remove(worst)
-                selected.append(to_insert)
-                _protected.add(to_insert["isin"])
-                _note(
-                    {
-                        "type": "regional_insert",
-                        "region": region,
-                        "inserted": to_insert.get("isin"),
-                        "inserted_name": to_insert.get("name"),
-                        "dropped": worst.get("isin"),
-                        "dropped_name": worst.get("name"),
-                    }
-                )
-
-        # --- 3) Regional cap: max 2 of the SAME preferred region ------------
-        # We may have to revisit this:
-        #   What about other regional concentrations, that do not result from preferences?
-        if self.regional_cap and preferred_regions:
-            for region in sorted(preferred_regions):
-                while True:
-                    same = [f for f in selected if _fund_region(f) == region]
-                    if len(same) <= 2:
-                        break
-                    # Drop the lowest-scored non-protected same-region fund.
-                    droppable = [f for f in same if f["isin"] not in _protected]
-                    if not droppable:
-                        break  # all same-region funds are protected — can't cap
-                    worst = min(droppable, key=_final)
-                    selected.remove(worst)
-                    _note(
-                        {
-                            "type": "regional_cap_drop",
-                            "region": region,
-                            "isin": worst.get("isin"),
-                            "name": worst.get("name"),
-                        }
-                    )
-
-        # --- 4) Theme cap: max 2 of the SAME preferred theme ----------------
-        if self.theme_cap and preferred_themes and "NONE" not in preferred_themes:
-            for theme in sorted(preferred_themes):
-                while True:
-                    same = [f for f in selected if _fund_theme(f) == theme]
-                    if len(same) <= 2:
-                        break
-                    droppable = [f for f in same if f["isin"] not in _protected]
-                    if not droppable:
-                        break
-                    worst = min(droppable, key=_final)
-                    selected.remove(worst)
-                    _note(
-                        {
-                            "type": "theme_cap_drop",
-                            "theme": theme,
-                            "isin": worst.get("isin"),
-                            "name": worst.get("name"),
-                        }
-                    )
-
         return selected
 
     def _build_ranking_trace(
@@ -905,29 +943,33 @@ class DecisionEngine:
         """
         selected_isins = {f.get("isin") for f in selected}
 
-        # Map a non-selected candidate to the reason it didn't make the cut.
+        # Map a non-selected candidate to the reason it didn't make the cut,
+        # and remember which selected funds came from the coverage pass.
         status_by_isin: Dict[str, str] = {}
+        pass1_isins: set = set()
+        skip_reasons = {
+            "provider_cap": "skipped_provider_cap",
+            "category_cap": "skipped_category_cap",
+            "theme_quota": "skipped_theme_quota",
+            "region_quota": "skipped_region_quota",
+        }
         for ev in trace.get("selection", {}).get("events", []):
             etype = ev.get("type")
-            if etype == "provider_cap_skip":
-                status_by_isin.setdefault(ev["isin"], "skipped_provider_cap")
-            elif etype == "category_cap_skip":
-                status_by_isin.setdefault(ev["isin"], "skipped_category_cap")
-            elif etype == "thematic_insert":
-                status_by_isin.setdefault(ev["dropped"], "dropped_thematic")
-            elif etype == "regional_insert":
-                status_by_isin.setdefault(ev["dropped"], "dropped_regional")
-            elif etype == "regional_cap_drop":
-                status_by_isin.setdefault(ev["isin"], "dropped_regional_cap")
-            elif etype == "theme_cap_drop":
-                status_by_isin.setdefault(ev["isin"], "dropped_theme_cap")
+            if etype == "pass1_select":
+                pass1_isins.add(ev.get("isin"))
+            elif etype == "selection_skip":
+                status = skip_reasons.get(ev.get("reason"))
+                if status:
+                    status_by_isin.setdefault(ev["isin"], status)
 
         candidates = []
         for rank, f in enumerate(scored[: self.top_k], start=1):
             sc = f.get("_scores", {})
             isin = f.get("isin")
             if isin in selected_isins:
-                status = "selected"
+                status = (
+                    "selected_pass1_coverage" if isin in pass1_isins else "selected"
+                )
             else:
                 status = status_by_isin.get(isin, "not_reached")
             candidates.append(

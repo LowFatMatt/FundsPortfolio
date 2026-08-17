@@ -1,17 +1,25 @@
 # Eval baseline — current DecisionEngine config
 
 This directory holds a **frozen, point-in-time snapshot** of the evaluation
-harness output for the *current* (in-tree) [`DecisionEngine`](../funds_portfolio/portfolio/decision_engine.py:78)
+harness output for the *current* (in-tree) [`DecisionEngine`](../funds_portfolio/portfolio/decision_engine.py:87)
 configuration. It is tracked in git so Phase-2 config sweeps can diff against it.
 
 ## Provenance
 
-- **Captured:** 2026-06-29
+- **Captured:** 2026-08-17
 - **Config:** current in-tree `DecisionEngine` defaults
-  - [`BOOST_ELEVATORS`](../funds_portfolio/portfolio/decision_engine.py:55) = `{ETF: 20, ESG: 20, Region: 30, Theme: 45}`
+  - [`BOOST_ELEVATORS`](../funds_portfolio/portfolio/decision_engine.py:58) = `{ETF: 45, ESG: 45, Region: 70, Theme: 70}`
   - constructor: `min_candidates=0` (relaxations off), `top_k=65`,
     `final_fund_count=5`, `max_per_provider=5`, `max_per_category=5`
-    (diversification caps effectively off), `min_allocation_percentage=10`
+    (provider/category caps effectively off), `max_per_preferred_value=2`,
+    `min_allocation_percentage=10`
+  - **Selection:** two-pass, coverage-first (see
+    [`plans/2026-08-17-two-pass-coverage-first-selection.md`](../plans/2026-08-17-two-pass-coverage-first-selection.md) and
+    Step 7 in [`FUND_SELECTION_LOGIC_SPEC_V2.md`](../FUND_SELECTION_LOGIC_SPEC_V2.md)) —
+    pass 1 covers preferred regions/themes from the full ranking, pass 2 fills
+    from the top; per-kind quotas are enforced as selection skips, never as
+    post-selection drops. `thematic_inserts`/`regional_drops` KPIs were replaced
+    by `pass1_coverage_picks`/`quota_skips`.
 - **Fund universe:** [`funds_database.json`](../funds_database.json) — 64 funds
 - **Answer grid:** full 57,888-combination space, stride-capped to **1691**
   answers (matches the reference sample size from
@@ -32,28 +40,29 @@ PYTHONPATH=. python scripts/eval_decision_engine.py --answer-grid-cap 1691 --out
 rm -f eval_baseline/per_answer_metrics.csv   # *.csv is gitignored; keep dir pristine
 ```
 
-Validation: feeding `portfolios/port_20260624_1f0fe187.json`'s `user_answers`
-through the live engine reproduces the same 5 funds, and the reported
-`region_match` equals the stored exposure (`0.540`).
+Validation: feeding `portfolios/port_20260709_e763ed0b.json`'s `user_answers`
+through the live engine now reproduces **5 funds / 7-of-7 preference
+satisfaction** (the frozen portfolio file itself predates the two-pass rework
+and shows the old 3-fund / 6-of-7 outcome).
+
+## Count invariant (2026-08-17 rework)
+
+Across the full 1691-answer grid, every portfolio with fewer than 5 funds is
+**filter-limited** (fewer than 5 eligible funds after ESG/ETF/risk-band
+filters — universe thinness); **zero** are selection-limited. The two-pass
+selection never returns fewer funds than the eligible universe allows.
 
 ## Headline numbers (current config)
 
 | Metric | Value |
 | --- | --- |
-| overall (mean) | 0.640 |
-| preference (mean) | 0.653 |
-| diversification (mean) | 0.627 |
-| pct_hijack | 0.565 |
-| base_gap_top5 (mean) | −5.462 |
-| region_match (when active) | 0.312 |
-| region_coverage (mean) | 0.374 |
-| theme_coverage (mean) | 0.378 |
-| **pct_theme_full_match (of theme-active)** | **0.228** |
-| **pct_region_full_match (of region-active)** | **0.118** |
-| pct_complete (5 funds) | 0.629 |
-
-> Read-out: under the current config only **22.8 %** of theme-requesting
-> portfolios and **11.8 %** of region-requesting portfolios fully satisfy the
-> requested preferences (every requested theme/region represented). The two
-> explicit-preference dimensions are where satisfaction collapses — the high
-> `preference (mean) 0.653` is carried by risk/ESG/ETF.
+| overall (mean) | 0.652 |
+| preference (mean) | 0.665 |
+| diversification (mean) | 0.639 |
+| num_funds (mean) | 4.114 (627/1691 filter-limited below 5) |
+| base_gap_top5 (mean) | −7.494 |
+| region_match (when active) | 0.400 |
+| region_coverage (mean) | 0.475 |
+| theme_coverage (mean) | 0.374 |
+| pass1_coverage_picks (mean) | 1.675 |
+| quota_skips (mean) | 0.630 |

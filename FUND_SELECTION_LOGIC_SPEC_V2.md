@@ -133,15 +133,27 @@ Apply scoring bonuses according to user preferences **after** the base quality s
 
 The adjusted score is used for final ranking.
 
-### Step 7 — Top 5 Selection
+### Step 7 — Top 5 Selection (two-pass, coverage-first)
 
-Rank all scored funds descending by adjusted total score. Select the top 5, subject to **diversification constraints**:
+Rank all scored funds descending by adjusted total score. Selection is then **purely additive** over this single ranking, in two passes (see `plans/2026-08-17-two-pass-coverage-first-selection.md`):
 
-- Maximum **2 funds from the same sub-category** (e.g. two large-cap equity funds)
-- Maximum **1 fund from the same fund provider** (unless the fund universe makes this unavoidable — TBD)
-- If thematic preferences were selected: **at least 1 thematic fund must be included**, provided such a fund passed all filters
+**Pass 1 — coverage (preferences first):** walk the *full* ranking in quality order and select a fund only if it matches at least one **still-unsatisfied** preferred region/theme. Stop when every preferred value is covered, no candidate exists anywhere in the ranking, or the portfolio is full. A single fund may satisfy several values at once (region *and* theme); the collateral match is recorded as `also_satisfies`.
 
-**Purpose:** Prevent over-concentration and ensure a balanced, diversified 5-fund portfolio built from genuinely differentiated building blocks.
+**Pass 2 — fill (best remaining):** restart at the top of the ranking — excluding funds already selected in pass 1 — and fill the remaining slots with the best funds regardless of preference match, subject to the constraints below.
+
+**Constraints (enforced as *skips* during selection, never as drops after it):**
+
+- Maximum **2 funds of the same preferred region** (per value)
+- Maximum **2 funds of the same preferred theme** (per value)
+- Maximum **2 funds from the same sub-category** / **1 fund per provider** (configurable; currently disabled at 5)
+- **Coverage beats quota:** if the only candidate for an unsatisfied preferred value would breach its quota, it is still selected and the breach is logged (`quota_breached`)
+
+**Count safety:** because no fund is ever dropped, protected, or swapped after selection, the portfolio always reaches the target count when the universe allows it. If the universe is too small to respect all quotas, a final logged relaxation (`caps_relaxed`) restores the count — completeness outranks diversification.
+
+**Purpose:** guaranteed preference coverage, a transparent decision log (every pick annotated as "coverage match" or "best score"), and a diversified 5-fund portfolio whose size cannot silently shrink.
+
+> **Decision log example** (`decision_trace.selection.events`):
+> `pass1_select` (rank 3 — matched region 1, also satisfies theme 1) → `pass1_select` (rank 5 — matched region 2) → `pass1_select` (rank 7 — matched theme 2) → `pass2_select` (rank 1) → `pass2_select` (rank 2). Ranks 4 and 6 are simply never reached — nothing is dropped, protected, or replaced.
 
 ---
 

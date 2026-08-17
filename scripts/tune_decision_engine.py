@@ -71,26 +71,27 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--no-thematic-guarantee",
         action="store_true",
-        help="Disable the thematic force-insert guarantee (default: on). Used to "
-        "isolate the Theme boost's effect, which the guarantee otherwise masks.",
+        help="Disable the pass-1 theme coverage walk (default: on). Used to "
+        "isolate the Theme boost's effect, which coverage otherwise masks.",
     )
     parser.add_argument(
         "--no-regional-cap",
         action="store_true",
-        help="Disable the per-value regional cap (max 2 of same preferred region; "
-        "default: on). Used to isolate the Region boost's effect.",
+        help="Disable the per-value regional quota (max 2 of same preferred "
+        "region; default: on) — enforced as a selection skip, not a drop. Used "
+        "to isolate the Region boost's effect.",
     )
     parser.add_argument(
         "--no-regional-guarantee",
         action="store_true",
-        help="Disable the regional guarantee (force-insert a fund for each missing "
-        "preferred region; default: on). Used to isolate the Region boost's effect.",
+        help="Disable the pass-1 regional coverage walk (default: on). Used to "
+        "isolate the Region boost's effect.",
     )
     parser.add_argument(
         "--no-theme-cap",
         action="store_true",
-        help="Disable the per-value theme cap (max 2 of same preferred theme; "
-        "default: on).",
+        help="Disable the per-value theme quota (max 2 of same preferred theme; "
+        "default: on) — enforced as a selection skip, not a drop.",
     )
     parser.add_argument("--out", default="eval_results_sweep")
     return parser.parse_args()
