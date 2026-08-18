@@ -74,7 +74,8 @@ class DecisionEngine:
         final_fund_count: int = 5,
         max_per_provider: int = 5,  # the value "5" ultimately disables the provider cap
         max_per_category: int = 5,  # dito
-        max_per_preferred_value: int = 2,  # per-value quota: max funds of the SAME preferred theme/region
+        max_per_specific_theme: int = 2,  # quota: max funds carrying the SAME specific preferred theme
+        max_per_specific_region: int = 2,  # quota: max funds from the SAME specific preferred region
         min_allocation_percentage: int = 10,  # minimum allocation percentage for any fund in the final portfolio
         boost_elevators: Optional[
             Dict[str, float]
@@ -89,7 +90,8 @@ class DecisionEngine:
         self.final_fund_count = final_fund_count
         self.max_per_provider = max_per_provider
         self.max_per_category = max_per_category
-        self.max_per_preferred_value = max_per_preferred_value
+        self.max_per_specific_theme = max_per_specific_theme
+        self.max_per_specific_region = max_per_specific_region
         self.min_allocation_percentage = min_allocation_percentage
         self.thematic_guarantee = thematic_guarantee
         self.regional_guarantee = regional_guarantee
@@ -276,7 +278,8 @@ class DecisionEngine:
             "caps": {
                 "max_per_provider": self.max_per_provider,
                 "max_per_category": self.max_per_category,
-                "max_per_preferred_value": self.max_per_preferred_value,
+                "max_per_specific_theme": self.max_per_specific_theme,
+                "max_per_specific_region": self.max_per_specific_region,
             },
             "events": [],
         }
@@ -669,22 +672,33 @@ class DecisionEngine:
             return False
 
         def _quota_violations(f: Dict[str, Any]) -> List[str]:
-            """Preferred dimensions whose per-kind maximum ``f`` would exceed."""
+            """Preferred dimensions whose per-kind maximum ``f`` would exceed.
+
+            The quota is tracked PER SPECIFIC VALUE: covering two different
+            preferred themes (one fund each) never blocks either theme — only
+            the (quota+1)-th fund of the SAME theme/region is a violation.
+            The returned strings carry the live count/quota so the trace shows
+            exactly which value is full, e.g. ``theme:SUSTAINABILITY 2/2``.
+            """
             v: List[str] = []
             if self.theme_cap:
                 t = _fund_theme(f)
                 if (
                     t in quota_themes
-                    and theme_count.get(t, 0) >= self.max_per_preferred_value
+                    and theme_count.get(t, 0) >= self.max_per_specific_theme
                 ):
-                    v.append(f"theme:{t}")
+                    v.append(
+                        f"theme:{t} {theme_count.get(t, 0)}/{self.max_per_specific_theme}"
+                    )
             if self.regional_cap:
                 r = _fund_region(f)
                 if (
                     r in preferred_regions
-                    and region_count.get(r, 0) >= self.max_per_preferred_value
+                    and region_count.get(r, 0) >= self.max_per_specific_region
                 ):
-                    v.append(f"region:{r}")
+                    v.append(
+                        f"region:{r} {region_count.get(r, 0)}/{self.max_per_specific_region}"
+                    )
             return v
 
         def _carried_dims(f: Dict[str, Any]) -> List[Dict[str, str]]:

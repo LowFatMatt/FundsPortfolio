@@ -5,9 +5,10 @@ the toggle semantics of the two-pass selection (plans/2026-08-17-two-pass-*):
 
 - ``thematic_guarantee`` / ``regional_guarantee`` gate the pass-1 coverage walk
   per dimension;
-- ``theme_cap`` / ``regional_cap`` gate the per-kind quota (max
-  ``max_per_preferred_value`` funds of the SAME preferred theme/region),
-  enforced as *skips* during selection, never as drops after it.
+- ``theme_cap`` / ``regional_cap`` gate the per-kind quota
+  (``max_per_specific_theme`` / ``max_per_specific_region`` — max funds of the
+  SAME specific preferred theme/region), enforced as *skips* during selection,
+  never as drops after it.
 
 Everything is proven via the decision_trace selection events
 (``pass1_select`` / ``pass2_select`` / ``selection_skip`` /
@@ -181,7 +182,8 @@ def test_guarantees_default_on():
     assert eng.regional_guarantee is True
     assert eng.theme_cap is True
     assert eng.regional_cap is True
-    assert eng.max_per_preferred_value == 2
+    assert eng.max_per_specific_theme == 2
+    assert eng.max_per_specific_region == 2
 
 
 # --------------------------------------------------------------------------- #
@@ -420,6 +422,49 @@ def test_unfulfillable_value_is_logged(write_universe):
     assert len(unf) == 1
     assert unf[0]["value"] == "GHOST"
     assert "no fund" in unf[0]["reason"]
+
+
+def test_theme_quota_is_per_specific_theme(write_universe):
+    # Regression for portfolios/port_20260818_58a41d4d.json: with two DIFFERENT
+    # preferred themes covered (1 fund each), a 2nd fund of EITHER theme must
+    # still be selectable — the quota counts funds per SPECIFIC theme value,
+    # not across themes. Only the 3rd fund of an already-2-covered theme is
+    # skipped, and its skip event carries the live count (e.g. "2/2").
+    sus = [
+        _fund(f"S{i}", sharpe=2.0, mdd=5.0, fee=0.1, theme="sustainability")
+        for i in range(3)
+    ]
+    tech = [
+        _fund(f"T{i}", sharpe=1.5, mdd=8.0, fee=0.15, theme="technology")
+        for i in range(2)
+    ]
+    fillers = [_fund(f"G{i}", sharpe=1.0, mdd=10.0, fee=0.2) for i in range(2)]
+    funds = sus + tech + fillers
+    answers = {
+        "risk_approach": "aggressive",
+        "esg_preference": "NONE",
+        "etf_preference": "no_preference",
+        "preferred_regions": [],
+        "preferred_themes": ["sustainability", "technology"],
+    }
+    recs, trace = _selected(DecisionEngine(), funds, answers)
+    events = _selection_events(trace)
+
+    def _count(theme):
+        return sum(1 for r in recs if r.get("theme") == theme)
+
+    # Both themes independently reach their quota of 2 — covering one never
+    # blocked the other.
+    assert _count("sustainability") == 2
+    assert _count("technology") == 2
+    assert len(recs) == 5
+
+    # The only quota skip is the 3rd sustainability fund (equal scores tie-break
+    # by ISIN, so S0 ranks last among them), annotated with the live per-value
+    # count; no technology fund was ever skipped.
+    skips = _skip_events(events, "theme_quota")
+    assert {e["isin"] for e in skips} == {"S0"}
+    assert skips[0]["dimensions"] == ["theme:SUSTAINABILITY 2/2"]
 
 
 def test_per_value_quota_allows_two_different_values(write_universe):

@@ -11,8 +11,8 @@ configuration. It is tracked in git so Phase-2 config sweeps can diff against it
   - [`BOOST_ELEVATORS`](../funds_portfolio/portfolio/decision_engine.py:58) = `{ETF: 45, ESG: 45, Region: 70, Theme: 70}`
   - constructor: `min_candidates=0` (relaxations off), `top_k=65`,
     `final_fund_count=5`, `max_per_provider=5`, `max_per_category=5`
-    (provider/category caps effectively off), `max_per_preferred_value=2`,
-    `min_allocation_percentage=10`
+    (provider/category caps effectively off), `max_per_specific_theme=2`,
+    `max_per_specific_region=2`, `min_allocation_percentage=10`
   - **Selection:** two-pass, coverage-first (see
     [`plans/2026-08-17-two-pass-coverage-first-selection.md`](../plans/2026-08-17-two-pass-coverage-first-selection.md) and
     Step 7 in [`FUND_SELECTION_LOGIC_SPEC_V2.md`](../FUND_SELECTION_LOGIC_SPEC_V2.md)) —
