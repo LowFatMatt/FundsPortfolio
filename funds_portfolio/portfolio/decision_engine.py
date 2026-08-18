@@ -43,16 +43,6 @@ SRRI_VOL_PROXY: Dict[int, float] = {
     7: 30.0,
 }
 
-# Explicit (non-catch-all) regions. "global" is treated as a catch-all that
-# matches any fund whose region is NOT one of these.
-EXPLICIT_REGIONS: set = {
-    "germany",
-    "europe",
-    "north_america",
-    "asia",
-    "emerging_markets",
-}
-
 # Define boost values for preferences. These are added to the base score to influence ranking.
 #
 BOOST_ELEVATORS: Dict[str, float] = {
@@ -67,21 +57,6 @@ BOOST_ELEVATORS: Dict[str, float] = {
 #    "Region": 30.0,
 #    "Theme": 45.0,
 # }
-
-
-def _region_matches(fund_region: str, preferred: set) -> bool:
-    """Return True if a fund's region satisfies the user's preferred regions.
-
-    A fund matches when its region is explicitly preferred, or when the user
-    selected "global" and the fund's region is not one of the explicit regions
-    (i.e. "global" means "anything not covered by the named regions").
-    """
-    region = str(fund_region or "").lower()
-    if region in preferred:
-        return True
-    if "global" in preferred and region not in EXPLICIT_REGIONS:
-        return True
-    return False
 
 
 class DecisionEngine:
@@ -600,12 +575,10 @@ class DecisionEngine:
         ):
             boosts["ESG"] = self._boost_elevators["ESG"]
 
-        # Regional preference boost
+        # Regional preference boost (simple exact match on the fund's region)
         preferred_regions = {
             str(r).lower() for r in (user_answers.get("preferred_regions") or [])
         }
-        ##if preferred_regions and _region_matches(fund.get("region"), preferred_regions):
-        ## Auskommentiert, um wieder nur auf die "einfache" Region zu schauen.
         if preferred_regions and fund.get("region").lower() in preferred_regions:
             boosts["Region"] = self._boost_elevators["Region"]
 

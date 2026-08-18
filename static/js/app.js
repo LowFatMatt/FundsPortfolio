@@ -1550,13 +1550,17 @@ document.addEventListener('DOMContentLoaded', () => {
     // Renders the ranking/scoring, selection adjustments and allocation
     // breakdown. Hidden in Flow-Mode (showTraces=false).
     // -------------------------------------------------------------------------
+    // Statuses of the two-pass selection. The trace UI only ever renders fresh
+    // engine responses (the resume path prefills answers, it does not replay a
+    // stored trace), so legacy pre-rework statuses are not needed here.
     const TRACE_STATUS = {
-        selected:             { key: 'ui.trace_status_selected',  fallback: 'Selected',            cls: 'trace-status--ok' },
-        skipped_provider_cap: { key: 'ui.trace_status_provider',  fallback: 'Skipped · provider cap', cls: 'trace-status--skip' },
-        skipped_category_cap: { key: 'ui.trace_status_category',  fallback: 'Skipped · category cap', cls: 'trace-status--skip' },
-        dropped_thematic:     { key: 'ui.trace_status_thematic',  fallback: 'Dropped · theme swap', cls: 'trace-status--drop' },
-        dropped_regional_cap: { key: 'ui.trace_status_regional',  fallback: 'Dropped · regional cap', cls: 'trace-status--drop' },
-        not_reached:          { key: 'ui.trace_status_not_reached', fallback: 'Not reached',        cls: 'trace-status--muted' },
+        selected:                 { key: 'ui.trace_status_selected',  fallback: 'Selected',            cls: 'trace-status--ok' },
+        selected_pass1_coverage:  { key: 'ui.trace_status_pass1',     fallback: 'Selected (1) · {dims} match', cls: 'trace-status--ok' },
+        skipped_provider_cap:     { key: 'ui.trace_status_provider',  fallback: 'Skipped · provider cap', cls: 'trace-status--skip' },
+        skipped_category_cap:     { key: 'ui.trace_status_category',  fallback: 'Skipped · category cap', cls: 'trace-status--skip' },
+        skipped_theme_quota:      { key: 'ui.trace_status_themeq',    fallback: 'Skipped · theme quota', cls: 'trace-status--skip' },
+        skipped_region_quota:     { key: 'ui.trace_status_regionq',   fallback: 'Skipped · region quota', cls: 'trace-status--skip' },
+        not_reached:              { key: 'ui.trace_status_not_reached',  fallback: 'Not reached',        cls: 'trace-status--muted' },
     };
 
     function pct(frac) {
@@ -1667,14 +1671,17 @@ document.addEventListener('DOMContentLoaded', () => {
             note(t('ui.trace_formula',
                 'Base score = Sharpe×{s} + max-drawdown×{m} + TER×{t} (each normalised 0–10); preference boosts are added on top.')
                 .replace('{s}', f.sharpe).replace('{m}', f.mdd).replace('{t}', f.ter));
-            host.appendChild(buildRankingTable(ranking.candidates));
+            host.appendChild(buildRankingTable(ranking.candidates, trace.selection?.events || []));
         }
 
-        // Selection adjustments (not obvious from the ranking table alone)
-        const shownTypes = ['thematic_insert', 'regional_cap_drop', 'regional_cap_fill', 'caps_relaxed', 'etf_fallback_fill'];
-        const events = (trace.selection?.events || []).filter(e => shownTypes.includes(e.type));
+        // Selection decisions (two-pass, coverage-first): every pick and skip
+        // is listed in the order the engine made it — pass 1 (coverage of
+        // preferred regions/themes) first, then pass 2 (best-score fill).
+        const events = trace.selection?.events || [];
         if (events.length) {
-            heading(t('ui.trace_events_title', 'Adjustments'));
+            heading(t('ui.trace_events_title', 'Selection decisions'));
+            note(t('ui.trace_pass_note',
+                'Pass 1 covers your preferred regions and themes with the best matching funds; pass 2 fills the remaining slots with the best funds by score.'));
             host.appendChild(buildEventList(events));
         }
 
@@ -1689,7 +1696,18 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    function buildRankingTable(candidates) {
+    function buildRankingTable(candidates, events) {
+        // Pass-1 coverage info per ISIN: which preference dimensions the fund
+        // was picked for, and whether this trace contains pass-1 picks at all.
+        const pass1Dims = {};
+        let hasPass1 = false;
+        (events || []).forEach(e => {
+            if (e.type === 'pass1_select') {
+                hasPass1 = true;
+                if (e.isin) pass1Dims[e.isin] = e.matched || [];
+            }
+        });
+
         const table = document.createElement('table');
         table.className = 'trace-table';
         table.innerHTML = `
@@ -1704,6 +1722,18 @@ document.addEventListener('DOMContentLoaded', () => {
         const tbody = document.createElement('tbody');
         candidates.forEach(c => {
             const st = TRACE_STATUS[c.status] || TRACE_STATUS.not_reached;
+            let statusLabel;
+            if (c.status === 'selected_pass1_coverage') {
+                const dims = (pass1Dims[c.isin] || [])
+                    .map(d => d.dimension === 'theme' ? t('ui.dim_theme', 'theme') : t('ui.dim_region', 'region'))
+                    .join(' + ');
+                statusLabel = t('ui.trace_status_pass1', 'Selected (1) · {dims} match')
+                    .replace('{dims}', dims || t('ui.dim_pref', 'preference'));
+            } else if (c.status === 'selected' && hasPass1) {
+                statusLabel = t('ui.trace_status_selected2', 'Selected (2)');
+            } else {
+                statusLabel = t(st.key, st.fallback);
+            }
             const tr = document.createElement('tr');
             tr.innerHTML = `
                 <td>${c.rank}</td>
@@ -1714,11 +1744,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 <td>${c.base ?? '—'}</td>
                 <td>${escHtml(fmtBoosts(c.boosts))}</td>
                 <td><strong>${c.final ?? '—'}</strong></td>
-                <td><span class="trace-status ${st.cls}">${t(st.key, st.fallback)}</span></td>`;
+                <td><span class="trace-status ${st.cls}">${statusLabel}</span></td>`;
             tbody.appendChild(tr);
         });
         table.appendChild(tbody);
         return table;
+    }
+
+    // Pretty-print a list of {dimension, value} preference matches, e.g.
+    // "region germany, theme sustainability".
+    function fmtDims(dims) {
+        return (dims || [])
+            .map(d => `${d.dimension === 'theme' ? t('ui.dim_theme', 'theme') : t('ui.dim_region', 'region')} ${String(d.value || '').toLowerCase()}`)
+            .join(', ');
     }
 
     function buildEventList(events) {
@@ -1727,16 +1765,48 @@ document.addEventListener('DOMContentLoaded', () => {
         events.forEach(e => {
             let text;
             switch (e.type) {
-                case 'thematic_insert':
-                    text = t('ui.trace_ev_thematic', 'Theme guarantee: {in} replaced {out}.')
-                        .replace('{in}', e.inserted_name || e.inserted)
-                        .replace('{out}', e.dropped_name || e.dropped);
+                case 'pass1_select': {
+                    const matched = fmtDims(e.matched);
+                    const also = fmtDims(e.also_satisfies);
+                    text = t('ui.trace_ev_pass1', 'Pass 1 · Coverage pick: {name} — matches {matched}.')
+                        .replace('{name}', e.name || e.isin)
+                        .replace('{matched}', matched);
+                    if (also) {
+                        text += ' ' + t('ui.trace_ev_also', 'Also covers: {also}.').replace('{also}', also);
+                    }
+                    if (Array.isArray(e.quota_breached) && e.quota_breached.length) {
+                        text += ' ' + t('ui.trace_ev_breach', '(quota exceeded: {q})')
+                            .replace('{q}', e.quota_breached.join(', '));
+                    }
                     break;
-                case 'regional_cap_drop':
-                    text = t('ui.trace_ev_regdrop', 'Regional cap: dropped {name}.').replace('{name}', e.name || e.isin);
+                }
+                case 'pass2_select':
+                    text = t('ui.trace_ev_pass2', 'Pass 2 · Fill pick: {name} — next best score.')
+                        .replace('{name}', e.name || e.isin);
                     break;
-                case 'regional_cap_fill':
-                    text = t('ui.trace_ev_regfill', 'Regional cap: added {name}.').replace('{name}', e.name || e.isin);
+                case 'selection_skip': {
+                    const reasonKeys = {
+                        provider_cap: 'ui.trace_skip_provider',
+                        category_cap: 'ui.trace_skip_category',
+                        theme_quota: 'ui.trace_skip_themeq',
+                        region_quota: 'ui.trace_skip_regionq',
+                    };
+                    const reason = reasonKeys[e.reason]
+                        ? t(reasonKeys[e.reason], e.reason)
+                        : (e.reason || '');
+                    text = t('ui.trace_ev_skip', 'Skipped {name}: {reason}.')
+                        .replace('{name}', e.name || e.isin)
+                        .replace('{reason}', reason);
+                    if (Array.isArray(e.dimensions) && e.dimensions.length) {
+                        text = text.replace(/\.$/, '') + ` (${e.dimensions.join(', ')}).`;
+                    }
+                    break;
+                }
+                case 'coverage_unfulfillable':
+                    text = t('ui.trace_ev_unfulfillable', 'Preference not covered: {dim} "{value}" — {reason}.')
+                        .replace('{dim}', e.dimension || '')
+                        .replace('{value}', e.value || '')
+                        .replace('{reason}', e.reason || '');
                     break;
                 case 'caps_relaxed':
                     text = t('ui.trace_ev_relaxed', 'Diversification caps relaxed to reach the target fund count.');
