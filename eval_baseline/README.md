@@ -15,7 +15,7 @@ configuration. It is tracked in git so Phase-2 config sweeps can diff against it
     `max_per_specific_region=2`, `min_allocation_percentage=10`
   - **Selection:** two-pass, coverage-first (see
     [`plans/2026-08-17-two-pass-coverage-first-selection.md`](../plans/2026-08-17-two-pass-coverage-first-selection.md) and
-    Step 7 in [`FUND_SELECTION_LOGIC_SPEC_V2.md`](../FUND_SELECTION_LOGIC_SPEC_V2.md)) —
+    Step 7 in [`FUND_SELECTION_LOGIC_SPEC_V3.md`](../FUND_SELECTION_LOGIC_SPEC_V3.md)) —
     pass 1 covers preferred regions/themes from the full ranking, pass 2 fills
     from the top; per-kind quotas are enforced as selection skips, never as
     post-selection drops. `thematic_inserts`/`regional_drops` KPIs were replaced

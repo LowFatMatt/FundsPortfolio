@@ -35,8 +35,9 @@
 |----------|---------------|
 | `README.md` | **Start here.** Quick start, current feature list, API reference, project layout |
 | `MVP_README.md` | Historical MVP-era guide (see banner at top of file) — Docker, KIID retrieval, original scope |
-| `IMPLEMENTATION_SPEC.md` | Technical spec: algorithm, API contract, JSON schemas — high-level still accurate, engine details superseded by V2 spec below |
-| `FUND_SELECTION_LOGIC_SPEC_V2.md` | Fund selection logic v2: filter pipeline, scoring formula, Core-Satellite allocation, edge cases (authoritative for the engine) |
+| `IMPLEMENTATION_SPEC.md` | Technical spec: algorithm, API contract, JSON schemas — high-level still accurate, engine details superseded by V3 spec below |
+| `FUND_SELECTION_LOGIC_SPEC_V3.md` | Fund selection logic v3: filter pipeline, scoring formula, two-pass coverage-first selection, Core-Satellite allocation, edge cases (authoritative for the engine) |
+| `FUND_SELECTION_LOGIC_SPEC_V3_DE.md` | German translation of the v3 spec (specification-faithful; English version is authoritative) |
 | `DEVOPS_GUIDE.md` | Docker + GitHub Actions complete guide |
 | `DEVOPS_README.md` | DevOps summary: design decisions, security checklist |
 | `GITHUB_ACTIONS_GUIDE.md` | CI/CD troubleshooting & best practices reference |

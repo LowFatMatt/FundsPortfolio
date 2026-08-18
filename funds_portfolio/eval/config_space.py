@@ -26,7 +26,7 @@ LIVE_BOOSTS: Dict[str, float] = {
     "Region": 30.0,
     "Theme": 45.0,
 }
-# Spec values (FUND_SELECTION_LOGIC_SPEC_V2.md, Step 6).
+# Spec values (FUND_SELECTION_LOGIC_SPEC_V3.md, Step 6).
 SPEC_BOOSTS: Dict[str, float] = {
     "ETF": 5.0,
     "ESG": 5.0,

@@ -2,12 +2,16 @@
 Decision Engine - preference-aware filtering, scoring, selection,
 allocation, and explainability.
 
-Scoring formula (v2, per Provinzial Fondsauswahllogik spec):
+Scoring formula (per Provinzial Fondsauswahllogik spec):
   base = (Sharpe_norm × 5.0) + (MDD_norm × 3.0) + (TER_norm × 2.0)
-  Each metric min-max normalised to 0–10; base range 0–100.
+  Each metric min-max normalised to 0-10; base range 0-100.
   MDD and volatility fall back to SRRI-derived proxies when field is absent.
 
-See FUND_SELECTION_LOGIC_SPEC_V2.md for full specification.
+Selection is two-pass, coverage-first and purely additive (v3): pass 1
+covers preferred regions/themes from the full ranking, pass 2 fills from
+the top; per-kind quotas are enforced as selection skips, never drops.
+
+See FUND_SELECTION_LOGIC_SPEC_V3.md for full specification.
 """
 
 from __future__ import annotations

@@ -32,7 +32,7 @@ Process:
 
 ### 3. Portfolio Optimization Algorithm
 
-> **Note:** The decision engine has been redesigned to v2. The authoritative specification is [FUND_SELECTION_LOGIC_SPEC_V2.md](FUND_SELECTION_LOGIC_SPEC_V2.md). The summary below reflects the high-level approach.
+> **Note:** The decision engine has been redesigned (selection is now two-pass, coverage-first — see v3). The authoritative specification is [FUND_SELECTION_LOGIC_SPEC_V3.md](FUND_SELECTION_LOGIC_SPEC_V3.md). The summary below reflects the high-level approach.
 
 For each user profile:
 1. **Filter funds** — regulatory quality check → risk band (SRRI + volatility + MDD) → ESG → ETF → regional/thematic markers
