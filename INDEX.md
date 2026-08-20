@@ -17,7 +17,9 @@
 | Fund manager (facade) | `funds_portfolio/data/fund_manager.py` | Read-only delegate over the configured provider |
 | Stress-period config | `funds_portfolio/config/stress_periods.py` | Reads `data/stress_periods.json` |
 | Price fetcher | `funds_portfolio/data/price_fetcher.py` | yfinance wrapper (legacy enrichment) |
-| Questionnaire loader | `funds_portfolio/questionnaire/loader.py` | Loads & validates user answers |
+| Questionnaire loader | `funds_portfolio/questionnaire/loader.py` | Loads & validates user answers; decorates theme options with per-risk-profile in-band fund counts |
+| Feasibility advisor | `funds_portfolio/dialog/feasibility.py` | Answer-space shaping pilot: themes gated by risk approach (L2 option availability + L1 cardinality); pure functions, soft warnings for direct API calls |
+| Shared risk bands | `funds_portfolio/portfolio/risk_bands.py` | Single source of truth for DEFENSIVE/BALANCED/OPPORTUNITY bands (Slide 8); engine backstop and dialog advisor both delegate here |
 | Portfolio model | `funds_portfolio/models/portfolio.py` | UUID persistence to disk |
 | Web UI | `templates/index.html` + `static/` | M3-styled SPA, 4 result tabs (Summary / Preferences / Performance / Volatility) |
 | Chart helpers | `static/js/charts.js` | Lazy-loads Chart.js v4 + annotation + date-fns adapter from CDN |

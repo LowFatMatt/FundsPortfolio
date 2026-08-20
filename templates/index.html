@@ -9,7 +9,7 @@
     {% if brand_font_url %}
     <link rel="stylesheet" href="{{ brand_font_url }}">
     {% endif %}
-    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/style.css?v={{ assets_version | default(build_time | replace(' ', '_') | replace(':', '-'), true) }}">
     {% if brand_css_vars %}
     <style>:root { {{ brand_css_vars }}; }</style>
     {% endif %}
@@ -353,7 +353,7 @@
 
 </div><!-- /.page-shell -->
 
-<script src="/static/js/charts.js?v={{ build_time | replace(' ', '_') | replace(':', '-') }}"></script>
-<script src="/static/js/app.js?v={{ build_time | replace(' ', '_') | replace(':', '-') }}"></script>
+<script src="/static/js/charts.js?v={{ assets_version | default(build_time | replace(' ', '_') | replace(':', '-'), true) }}"></script>
+<script src="/static/js/app.js?v={{ assets_version | default(build_time | replace(' ', '_') | replace(':', '-'), true) }}"></script>
 </body>
 </html>

@@ -16,6 +16,23 @@ APP_STARTED_AT = datetime.now(timezone.utc)
 logger = logging.getLogger(__name__)
 
 
+def _assets_version(static_folder: str) -> str:
+    """Cache-busting version for static assets: max mtime of the core files.
+
+    Derived from the served files themselves (volume-mounted in dev), so any
+    edit to app.js/charts.js/style.css immediately changes ``?v=`` without a
+    server restart — browsers refetch on the next page load instead of
+    serving a stale cached script under an unchanged URL.
+    """
+    latest = 0.0
+    for rel in ("js/app.js", "js/charts.js", "css/style.css"):
+        try:
+            latest = max(latest, os.path.getmtime(os.path.join(static_folder, rel)))
+        except OSError:
+            continue
+    return str(int(latest))
+
+
 def _format_build_time(raw_time: str | None) -> str:
     if raw_time:
         return raw_time
@@ -168,11 +185,13 @@ def create_app():
         tpl_path = os.path.join(app.template_folder, "index.html")
         build_id = os.getenv("BUILD_ID", "local-dev")
         build_time = _format_build_time(os.getenv("BUILD_TIME"))
+        assets_version = _assets_version(app.static_folder)
         if os.path.exists(tpl_path):
             return render_template(
                 "index.html",
                 build_id=build_id,
                 build_time=build_time,
+                assets_version=assets_version,
                 brand_name=brand.get("name"),
                 brand_css_vars=brand_css_vars,
                 brand_logo_url=brand_logo_url,
@@ -238,6 +257,7 @@ def create_app():
     from funds_portfolio.portfolio.validator import PortfolioValidator
     from funds_portfolio.portfolio.decision_engine import DecisionEngine
     from funds_portfolio.models.portfolio import Portfolio
+    from funds_portfolio.dialog.feasibility import feasibility_warnings
     from flask import request
 
     # Initialize singletons
@@ -314,6 +334,13 @@ def create_app():
         portfolio.set_risk_profile(result.get("risk_profile"))
         portfolio.set_explanations(result.get("explanations", {}))
         portfolio.set_decision_trace(result.get("decision_trace", {}))
+
+        # 4.5 Soft feasibility warnings — answer combinations the dialog's
+        # gating would not have offered (legacy portfolios, direct API calls,
+        # eval grid). Logged, never rejected: the engine's hard risk bands
+        # remain the backstop.
+        for warning in feasibility_warnings(user_answers, funds):
+            portfolio.add_log(f"Feasibility warning: {warning}")
 
         for note in applied_defaults:
             portfolio.add_log(note)

@@ -22,6 +22,7 @@ import os
 import json
 
 from .preference_match import preference_satisfaction
+from .risk_bands import fund_in_risk_band, risk_band_for_profile
 
 logger = logging.getLogger(__name__)
 
@@ -406,32 +407,12 @@ class DecisionEngine:
         return [f for f in funds if self._fund_in_risk_band(f, band)]
 
     def _fund_in_risk_band(self, fund: Dict[str, Any], band: Dict[str, Any]) -> bool:
-        """Return True if fund satisfies SRRI, and (when present) volatility and MDD checks."""
-        srri = (
-            fund.get("srri") if fund.get("srri") is not None else fund.get("risk_level")
-        )
-        if srri is None:
-            return False
-        srri_val = float(srri)
-        if not (band["srri_min"] <= srri_val <= band["srri_max"]):
-            return False
+        """Return True if fund satisfies SRRI, and (when present) volatility and MDD checks.
 
-        vol = fund.get("volatility")
-        if vol is not None:
-            vol_f = self._as_float(vol)
-            vol_max = band.get("vol_max")
-            vol_min = band.get("vol_min")
-            if vol_max is not None and vol_f > vol_max:
-                return False
-            if vol_min is not None and vol_f < vol_min:
-                return False
-
-        mdd = fund.get("max_drawdown")
-        if mdd is not None:
-            if self._as_float(mdd) > band["mdd_max"]:
-                return False
-
-        return True
+        Delegates to the shared ``portfolio.risk_bands`` module so the dialog
+        layer's feasibility advisor and this backstop can never diverge.
+        """
+        return fund_in_risk_band(fund, band)
 
     def _apply_relaxed_risk_band(
         self,
@@ -450,33 +431,8 @@ class DecisionEngine:
         return [f for f in funds if self._fund_in_risk_band(f, relaxed)]
 
     def _risk_band_for_profile(self, risk_profile: str) -> Dict[str, Any]:
-        # NOTE: Slide 8 is the ultimate truth specifying the risk bands.
-        # The document contains other values in further sildes which
-        #  do not reflect the final specification.
-        if risk_profile == "DEFENSIVE":
-            return {
-                "srri_min": 1,
-                "srri_max": 3,
-                "vol_max": 8.0,
-                "vol_min": None,
-                "mdd_max": 15.0,
-            }
-        if risk_profile == "OPPORTUNITY":
-            return {
-                "srri_min": 4,
-                "srri_max": 7,
-                "vol_max": None,
-                "vol_min": 10.0,
-                "mdd_max": 50.0,
-            }
-        # BALANCED
-        return {
-            "srri_min": 2,
-            "srri_max": 5,
-            "vol_max": 15.0,
-            "vol_min": 5.0,  # reviewed 2: vol_min corrected to be 5.0 (see Spec. Pg./Sld. 8)
-            "mdd_max": 30.0,
-        }
+        """Band parameters for a profile — see ``portfolio/risk_bands.py`` (Slide 8)."""
+        return risk_band_for_profile(risk_profile)
 
     @staticmethod
     def _norm10(

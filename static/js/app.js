@@ -87,6 +87,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // Event listeners
     // -------------------------------------------------------------------------
     qForm.addEventListener('submit', handleSubmission);
+    if (qFields) {
+        qFields.addEventListener('click',  onQuickFormInteract);
+        qFields.addEventListener('change', onQuickFormInteract);
+    }
     restartBtn.addEventListener('click', resetApp);
     startFreshBtn.addEventListener('click', () => {
         currentPortfolioId = null;
@@ -215,9 +219,119 @@ document.addEventListener('DOMContentLoaded', () => {
         sections.forEach(section => qFields.appendChild(renderSection(section)));
     }
 
+    // -------------------------------------------------------------------------
+    // Feasibility gating (dialog answer-space shaping)
+    //
+    // A multi-select section may declare `gating`:
+    //   { field: "risk_approach",
+    //     answer_to_profile: { conservative: "DEFENSIVE", ... },
+    //     max_by_profile:    { DEFENSIVE: 1, BALANCED: 2, ... } }
+    // Its options carry `in_band` per-profile fund counts (decorated by the
+    // server from the live funds DB). Once the gating field is answered:
+    //   * options with zero in-band funds render disabled-with-reason
+    //     (never hidden — the universe gaps stay visible), and
+    //   * `max` tightens to max_by_profile[profile].
+    // The selection engine keeps its hard risk bands as the backstop.
+    // -------------------------------------------------------------------------
+    // During a Quick-Mode re-render the DOM is wiped before the prefill
+    // restores checked radios — the gathered answers are cached here so
+    // gating still resolves while the sections re-render.
+    let quickAnswersCache = null;
+
+    function gatingAnswer(field) {
+        // Flow-Mode: accumulated answers; Quick-Mode: live DOM state.
+        if (flowConfig && !flowView.classList.contains('hidden')) return flowAnswers[field];
+        const checked = qFields.querySelector(`[name="${field}"]:checked`);
+        if (checked) return checked.value;
+        if (quickAnswersCache && field in quickAnswersCache) return quickAnswersCache[field];
+        // Unanswered radios have no :checked node — never fall back to the
+        // first radio's value (it would leak "conservative" by DOM order).
+        // Only a real <select> carries an explicit (possibly empty) value.
+        const sel = qFields.querySelector(`select[name="${field}"]`);
+        return sel ? sel.value : undefined;
+    }
+
+    function gatingProfile(section) {
+        const gating = section && section.gating;
+        if (!gating || !gating.field) return null;
+        const answer = gatingAnswer(gating.field);
+        if (!answer) return null;
+        return (gating.answer_to_profile || {})[answer] || null;
+    }
+
+    // Decorated shallow copy with gating applied (or the section unchanged).
+    function applyGating(section) {
+        const profile = gatingProfile(section);
+        if (!profile) return section;
+        const maxByProfile = (section.gating && section.gating.max_by_profile) || {};
+        const options = (section.options || []).map(opt => {
+            const inBand = (opt.in_band || {})[profile];
+            return (inBand != null && inBand <= 0)
+                ? { ...opt, gated_unavailable: true }
+                : opt;
+        });
+        return {
+            ...section,
+            options,
+            max: maxByProfile[profile] != null ? maxByProfile[profile] : section.max,
+            gated_profile: profile,
+        };
+    }
+
+    // Remove pre-filled selections that became infeasible because the user
+    // back-navigated and changed the gating answer (e.g. risk approach).
+    // Surfaces a notice so the adjustment is never silently lost.
+    function pruneInfeasibleSelections(sections) {
+        let cleared = false;
+        sections.forEach(section => {
+            const profile = gatingProfile(section);
+            if (!profile) return;
+            const unavailable = new Set(
+                (section.options || [])
+                    .filter(opt => {
+                        const n = (opt.in_band || {})[profile];
+                        return n != null && n <= 0;
+                    })
+                    .map(opt => String(opt.value))
+            );
+            flowStepHost.querySelectorAll('.chip.selected, .question-card.selected').forEach(el => {
+                if (!unavailable.has(String(el.dataset.value))) return;
+                el.classList.remove('selected');
+                const input = el.querySelector('input');
+                if (input) input.checked = false;
+                cleared = true;
+            });
+        });
+        if (cleared) {
+            showFlowError(t('ui.gating_cleared_selections',
+                'Selection adjusted: some of the themes you chose earlier are not available for your current risk approach.'));
+            persistCurrentStep();
+        }
+    }
+
+    // Quick-Mode: re-render gated sections whenever a gating answer changes so
+    // disabled chips and the tightened max follow the risk selection live.
+    // State is preserved across the re-render via gather/applyPrefill.
+    let lastQuickGatingSnapshot = null;
+    function onQuickFormInteract() {
+        if (!questionnaireSections.length) return;
+        const snapshot = questionnaireSections
+            .filter(s => s.gating)
+            .map(s => `${s.gating.field}=${gatingAnswer(s.gating.field) || ''}`)
+            .join('|');
+        if (snapshot === lastQuickGatingSnapshot) return;
+        lastQuickGatingSnapshot = snapshot;
+        const answers = gatherAnswers(qFields);
+        quickAnswersCache = answers;   // visible to gatingAnswer during render
+        renderForm(questionnaireSections);
+        applyPrefill(qFields, answers);
+        quickAnswersCache = null;
+    }
+
     // Render a single questionnaire section into a `.field-group` element.
     // Shared by the Quick-Mode form (loop) and the Flow-Mode wizard (one per step).
-    function renderSection(section) {
+    function renderSection(rawSection) {
+        const section = applyGating(rawSection);
         const group = document.createElement('div');
         group.className = 'field-group';
 
@@ -240,6 +354,17 @@ document.addEventListener('DOMContentLoaded', () => {
             desc.className   = 'field-description';
             desc.textContent = section.description;
             group.appendChild(desc);
+        }
+
+        // Feasibility note: tightened selection limit for the answered
+        // risk approach (L1 cardinality shaping).
+        if (section.gated_profile && section.max != null) {
+            const note = document.createElement('p');
+            note.className   = 'field-gating-note';
+            note.textContent = t('ui.gating_max_note',
+                'Based on your risk approach you can select up to {max} theme(s).')
+                .replace('{max}', section.max);
+            group.appendChild(note);
         }
 
         const hint = section.display_hint || null;
@@ -368,6 +493,17 @@ document.addEventListener('DOMContentLoaded', () => {
             title.textContent = opt.label;
             card.appendChild(title);
 
+            // Feasibility-gated: zero in-band funds for the answered risk
+            // profile — render disabled-with-reason, never interactive.
+            if (opt.gated_unavailable) {
+                card.classList.add('question-card--disabled');
+                card.title = t('ui.option_unavailable_risk', 'Not available for your risk approach');
+                card.setAttribute('aria-disabled', 'true');
+                cb.disabled = true;
+                grid.appendChild(card);
+                return;
+            }
+
             card.addEventListener('click', () => {
                 const isSelected = card.classList.contains('selected');
                 if (!isSelected && max) {
@@ -421,6 +557,17 @@ document.addEventListener('DOMContentLoaded', () => {
             input.value = opt.value;
             input.id    = `${section.id}_${opt.id}`;
             chip.appendChild(input);
+
+            // Feasibility-gated: zero in-band funds for the answered risk
+            // profile — render disabled-with-reason, never interactive.
+            if (opt.gated_unavailable) {
+                chip.classList.add('chip--disabled');
+                chip.title = t('ui.option_unavailable_risk', 'Not available for your risk approach');
+                chip.setAttribute('aria-disabled', 'true');
+                input.disabled = true;
+                wrap.appendChild(chip);
+                return;
+            }
 
             chip.addEventListener('click', () => {
                 if (isMulti) {
@@ -1377,6 +1524,9 @@ document.addEventListener('DOMContentLoaded', () => {
         clearFlowError();
         sections.forEach(section => flowStepHost.appendChild(renderSection(section)));
         applyPrefill(flowStepHost, flowAnswers);
+        // Back-navigation may have invalidated earlier theme selections
+        // under a changed risk approach — drop them and tell the user.
+        pruneInfeasibleSelections(sections);
 
         // Progress — counts only currently-visible steps
         const vis   = visibleSteps();
@@ -1479,10 +1629,32 @@ document.addEventListener('DOMContentLoaded', () => {
         return out;
     }
 
+    // Defensive net at the flow boundary: never send theme selections the
+    // current risk answer renders infeasible (stale resume data, races).
+    // The server independently logs soft warnings for direct API callers.
+    function filterInfeasibleThemes(answers) {
+        const sec = questionnaireSections.find(s => s.id === 'preferred_themes');
+        if (!sec || !sec.gating) return answers;
+        const profile = (sec.gating.answer_to_profile || {})[answers[sec.gating.field]];
+        if (!profile) return answers;
+        const unavailable = new Set(
+            (sec.options || [])
+                .filter(opt => {
+                    const n = (opt.in_band || {})[profile];
+                    return n != null && n <= 0;
+                })
+                .map(opt => String(opt.value).toUpperCase())
+        );
+        const themes = answers.preferred_themes;
+        if (!Array.isArray(themes)) return answers;
+        const filtered = themes.filter(t => !unavailable.has(String(t).toUpperCase()));
+        return filtered.length === themes.length ? answers : { ...answers, preferred_themes: filtered };
+    }
+
     async function finalizeFlow() {
         if (flowNextBtn) flowNextBtn.disabled = true;
         const payload = {
-            user_answers: mapFlowToUserAnswers(flowAnswers),
+            user_answers: filterInfeasibleThemes(mapFlowToUserAnswers(flowAnswers)),
             language: currentLang,
         };
         if (currentPortfolioId) payload.portfolio_id = currentPortfolioId;

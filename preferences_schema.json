@@ -133,6 +133,15 @@
         "display_hint": "chips",
         "required": false,
         "max": 2,
+        "gating": {
+          "field": "risk_approach",
+          "answer_to_profile": {
+            "conservative": "DEFENSIVE",
+            "moderate": "BALANCED",
+            "aggressive": "OPPORTUNITY"
+          },
+          "max_by_profile": { "DEFENSIVE": 1, "BALANCED": 2, "OPPORTUNITY": 2 }
+        },
         "options": [
           {
             "id": "theme_none",
