@@ -9,7 +9,12 @@ from collections import Counter
 from typing import Dict, List, Optional
 import logging
 
-from ..dialog.feasibility import decorate_theme_options, theme_band_counts
+from ..dialog.feasibility import (
+    decorate_region_options,
+    decorate_theme_options,
+    region_counts as region_feasible_counts,
+    theme_counts as theme_feasible_counts,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -376,11 +381,13 @@ class QuestionnaireLoader:
         region_options = self._build_region_options(region_counts)
         theme_options = self._build_theme_options(theme_counts)
 
-        # Feasibility metadata: per-risk-profile in-band fund counts for each
-        # theme option (see funds_portfolio/dialog/feasibility.py). The SPA
-        # combines these with the section's gating block to disable chips
-        # that the current risk approach cannot honor.
-        theme_options = decorate_theme_options(theme_options, theme_band_counts(funds))
+        # Feasibility metadata: per-option fund counts for every
+        # (risk profile × esg8_9 × etf_only) filter combination
+        # (see funds_portfolio/dialog/feasibility.py). The SPA combines
+        # these with the questionnaire-level preference_gating block to
+        # disable chips the current answers cannot honor.
+        theme_options = decorate_theme_options(theme_options, theme_feasible_counts(funds))
+        region_options = decorate_region_options(region_options, region_feasible_counts(funds))
 
         self._set_section_options("preferred_regions", region_options)
         self._set_section_options("preferred_themes", theme_options)

@@ -22,6 +22,11 @@ import os
 import json
 
 from .preference_match import preference_satisfaction
+from .eligibility import (
+    ESG_SUSTAINABLE_LABELS,
+    is_esg_fund,
+    normalise_esg_preference,
+)
 from .risk_bands import fund_in_risk_band, risk_band_for_profile
 
 logger = logging.getLogger(__name__)
@@ -369,26 +374,16 @@ class DecisionEngine:
 
     # --- Filters ---
     # Funds considered "sustainable" for boosting/filtering: SFDR Article 8 & 9.
-    _ESG_SUSTAINABLE_LABELS = ("SFDR_ARTICLE_8", "SFDR_ARTICLE_9")
+    # Shared single source of truth — see portfolio/eligibility.py.
+    _ESG_SUSTAINABLE_LABELS = ESG_SUSTAINABLE_LABELS
 
     @staticmethod
     def _normalise_esg_preference(pref: Any) -> str:
-        """Map any stored value to the canonical set NONE | PREFER_ESG | ART_8_9_ONLY.
-
-        Tolerates legacy answers (no_requirement/esg_basic/esg_enhanced) from
-        portfolios created before the ESG refactor. Unknown -> NONE.
-        """
-        p = str(pref or "").strip().upper()
-        legacy = {
-            "NO_REQUIREMENT": "NONE",
-            "ESG_BASIC": "ART_8_9_ONLY",
-            "ESG_ENHANCED": "ART_8_9_ONLY",
-        }
-        p = legacy.get(p, p)
-        return p if p in ("NONE", "PREFER_ESG", "ART_8_9_ONLY") else "NONE"
+        """Map any stored value to the canonical set — see portfolio/eligibility.py."""
+        return normalise_esg_preference(pref)
 
     def _is_esg_fund(self, fund: Dict[str, Any]) -> bool:
-        return str(fund.get("esg_label") or "").upper() in self._ESG_SUSTAINABLE_LABELS
+        return is_esg_fund(fund)
 
     def _apply_esg_filter(
         self, funds: List[Dict[str, Any]], user_answers: Dict[str, Any]

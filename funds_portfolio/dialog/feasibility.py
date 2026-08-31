@@ -1,38 +1,53 @@
-"""Feasibility advisor — pure answer-space shaping functions.
+"""Feasibility advisor v2 — pure answer-space shaping functions.
 
 Answers the question the dialog must ask before offering a choice:
 
     "Given the answers so far, can the selection engine still honor
-     this option within the user's risk band?"
+     this option?" — where "answers so far" spans the risk approach AND
+     the hard ESG / ETF preference filters.
 
-Pilot scope (themes × risk):
+Scope (v2):
 
-* L2 — option availability: a theme option is only selectable when the
-  funds universe contains at least one in-band fund for the risk profile
-  implied by ``risk_approach``. The QuestionnaireLoader attaches the
-  per-profile in-band counts to every served theme option; the SPA uses
-  them to render infeasible chips as disabled-with-reason.
-* L1 — cardinality: the effective ``max`` number of theme selections is
-  profile-dependent (conservative → 1). Declared in the schema's
-  ``gating`` block; this module provides the fallback defaults.
+* Both dimensions: preferred themes (upper-case values) and preferred
+  regions (lower-case values), mirroring the engine's matching rules.
+* L2 — option availability: every served option carries precomputed fund
+  counts for each (risk profile × esg8_9 × etf_only) filter combination —
+  12 integers per option under ``feasible``. The SPA resolves the live
+  combination from the answers (risk/ESG/ETF questions precede
+  regions/themes in schema order and in both flow variants) and disables
+  chips whose count is zero. No dynamic endpoint needed; the loader
+  recomputes on funds-DB refresh.
+* L1 — combined cardinality: ONE budget across themes + regions,
+  DEFENSIVE 1 / BALANCED 2 / OPPORTUNITY 3 (per-section ``max`` remains an
+  additional cap). Declared in the schema's questionnaire-level
+  ``preference_gating`` block; this module provides fallback defaults.
 
 Design constraints:
   * Pure functions only (no I/O) — the loader/app pass the funds list in.
-  * Band definitions are imported from ``portfolio.risk_bands`` (the same
-    module the engine delegates to), so advisor and backstop can never
-    disagree about which fund is in-band.
-  * Tolerant of unknown/legacy answers: unknown risk answer → no gating,
-    unknown theme → no pruning, "none" → never gated.
+  * Band and ESG/ETF semantics are imported from ``portfolio.risk_bands``
+    and ``portfolio.eligibility`` (the modules the engine delegates to),
+    so advisor and backstop can never disagree.
+  * Tolerant of unknown/legacy answers: unknown risk answer → no gating;
+    unknown value → no pruning; "none" → never gated; PREFER_ESG and
+    prefer_etf never gate (they boost, never exclude — engine semantics).
 """
 
 from __future__ import annotations
 
 from typing import Any, Dict, List, Optional
 
+from ..portfolio.eligibility import (
+    ESG_ONLY_VALUE,
+    ETF_ONLY_VALUE,
+    is_esg_fund,
+    normalise_esg_preference,
+)
 from ..portfolio.risk_bands import PROFILES, RISK_BANDS, fund_in_risk_band
 
-# The questionnaire field whose answer drives the gating.
+# Answer fields the gating depends on.
 RISK_FIELD = "risk_approach"
+ESG_FIELD = "esg_preference"
+ETF_FIELD = "etf_preference"
 
 # risk_approach answer value → optimizer risk profile. Mirrors the
 # ``optimizer_profile`` attributes on the schema's risk_approach options.
@@ -42,17 +57,43 @@ ANSWER_TO_PROFILE: Dict[str, str] = {
     "aggressive": "OPPORTUNITY",
 }
 
-# Fallback cardinality (L1) per profile when the schema's gating block is
-# absent. Conservative users get one theme: thematic funds skew volatile,
-# so a conservative band can host at most a small satellite position.
+# Dimension registry: answer field, value normalisation (mirrors the
+# engine's `_fund_theme` upper / `_fund_region` lower matching), and the
+# no-preference placeholder set that is never gated.
+DIMENSIONS: Dict[str, Dict[str, Any]] = {
+    "theme": {
+        "field": "preferred_themes",
+        "normalise": str.upper,
+        "skip": {"NONE"},
+    },
+    "region": {
+        "field": "preferred_regions",
+        "normalise": str.lower,
+        "skip": set(),
+    },
+}
+
+# Answer fields sharing one selection budget.
+BUDGET_FIELDS = ("preferred_regions", "preferred_themes")
+
+# Filter-combination keys for the precomputed per-option counts.
+# "esg8_9" = ART_8_9_ONLY active, "etf" = etf_only active, "+" = both.
+COMBO_KEYS = ("any", "esg8_9", "etf", "esg8_9+etf")
+
+# Fallback combined budget (L1) per profile when the schema's
+# preference_gating block is absent.
 DEFAULT_MAX_BY_PROFILE: Dict[str, int] = {
     "DEFENSIVE": 1,
     "BALANCED": 2,
-    "OPPORTUNITY": 2,
+    "OPPORTUNITY": 3,
 }
 
-# The no-preference placeholder — valid answer, never gated.
+# The no-preference placeholder — valid answer, never gated, never counted.
 THEME_NONE = "none"
+
+
+def _empty_counts() -> Dict[str, Dict[str, int]]:
+    return {p: {k: 0 for k in COMBO_KEYS} for p in PROFILES}
 
 
 def risk_profile_for_answer(risk_answer: Any) -> Optional[str]:
@@ -62,83 +103,162 @@ def risk_profile_for_answer(risk_answer: Any) -> Optional[str]:
     return ANSWER_TO_PROFILE.get(risk_answer.strip().lower())
 
 
-def theme_band_counts(funds: List[Dict[str, Any]]) -> Dict[str, Dict[str, int]]:
-    """Per theme: how many funds are in-band for each risk profile.
+def combo_key(esg_answer: Any, etf_answer: Any) -> str:
+    """Live filter combination for the ESG/ETF answers.
 
-    Returns ``{THEME_UPPER: {"DEFENSIVE": n, "BALANCED": n, "OPPORTUNITY": n}}``.
-    Funds without a theme (or theme ``NONE``) back no option and are skipped.
+    Mirrors the engine exactly: only ART_8_9_ONLY and etf_only hard-filter
+    (legacy ESG answers are normalised first); PREFER_ESG / prefer_etf map
+    to "any".
     """
-    counts: Dict[str, Dict[str, int]] = {}
+    esg_on = normalise_esg_preference(esg_answer) == ESG_ONLY_VALUE
+    etf_on = str(etf_answer or "").strip() == ETF_ONLY_VALUE
+    if esg_on and etf_on:
+        return "esg8_9+etf"
+    if esg_on:
+        return "esg8_9"
+    if etf_on:
+        return "etf"
+    return "any"
+
+
+def value_feasible_counts(
+    funds: List[Dict[str, Any]], dimension: str
+) -> Dict[str, Dict[str, Dict[str, int]]]:
+    """Per option value: in-band fund counts for every filter combination.
+
+    Returns ``{VALUE: {PROFILE: {combo: count}}}`` where a fund counts
+    toward combo X iff it is in-band for the profile AND would survive
+    filter combination X (a non-ESG fund still counts under "etf", etc.).
+    Funds without the dimension value back no option and are skipped.
+    """
+    cfg = DIMENSIONS[dimension]
+    normalise = cfg["normalise"]
+    counts: Dict[str, Dict[str, Dict[str, int]]] = {}
     for fund in funds:
-        raw = str(fund.get("theme") or "").strip().upper()
-        if not raw or raw == "NONE":
+        raw = str(fund.get(dimension) or "").strip()
+        if not raw:
             continue
-        per_theme = counts.setdefault(raw, {p: 0 for p in PROFILES})
+        value = normalise(raw)
+        if value in cfg["skip"]:
+            continue
+        per_value = counts.setdefault(value, _empty_counts())
+        esg_ok = is_esg_fund(fund)
+        etf_ok = bool(fund.get("is_etf"))
+        fund_combos = ["any"]
+        if esg_ok:
+            fund_combos.append("esg8_9")
+        if etf_ok:
+            fund_combos.append("etf")
+        if esg_ok and etf_ok:
+            fund_combos.append("esg8_9+etf")
         for profile in PROFILES:
             if fund_in_risk_band(fund, RISK_BANDS[profile]):
-                per_theme[profile] += 1
+                for key in fund_combos:
+                    per_value[profile][key] += 1
     return counts
 
 
-def decorate_theme_options(
-    options: List[Dict[str, Any]], counts: Dict[str, Dict[str, int]]
-) -> List[Dict[str, Any]]:
-    """Attach an ``in_band`` per-profile count to each theme option (by value).
+def theme_counts(funds: List[Dict[str, Any]]):
+    """Feasible-combination counts keyed by theme (upper-case)."""
+    return value_feasible_counts(funds, "theme")
 
-    The decorated options are what the loader serves; the SPA combines them
-    with the section's ``gating`` block to disable chips per risk answer.
-    Options keep their identity — this only adds metadata.
+
+def region_counts(funds: List[Dict[str, Any]]):
+    """Feasible-combination counts keyed by region (lower-case)."""
+    return value_feasible_counts(funds, "region")
+
+
+def decorate_options(
+    options: List[Dict[str, Any]],
+    counts: Dict[str, Dict[str, Dict[str, int]]],
+    dimension: str,
+) -> List[Dict[str, Any]]:
+    """Attach a ``feasible`` combination-count table to each option (by value).
+
+    The SPA combines these with the questionnaire-level ``preference_gating``
+    block to disable chips per live answers. Options keep their identity —
+    this only adds metadata.
     """
+    cfg = DIMENSIONS[dimension]
     for opt in options:
-        value = str(opt.get("value") or "").strip().upper()
-        if value and value != "NONE":
-            opt["in_band"] = dict(counts.get(value, {p: 0 for p in PROFILES}))
+        raw = str(opt.get("value") or "").strip()
+        if not raw:
+            continue
+        value = cfg["normalise"](raw)
+        if value in cfg["skip"]:
+            continue
+        opt["feasible"] = counts.get(value, _empty_counts())
     return options
 
 
-def effective_theme_max(
-    gating: Optional[Dict[str, Any]], risk_answer: Any
-) -> Optional[int]:
-    """Effective number of selectable themes for the current risk answer.
+def decorate_theme_options(options, counts):
+    return decorate_options(options, counts, "theme")
 
-    ``gating`` is the section's declaration from the schema
-    (``{"field": ..., "max_by_profile": {...}}``); when absent the module
-    defaults apply. Returns None when the risk answer is unknown (no gating).
+
+def decorate_region_options(options, counts):
+    return decorate_options(options, counts, "region")
+
+
+def combined_budget(gating: Optional[Dict[str, Any]], risk_answer: Any) -> Optional[int]:
+    """Combined theme+region selection budget for the risk answer.
+
+    ``gating`` is the questionnaire-level ``preference_gating`` block; when
+    absent the module defaults (1/2/3) apply. None when the risk answer is
+    unknown (no gating).
     """
     profile = risk_profile_for_answer(risk_answer)
     if profile is None:
         return None
-    max_by_profile = (gating or {}).get("max_by_profile") or DEFAULT_MAX_BY_PROFILE
-    value = max_by_profile.get(profile)
+    declared = (gating or {}).get("budget", {}).get("max_by_profile") or {}
+    # Partial declarations fall back per-profile, so an override for one
+    # profile never blanks the others.
+    value = declared.get(profile, DEFAULT_MAX_BY_PROFILE.get(profile))
     return int(value) if isinstance(value, (int, float)) else None
 
 
-def selected_themes(answers: Dict[str, Any]) -> List[str]:
-    """Normalised (upper-case) selected theme values from the answers."""
-    raw = answers.get("preferred_themes")
+def selected_values(answers: Dict[str, Any], field: str) -> List[str]:
+    """Normalised selected values of a multi-select answer field."""
+    raw = answers.get(field)
     if not isinstance(raw, list):
         return []
-    return [str(t).strip().upper() for t in raw if str(t or "").strip()]
+    return [str(v).strip() for v in raw if str(v or "").strip()]
 
 
-def unavailable_themes(
-    answers: Dict[str, Any], funds: List[Dict[str, Any]]
+def combined_selection_count(answers: Dict[str, Any]) -> int:
+    """Number of real theme/region selections across the budget fields.
+
+    No-preference placeholders ("none") never count.
+    """
+    total = 0
+    for field in BUDGET_FIELDS:
+        for value in selected_values(answers, field):
+            if value.lower() != THEME_NONE:
+                total += 1
+    return total
+
+
+def unavailable_values(
+    answers: Dict[str, Any], funds: List[Dict[str, Any]], dimension: str
 ) -> List[str]:
-    """Selected themes with zero in-band funds for the answered risk profile.
+    """Selected values of a dimension with zero funds under the live answers.
 
     Empty when the risk answer is unknown — without a profile there is no
-    band to check against (mirrors the engine's fallback-to-BALANCED only
-    at selection time, not at dialog time).
+    band to check against. ESG/ETF answers resolve via ``combo_key``.
     """
     profile = risk_profile_for_answer(answers.get(RISK_FIELD))
     if profile is None:
         return []
-    counts = theme_band_counts(funds)
-    return [
-        t
-        for t in selected_themes(answers)
-        if t != "NONE" and counts.get(t, {p: 0 for p in PROFILES}).get(profile, 0) == 0
-    ]
+    key = combo_key(answers.get(ESG_FIELD), answers.get(ETF_FIELD))
+    counts = value_feasible_counts(funds, dimension)
+    cfg = DIMENSIONS[dimension]
+    out: List[str] = []
+    for value in selected_values(answers, cfg["field"]):
+        norm = cfg["normalise"](value)
+        if norm in cfg["skip"]:
+            continue
+        if counts.get(norm, _empty_counts())[profile].get(key, 0) == 0:
+            out.append(norm)
+    return out
 
 
 def feasibility_warnings(answers: Dict[str, Any], funds: List[Dict[str, Any]]) -> List[str]:
@@ -158,21 +278,31 @@ def feasibility_warnings(answers: Dict[str, Any], funds: List[Dict[str, Any]]) -
         f", vol<={band['vol_max'] if band['vol_max'] is not None else '∞'}"
         f", MDD<={band['mdd_max']}"
     )
+    key = combo_key(answers.get(ESG_FIELD), answers.get(ETF_FIELD))
+    filter_desc = {
+        "any": "",
+        "esg8_9": " + ESG-only filter (SFDR Article 8/9)",
+        "etf": " + ETF-only filter",
+        "esg8_9+etf": " + ESG-only and ETF-only filters",
+    }[key]
 
-    for theme in unavailable_themes(answers, funds):
-        warnings.append(
-            f'preferred_themes includes "{theme.lower()}" but the funds universe has '
-            f"no matching fund inside the {profile} risk band ({band_desc}); "
-            "the selection engine cannot honor this preference"
-        )
+    for dimension in ("theme", "region"):
+        field = DIMENSIONS[dimension]["field"]
+        for value in unavailable_values(answers, funds, dimension):
+            warnings.append(
+                f'"{field}" includes "{value.lower()}" but the funds universe has '
+                f"no matching fund inside the {profile} risk band "
+                f"({band_desc}){filter_desc}; "
+                "the selection engine cannot honor this preference"
+            )
 
-    max_sel = effective_theme_max(None, answers.get(RISK_FIELD))
-    themes = [t for t in selected_themes(answers) if t != "NONE"]
-    if max_sel is not None and len(themes) > max_sel:
+    budget = combined_budget(None, answers.get(RISK_FIELD))
+    total = combined_selection_count(answers)
+    if budget is not None and total > budget:
         warnings.append(
-            f"preferred_themes has {len(themes)} selections but the {profile} "
-            f"risk approach supports at most {max_sel} thematic satellite "
-            "position(s); expect reduced coverage or diversified-away preferences"
+            f"combined theme/region selections ({total}) exceed the {profile} "
+            f"budget of {budget}; expect reduced coverage or "
+            "diversified-away preferences"
         )
 
     return warnings

@@ -57,6 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentLang        = 'en';
     let uiStrings          = {};
     let questionnaireSections = [];   // raw sections from /api/questionnaire
+    let preferenceGating     = null;  // questionnaire-level preference_gating block
 
     // Flow-Mode (wizard) state — see MODES.md §3/§4
     const flowView         = document.getElementById('flow-view');
@@ -202,6 +203,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!response.ok) throw new Error(t('errors.load_questionnaire'));
             const data = await response.json();
             questionnaireSections = data.sections || [];
+            preferenceGating      = data.preference_gating || null;
             renderForm(questionnaireSections);
             loadingView.classList.add('hidden');
             welcomeView.classList.remove('hidden');
@@ -220,18 +222,21 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // -------------------------------------------------------------------------
-    // Feasibility gating (dialog answer-space shaping)
+    // Feasibility gating v2 (dialog answer-space shaping)
     //
-    // A multi-select section may declare `gating`:
-    //   { field: "risk_approach",
+    // The questionnaire declares a top-level `preference_gating` block:
+    //   { budget: { fields: [...], max_by_profile: { DEFENSIVE: 1, ... } },
     //     answer_to_profile: { conservative: "DEFENSIVE", ... },
-    //     max_by_profile:    { DEFENSIVE: 1, BALANCED: 2, ... } }
-    // Its options carry `in_band` per-profile fund counts (decorated by the
-    // server from the live funds DB). Once the gating field is answered:
-    //   * options with zero in-band funds render disabled-with-reason
-    //     (never hidden — the universe gaps stay visible), and
-    //   * `max` tightens to max_by_profile[profile].
-    // The selection engine keeps its hard risk bands as the backstop.
+    //     filters: [ { field, value, combo_key }, ... ] }
+    // Every option of the budget sections carries `feasible` — precomputed
+    // fund counts per (risk profile × filter combination):
+    //   { DEFENSIVE: { any: n, esg8_9: n, etf: n, "esg8_9+etf": n }, ... }
+    // Once the risk answer exists:
+    //   * options with zero funds under the live combination render
+    //     disabled-with-reason (never hidden — universe gaps stay visible),
+    //   * the shared budget caps combined selections across the budget
+    //     sections (per-section `max` remains an additional cap).
+    // The selection engine keeps its hard filters as the backstop.
     // -------------------------------------------------------------------------
     // During a Quick-Mode re-render the DOM is wiped before the prefill
     // restores checked radios — the gathered answers are cached here so
@@ -251,78 +256,157 @@ document.addEventListener('DOMContentLoaded', () => {
         return sel ? sel.value : undefined;
     }
 
-    function gatingProfile(section) {
-        const gating = section && section.gating;
-        if (!gating || !gating.field) return null;
-        const answer = gatingAnswer(gating.field);
+    function gatingProfile() {
+        const gating = preferenceGating;
+        if (!gating || !gating.answer_to_profile) return null;
+        const answer = gatingAnswer('risk_approach');
         if (!answer) return null;
-        return (gating.answer_to_profile || {})[answer] || null;
+        return gating.answer_to_profile[answer] || null;
+    }
+
+    function liveComboKey() {
+        const filters = (preferenceGating && preferenceGating.filters) || [];
+        const active = new Set(
+            filters.filter(f => gatingAnswer(f.field) === f.value).map(f => f.combo_key)
+        );
+        const esg = active.has('esg8_9');
+        const etf = active.has('etf');
+        return (esg && etf) ? 'esg8_9+etf' : (esg ? 'esg8_9' : (etf ? 'etf' : 'any'));
+    }
+
+    function budgetConfig() {
+        return (preferenceGating && preferenceGating.budget) || null;
+    }
+
+    // Current multi-select answer of a budget field ("none" never counts).
+    function gatingSelections(field) {
+        if (flowConfig && !flowView.classList.contains('hidden')) {
+            return Array.isArray(flowAnswers[field]) ? flowAnswers[field] : [];
+        }
+        const cached = quickAnswersCache && quickAnswersCache[field];
+        if (Array.isArray(cached)) return cached;
+        return Array.from(qFields.querySelectorAll(`[name="${field}"]:checked`))
+            .map(el => el.value);
+    }
+
+    function selectedInBudget(field) {
+        return gatingSelections(field).filter(v => String(v).toLowerCase() !== 'none').length;
     }
 
     // Decorated shallow copy with gating applied (or the section unchanged).
     function applyGating(section) {
-        const profile = gatingProfile(section);
+        const profile = gatingProfile();
         if (!profile) return section;
-        const maxByProfile = (section.gating && section.gating.max_by_profile) || {};
+        const combo = liveComboKey();
+        const budget = budgetConfig();
+        const maxByProfile = (budget && budget.max_by_profile) || {};
+        const isBudgetSection = !!(budget && (budget.fields || []).includes(section.id));
+
         const options = (section.options || []).map(opt => {
-            const inBand = (opt.in_band || {})[profile];
-            return (inBand != null && inBand <= 0)
-                ? { ...opt, gated_unavailable: true }
-                : opt;
+            const perProfile = (opt.feasible || {})[profile];
+            if (!perProfile || perProfile[combo] == null || perProfile[combo] > 0) return opt;
+            // Zero under the live combination. Distinguish "never in the
+            // universe" (zero under every combination) from "not available
+            // for your answers" (zero only under the active filters).
+            const allZero = Object.values(perProfile).every(n => n <= 0);
+            return { ...opt, gated_unavailable: true, gated_reason: allZero ? 'no_funds' : 'answers' };
         });
-        return {
-            ...section,
-            options,
-            max: maxByProfile[profile] != null ? maxByProfile[profile] : section.max,
-            gated_profile: profile,
-        };
+
+        const out = { ...section, options, gated_profile: profile };
+
+        // Shared budget: this section's effective cap is the remaining
+        // budget after the other budget sections' selections; the static
+        // per-section `max` remains an additional cap.
+        if (isBudgetSection) {
+            const total = maxByProfile[profile] != null ? maxByProfile[profile] : section.max;
+            const used = (budget.fields || [])
+                .filter(f => f !== section.id)
+                .reduce((sum, f) => sum + selectedInBudget(f), 0);
+            const remaining = Math.max(0, total - used);
+            out.budget_total = total;
+            out.budget_used  = used;
+            const cap = section.max != null ? Math.min(section.max, remaining) : remaining;
+            out.max = cap;
+        }
+        return out;
+    }
+
+    // Disabled-option reason text: distinguishes "no funds in the universe
+    // at all" from "none under your current answers".
+    function gatedReasonText(opt) {
+        return opt.gated_reason === 'no_funds'
+            ? t('ui.option_no_funds', 'No matching funds in the universe')
+            : t('ui.option_unavailable_answers', 'Not available for your answers');
     }
 
     // Remove pre-filled selections that became infeasible because the user
-    // back-navigated and changed the gating answer (e.g. risk approach).
-    // Surfaces a notice so the adjustment is never silently lost.
+    // back-navigated and changed a gating answer (risk/ESG/ETF), and trim
+    // selections exceeding the shared budget. Surfaces a notice so the
+    // adjustments are never silently lost. (Single-section steps assumed —
+    // both budget sections render as their own flow steps.)
     function pruneInfeasibleSelections(sections) {
         let cleared = false;
         sections.forEach(section => {
-            const profile = gatingProfile(section);
-            if (!profile) return;
+            const effective = applyGating(section);
+            if (!effective.gated_profile) return;
+
             const unavailable = new Set(
-                (section.options || [])
-                    .filter(opt => {
-                        const n = (opt.in_band || {})[profile];
-                        return n != null && n <= 0;
-                    })
+                (effective.options || [])
+                    .filter(opt => opt.gated_unavailable)
                     .map(opt => String(opt.value))
             );
-            flowStepHost.querySelectorAll('.chip.selected, .question-card.selected').forEach(el => {
-                if (!unavailable.has(String(el.dataset.value))) return;
+
+            const unselect = el => {
                 el.classList.remove('selected');
                 const input = el.querySelector('input');
                 if (input) input.checked = false;
                 cleared = true;
-            });
+            };
+
+            // 1) Availability: drop selections the current answers forbid.
+            flowStepHost
+                .querySelectorAll('.chip.selected, .question-card.selected')
+                .forEach(el => {
+                    if (unavailable.has(String(el.dataset.value))) unselect(el);
+                });
+
+            // 2) Budget: keep at most `effective.max` selections in this
+            //    step (drop from the end — deterministic).
+            if (effective.max != null) {
+                let current = Array.from(
+                    flowStepHost.querySelectorAll('.chip.selected, .question-card.selected')
+                );
+                while (current.length > effective.max) {
+                    unselect(current.pop());
+                }
+            }
         });
         if (cleared) {
             showFlowError(t('ui.gating_cleared_selections',
-                'Selection adjusted: some of the themes you chose earlier are not available for your current risk approach.'));
+                'Selection adjusted: some of the preferences you chose earlier are not available for your current answers.'));
             persistCurrentStep();
         }
     }
 
-    // Quick-Mode: re-render gated sections whenever a gating answer changes so
-    // disabled chips and the tightened max follow the risk selection live.
-    // State is preserved across the re-render via gather/applyPrefill.
+    // Quick-Mode: re-render gated sections whenever a gating-relevant answer
+    // changes (risk / ESG / ETF / budget selections in the other section) so
+    // disabled chips and the effective caps follow live. State is preserved
+    // across the re-render via gather/applyPrefill.
     let lastQuickGatingSnapshot = null;
     function onQuickFormInteract() {
         if (!questionnaireSections.length) return;
-        const snapshot = questionnaireSections
-            .filter(s => s.gating)
-            .map(s => `${s.gating.field}=${gatingAnswer(s.gating.field) || ''}`)
+        const answers = gatherAnswers(qFields);
+        const budget = budgetConfig();
+        const fields = ['risk_approach'];
+        ((budget && budget.fields) || []).forEach(f => fields.push(f));
+        ((preferenceGating && preferenceGating.filters) || [])
+            .forEach(f => fields.push(f.field));
+        const snapshot = fields
+            .map(f => `${f}=${JSON.stringify(answers[f] || null)}`)
             .join('|');
         if (snapshot === lastQuickGatingSnapshot) return;
         lastQuickGatingSnapshot = snapshot;
-        const answers = gatherAnswers(qFields);
-        quickAnswersCache = answers;   // visible to gatingAnswer during render
+        quickAnswersCache = answers;   // visible to gating helpers during render
         renderForm(questionnaireSections);
         applyPrefill(qFields, answers);
         quickAnswersCache = null;
@@ -356,15 +440,26 @@ document.addEventListener('DOMContentLoaded', () => {
             group.appendChild(desc);
         }
 
-        // Feasibility note: tightened selection limit for the answered
-        // risk approach (L1 cardinality shaping).
-        if (section.gated_profile && section.max != null) {
-            const note = document.createElement('p');
-            note.className   = 'field-gating-note';
-            note.textContent = t('ui.gating_max_note',
-                'Based on your risk approach you can select up to {max} theme(s).')
-                .replace('{max}', section.max);
-            group.appendChild(note);
+        // Feasibility note: shared budget / caps for the answered risk
+        // approach (L1 cardinality shaping).
+        if (section.gated_profile) {
+            let text = null;
+            if (section.budget_total != null) {
+                text = t('ui.gating_budget_note',
+                    'For your risk approach you can combine up to {total} region/theme selections in total ({used} already chosen in the other step).')
+                    .replace('{total}', section.budget_total)
+                    .replace('{used}', section.budget_used);
+            } else if (section.max != null) {
+                text = t('ui.gating_max_note',
+                    'Based on your risk approach you can select up to {max} option(s).')
+                    .replace('{max}', section.max);
+            }
+            if (text) {
+                const note = document.createElement('p');
+                note.className   = 'field-gating-note';
+                note.textContent = text;
+                group.appendChild(note);
+            }
         }
 
         const hint = section.display_hint || null;
@@ -493,11 +588,11 @@ document.addEventListener('DOMContentLoaded', () => {
             title.textContent = opt.label;
             card.appendChild(title);
 
-            // Feasibility-gated: zero in-band funds for the answered risk
-            // profile — render disabled-with-reason, never interactive.
+            // Feasibility-gated: no fund backing this option under the live
+            // answers — render disabled-with-reason, never interactive.
             if (opt.gated_unavailable) {
                 card.classList.add('question-card--disabled');
-                card.title = t('ui.option_unavailable_risk', 'Not available for your risk approach');
+                card.title = gatedReasonText(opt);
                 card.setAttribute('aria-disabled', 'true');
                 cb.disabled = true;
                 grid.appendChild(card);
@@ -558,11 +653,11 @@ document.addEventListener('DOMContentLoaded', () => {
             input.id    = `${section.id}_${opt.id}`;
             chip.appendChild(input);
 
-            // Feasibility-gated: zero in-band funds for the answered risk
-            // profile — render disabled-with-reason, never interactive.
+            // Feasibility-gated: no fund backing this option under the live
+            // answers — render disabled-with-reason, never interactive.
             if (opt.gated_unavailable) {
                 chip.classList.add('chip--disabled');
-                chip.title = t('ui.option_unavailable_risk', 'Not available for your risk approach');
+                chip.title = gatedReasonText(opt);
                 chip.setAttribute('aria-disabled', 'true');
                 input.disabled = true;
                 wrap.appendChild(chip);
@@ -1629,32 +1724,38 @@ document.addEventListener('DOMContentLoaded', () => {
         return out;
     }
 
-    // Defensive net at the flow boundary: never send theme selections the
-    // current risk answer renders infeasible (stale resume data, races).
+    // Defensive net at the flow boundary: never send theme/region selections
+    // the current answers render infeasible (stale resume data, races).
     // The server independently logs soft warnings for direct API callers.
-    function filterInfeasibleThemes(answers) {
-        const sec = questionnaireSections.find(s => s.id === 'preferred_themes');
-        if (!sec || !sec.gating) return answers;
-        const profile = (sec.gating.answer_to_profile || {})[answers[sec.gating.field]];
+    function filterInfeasiblePreferences(answers) {
+        const profile = gatingProfile();
         if (!profile) return answers;
-        const unavailable = new Set(
-            (sec.options || [])
-                .filter(opt => {
-                    const n = (opt.in_band || {})[profile];
-                    return n != null && n <= 0;
-                })
-                .map(opt => String(opt.value).toUpperCase())
-        );
-        const themes = answers.preferred_themes;
-        if (!Array.isArray(themes)) return answers;
-        const filtered = themes.filter(t => !unavailable.has(String(t).toUpperCase()));
-        return filtered.length === themes.length ? answers : { ...answers, preferred_themes: filtered };
+        const combo = liveComboKey();
+        const fields = (budgetConfig() && budgetConfig().fields) || [];
+        if (!fields.length) return answers;
+        const out = { ...answers };
+        fields.forEach(field => {
+            const sec = questionnaireSections.find(s => s.id === field);
+            const values = out[field];
+            if (!sec || !Array.isArray(values) || !values.length) return;
+            const unavailable = new Set(
+                (sec.options || [])
+                    .filter(opt => {
+                        const per = (opt.feasible || {})[profile];
+                        return per && per[combo] != null && per[combo] <= 0;
+                    })
+                    .map(opt => String(opt.value).toUpperCase())
+            );
+            const filtered = values.filter(v => !unavailable.has(String(v).toUpperCase()));
+            if (filtered.length !== values.length) out[field] = filtered;
+        });
+        return out;
     }
 
     async function finalizeFlow() {
         if (flowNextBtn) flowNextBtn.disabled = true;
         const payload = {
-            user_answers: filterInfeasibleThemes(mapFlowToUserAnswers(flowAnswers)),
+            user_answers: filterInfeasiblePreferences(mapFlowToUserAnswers(flowAnswers)),
             language: currentLang,
         };
         if (currentPortfolioId) payload.portfolio_id = currentPortfolioId;

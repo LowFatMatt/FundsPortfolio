@@ -1,7 +1,22 @@
 {
   "questionnaire": {
-    "version": "2.0",
+    "version": "2.1",
     "language": "en",
+    "preference_gating": {
+      "budget": {
+        "fields": ["preferred_regions", "preferred_themes"],
+        "max_by_profile": { "DEFENSIVE": 1, "BALANCED": 2, "OPPORTUNITY": 3 }
+      },
+      "answer_to_profile": {
+        "conservative": "DEFENSIVE",
+        "moderate": "BALANCED",
+        "aggressive": "OPPORTUNITY"
+      },
+      "filters": [
+        { "field": "esg_preference", "value": "ART_8_9_ONLY", "combo_key": "esg8_9" },
+        { "field": "etf_preference", "value": "etf_only", "combo_key": "etf" }
+      ]
+    },
     "sections": [
       {
         "id": "risk_approach",
@@ -133,15 +148,6 @@
         "display_hint": "chips",
         "required": false,
         "max": 2,
-        "gating": {
-          "field": "risk_approach",
-          "answer_to_profile": {
-            "conservative": "DEFENSIVE",
-            "moderate": "BALANCED",
-            "aggressive": "OPPORTUNITY"
-          },
-          "max_by_profile": { "DEFENSIVE": 1, "BALANCED": 2, "OPPORTUNITY": 2 }
-        },
         "options": [
           {
             "id": "theme_none",
