@@ -53,9 +53,15 @@ SRRI_VOL_PROXY: Dict[int, float] = {
 BOOST_ELEVATORS: Dict[str, float] = {
     "ETF": 45.0,
     "ESG": 45.0,
-    "Region": 70.0,
-    "Theme": 70.0,
+    "Region": 2.0,
+    "Theme": 2.0,
 }
+# BOOST_ELEVATORS: Dict[str, float] = {
+#     "ETF": 45.0,
+#     "ESG": 45.0,
+#     "Region": 70.0,
+#     "Theme": 70.0,
+# }
 # BOOST_ELEVATORS: Dict[str, float] = {
 #    "ETF": 20.0,
 #    "ESG": 20.0,
