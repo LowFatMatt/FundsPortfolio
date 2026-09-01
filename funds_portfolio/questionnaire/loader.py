@@ -386,8 +386,12 @@ class QuestionnaireLoader:
         # (see funds_portfolio/dialog/feasibility.py). The SPA combines
         # these with the questionnaire-level preference_gating block to
         # disable chips the current answers cannot honor.
-        theme_options = decorate_theme_options(theme_options, theme_feasible_counts(funds))
-        region_options = decorate_region_options(region_options, region_feasible_counts(funds))
+        theme_options = decorate_theme_options(
+            theme_options, theme_feasible_counts(funds)
+        )
+        region_options = decorate_region_options(
+            region_options, region_feasible_counts(funds)
+        )
 
         self._set_section_options("preferred_regions", region_options)
         self._set_section_options("preferred_themes", theme_options)

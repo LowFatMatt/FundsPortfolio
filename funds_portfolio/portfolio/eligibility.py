@@ -66,9 +66,7 @@ def preference_eligible(
     fund: Dict[str, Any], esg_preference: Any = None, etf_preference: Any = None
 ) -> bool:
     """Combined hard-filter eligibility (ESG ∧ ETF)."""
-    return esg_eligible(fund, esg_preference) and etf_eligible(
-        fund, etf_preference
-    )
+    return esg_eligible(fund, esg_preference) and etf_eligible(fund, etf_preference)
 
 
 def filter_by_preferences(
@@ -77,8 +75,4 @@ def filter_by_preferences(
     etf_preference: Any = None,
 ) -> List[Dict[str, Any]]:
     """All funds surviving both hard preference filters."""
-    return [
-        f
-        for f in funds
-        if preference_eligible(f, esg_preference, etf_preference)
-    ]
+    return [f for f in funds if preference_eligible(f, esg_preference, etf_preference)]

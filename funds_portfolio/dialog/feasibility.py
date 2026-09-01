@@ -199,7 +199,9 @@ def decorate_region_options(options, counts):
     return decorate_options(options, counts, "region")
 
 
-def combined_budget(gating: Optional[Dict[str, Any]], risk_answer: Any) -> Optional[int]:
+def combined_budget(
+    gating: Optional[Dict[str, Any]], risk_answer: Any
+) -> Optional[int]:
     """Combined theme+region selection budget for the risk answer.
 
     ``gating`` is the questionnaire-level ``preference_gating`` block; when
@@ -261,7 +263,9 @@ def unavailable_values(
     return out
 
 
-def feasibility_warnings(answers: Dict[str, Any], funds: List[Dict[str, Any]]) -> List[str]:
+def feasibility_warnings(
+    answers: Dict[str, Any], funds: List[Dict[str, Any]]
+) -> List[str]:
     """Soft-validation warnings for answer combinations the engine cannot honor.
 
     Never rejects: the caller logs these (portfolio logs / decision trace

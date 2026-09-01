@@ -66,6 +66,7 @@ def test_baseline_configs_helper():
 
 # --- drift guards: eval baselines must mirror the engine / the spec ----------
 
+
 def test_live_boosts_mirror_engine():
     """LIVE is derived from the engine import — assert it stays that way."""
     from funds_portfolio.portfolio.decision_engine import BOOST_ELEVATORS
@@ -82,9 +83,13 @@ def test_engine_implements_spec_v3_1_boosts():
     """
     from funds_portfolio.portfolio.decision_engine import BOOST_ELEVATORS
 
-    assert dict(BOOST_ELEVATORS) == SPEC_BOOSTS == {
-        "ETF": 45.0,
-        "ESG": 45.0,
-        "Region": 2.0,
-        "Theme": 2.0,
-    }
+    assert (
+        dict(BOOST_ELEVATORS)
+        == SPEC_BOOSTS
+        == {
+            "ETF": 45.0,
+            "ESG": 45.0,
+            "Region": 2.0,
+            "Theme": 2.0,
+        }
+    )

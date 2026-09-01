@@ -91,7 +91,9 @@ def fund_in_risk_band(fund: Dict[str, Any], band: Dict[str, Any]) -> bool:
     return True
 
 
-def funds_in_band(funds: List[Dict[str, Any]], risk_profile: str) -> List[Dict[str, Any]]:
+def funds_in_band(
+    funds: List[Dict[str, Any]], risk_profile: str
+) -> List[Dict[str, Any]]:
     """All funds that satisfy the band for ``risk_profile`` (engine-equivalent)."""
     band = risk_band_for_profile(risk_profile)
     return [f for f in funds if fund_in_risk_band(f, band)]
