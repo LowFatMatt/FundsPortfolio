@@ -1,5 +1,11 @@
 # Decision-Engine Boost Sweep
 
+> **Point-in-time artifact.** Sweep run predates the v3.1 boost re-tuning
+> (2026-08-31): large Region/Theme boosts were still meaningful then. Under
+> the two-pass coverage-first selection these dimensions are guaranteed by
+> pass 1 — see FUND_SELECTION_LOGIC_SPEC_V3.md Step 6 for the current
+> rationale. Regenerate via `scripts/tune_decision_engine.py` before citing.
+
 - Answer sets per config: 2000
 - Configs evaluated: 2402
 - Objective: 75% preference + 25% diversification

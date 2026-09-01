@@ -1,5 +1,12 @@
 # FundsPortfolio – Implementation Specification & Next Steps
 
+> **Partially superseded.** This is the original implementation spec. The
+> high-level architecture description remains informative, but all engine
+> details (filter pipeline, scoring/boosts, selection, allocation) are
+> **superseded by [FUND_SELECTION_LOGIC_SPEC_V3.md](FUND_SELECTION_LOGIC_SPEC_V3.md)**,
+> and the questionnaire contract by `preferences_schema.json`. Do not use
+> this file to reason about current engine behaviour.
+
 ## 📋 Further Specification Details
 
 ### 1. Question-to-Portfolio Mapping

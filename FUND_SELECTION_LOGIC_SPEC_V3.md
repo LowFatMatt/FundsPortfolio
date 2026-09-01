@@ -276,8 +276,8 @@ whole percent; the largest position absorbs the rounding remainder (total = 100 
 | ESG | `PREFER_ESG` | — | +45 | — | — |
 | ETF | `etf_only` | hard filter (+ fallback) | — | — | — |
 | ETF | `prefer_etf` | — | +45 | — | — |
-| Region | values (e.g. `asia`) | — | +70 | pass-1 coverage; quota 2/value | × 1.2 tilt |
-| Theme | values (e.g. `defense`) | — | +70 | pass-1 coverage; quota 2/value | satellite class |
+| Region | values (e.g. `asia`) | — | +2 (v3.1 tie-breaker) | pass-1 coverage; quota 2/value | × 1.2 tilt |
+| Theme | values (e.g. `defense`) | — | +2 (v3.1 tie-breaker) | pass-1 coverage; quota 2/value | satellite class |
 
 ---
 

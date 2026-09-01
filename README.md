@@ -10,10 +10,11 @@ FundsPortfolio is a Flask-based portfolio recommender for investment funds. It l
 2. Explainability output for each fund plus a decision trace of filters/relaxations.
 3. A Material-3-styled web UI: Summary tab with asset-class & region donut charts, Preferences tab, Performance tab with NAV chart + stress-period overlay toggles + period selector + per-period returns table, Volatility tab with vol/Sharpe/MDD bar chart and table.
 4. Dynamic preferred regions/themes derived from the fund database, refreshed when the database changes.
-5. **Data-provider abstraction** ([funds_portfolio/data/providers/](funds_portfolio/data/providers/)) — runtime is cache-first / read-only; scrapers run offline and write JSON files. Switching customers = a config / env-var change.
-6. **Per-ISIN time-series data** in [data/funds/](data/funds/) — NAV history (monthly, rebased to 100), per-period returns, volatility, Sharpe ratios, max drawdown, asset-class breakdown, top holdings. Populated by [scripts/sync_factsheetslive.py](scripts/sync_factsheetslive.py).
-7. **Customer-specific fund universes** under [data/customers/](data/customers/) — current profiles: `general` (197-fund accumulated catalog) and `provinzial_nord` (127-fund customer-curated universe). Selected via `CUSTOMER` env var or [scripts/select_customer.py](scripts/select_customer.py).
-8. EN/DE i18n across UI, decision trace, and stress-period labels.
+5. **Dialog feasibility gating** ([funds_portfolio/dialog/feasibility.py](funds_portfolio/dialog/feasibility.py)) — the questionnaire only offers what the engine can honor: theme/region options with zero funds under the answered risk band ∧ ESG-only ∧ ETF-only filters render disabled-with-reason, and a shared selection budget (DEFENSIVE 1 / BALANCED 2 / OPPORTUNITY 3 combined regions+themes) caps preferences. Infeasible direct-API answers are still accepted but logged as soft warnings.
+6. **Data-provider abstraction** ([funds_portfolio/data/providers/](funds_portfolio/data/providers/)) — runtime is cache-first / read-only; scrapers run offline and write JSON files. Switching customers = a config / env-var change.
+7. **Per-ISIN time-series data** in [data/funds/](data/funds/) — NAV history (monthly, rebased to 100), per-period returns, volatility, Sharpe ratios, max drawdown, asset-class breakdown, top holdings. Populated by [scripts/sync_factsheetslive.py](scripts/sync_factsheetslive.py).
+8. **Customer-specific fund universes** under [data/customers/](data/customers/) — current profiles: `general` (197-fund accumulated catalog) and `provinzial_nord` (127-fund customer-curated universe). Selected via `CUSTOMER` env var or [scripts/select_customer.py](scripts/select_customer.py).
+9. EN/DE i18n across UI, decision trace, and stress-period labels.
 
 **Quick Start (Docker)**
 1. `docker compose up --build -d`
@@ -58,21 +59,19 @@ Phase 2 (charts, breakdowns, system state):
 - `decision_trace` (`filters`, `relaxations`, `used_fallback_risk`)
 - Each recommendation also carries `asset_class_breakdown`, `region_breakdown`, `benchmark_id` (Phase 2, schema v2, nullable).
 
-Example request:
+Example request (current schema — missing logic-relevant answers get implicit defaults, see `LOGIC_RELEVANT_DEFAULTS`):
 ```bash
 curl -s -X POST http://localhost:5000/api/portfolio \
   -H "Content-Type: application/json" \
   -d '{
     "user_answers": {
-      "investment_goal": "retirement",
-      "investment_duration": "20_plus_years",
-      "monthly_savings": "300_500",
-      "investment_knowledge": "experienced",
       "risk_approach": "moderate",
-      "loss_tolerance": "high_loss_tolerance",
-      "esg_preference": "no_requirement",
-      "etf_preference": "no_preference"
-    }
+      "esg_preference": "PREFER_ESG",
+      "etf_preference": "no_preference",
+      "preferred_regions": ["europe"],
+      "preferred_themes": ["sustainability"]
+    },
+    "language": "en"
   }'
 ```
 

@@ -1,5 +1,9 @@
 # Your Investment Preferences – Questions for Personalised Advice
 
+> **Historical source material.** Original questionnaire draft from the
+> design phase. The live questionnaire is `preferences_schema.json`
+> (served via `GET /api/questionnaire`).
+
 ## What is your main goal with this investment?
 
 [ ] Build wealth for your dreams and aspirations

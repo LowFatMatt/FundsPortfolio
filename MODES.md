@@ -160,5 +160,23 @@ payment mode (`beitragLaufend` when `beitrag notEquals "einmalig"`,
 button label is re-evaluated live as selections change, since the deciding
 answer (e.g. Komfort vs. Aktiv) is made on the very step that governs it.
 
+**Feasibility gating metadata** (both modes, served with the questionnaire):
+the questionnaire root carries a `preference_gating` block —
+`{ budget: { fields: [...], max_by_profile: {DEFENSIVE: 1, BALANCED: 2,
+OPPORTUNITY: 3} }, answer_to_profile: {...}, filters: [{field, value,
+combo_key}] }` — and every region/theme option carries `feasible`:
+precomputed fund counts per (risk profile × `esg8_9` × `etf` filter
+combination). The SPA resolves the live combination from the answers
+(risk/ESG/ETF questions precede regions/themes in every flow), renders
+options with zero funds as **disabled-with-reason** (never hidden), and caps
+combined region+theme selections at the profile budget (per-section `max`
+stays an additional cap). Back-navigation prunes now-infeasible and
+over-budget selections with a visible notice; the flow submit drops
+infeasible values defensively. Direct API calls are never rejected —
+infeasible answers produce soft warnings in the portfolio logs. Counts are
+derived from the live funds DB by
+[`funds_portfolio/dialog/feasibility.py`](../funds_portfolio/dialog/feasibility.py),
+which shares its band/filter semantics with the engine (no drift possible).
+
 **Adding a variant:** drop a new `flows/variant<X>.json` and open
 `?mode=flow&flowVariant=<X>` — no code change.

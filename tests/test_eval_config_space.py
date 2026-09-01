@@ -18,18 +18,19 @@ def test_default_grid_brackets_live_values():
         assert value in DEFAULT_BOOST_GRID
 
 
-def test_default_config_count_includes_spec_baseline():
-    configs = build_boost_configs()  # default grid
-    # 6^4 grid combos, live is on the grid (deduped), spec (Theme=3) is added.
-    assert len(configs) == 6**4 + 1
+def test_default_config_count_with_collapsed_spec_baseline():
+    configs = build_boost_configs()  # default grid (7 values)
+    # 7^4 grid combos; live is ON the grid (deduped). Post-v3.1 the spec
+    # values equal the engine defaults, so no separate spec config is added.
+    assert len(configs) == 7**4
 
 
 def test_baselines_present_and_flagged():
     configs = build_boost_configs()
     by_kind = {c["baseline_kind"]: c for c in configs if c["baseline_kind"]}
-    assert set(by_kind) == {"live", "spec"}
+    # Spec == live since v3.1 → the spec baseline collapses into "live".
+    assert set(by_kind) == {"live"}
     assert by_kind["live"]["boost_elevators"] == LIVE_BOOSTS
-    assert by_kind["spec"]["boost_elevators"] == SPEC_BOOSTS
     assert by_kind["live"]["is_baseline"] is True
 
 
@@ -41,9 +42,10 @@ def test_engine_kwargs_ready_for_decision_engine():
 
 
 def test_tiny_grid_count_with_baselines():
-    # grid {0,5}: 16 combos; live (20s/30/45) not on grid -> +1; spec (3s) -> +1
+    # grid {0,5}: 16 combos; live (45/45/2/2) not on grid -> +1; spec equals
+    # live since v3.1 -> no additional config.
     configs = build_boost_configs([0, 5])
-    assert len(configs) == 16 + 2
+    assert len(configs) == 16 + 1
     # excluding baselines shrinks to grid-only count
     cfg = build_boost_configs([0, 5], include_live=False, include_spec=False)
     assert len(cfg) == 16
@@ -59,4 +61,30 @@ def test_config_id_is_deterministic():
 
 def test_baseline_configs_helper():
     base = baseline_configs()
-    assert {c["baseline_kind"] for c in base} == {"live", "spec"}
+    assert {c["baseline_kind"] for c in base} == {"live"}
+
+
+# --- drift guards: eval baselines must mirror the engine / the spec ----------
+
+def test_live_boosts_mirror_engine():
+    """LIVE is derived from the engine import — assert it stays that way."""
+    from funds_portfolio.portfolio.decision_engine import BOOST_ELEVATORS
+
+    assert LIVE_BOOSTS == dict(BOOST_ELEVATORS)
+
+
+def test_engine_implements_spec_v3_1_boosts():
+    """The engine defaults must equal the spec v3.1 Step 6 table.
+
+    If this fails, either the engine or the spec changed unilaterally —
+    reconcile FUND_SELECTION_LOGIC_SPEC_V3.md Step 6 with
+    decision_engine.BOOST_ELEVATORS (a spec change is a deliberate decision).
+    """
+    from funds_portfolio.portfolio.decision_engine import BOOST_ELEVATORS
+
+    assert dict(BOOST_ELEVATORS) == SPEC_BOOSTS == {
+        "ETF": 45.0,
+        "ESG": 45.0,
+        "Region": 2.0,
+        "Theme": 2.0,
+    }

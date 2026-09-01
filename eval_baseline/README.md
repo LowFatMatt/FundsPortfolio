@@ -1,8 +1,13 @@
-# Eval baseline — current DecisionEngine config
+# Eval baseline — frozen DecisionEngine snapshot (2026-08-17)
 
 This directory holds a **frozen, point-in-time snapshot** of the evaluation
-harness output for the *current* (in-tree) [`DecisionEngine`](../funds_portfolio/portfolio/decision_engine.py:87)
-configuration. It is tracked in git so Phase-2 config sweeps can diff against it.
+harness output for the in-tree [`DecisionEngine`](../funds_portfolio/portfolio/decision_engine.py:87)
+configuration **as of the capture date below**. It is tracked in git so
+config sweeps can diff against it.
+
+> **Note:** the engine has moved on since capture (v3.1 boost re-tuning,
+> 2026-08-31 — see [`FUND_SELECTION_LOGIC_SPEC_V3.md`](../FUND_SELECTION_LOGIC_SPEC_V3.md)
+> Step 6). Diff against this baseline with that in mind, or regenerate it.
 
 ## Provenance
 
@@ -13,9 +18,8 @@ configuration. It is tracked in git so Phase-2 config sweeps can diff against it
     `final_fund_count=5`, `max_per_provider=5`, `max_per_category=5`
     (provider/category caps effectively off), `max_per_specific_theme=2`,
     `max_per_specific_region=2`, `min_allocation_percentage=10`
-  - **Selection:** two-pass, coverage-first (see
-    [`plans/2026-08-17-two-pass-coverage-first-selection.md`](../plans/2026-08-17-two-pass-coverage-first-selection.md) and
-    Step 7 in [`FUND_SELECTION_LOGIC_SPEC_V3.md`](../FUND_SELECTION_LOGIC_SPEC_V3.md)) —
+  - **Selection:** two-pass, coverage-first (see Step 7 in
+    [`FUND_SELECTION_LOGIC_SPEC_V3.md`](../FUND_SELECTION_LOGIC_SPEC_V3.md)) —
     pass 1 covers preferred regions/themes from the full ranking, pass 2 fills
     from the top; per-kind quotas are enforced as selection skips, never as
     post-selection drops. `thematic_inserts`/`regional_drops` KPIs were replaced

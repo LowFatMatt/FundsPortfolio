@@ -1,5 +1,9 @@
 # Fragen zu Ihrer Anlage
 
+> **Historical source material.** Original questionnaire draft used while
+> designing the dialog. The live questionnaire is `preferences_schema.json`
+> (served via `GET /api/questionnaire`).
+
 ## Was ist Ihr Anlageziel?
 
 [ ] Sparen für besondere Wünsche (Vermögensaufbau)

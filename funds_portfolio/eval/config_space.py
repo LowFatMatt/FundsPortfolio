@@ -1,9 +1,16 @@
 """Phase 2 configuration space for the DecisionEngine sweep.
 
 Primary lever: ``BOOST_ELEVATORS`` (ETF/ESG/Region/Theme). The live in-tree
-values and the spec values are always emitted as explicit baselines so the
-sweep can diff every candidate against the status quo. The default grid
-``[0, 5, 10, 20, 30, 45]`` brackets every live value (max is Theme=45).
+values are **derived from the engine itself** (imported), so the "live"
+baseline can never drift from the code it claims to mirror — the drift that
+silently invalidated earlier sweeps (LIVE said 20/30/45 while the engine ran
+45/70/70) is now structurally impossible. The spec v3.1 values coincide with
+the engine defaults (Region/Theme are nominal +2 tie-breakers since coverage
+is guaranteed by pass 1 — see FUND_SELECTION_LOGIC_SPEC_V3.md Step 6), so the
+"spec" baseline collapses into "live" and is only emitted when it differs.
+
+The default grid ``[0, 2, 5, 10, 20, 30, 45]`` contains every live value so
+the status quo is explored, not just diffed against from outside the grid.
 
 Secondary knobs (scoring weights, caps, risk bands, tier bounds, satellite
 cap, regional tilt) are intentionally NOT materialised here yet — Phase 2
@@ -16,26 +23,26 @@ from __future__ import annotations
 import itertools
 from typing import Any, Dict, List, Optional, Sequence
 
+from ..portfolio.decision_engine import BOOST_ELEVATORS as _ENGINE_BOOSTS
+
 # Canonical boost keys; must match decision_engine.BOOST_ELEVATORS.
 BOOST_KEYS = ("ETF", "ESG", "Region", "Theme")
 
-# Live in-tree values (funds_portfolio/portfolio/decision_engine.py).
-LIVE_BOOSTS: Dict[str, float] = {
-    "ETF": 20.0,
-    "ESG": 20.0,
-    "Region": 30.0,
-    "Theme": 45.0,
-}
-# Spec values (FUND_SELECTION_LOGIC_SPEC_V3.md, Step 6).
+# Live in-tree values — DERIVED from the engine (drift-proof by construction).
+LIVE_BOOSTS: Dict[str, float] = dict(_ENGINE_BOOSTS)
+
+# Spec v3.1 values (FUND_SELECTION_LOGIC_SPEC_V3.md, Step 6 table). Kept as a
+# literal so tests can assert the engine implements the spec; equals the
+# engine default, so no separate "spec" baseline config is emitted.
 SPEC_BOOSTS: Dict[str, float] = {
-    "ETF": 5.0,
-    "ESG": 5.0,
-    "Region": 3.0,
-    "Theme": 3.0,
+    "ETF": 45.0,
+    "ESG": 45.0,
+    "Region": 2.0,
+    "Theme": 2.0,
 }
 
-# Brackets every live value (max live = Theme 45).
-DEFAULT_BOOST_GRID: List[float] = [0.0, 5.0, 10.0, 20.0, 30.0, 45.0]
+# Contains every live value (incl. the +2 Region/Theme tie-breakers).
+DEFAULT_BOOST_GRID: List[float] = [0.0, 2.0, 5.0, 10.0, 20.0, 30.0, 45.0]
 
 _PRETTY = {"ETF": "ETF", "ESG": "ESG", "Region": "Reg", "Theme": "Thm"}
 
@@ -83,7 +90,10 @@ def build_boost_configs(
     if include_live:
         cfg = _make_config(LIVE_BOOSTS, True, "live")
         by_id[cfg["config_id"]] = cfg
-    if include_spec:
+    # Post-v3.1 the spec defaults equal the engine defaults; emit a separate
+    # "spec" baseline only when the two actually diverge (a meaningful
+    # contrast), never as a duplicate of "live".
+    if include_spec and SPEC_BOOSTS != LIVE_BOOSTS:
         cfg = _make_config(SPEC_BOOSTS, True, "spec")
         by_id[cfg["config_id"]] = cfg
     return sorted(
@@ -93,8 +103,8 @@ def build_boost_configs(
 
 
 def baseline_configs() -> List[Dict[str, Any]]:
-    """Just the two reference baselines (live + spec)."""
-    return [
-        _make_config(LIVE_BOOSTS, True, "live"),
-        _make_config(SPEC_BOOSTS, True, "spec"),
-    ]
+    """The reference baselines: always "live"; plus "spec" only if it differs."""
+    out = [_make_config(LIVE_BOOSTS, True, "live")]
+    if SPEC_BOOSTS != LIVE_BOOSTS:
+        out.append(_make_config(SPEC_BOOSTS, True, "spec"))
+    return out

@@ -1,5 +1,9 @@
 # Ihre Anlagepräferenzen – Fragen zur individuellen Beratung
 
+> **Historisches Quellenmaterial.** Originaler Fragebogen-Entwurf aus der
+> Designphase. Der live genutzte Fragebogen ist `preferences_schema.json`
+> (abrufbar über `GET /api/questionnaire`).
+
 ## Was ist Ihr Ziel mit dieser Geldanlage?
 
 [ ] Vermögensaufbau für besondere Wünsche
