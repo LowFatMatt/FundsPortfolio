@@ -45,6 +45,7 @@ Hub for all project documentation. The product's current feature set lives in
 | `FUND_SELECTION_LOGIC_SPEC_V3.md` | Fund selection logic v3.1: filter pipeline, scoring formula + boost rationale, two-pass coverage-first selection, Core-Satellite allocation, edge cases (authoritative for the engine) |
 | `FUND_SELECTION_LOGIC_SPEC_V3_DE.md` | German translation of the v3 spec (specification-faithful; English version is authoritative) |
 | `MODES.md` | UI modes (Quick/Flow), the single-API contract, shared result component, declarative flow definitions (`showIf`, gating metadata, A/B variants) |
+| `docs/user-journey/` | User-journey distillation from PDF/PPT sources vs. prototype: state diagrams, coverage matrix (screen ↔ PDF-ID ↔ PPT-slide ↔ flow-step ↔ status), gaps & product decisions, per-screen specs, `data-testid` contract |
 | `BRANDING_GUIDE.md` | Brand pack format, token schema, adding themes |
 | `I18N_GUIDE.md` | i18n structure, adding languages, fallback behaviour |
 
@@ -108,6 +109,9 @@ FundsPortfolio/
 ├── static/                       # Frontend assets (css / js / i18n)
 │
 ├── flows/                        # Declarative flow definitions (variantA/B.json)
+│
+├── docs/
+│   └── user-journey/             # Journey distillation (README / screens / testids)
 │
 ├── brand/                        # Branding themes (default + dark)
 │
