@@ -2,9 +2,9 @@
   "n_answers": 1691,
   "pref_score": {
     "count": 1691,
-    "mean": 0.66453914843288,
-    "median": 0.677,
-    "min": 0.362,
+    "mean": 0.6309351862803075,
+    "median": 0.634,
+    "min": 0.36,
     "max": 1.0
   },
   "risk_adherence": {
@@ -16,119 +16,119 @@
   },
   "esg_match": {
     "count": 1691,
-    "mean": 0.8085038438793614,
+    "mean": 0.7433234772324069,
     "median": 1.0,
     "min": 0.0,
     "max": 1.0
   },
   "etf_match": {
     "count": 1691,
-    "mean": 0.8822590183323478,
+    "mean": 0.8581490242460084,
     "median": 1.0,
     "min": 0.0,
     "max": 1.0
   },
   "region_match": {
     "count": 1691,
-    "mean": 0.3997811945594323,
-    "median": 0.39,
+    "mean": 0.3278710821998817,
+    "median": 0.25,
     "min": 0.0,
     "max": 1.0
   },
   "theme_match": {
     "count": 1691,
-    "mean": 0.24276167947959787,
+    "mean": 0.23795978710821997,
     "median": 0.3,
     "min": 0.0,
     "max": 1.0
   },
   "theme_exposure_match": {
     "count": 1691,
-    "mean": 0.11118864577173271,
+    "mean": 0.10690715552927262,
     "median": 0.1,
     "min": 0.0,
     "max": 1.0
   },
   "theme_coverage": {
     "count": 1691,
-    "mean": 0.37433471318746303,
+    "mean": 0.36901241868716733,
     "median": 0.5,
     "min": 0.0,
     "max": 1.0
   },
   "region_coverage": {
     "count": 1691,
-    "mean": 0.4750027202838557,
+    "mean": 0.4750322885866351,
     "median": 0.4,
     "min": 0.0,
     "max": 1.0
   },
   "div_score": {
     "count": 1691,
-    "mean": 0.638671850975754,
-    "median": 0.6333,
+    "mean": 0.661205085748078,
+    "median": 0.6667,
     "min": 0.3333,
     "max": 0.8667
   },
   "provider_div": {
     "count": 1691,
-    "mean": 0.415257244234181,
+    "mean": 0.44364281490242463,
     "median": 0.4,
     "min": 0.0,
     "max": 1.0
   },
   "asset_div": {
     "count": 1691,
-    "mean": 0.3678296865759905,
+    "mean": 0.3697220579538735,
     "median": 0.4,
     "min": 0.0,
     "max": 0.4
   },
   "region_div": {
     "count": 1691,
-    "mean": 0.4864577173270254,
-    "median": 0.4,
+    "mean": 0.5097575399172087,
+    "median": 0.6,
     "min": 0.0,
     "max": 1.0
   },
   "provider_hhi": {
     "count": 1691,
-    "mean": 0.6090677705499705,
-    "median": 0.5162,
+    "mean": 0.5675225310467179,
+    "median": 0.4374,
     "min": 0.0,
     "max": 1.0
   },
   "asset_hhi": {
     "count": 1691,
-    "mean": 0.5797701951507983,
-    "median": 0.5288,
+    "mean": 0.5678027202838557,
+    "median": 0.52,
     "min": 0.0,
     "max": 1.0
   },
   "region_hhi": {
     "count": 1691,
-    "mean": 0.5360857480780603,
-    "median": 0.5128,
+    "mean": 0.5202790065050266,
+    "median": 0.4842,
     "min": 0.0,
     "max": 1.0
   },
   "satellite_total": {
     "count": 1691,
-    "mean": 0.23674157303370785,
-    "median": 0.27,
+    "mean": 0.2018923713778829,
+    "median": 0.18,
     "min": 0.0,
-    "max": 1.0
+    "max": 0.4
   },
   "satellite_cap_ok": {
     "count": 1691,
-    "mean": 0.7421643997634536,
+    "mean": 0.8302779420461266,
     "median": 1.0,
     "min": 0.0,
     "max": 1.0
   },
   "min_allocation_ok": {
     "count": 1691,
-    "mean": 0.9976345357776464,
+    "mean": 0.9911295091661738,
     "median": 1.0,
     "min": 0.0,
     "max": 1.0
@@ -142,45 +142,45 @@
   },
   "overall": {
     "count": 1691,
-    "mean": 0.6516108219988173,
-    "median": 0.6667,
+    "mean": 0.646071969248965,
+    "median": 0.6593,
     "min": 0.3667,
-    "max": 0.8833
+    "max": 0.87
   },
   "base_gap_top5": {
     "count": 1691,
-    "mean": -7.494210526315789,
-    "median": -3.688,
-    "min": -41.432,
+    "mean": -4.467852158486103,
+    "median": -0.036,
+    "min": -34.168,
     "max": 0.0
   },
   "hijack_gap": {
     "count": 1691,
-    "mean": 21.01733885274985,
-    "median": 15.86,
+    "mean": 14.373086930810171,
+    "median": 0.18,
     "min": 0.0,
-    "max": 82.5
+    "max": 79.92
   },
   "boost_dependency": {
     "count": 1691,
-    "mean": 0.37702347723240687,
-    "median": 0.4296,
+    "mean": 0.027849142519219397,
+    "median": 0.0,
     "min": 0.0,
-    "max": 0.7675
+    "max": 0.1805
   },
   "pass1_coverage_picks": {
     "count": 1691,
-    "mean": 1.674748669426375,
+    "mean": 1.7806031933767001,
     "median": 1,
     "min": 0,
     "max": 5
   },
   "quota_skips": {
     "count": 1691,
-    "mean": 0.6298048492016558,
+    "mean": 0.010644589000591367,
     "median": 0,
     "min": 0,
-    "max": 8
+    "max": 2
   },
   "relaxation_count": {
     "count": 1691,
@@ -198,10 +198,10 @@
   },
   "weighted_fee": {
     "count": 1629,
-    "mean": 0.5604806629834255,
-    "median": 0.441,
-    "min": 0.173,
-    "max": 1.79
+    "mean": 0.5276071209330878,
+    "median": 0.413,
+    "min": 0.183,
+    "max": 1.698
   },
   "srri_proxy": {
     "count": 1629,
@@ -212,40 +212,40 @@
   },
   "distinct_providers": {
     "count": 1691,
-    "mean": 2.0762862211709048,
+    "mean": 2.218214074512123,
     "median": 2,
     "min": 0,
     "max": 5
   },
   "distinct_asset_classes": {
     "count": 1691,
-    "mean": 1.8391484328799528,
+    "mean": 1.8486102897693673,
     "median": 2,
     "min": 0,
     "max": 2
   },
   "distinct_regions": {
     "count": 1691,
-    "mean": 2.432288586635127,
-    "median": 2,
+    "mean": 2.5487876995860437,
+    "median": 3,
     "min": 0,
     "max": 5
   },
   "conditional": {
     "n_region_active": 1638,
     "n_theme_active": 1665,
-    "region_match_when_active": 0.38036019536019533,
-    "theme_match_when_active": 0.23093693693693693,
-    "theme_coverage_when_active": 0.36456456456456454
+    "region_match_when_active": 0.30612332112332113,
+    "theme_match_when_active": 0.22606006006006005,
+    "theme_coverage_when_active": 0.35915915915915914
   },
   "behavior": {
     "pct_complete": 0.6292134831460674,
     "pct_empty": 0.03666469544648137,
-    "pct_hijack": 0.563571850975754,
-    "pct_satellite_cap_ok": 0.7421643997634536,
-    "pct_min_alloc_ok": 0.9976345357776464,
+    "pct_hijack": 0.5002956830277943,
+    "pct_satellite_cap_ok": 0.8302779420461266,
+    "pct_min_alloc_ok": 0.9911295091661738,
     "pct_risk_clean": 1.0,
-    "pct_theme_full_match": 0.22342342342342342,
-    "pct_region_full_match": 0.29426129426129427
+    "pct_theme_full_match": 0.2132132132132132,
+    "pct_region_full_match": 0.2948717948717949
   }
 }

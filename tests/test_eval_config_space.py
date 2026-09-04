@@ -1,4 +1,10 @@
-"""Unit tests for the Phase 2 config space."""
+"""Unit tests for the eval config space.
+
+Covers the boost-sweep grid construction, the baseline emission rules
+(post-v3.1 "spec" collapses into "live" while the two are identical), and
+the drift guards that keep the eval baselines pinned to the engine and the
+spec (see FUND_SELECTION_LOGIC_SPEC_V3.md Step 6).
+"""
 
 from funds_portfolio.eval.config_space import (
     BOOST_KEYS,
@@ -14,13 +20,15 @@ from funds_portfolio.eval.config_space import (
 def test_default_grid_brackets_live_values():
     # The default grid must contain every live boost value so the status quo
     # is explored, not just diffed against from outside the grid.
+    # LIVE_BOOSTS is derived from the engine import, so this also proves the
+    # grid tracks engine changes automatically.
     for value in LIVE_BOOSTS.values():
         assert value in DEFAULT_BOOST_GRID
 
 
 def test_default_config_count_with_collapsed_spec_baseline():
     configs = build_boost_configs()  # default grid (7 values)
-    # 7^4 grid combos; live is ON the grid (deduped). Post-v3.1 the spec
+    # 7^4 grid combos; live is ON the grid (deduped). Post-v3.2 the spec
     # values equal the engine defaults, so no separate spec config is added.
     assert len(configs) == 7**4
 
@@ -28,7 +36,7 @@ def test_default_config_count_with_collapsed_spec_baseline():
 def test_baselines_present_and_flagged():
     configs = build_boost_configs()
     by_kind = {c["baseline_kind"]: c for c in configs if c["baseline_kind"]}
-    # Spec == live since v3.1 → the spec baseline collapses into "live".
+    # Spec == live since v3.2 → the spec baseline collapses into "live".
     assert set(by_kind) == {"live"}
     assert by_kind["live"]["boost_elevators"] == LIVE_BOOSTS
     assert by_kind["live"]["is_baseline"] is True
@@ -42,8 +50,8 @@ def test_engine_kwargs_ready_for_decision_engine():
 
 
 def test_tiny_grid_count_with_baselines():
-    # grid {0,5}: 16 combos; live (45/45/2/2) not on grid -> +1; spec equals
-    # live since v3.1 -> no additional config.
+    # grid {0,5}: 16 combos; live (6/6/0/0) not on grid -> +1; spec equals
+    # live since v3.2 -> no additional config.
     configs = build_boost_configs([0, 5])
     assert len(configs) == 16 + 1
     # excluding baselines shrinks to grid-only count
@@ -74,8 +82,8 @@ def test_live_boosts_mirror_engine():
     assert LIVE_BOOSTS == dict(BOOST_ELEVATORS)
 
 
-def test_engine_implements_spec_v3_1_boosts():
-    """The engine defaults must equal the spec v3.1 Step 6 table.
+def test_engine_implements_spec_v3_2_boosts():
+    """The engine defaults must equal the spec v3.2 Step 6 table.
 
     If this fails, either the engine or the spec changed unilaterally —
     reconcile FUND_SELECTION_LOGIC_SPEC_V3.md Step 6 with
@@ -87,9 +95,9 @@ def test_engine_implements_spec_v3_1_boosts():
         dict(BOOST_ELEVATORS)
         == SPEC_BOOSTS
         == {
-            "ETF": 45.0,
-            "ESG": 45.0,
-            "Region": 2.0,
-            "Theme": 2.0,
+            "ETF": 6.0,
+            "ESG": 6.0,
+            "Region": 0.0,
+            "Theme": 0.0,
         }
     )

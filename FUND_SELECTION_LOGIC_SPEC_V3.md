@@ -111,20 +111,23 @@ ISIN ↓.
 
 ### Step 6 — Preference Boosts (on top of base)
 
-**Rationale (v3.1 re-tuning):** preferred regions and themes are already
-*guaranteed* by the coverage pass (Step 7, pass 1), so boosting them adds no
-coverage — it only distorts the quality ranking of pass 2 (which fills the
-remaining slots and should rank on quality alone). Region/Theme boosts are
-therefore reduced to a nominal **+2** tie-breaker. ETF and ESG have no
-coverage pass, so their boosts remain large (**+45**) — they are the only
-lever that steers those preferences into the ranking.
+**Rationale (v3.2 re-tuning):** preferences are honored *structurally*, not
+by ranking force. Preferred regions/themes are guaranteed by the coverage
+pass (Step 7, pass 1); hard preference filters (`ART_8_9_ONLY`, `etf_only`)
+are enforced in Step 1; and the dialog's feasibility gating
+(`funds_portfolio/dialog/feasibility.py`) shapes the answer space so only
+honorable combinations are offered in the first place. Boosts therefore no
+longer need to steer selection and are reduced to nominal tie-breakers:
+**ETF/ESG +6** (reorder near-equal candidates only), **Region/Theme 0**
+(fully disabled — boosting covered dimensions would only distort the
+quality-driven ranking of pass 2).
 
 | Boost | Condition | Value (default `BOOST_ELEVATORS`) |
 |-------|-----------|------|
-| ETF | `prefer_etf` and fund `is_etf` | **+45** |
-| ESG | `PREFER_ESG` and `esg_label` ∈ {Art. 8, 9} | **+45** |
-| Region | `fund.region` exactly in `preferred_regions` | **+2** |
-| Theme | `fund.theme` in `preferred_themes` (placeholder `NONE` disables) | **+2** |
+| ETF | `prefer_etf` and fund `is_etf` | **+6** |
+| ESG | `PREFER_ESG` and `esg_label` ∈ {Art. 8, 9} | **+6** |
+| Region | `fund.region` exactly in `preferred_regions` | **0** (disabled) |
+| Theme | `fund.theme` in `preferred_themes` (placeholder `NONE` disables) | **0** (disabled) |
 
 `ART_8_9_ONLY` is a hard filter only (no boost). A fund can accumulate multiple boosts
 (e.g. ETF + ESG).
@@ -273,11 +276,11 @@ whole percent; the largest position absorbs the rounding remainder (total = 100 
 | Preference | Value | Filter (Phase 1) | Boost (Phase 2) | Coverage (Step 7) | Allocation (Step 10) |
 |------------|-------|------------------|-----------------|-------------------|----------------------|
 | ESG | `ART_8_9_ONLY` | hard filter | — | — | — |
-| ESG | `PREFER_ESG` | — | +45 | — | — |
+| ESG | `PREFER_ESG` | — | +6 (v3.2 tie-breaker) | — | — |
 | ETF | `etf_only` | hard filter (+ fallback) | — | — | — |
-| ETF | `prefer_etf` | — | +45 | — | — |
-| Region | values (e.g. `asia`) | — | +2 (v3.1 tie-breaker) | pass-1 coverage; quota 2/value | × 1.2 tilt |
-| Theme | values (e.g. `defense`) | — | +2 (v3.1 tie-breaker) | pass-1 coverage; quota 2/value | satellite class |
+| ETF | `prefer_etf` | — | +6 (v3.2 tie-breaker) | — | — |
+| Region | values (e.g. `asia`) | — | 0 (disabled since v3.2) | pass-1 coverage; quota 2/value | × 1.2 tilt |
+| Theme | values (e.g. `defense`) | — | 0 (disabled since v3.2) | pass-1 coverage; quota 2/value | satellite class |
 
 ---
 
@@ -326,7 +329,7 @@ Ranking candidates carry a status: `selected` (pass 2), `selected_pass1_coverage
 | `max_per_specific_theme` | 2 | quota per preferred theme value |
 | `max_per_specific_region` | 2 | quota per preferred region value |
 | `min_allocation_percentage` | 10 | per-fund weight floor |
-| `BOOST_ELEVATORS` | ETF 45 / ESG 45 / Region 2 / Theme 2 | Step 6 boosts (coverage handled by pass 1; see rationale) |
+| `BOOST_ELEVATORS` | ETF 6 / ESG 6 / Region 0 / Theme 0 | Step 6 boosts (all tie-breaker-level; preferences honored structurally — see rationale) |
 | `thematic_guarantee` / `regional_guarantee` | True / True | gate pass 1 per dimension |
 | `theme_cap` / `regional_cap` | True / True | gate the per-value quotas |
 
@@ -358,7 +361,7 @@ Ranking candidates carry a status: `selected` (pass 2), `selected_pass1_coverage
 | Preference coverage | guarantee swaps (could starve, could shrink portfolio) | **pass 1 structural; count-safe** |
 | Diversification caps | destructive drops after selection | **skips during selection + count-restoring relaxation** |
 | Quota semantics | max 2 same preferred region/theme (drop) | same values, per **specific** value (`max_per_specific_theme` / `max_per_specific_region`), enforced as skip with live count in trace |
-| Boosts | ETF +5 / ESG +5 / Region +3 / Theme +3 | **ETF +45 / ESG +45 / Region +2 / Theme +2** (coverage guaranteed by pass 1; v3.1: Region/Theme reduced to nominal tie-breakers so pass 2 ranks on quality) |
+| Boosts | ETF +5 / ESG +5 / Region +3 / Theme +3 | **ETF +6 / ESG +6 / Region 0 / Theme 0** (v3.2: all boosts tie-breaker-level — pass-1 coverage, hard filters and dialog gating honor preferences structurally, pass 2 ranks on quality alone) |
 | Count safety | not guaranteed (5→3 bug observed) | **guaranteed by construction** (validated: 0 selection-limited portfolios on the 1691-answer grid) |
 | Trace vocabulary | `thematic_insert`, `regional_insert`, `*_cap_drop` | `pass1_select`, `pass2_select`, `selection_skip`, `coverage_unfulfillable`, `caps_relaxed` |
 | Relaxations | always-on widening | gated by `min_candidates` (default off) |

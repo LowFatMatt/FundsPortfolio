@@ -112,20 +112,23 @@ Gebühr ↑, dann ISIN ↓.
 
 ### Schritt 6 — Präferenz-Boosts (auf die Basis)
 
-**Begründung (v3.1-Nachjustierung):** Bevorzugte Regionen und Themen werden bereits
-durch den Abdeckungsdurchlauf (Schritt 7, Durchlauf 1) *garantiert* — ein Boost dafür
-schafft keine zusätzliche Abdeckung, sondern verzerrt nur das Qualitätsranking von
-Durchlauf 2 (der die restlichen Plätze füllt und allein nach Qualität ordnen soll).
-Region/Theme-Boosts wurden daher auf einen nominalen **+2**-Tie-Breaker reduziert.
-ETF und ESG haben keinen Abdeckungsdurchlauf; ihre Boosts bleiben groß (**+45**) —
-sie sind der einzige Hebel, der diese Präferenzen ins Ranking bringt.
+**Begründung (v3.2-Nachjustierung):** Präferenzen werden inzwischen *strukturell*
+umgesetzt, nicht über Ranking-Gewalt. Bevorzugte Regionen/Themen garantiert der
+Abdeckungsdurchlauf (Schritt 7, Durchlauf 1); die Hartfilter (`ART_8_9_ONLY`,
+`etf_only`) greifen in Schritt 1; und das Feasibility-Gating des Dialogs
+(`funds_portfolio/dialog/feasibility.py`) formt den Antwortraum so, dass nur
+erfüllbare Kombinationen angeboten werden. Boosts müssen die Auswahl daher nicht
+mehr steuern und sind auf nominale Tie-Breaker reduziert: **ETF/ESG +6**
+(ordnen nur nahezu gleichwertige Kandidaten um), **Region/Thema 0**
+(vollständig deaktiviert — ein Boost abgedeckter Dimensionen würde nur das
+qualitätsgetriebene Ranking von Durchlauf 2 verzerren).
 
 | Boost | Bedingung | Wert (Default `BOOST_ELEVATORS`) |
 |-------|-----------|------|
-| ETF | `prefer_etf` und Fonds `is_etf` | **+45** |
-| ESG | `PREFER_ESG` und `esg_label` ∈ {Art. 8, 9} | **+45** |
-| Region | `fund.region` exakt in `preferred_regions` | **+2** |
-| Thema | `fund.theme` in `preferred_themes` (Platzhalter `NONE` deaktiviert) | **+2** |
+| ETF | `prefer_etf` und Fonds `is_etf` | **+6** |
+| ESG | `PREFER_ESG` und `esg_label` ∈ {Art. 8, 9} | **+6** |
+| Region | `fund.region` exakt in `preferred_regions` | **0** (deaktiviert) |
+| Thema | `fund.theme` in `preferred_themes` (Platzhalter `NONE` deaktiviert) | **0** (deaktiviert) |
 
 `ART_8_9_ONLY` ist ausschließlich Hartfilter (kein Boost). Ein Fonds kann mehrere Boosts
 akkumulieren (z. B. ETF + ESG).
@@ -277,11 +280,11 @@ ganze Prozent gerundet; die größte Position nimmt den Rundungsrest auf (Summe 
 | Präferenz | Wert | Filter (Phase 1) | Boost (Phase 2) | Abdeckung (Schritt 7) | Allokation (Schritt 10) |
 |-----------|------|------------------|-----------------|-----------------------|-------------------------|
 | ESG | `ART_8_9_ONLY` | Hartfilter | — | — | — |
-| ESG | `PREFER_ESG` | — | +45 | — | — |
+| ESG | `PREFER_ESG` | — | +6 (v3.2 Tie-Breaker) | — | — |
 | ETF | `etf_only` | Hartfilter (+ Fallback) | — | — | — |
-| ETF | `prefer_etf` | — | +45 | — | — |
-| Region | Werte (z. B. `asia`) | — | +2 (v3.1 Tie-Breaker) | Abdeckung in Durchlauf 1; Quote 2/Wert | Tilt × 1,2 |
-| Thema | Werte (z. B. `defense`) | — | +2 (v3.1 Tie-Breaker) | Abdeckung in Durchlauf 1; Quote 2/Wert | Satellite-Klasse |
+| ETF | `prefer_etf` | — | +6 (v3.2 Tie-Breaker) | — | — |
+| Region | Werte (z. B. `asia`) | — | 0 (seit v3.2 deaktiviert) | Abdeckung in Durchlauf 1; Quote 2/Wert | Tilt × 1,2 |
+| Thema | Werte (z. B. `defense`) | — | 0 (seit v3.2 deaktiviert) | Abdeckung in Durchlauf 1; Quote 2/Wert | Satellite-Klasse |
 
 ---
 
@@ -330,7 +333,7 @@ Ranking-Kandidaten tragen einen Status: `selected` (Durchlauf 2),
 | `max_per_specific_theme` | 2 | Quote je bevorzugtem Themen-Wert |
 | `max_per_specific_region` | 2 | Quote je bevorzugtem Regions-Wert |
 | `min_allocation_percentage` | 10 | Gewichtsfloor je Fonds |
-| `BOOST_ELEVATORS` | ETF 45 / ESG 45 / Region 2 / Theme 2 | Boosts aus Schritt 6 (Abdeckung durch Durchlauf 1; siehe Begründung) |
+| `BOOST_ELEVATORS` | ETF 6 / ESG 6 / Region 0 / Theme 0 | Boosts aus Schritt 6 (alle auf Tie-Breaker-Niveau; Präferenzen werden strukturell umgesetzt — siehe Begründung) |
 | `thematic_guarantee` / `regional_guarantee` | True / True | steuert Durchlauf 1 je Dimension |
 | `theme_cap` / `regional_cap` | True / True | steuert die Quoten je Wert |
 
@@ -362,7 +365,7 @@ Ranking-Kandidaten tragen einen Status: `selected` (Durchlauf 2),
 | Präferenzabdeckung | Garantie-Tausch (konnte verkümmern, Portfolio verkleinern) | **Durchlauf 1 strukturell; anzahlsicher** |
 | Diversifikations-Kappen | destruktive Abwicklungen nach der Auswahl | **Skips während der Auswahl + anzahl-herstellende Lockerung** |
 | Quoten-Semantik | max 2 gleiche bevorzugte Region/Thema (Abwicklung) | gleiche Werte, je **konkretem** Wert (`max_per_specific_theme` / `max_per_specific_region`), als Skip mit Live-Auslastung im Trace |
-| Boosts | ETF +5 / ESG +5 / Region +3 / Thema +3 | **ETF +45 / ESG +45 / Region +2 / Thema +2** (Abdeckung garantiert Durchlauf 1; v3.1: Region/Thema auf nominale Tie-Breaker reduziert, damit Durchlauf 2 nach Qualität ordnet) |
+| Boosts | ETF +5 / ESG +5 / Region +3 / Thema +3 | **ETF +6 / ESG +6 / Region 0 / Thema 0** (v3.2: alle Boosts auf Tie-Breaker-Niveau — Durchlauf-1-Abdeckung, Hartfilter und Dialog-Gating setzen Präferenzen strukturell um, Durchlauf 2 ordnet allein nach Qualität) |
 | Anzahlsicherheit | nicht garantiert (5→3-Bug beobachtet) | **konstruktiv garantiert** (validiert: 0 auswahlbedingte Unterversorgungen im 1691-Antworten-Grid) |
 | Trace-Vokabular | `thematic_insert`, `regional_insert`, `*_cap_drop` | `pass1_select`, `pass2_select`, `selection_skip`, `coverage_unfulfillable`, `caps_relaxed` |
 | Lockerungen | immer aktive Weitung | an `min_candidates` gekoppelt (Default aus) |

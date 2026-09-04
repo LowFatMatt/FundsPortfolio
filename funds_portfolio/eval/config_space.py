@@ -1,15 +1,17 @@
-"""Phase 2 configuration space for the DecisionEngine sweep.
+"""Configuration space for the DecisionEngine sweep.
 
 Primary lever: ``BOOST_ELEVATORS`` (ETF/ESG/Region/Theme). The live in-tree
 values are **derived from the engine itself** (imported), so the "live"
 baseline can never drift from the code it claims to mirror — the drift that
 silently invalidated earlier sweeps (LIVE said 20/30/45 while the engine ran
-45/70/70) is now structurally impossible. The spec v3.1 values coincide with
-the engine defaults (Region/Theme are nominal +2 tie-breakers since coverage
-is guaranteed by pass 1 — see FUND_SELECTION_LOGIC_SPEC_V3.md Step 6), so the
-"spec" baseline collapses into "live" and is only emitted when it differs.
+45/70/70) is now structurally impossible. The spec v3.2 values coincide with
+the engine defaults (all boosts are nominal tie-breakers now — ETF/ESG +6,
+Region/Theme 0; preferences are honored structurally via pass-1 coverage,
+hard filters and dialog gating, see FUND_SELECTION_LOGIC_SPEC_V3.md Step 6),
+so the "spec" baseline collapses into "live" and is only emitted when it
+differs.
 
-The default grid ``[0, 2, 5, 10, 20, 30, 45]`` contains every live value so
+The default grid ``[0, 2, 6, 10, 20, 30, 45]`` contains every live value so
 the status quo is explored, not just diffed against from outside the grid.
 
 Secondary knobs (scoring weights, caps, risk bands, tier bounds, satellite
@@ -31,18 +33,18 @@ BOOST_KEYS = ("ETF", "ESG", "Region", "Theme")
 # Live in-tree values — DERIVED from the engine (drift-proof by construction).
 LIVE_BOOSTS: Dict[str, float] = dict(_ENGINE_BOOSTS)
 
-# Spec v3.1 values (FUND_SELECTION_LOGIC_SPEC_V3.md, Step 6 table). Kept as a
+# Spec v3.2 values (FUND_SELECTION_LOGIC_SPEC_V3.md, Step 6 table). Kept as a
 # literal so tests can assert the engine implements the spec; equals the
 # engine default, so no separate "spec" baseline config is emitted.
 SPEC_BOOSTS: Dict[str, float] = {
-    "ETF": 45.0,
-    "ESG": 45.0,
-    "Region": 2.0,
-    "Theme": 2.0,
+    "ETF": 6.0,
+    "ESG": 6.0,
+    "Region": 0.0,
+    "Theme": 0.0,
 }
 
-# Contains every live value (incl. the +2 Region/Theme tie-breakers).
-DEFAULT_BOOST_GRID: List[float] = [0.0, 2.0, 5.0, 10.0, 20.0, 30.0, 45.0]
+# Contains every live value (incl. the +6 ETF/ESG tie-breakers).
+DEFAULT_BOOST_GRID: List[float] = [0.0, 2.0, 6.0, 10.0, 20.0, 30.0, 45.0]
 
 _PRETTY = {"ETF": "ETF", "ESG": "ESG", "Region": "Reg", "Theme": "Thm"}
 
