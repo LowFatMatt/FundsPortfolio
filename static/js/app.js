@@ -1966,12 +1966,23 @@ document.addEventListener('DOMContentLoaded', () => {
             host.appendChild(buildEventList(events));
         }
 
-        // Allocation
+        // Allocation (v4: proportional to elevated score, banded)
         const alloc = trace.allocation;
         if (alloc?.funds?.length) {
             heading(t('ui.trace_alloc_title', 'Allocation'));
-            if (alloc.satellite_cap_applied) {
+            if (alloc.method === 'proportional_elevated_score') {
+                note(t('ui.trace_alloc_note',
+                    'Weights are proportional to each fund\'s elevated score (final score after boosts).'));
+            }
+            if (alloc.band_logic === 'two_band') {
+                note(t('ui.trace_two_band',
+                    'Cores receive 70% of the portfolio; the satellite share is capped at 30%.'));
+            } else if (alloc.satellite_cap_applied) {
                 note(t('ui.trace_sat_cap', 'Satellite total was capped at 30%.'));
+            }
+            if (alloc.min_allocation_applied) {
+                note(t('ui.trace_min_alloc', 'Every fund holds at least {min}% of the portfolio.')
+                    .replace('{min}', alloc.min_allocation_percentage ?? 10));
             }
             host.appendChild(buildAllocationTable(alloc.funds));
         }
@@ -2106,15 +2117,19 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function buildAllocationTable(funds) {
+        // v4: elevated score + classification reason (no inverse-vol tiers/tilt).
+        const reasonKeys = {
+            core_quality_selected: 'ui.trace_reason_quality',
+            core_top_performer: 'ui.trace_reason_top',
+            satellite_coverage_only: 'ui.trace_reason_coverage',
+        };
         const table = document.createElement('table');
         table.className = 'trace-table';
         table.innerHTML = `
             <thead><tr>
                 <th>${t('ui.col_fund', 'Fund')}</th>
                 <th>${t('ui.trace_col_class', 'Class')}</th>
-                <th>${t('ui.trace_col_invvol', 'Inv-vol')}</th>
-                <th>${t('ui.trace_col_clip', 'After clip')}</th>
-                <th>${t('ui.trace_col_tilt', 'Tilt')}</th>
+                <th>${t('ui.trace_col_score', 'Score')}</th>
                 <th>${t('ui.trace_col_weight', 'Weight')}</th>
             </tr></thead>`;
         const tbody = document.createElement('tbody');
@@ -2122,15 +2137,18 @@ document.addEventListener('DOMContentLoaded', () => {
             const cls = f.class === 'satellite'
                 ? t('ui.class_satellite', 'Satellite')
                 : t('ui.class_core', 'Core');
-            const bounds = Array.isArray(f.tier_bounds)
-                ? ` (${pct(f.tier_bounds[0])}–${pct(f.tier_bounds[1])})` : '';
+            const reasonKey = reasonKeys[f.classification_reason];
+            const reason = reasonKey
+                ? `<span class="trace-fund-sub">${escHtml(
+                      t(reasonKey, f.classification_reason || '')
+                          .replace('{rank}', f.rank_position ?? '—')
+                  )}</span>`
+                : '';
             const tr = document.createElement('tr');
             tr.innerHTML = `
                 <td><div class="trace-fund-name">${escHtml(f.name || f.isin || '')}</div></td>
-                <td>${escHtml(cls)}</td>
-                <td>${pct(f.inv_vol_raw)}</td>
-                <td>${pct(f.after_clip)}<span class="trace-fund-sub">${bounds}</span></td>
-                <td>${f.regional_tilt ? '×1.2' : '—'}</td>
+                <td>${escHtml(cls)} ${reason}</td>
+                <td>${f.elevated_score ?? '—'}</td>
                 <td><strong>${pct(f.final_weight)}</strong></td>`;
             tbody.appendChild(tr);
         });
