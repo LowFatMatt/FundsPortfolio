@@ -93,6 +93,7 @@ class DecisionEngine:
         max_per_specific_theme: int = 2,  # quota: max funds carrying the SAME specific preferred theme
         max_per_specific_region: int = 2,  # quota: max funds from the SAME specific preferred region
         min_allocation_percentage: int = 10,  # minimum allocation percentage for any fund in the final portfolio
+        satellite_total_cap: float = 30,  # v4: satellite band cap (% of portfolio) in proportional elevated-score allocation
         boost_elevators: Optional[
             Dict[str, float]
         ] = None,  # per-preference scoring boosts; defaults to the module BOOST_ELEVATORS
@@ -109,6 +110,7 @@ class DecisionEngine:
         self.max_per_specific_theme = max_per_specific_theme
         self.max_per_specific_region = max_per_specific_region
         self.min_allocation_percentage = min_allocation_percentage
+        self.satellite_total_cap = satellite_total_cap
         self.thematic_guarantee = thematic_guarantee
         self.regional_guarantee = regional_guarantee
         self.regional_cap = regional_cap
@@ -673,7 +675,14 @@ class DecisionEngine:
                 dims.append({"dimension": "region", "value": r})
             return dims
 
-        def _select(f: Dict[str, Any]) -> None:
+        # v4: explicit rank position in the full quality ranking (1-based).
+        # Stored explicitly because selection reorders funds — list position
+        # in `selected` is NOT the ranking position (Step 8 needs the rank).
+        rank_by_isin = {f.get("isin"): i + 1 for i, f in enumerate(scored)}
+
+        def _select(f: Dict[str, Any], pass_num: int) -> None:
+            f["_selection_pass"] = pass_num
+            f["_rank_position"] = rank_by_isin.get(f.get("isin"))
             selected.append(f)
             selected_isins.add(f.get("isin"))
             t, r = _fund_theme(f), _fund_region(f)
@@ -718,7 +727,7 @@ class DecisionEngine:
                             f"{d['dimension']}:{d['value']}", f
                         )
                     continue
-                _select(f)
+                _select(f, 1)
                 _note(
                     {
                         "type": "pass1_select",
@@ -746,7 +755,7 @@ class DecisionEngine:
                 breaches = _quota_violations(cand)
                 carried = _carried_dims(cand)
                 matched = [{"dimension": dimension, "value": value}]
-                _select(cand)
+                _select(cand, 1)
                 _note(
                     {
                         "type": "pass1_select",
@@ -833,7 +842,7 @@ class DecisionEngine:
                     }
                 )
                 continue
-            _select(f)
+            _select(f, 2)
             _note(
                 {
                     "type": "pass2_select",
@@ -851,7 +860,7 @@ class DecisionEngine:
             for f in pool:
                 if f.get("isin") in selected_isins:
                     continue
-                _select(f)
+                _select(f, 2)
                 added.append(f.get("isin"))
                 if len(selected) >= self.final_fund_count:
                     break
@@ -865,6 +874,10 @@ class DecisionEngine:
                     continue
                 f_copy = dict(f)
                 f_copy["etf_not_available"] = True
+                # Quality fill (not coverage) → core; no rank in the main
+                # ranking, which only affects the pass-1 top-performer check.
+                f_copy["_selection_pass"] = 2
+                f_copy["_rank_position"] = None
                 selected.append(f_copy)
                 selected_isins.add(f["isin"])
                 _note(
@@ -942,28 +955,40 @@ class DecisionEngine:
             "candidates": candidates,
         }
 
-    # --- Core-Satellite helpers ---
-    @staticmethod
-    def _classify_core_satellite(fund: Dict[str, Any]) -> str:
-        """Return 'core' if the fund has no thematic focus, 'satellite' otherwise."""
-        theme = str(fund.get("theme") or "").upper().strip()
-        return "satellite" if theme and theme != "NONE" else "core"
+    # --- Core-Satellite helpers (v4: pass/rank aware, Step 8 of spec v4) ---
+    def _classify_core_satellite(self, fund: Dict[str, Any]) -> str:
+        """v4 classification.
 
-    @staticmethod
-    def _tiered_bounds(rank: int, is_satellite: bool) -> Tuple[float, float]:
-        """Return (min_weight, max_weight) for a fund based on its rank and class."""
-        if is_satellite:
-            return 0.10, 0.15  # ambiguous specification corrected: 10-15% it is!
-        bounds = [
-            (0.25, 0.40),  # Core 1
-            (0.15, 0.30),  # Core 2
-            (0.10, 0.25),  # Core 3
-            (0.10, 0.15),  # Core 4+
-        ]
-        idx = min(rank, len(bounds) - 1)
-        return bounds[idx]
+        - Pass 2 pick (quality fill) → core.
+        - Pass 1 pick (coverage) → core only if its elevated score ranks it
+          within the top ``final_fund_count`` of the full ranking (it would
+          have been selected by quality anyway — the preference match is
+          incidental); otherwise satellite (coverage-only selection).
+        - Funds without selection context (never annotated by ``_select_funds``)
+          are treated as quality-selected cores.
+        """
+        return "core" if self._is_core_fund(fund) else "satellite"
 
-    # --- Allocation ---
+    def _is_core_fund(self, fund: Dict[str, Any]) -> bool:
+        sel_pass = fund.get("_selection_pass")
+        rank = fund.get("_rank_position")
+        if sel_pass == 1:
+            return rank is not None and rank <= self.final_fund_count
+        # pass 2 (or unannotated): selected by quality ranking → core
+        return True
+
+    def _classification_reason(self, fund: Dict[str, Any]) -> str:
+        """Trace-facing reason: core_top_performer / core_quality_selected /
+        satellite_coverage_only."""
+        sel_pass = fund.get("_selection_pass")
+        rank = fund.get("_rank_position")
+        if sel_pass == 1:
+            if rank is not None and rank <= self.final_fund_count:
+                return "core_top_performer"
+            return "satellite_coverage_only"
+        return "core_quality_selected"
+
+    # --- Allocation (v4: proportional elevated score, Step 9 of spec v4) ---
     def _allocate_weights(
         self,
         selected: List[Dict[str, Any]],
@@ -971,122 +996,94 @@ class DecisionEngine:
         risk_profile: str,
         trace: Optional[Dict[str, Any]] = None,
     ) -> Dict[str, float]:
+        """v4 allocation: weights proportional to the elevated score.
+
+        Raw weights are proportional to each fund's elevated score (final
+        score after boosts — the same score that drives the ranking). Bands:
+        - No satellites, or satellites naturally take ≤ ``satellite_total_cap``:
+          single band — all funds share 100 % proportionally to elevated score.
+        - Otherwise two bands: satellites capped at ``satellite_total_cap``
+          (30 %), cores receive the remainder (70 %); allocation is distributed
+          proportionally to elevated score within each band.
+
+        The per-fund floor (``min_allocation_percentage``) is enforced last via
+        water-filling; integer rounding happens in ``_build_recommendations``
+        where the largest position absorbs the remainder (Step 11).
+        """
         if not selected:
             return {}
 
-        # Trace-only: per-fund weighting breakdown, populated as we go.
-        alloc_rec: Dict[str, Dict[str, Any]] = {}
         sat_cap_applied = False
 
-        # Classify and rank funds
-        cores = [f for f in selected if self._classify_core_satellite(f) == "core"]
-        satellites = [
-            f for f in selected if self._classify_core_satellite(f) == "satellite"
-        ]
+        # v4 classification (Step 8) — pass/rank aware, recorded in the trace.
+        classifications = {f["isin"]: self._classify_core_satellite(f) for f in selected}
+        cores = [f for f in selected if classifications[f["isin"]] == "core"]
+        satellites = [f for f in selected if classifications[f["isin"]] == "satellite"]
 
-        # Inverse volatility raw weights — computed BEFORE tier assignment:
-        # tiers must rank cores by stability (inverse volatility), NOT by
-        # selection order. port_20260903_f2245f4e showed pass-order leaving
-        # the most stable fund in Core 2/3 slots.
-        inv_vols = {f["isin"]: 1.0 / self._get_vol(f) for f in selected}
-        total_inv_vol = sum(inv_vols.values())
-        if total_inv_vol <= 0:
-            total_inv_vol = 1.0
-
-        raw_weights = {isin: v / total_inv_vol for isin, v in inv_vols.items()}
-
-        # Assign tiers: cores ranked by inverse volatility (lowest
-        # volatility = most stable = Core 1), satellites flat.
-        cores_by_stability = sorted(
-            cores, key=lambda f: raw_weights[f["isin"]], reverse=True
-        )
-        ranked: List[Tuple[Dict[str, Any], int, bool]] = [
-            (f, rank, False) for rank, f in enumerate(cores_by_stability)
-        ]
-        ranked.extend((f, 0, True) for f in satellites)
-
-        # Clip each weight to its tiered bounds
-        weights: Dict[str, float] = {}
-        for f, rank, is_sat in ranked:
-            isin = f["isin"]
-            w_min, w_max = self._tiered_bounds(rank, is_sat)
-            weights[isin] = max(w_min, min(w_max, raw_weights[isin]))
-            alloc_rec[isin] = {
-                "isin": isin,
-                "name": f.get("name"),
-                "class": "satellite" if is_sat else "core",
-                "inv_vol_raw": round(raw_weights[isin], 4),
-                "tier_bounds": [w_min, w_max],
-                "after_clip": round(weights[isin], 4),
-                "regional_tilt": False,
+        if trace is not None:
+            trace["classification"] = {
+                "method": "v4_pass_rank",
+                "final_fund_count": self.final_fund_count,
+                "funds": [
+                    {
+                        "isin": f["isin"],
+                        "name": f.get("name"),
+                        "selection_pass": f.get("_selection_pass"),
+                        "rank_position": f.get("_rank_position"),
+                        "class": classifications[f["isin"]],
+                        "reason": self._classification_reason(f),
+                    }
+                    for f in selected
+                ],
             }
 
-        # Enforce satellite total cap (30%)
-        sat_isins = {f["isin"] for f in satellites}
-        sat_total = sum(weights[i] for i in sat_isins)
-        if sat_total > 0.30:
-            sat_cap_applied = True
-            scale = 0.30 / sat_total
-            for isin in sat_isins:
-                weights[isin] *= scale
-            # Redistribute excess to cores proportionally up to their max
-            excess = 1.0 - sum(weights.values())
-            core_isins = [f["isin"] for f in cores]
-            if core_isins and excess > 0:
-                core_total = sum(weights[i] for i in core_isins)
-                if core_total > 0:
-                    for isin in core_isins:
-                        rank_for = next(
-                            r for f, r, s in ranked if f["isin"] == isin and not s
-                        )
-                        _, w_max = self._tiered_bounds(rank_for, False)
-                        headroom = max(0.0, w_max - weights[isin])
-                        add = excess * (weights[isin] / core_total)
-                        weights[isin] += min(add, headroom)
+        # Elevated scores (final score after boosts). A missing/non-positive
+        # score degrades to equal weighting for that fund instead of crashing.
+        def _score(f: Dict[str, Any]) -> float:
+            s = self._as_float((f.get("_scores") or {}).get("final"))
+            return s if s > 0 else 1.0
 
-        # Apply regional ×1.2 tilt
-        preferred_regions = {
-            str(r).lower() for r in (user_answers.get("preferred_regions") or [])
-        }
-        if preferred_regions:
-            for f in selected:
-                isin = f["isin"]
-                if str(f.get("region") or "").lower() in preferred_regions:
-                    _, w_max = self._tiered_bounds(
-                        next(r for ff, r, s in ranked if ff["isin"] == isin),
-                        isin in sat_isins,
-                    )
-                    weights[isin] = min(weights[isin] * 1.2, w_max)
-                    if isin in alloc_rec:
-                        alloc_rec[isin]["regional_tilt"] = True
+        scores = {f["isin"]: _score(f) for f in selected}
 
-        # Normalise to sum to 1.0
+        # Band budgeting (Step 9): split core/satellite only when needed.
+        sat_budget = 1.0
+        core_budget = 0.0
+        if satellites and cores:
+            total_score = sum(scores.values())
+            sat_share = sum(scores[f["isin"]] for f in satellites) / total_score
+            cap = self.satellite_total_cap / 100.0
+            if sat_share > cap:
+                sat_cap_applied = True
+                sat_budget = cap
+                core_budget = 1.0 - cap
+
+        # Proportional elevated-score distribution within each band.
+        # Single band: everything shares 100 % proportionally (no satellites,
+        # satellites naturally below the cap, or no cores to split against).
+        bands = (
+            ((cores, core_budget), (satellites, sat_budget))
+            if core_budget > 0
+            else ((selected, 1.0),)
+        )
+        weights: Dict[str, float] = {}
+        for group, budget in bands:
+            if not group or budget <= 0:
+                continue
+            g_total = sum(scores[f["isin"]] for f in group)
+            if g_total <= 0:
+                share = budget / len(group)
+                for f in group:
+                    weights[f["isin"]] = share
+            else:
+                for f in group:
+                    weights[f["isin"]] = budget * scores[f["isin"]] / g_total
+
+        # Safety normalise (band budgets already sum to 1.0).
         weights = self._normalize(weights)
 
-        # Enforce satellite total cap after normalization to account for
-        # floating-point rounding and redistribution steps above.
-        sat_isins = {f["isin"] for f in satellites}
-        sat_total = sum(weights.get(i, 0.0) for i in sat_isins)
-        if sat_total > 0.30:
-            sat_cap_applied = True
-            scale = 0.30 / sat_total
-            for isin in sat_isins:
-                if isin in weights:
-                    weights[isin] = weights[isin] * scale
-            # Fill the remaining headroom with cores only. A plain re-normalise
-            # here would scale the satellites straight back up over the cap.
-            core_isins = [i for i in weights if i not in sat_isins]
-            core_total = sum(weights[i] for i in core_isins)
-            if core_total > 0:
-                target_core = 1.0 - sum(weights.get(i, 0.0) for i in sat_isins)
-                cscale = target_core / core_total
-                for isin in core_isins:
-                    weights[isin] = weights[isin] * cscale
-
-        # Enforce the per-fund minimum allocation as the final step, so it holds
-        # after every prior redistribution (clip → satellite cap → tilt →
-        # normalise). Lifts any sub-floor fund to the floor and reclaims the
-        # deficit from funds with surplus above it.
+        # Enforce the per-fund minimum allocation as the final step (Step 10),
+        # so it holds after banding. Lifts any sub-floor fund to the floor and
+        # reclaims the deficit from funds with surplus above it.
         floor_applied = False
         floor = self.min_allocation_percentage / 100.0
         if floor > 0:
@@ -1099,13 +1096,29 @@ class DecisionEngine:
 
         # Trace-only: finalise the per-fund allocation breakdown.
         if trace is not None and "allocation" in trace:
-            for isin, rec in alloc_rec.items():
-                rec["final_weight"] = round(weights.get(isin, 0.0), 4)
+            alloc_rec: Dict[str, Dict[str, Any]] = {}
+            for f in selected:
+                isin = f["isin"]
+                alloc_rec[isin] = {
+                    "isin": isin,
+                    "name": f.get("name"),
+                    "class": classifications[isin],
+                    "classification_reason": self._classification_reason(f),
+                    "selection_pass": f.get("_selection_pass"),
+                    "rank_position": f.get("_rank_position"),
+                    "elevated_score": (f.get("_scores") or {}).get("final"),
+                    "final_weight": round(weights.get(isin, 0.0), 4),
+                }
+            trace["allocation"]["method"] = "proportional_elevated_score"
+            trace["allocation"]["band_logic"] = (
+                "two_band" if core_budget > 0 else "single_band"
+            )
             trace["allocation"]["min_allocation_applied"] = floor_applied
             trace["allocation"]["min_allocation_percentage"] = (
                 self.min_allocation_percentage
             )
             trace["allocation"]["satellite_cap_applied"] = sat_cap_applied
+            trace["allocation"]["satellite_total_cap"] = self.satellite_total_cap
             trace["allocation"]["funds"] = [
                 alloc_rec[f["isin"]] for f in selected if f["isin"] in alloc_rec
             ]
@@ -1289,6 +1302,7 @@ class DecisionEngine:
                     "is_etf": f.get("is_etf"),
                     "esg_label": f.get("esg_label"),
                     "core_satellite_class": self._classify_core_satellite(f),
+                    "core_satellite_reason": self._classification_reason(f),
                     "etf_not_available": f.get("etf_not_available", False),
                     "rationale": " ".join(reasons[:2])
                     if reasons
@@ -1301,11 +1315,13 @@ class DecisionEngine:
                 }
             )
 
-        # Fix rounding to sum 100
+        # v4 integer rounding (Step 11): the largest position absorbs the
+        # rounding remainder so allocations sum to exactly 100 %.
         total = sum(r["allocation_percent"] for r in recs)
         diff = int(round(100 - total))
-        if recs and abs(diff) > 0:
-            recs[0]["allocation_percent"] = recs[0]["allocation_percent"] + diff
+        if recs and diff != 0:
+            largest = max(recs, key=lambda r: r["allocation_percent"])
+            largest["allocation_percent"] += diff
 
         return recs, explanations
 

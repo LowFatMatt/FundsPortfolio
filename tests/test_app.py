@@ -194,10 +194,25 @@ def test_decision_trace_stages(mock_ticker, client):
     assert "events" in trace["selection"] and "caps" in trace["selection"]
     alloc = trace["allocation"]
     assert "satellite_cap_applied" in alloc
+    assert alloc["method"] == "proportional_elevated_score"  # v4
+    assert alloc["band_logic"] in {"single_band", "two_band"}  # v4
     assert len(alloc["funds"]) == len(resp.json["recommendations"])
     for fund in alloc["funds"]:
         assert fund["class"] in {"core", "satellite"}
-        assert {"inv_vol_raw", "tier_bounds", "after_clip", "final_weight"} <= set(fund)
+        assert {
+            "elevated_score",
+            "classification_reason",
+            "final_weight",
+        } <= set(fund)  # v4 fields (inv_vol_raw/tier_bounds/after_clip removed)
+    # v4 classification stage: per-fund pass/rank-aware reasoning
+    assert "classification" in trace
+    assert len(trace["classification"]["funds"]) == len(resp.json["recommendations"])
+    for fund in trace["classification"]["funds"]:
+        assert fund["reason"] in {
+            "core_quality_selected",
+            "core_top_performer",
+            "satellite_coverage_only",
+        }
 
 
 if __name__ == "__main__":

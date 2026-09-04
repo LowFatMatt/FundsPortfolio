@@ -316,16 +316,36 @@ def test_scoring_scores_include_new_fields():
 # ---------------------------------------------------------------------------
 
 
-def test_core_satellite_classification():
-    engine = DecisionEngine()
-    core = _fund(
-        isin="A", name="Core", srri=4, yearly_fee=0.2, is_etf=True, theme="none"
+def test_core_satellite_classification_v4():
+    """v4: pass/rank-aware classification (spec v4, Step 8).
+
+    - pass 2 (quality fill) → core
+    - pass 1 (coverage) + rank ≤ final_fund_count → core (top performer)
+    - pass 1 (coverage) + rank > final_fund_count → satellite
+    """
+    engine = DecisionEngine(final_fund_count=5)
+    pass2 = _fund(isin="A", name="Quality", srri=4, yearly_fee=0.2, is_etf=True)
+    pass2["_selection_pass"] = 2
+    pass2["_rank_position"] = 1
+    top_performer = _fund(
+        isin="B", name="SustTop", srri=4, yearly_fee=0.2, is_etf=True,
+        theme="SUSTAINABILITY",
     )
-    sat = _fund(
-        isin="B", name="Sat", srri=4, yearly_fee=0.2, is_etf=True, theme="TECHNOLOGY"
+    top_performer["_selection_pass"] = 1
+    top_performer["_rank_position"] = 2
+    coverage_only = _fund(
+        isin="C", name="DefensePick", srri=4, yearly_fee=0.2, is_etf=True,
+        theme="DEFENSE",
     )
-    assert engine._classify_core_satellite(core) == "core"
-    assert engine._classify_core_satellite(sat) == "satellite"
+    coverage_only["_selection_pass"] = 1
+    coverage_only["_rank_position"] = 12
+
+    assert engine._classify_core_satellite(pass2) == "core"
+    assert engine._classification_reason(pass2) == "core_quality_selected"
+    assert engine._classify_core_satellite(top_performer) == "core"
+    assert engine._classification_reason(top_performer) == "core_top_performer"
+    assert engine._classify_core_satellite(coverage_only) == "satellite"
+    assert engine._classification_reason(coverage_only) == "satellite_coverage_only"
 
 
 def test_satellite_weight_cap_30pct():
@@ -550,61 +570,37 @@ def test_relaxations_include_reason():
         assert "reason" in relaxation, f"Relaxation missing 'reason': {relaxation}"
 
 
-def test_core_tiers_assigned_by_inverse_volatility_not_selection_order():
-    """Core tier slots must follow inverse volatility, not selection order.
+def test_allocation_proportional_to_elevated_score_not_selection_order():
+    """v4: allocation follows elevated score, not selection order.
 
-    Regression for port_20260903_f2245f4e: the most stable core (lowest
-    volatility) must get the Core 1 bounds (25–40 %) even when it was
-    selected in a later pass. Selection order here deliberately mismatches
-    volatility order (first-listed = most volatile).
+    Successor of the v3 inverse-volatility tier test: v4 has no tiers —
+    a single band distributes 100 % proportionally to the elevated score
+    (final score after boosts), regardless of selection order.
     """
     engine = DecisionEngine()
     funds = [
-        _fund(
-            isin="VOL20",
-            name="Volatile core",
-            volatility=20.0,
-            srri=4,
-            yearly_fee=0.2,
-            is_etf=True,
-            theme="none",
-            provider="p1",
-            asset_class="equity",
-        ),
-        _fund(
-            isin="VOL8",
-            name="Stable core",
-            volatility=8.0,
-            srri=4,
-            yearly_fee=0.2,
-            is_etf=True,
-            theme="none",
-            provider="p2",
-            asset_class="equity",
-        ),
-        _fund(
-            isin="VOL12",
-            name="Middle core",
-            volatility=12.0,
-            srri=4,
-            yearly_fee=0.2,
-            is_etf=True,
-            theme="none",
-            provider="p3",
-            asset_class="equity",
-        ),
+        _fund(isin="LOW", name="Low score", srri=4, yearly_fee=0.2, is_etf=True),
+        _fund(isin="HIGH", name="High score", srri=4, yearly_fee=0.2, is_etf=True),
+        _fund(isin="MID", name="Mid score", srri=4, yearly_fee=0.2, is_etf=True),
     ]
-    # recommend() seeds trace["allocation"] before calling _allocate_weights;
-    # mirror that contract here so the per-fund breakdown is populated.
+    # Selection order deliberately mismatches score order.
+    funds[0]["_scores"] = {"final": 100.0}
+    funds[1]["_scores"] = {"final": 300.0}
+    funds[2]["_scores"] = {"final": 200.0}
+
     trace = {"allocation": {"satellite_cap_applied": False, "funds": []}}
-    engine._allocate_weights(
+    weights = engine._allocate_weights(
         funds,
         {"preferred_regions": [], "preferred_themes": []},
         "BALANCED",
         trace=trace,
     )
-    tiers = {r["isin"]: tuple(r["tier_bounds"]) for r in trace["allocation"]["funds"]}
-    # Most stable → Core 1, middle → Core 2, most volatile → Core 3.
-    assert tiers["VOL8"] == (0.25, 0.4)
-    assert tiers["VOL12"] == (0.15, 0.3)
-    assert tiers["VOL20"] == (0.10, 0.25)
+
+    # Highest score → largest weight; ordering must follow scores.
+    assert weights["HIGH"] > weights["MID"] > weights["LOW"]
+    # Single band (all cores): exactly proportional 3:2:1.
+    assert abs(weights["HIGH"] - 0.5) < 1e-9
+    assert abs(weights["MID"] - 1 / 3) < 1e-9
+    assert abs(weights["LOW"] - 1 / 6) < 1e-9
+    assert trace["allocation"]["band_logic"] == "single_band"
+    assert trace["allocation"]["method"] == "proportional_elevated_score"
