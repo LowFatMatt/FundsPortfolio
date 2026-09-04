@@ -218,7 +218,7 @@ anschließend auf die Stufenbänder geclippt:
 
 | Position | Min | Max |
 |----------|-----|-----|
-| Core 1 (bester Core) | 25 % | 40 % |
+| Core 1 (stabilster Core — höchste inverse Volatilität; Tier-Vergabe sortiert Cores nach inverser Volatilität, nicht nach Auswahlreihenfolge) | 25 % | 40 % |
 | Core 2 | 15 % | 30 % |
 | Core 3 | 10 % | 25 % |
 | Core 4+ | 10 % | 15 % |

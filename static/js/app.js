@@ -560,7 +560,12 @@ document.addEventListener('DOMContentLoaded', () => {
     function renderMultiCardGroup(section) {
         const grid = document.createElement('div');
         grid.className = 'question-card-grid';
-        const max = Number(section.max) || 0; // 0 = unlimited
+        // A section without `max` is unlimited; an EXPLICIT 0 (budget
+        // exhausted) allows no further selections. Never treat 0 as
+        // unlimited — that bypass let 2 regions + 2 themes through at
+        // BALANCED budget 2 (port_20260903_12e34942).
+        const hasMax = section.max != null;
+        const max = hasMax ? Number(section.max) : 0;
 
         section.options.forEach(opt => {
             const card = document.createElement('div');
@@ -601,7 +606,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             card.addEventListener('click', () => {
                 const isSelected = card.classList.contains('selected');
-                if (!isSelected && max) {
+                if (!isSelected && hasMax) {
                     const count = grid.querySelectorAll('.question-card.selected').length;
                     if (count >= max) {
                         showFlowError(
@@ -628,7 +633,10 @@ document.addEventListener('DOMContentLoaded', () => {
         wrap.className = 'chip-grid';
 
         const isMulti = section.type === 'multi_select';
-        const max = Number(section.max) || 0; // 0 = unlimited
+        // Explicit `max: 0` (budget exhausted) blocks all selections;
+        // only an absent `max` means unlimited (see renderMultiCardGroup).
+        const hasMax = section.max != null;
+        const max = hasMax ? Number(section.max) : 0;
 
         // Options flagged selectable:false (e.g. the theme "none" default) are
         // valid values but not offered as chips.
@@ -667,7 +675,7 @@ document.addEventListener('DOMContentLoaded', () => {
             chip.addEventListener('click', () => {
                 if (isMulti) {
                     const willSelect = !chip.classList.contains('selected');
-                    if (willSelect && max) {
+                    if (willSelect && hasMax) {
                         const count = wrap.querySelectorAll('.chip.selected').length;
                         if (count >= max) {
                             showFlowError(

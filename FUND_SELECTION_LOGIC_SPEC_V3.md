@@ -215,7 +215,7 @@ then clipped to tier bounds:
 
 | Position | Min | Max |
 |----------|-----|-----|
-| Core 1 (best core) | 25 % | 40 % |
+| Core 1 (most stable core — highest inverse volatility; tier assignment ranks cores by inverse volatility, not selection order) | 25 % | 40 % |
 | Core 2 | 15 % | 30 % |
 | Core 3 | 10 % | 25 % |
 | Core 4+ | 10 % | 15 % |

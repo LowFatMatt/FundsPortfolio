@@ -56,10 +56,10 @@ SRRI_VOL_PROXY: Dict[int, float] = {
 # Define boost values for preferences. These are added to the base score to influence ranking.
 #
 BOOST_ELEVATORS: Dict[str, float] = {
-    "ETF": 45.0,
-    "ESG": 45.0,
-    "Region": 2.0,
-    "Theme": 2.0,
+    "ETF": 6.0,
+    "ESG": 6.0,
+    "Region": 0.0,
+    "Theme": 0.0,
 }
 # BOOST_ELEVATORS: Dict[str, float] = {
 #     "ETF": 45.0,
@@ -984,20 +984,26 @@ class DecisionEngine:
             f for f in selected if self._classify_core_satellite(f) == "satellite"
         ]
 
-        # Assign tiers: cores ranked by their quality score, satellites flat
-        ranked: List[Tuple[Dict[str, Any], int, bool]] = []
-        for rank, f in enumerate(cores):
-            ranked.append((f, rank, False))
-        for f in satellites:
-            ranked.append((f, 0, True))
-
-        # Inverse volatility raw weights
+        # Inverse volatility raw weights — computed BEFORE tier assignment:
+        # tiers must rank cores by stability (inverse volatility), NOT by
+        # selection order. port_20260903_f2245f4e showed pass-order leaving
+        # the most stable fund in Core 2/3 slots.
         inv_vols = {f["isin"]: 1.0 / self._get_vol(f) for f in selected}
         total_inv_vol = sum(inv_vols.values())
         if total_inv_vol <= 0:
             total_inv_vol = 1.0
 
         raw_weights = {isin: v / total_inv_vol for isin, v in inv_vols.items()}
+
+        # Assign tiers: cores ranked by inverse volatility (lowest
+        # volatility = most stable = Core 1), satellites flat.
+        cores_by_stability = sorted(
+            cores, key=lambda f: raw_weights[f["isin"]], reverse=True
+        )
+        ranked: List[Tuple[Dict[str, Any], int, bool]] = [
+            (f, rank, False) for rank, f in enumerate(cores_by_stability)
+        ]
+        ranked.extend((f, 0, True) for f in satellites)
 
         # Clip each weight to its tiered bounds
         weights: Dict[str, float] = {}

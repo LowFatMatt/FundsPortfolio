@@ -548,3 +548,35 @@ def test_relaxations_include_reason():
     result = engine.recommend(_base_answers(), funds)
     for relaxation in result["decision_trace"]["relaxations"]:
         assert "reason" in relaxation, f"Relaxation missing 'reason': {relaxation}"
+
+
+def test_core_tiers_assigned_by_inverse_volatility_not_selection_order():
+    """Core tier slots must follow inverse volatility, not selection order.
+
+    Regression for port_20260903_f2245f4e: the most stable core (lowest
+    volatility) must get the Core 1 bounds (25–40 %) even when it was
+    selected in a later pass. Selection order here deliberately mismatches
+    volatility order (first-listed = most volatile).
+    """
+    engine = DecisionEngine()
+    funds = [
+        _fund(isin="VOL20", name="Volatile core", volatility=20.0, srri=4,
+              yearly_fee=0.2, is_etf=True, theme="none", provider="p1",
+              asset_class="equity"),
+        _fund(isin="VOL8", name="Stable core", volatility=8.0, srri=4,
+              yearly_fee=0.2, is_etf=True, theme="none", provider="p2",
+              asset_class="equity"),
+        _fund(isin="VOL12", name="Middle core", volatility=12.0, srri=4,
+              yearly_fee=0.2, is_etf=True, theme="none", provider="p3",
+              asset_class="equity"),
+    ]
+    # recommend() seeds trace["allocation"] before calling _allocate_weights;
+    # mirror that contract here so the per-fund breakdown is populated.
+    trace = {"allocation": {"satellite_cap_applied": False, "funds": []}}
+    engine._allocate_weights(funds, {"preferred_regions": [], "preferred_themes": []},
+                             "BALANCED", trace=trace)
+    tiers = {r["isin"]: tuple(r["tier_bounds"]) for r in trace["allocation"]["funds"]}
+    # Most stable → Core 1, middle → Core 2, most volatile → Core 3.
+    assert tiers["VOL8"] == (0.25, 0.4)
+    assert tiers["VOL12"] == (0.15, 0.3)
+    assert tiers["VOL20"] == (0.10, 0.25)
