@@ -10,7 +10,7 @@ Hub for all project documentation. The product's current feature set lives in
 | Component | File(s) | Notes |
 |-----------|---------|-------|
 | Flask app & API | `funds_portfolio/app.py` | All endpoints (core + charts/breakdowns/health) |
-| Decision engine | `funds_portfolio/portfolio/decision_engine.py` | Filter → score → select → allocate (two-pass coverage-first; Core-Satellite + inverse-vol weighting; integer allocation output) |
+| Decision engine | `funds_portfolio/portfolio/decision_engine.py` | Filter → score → select → allocate (two-pass coverage-first; pass/rank-aware core/satellite classification + proportional elevated-score weighting with satellite band cap; integer allocation output) |
 | Shared risk bands | `funds_portfolio/portfolio/risk_bands.py` | Single source of truth for DEFENSIVE/BALANCED/OPPORTUNITY bands (Slide 8); engine backstop and dialog advisor both delegate here |
 | Shared eligibility | `funds_portfolio/portfolio/eligibility.py` | Single source of truth for ESG (SFDR Art. 8/9) and ETF-only filter semantics; engine and advisor both delegate here |
 | Sharpe calculator | `funds_portfolio/portfolio/calculator.py` | Risk-adjusted return scoring |

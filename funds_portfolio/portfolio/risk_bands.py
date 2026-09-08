@@ -16,9 +16,8 @@ from __future__ import annotations
 
 from typing import Any, Dict, List
 
-# NOTE: Slide 8 is the ultimate truth specifying the risk bands.
-# The document contains other values in further slides which
-# do not reflect the final specification.
+# NOTE: These values are subject ot change based on tests with the current universe.
+# The values below are the ones used in the v4 logic, which is the current logic used in the app.
 RISK_BANDS: Dict[str, Dict[str, Any]] = {
     "DEFENSIVE": {
         "srri_min": 1,
@@ -27,12 +26,12 @@ RISK_BANDS: Dict[str, Dict[str, Any]] = {
         "vol_min": None,
         "mdd_max": 15.0,
     },
-    "BALANCED": {
+    "BALANCED": { # risk band changes after tests with v4 logic
         "srri_min": 2,
-        "srri_max": 5,
-        "vol_max": 15.0,
-        "vol_min": 5.0,  # reviewed 2: vol_min corrected to be 5.0 (see Spec. Pg./Sld. 8)
-        "mdd_max": 30.0,
+        "srri_max": 4,
+        "vol_min": 5.0,
+        "vol_max": 12.0,
+        "mdd_max": 20.0,
     },
     "OPPORTUNITY": {
         "srri_min": 4,

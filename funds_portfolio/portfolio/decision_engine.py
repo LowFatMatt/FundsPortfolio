@@ -93,7 +93,7 @@ class DecisionEngine:
         max_per_specific_theme: int = 2,  # quota: max funds carrying the SAME specific preferred theme
         max_per_specific_region: int = 2,  # quota: max funds from the SAME specific preferred region
         min_allocation_percentage: int = 10,  # minimum allocation percentage for any fund in the final portfolio
-        satellite_total_cap: float = 30,  # v4: satellite band cap (% of portfolio) in proportional elevated-score allocation
+        satellite_total_cap: float = 40,  # v4: satellite band cap (% of portfolio) in proportional elevated-score allocation
         boost_elevators: Optional[
             Dict[str, float]
         ] = None,  # per-preference scoring boosts; defaults to the module BOOST_ELEVATORS

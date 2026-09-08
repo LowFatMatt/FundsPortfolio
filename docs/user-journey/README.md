@@ -209,7 +209,7 @@ The prototype implements a **cross-dimension budget** in [`preferences_schema.js
 <a id="d-06"></a>
 #### D-06 — OPPORTUNITY volatility bound 30 % is spec-only
 - **Spec:** PPT slides 13/39/42 mouseover *"Chancenorientiert: Volatilität bis max. 30 % (5-Jahresdurchschnitt)"*; notesSlide13/14 repeat 8/15/30 %.
-- **Engine:** [`risk_bands.py`](../../funds_portfolio/portfolio/risk_bands.py) — DEFENSIVE `vol_max 8.0`, BALANCED `vol_max 15.0`, **OPPORTUNITY `vol_max: None`** (SRRI 4–7 + `mdd_max 50` + `vol_min 10` only).
+- **Engine:** [`risk_bands.py`](../../funds_portfolio/portfolio/risk_bands.py) — DEFENSIVE `vol_max 8.0`, BALANCED `vol_max 12.0` *(tightened post-v4; also SRRI 2–4, `mdd_max 20`)*, **OPPORTUNITY `vol_max: None`** (SRRI 4–7 + `mdd_max 50` + `vol_min 10` only).
 - **Decision:** add `vol_max 30.0` to OPPORTUNITY (then mouseover and engine agree) **or** declare the 30 % an informational hint only. Related open spec question on slide 13: *"Ausgestaltung bei GRV anders? Handling falls Zurückhaltend ausgewählt wird? Text Anpassung bei Zurückhaltend"*.
 
 ### Naming & vocabulary
