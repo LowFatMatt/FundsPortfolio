@@ -387,6 +387,88 @@ def test_min_allocation_floor_enforced():
     assert weights["A"] == weights["B"] == weights["C"] == weights["D"] > 0.10
 
 
+def test_floor_does_not_break_satellite_cap():
+    """Regression (port_20260908_f7f5cc88): a capped satellite whose band share
+    falls below the 10 % floor must be lifted *within its band* — the satellite
+    total stays at the 40 % OPPORTUNITY cap instead of leaking to ~41.6 %."""
+    engine = DecisionEngine()
+    funds = [
+        _fund(isin="CORE1", name="Core 1", provider="p1"),
+        _fund(isin="CORE2", name="Core 2", provider="p2"),
+    ] + [
+        _fund(isin=f"SAT{i}", name=f"Sat {i}", theme="DEFENSE", provider=f"p{i+3}")
+        for i in (1, 2, 3)
+    ]
+    for f in funds[:2]:
+        f["_selection_pass"] = 2
+        f["_rank_position"] = 1
+        f["_scores"] = {"final": 92.1}
+    for isin, score, rank in (
+        ("SAT1", 57.02, 6),
+        ("SAT2", 51.71, 7),
+        ("SAT3", 26.77, 8),
+    ):
+        idx = [x["isin"] for x in funds].index(isin)
+        funds[idx]["_selection_pass"] = 1
+        funds[idx]["_rank_position"] = rank
+        funds[idx]["_scores"] = {"final": score}
+
+    trace = {"allocation": {"satellite_cap_applied": False, "funds": []}}
+    weights = engine._allocate_weights(
+        funds,
+        {"preferred_regions": [], "preferred_themes": []},
+        "OPPORTUNITY",
+        trace=trace,
+    )
+
+    assert trace["allocation"]["satellite_cap_applied"] is True
+    assert trace["allocation"]["cap_breached_by_floor"] is False
+    # The cap survives the floor: satellites stay at exactly 40 %.
+    sat_total = sum(weights[i] for i in ("SAT1", "SAT2", "SAT3"))
+    assert abs(sat_total - 0.40) < 1e-9
+    # Every fund still meets the 10 % floor.
+    assert all(w >= 0.10 - 1e-9 for w in weights.values())
+    assert abs(sum(weights.values()) - 1.0) < 1e-9
+    # The sub-floor satellite sits exactly at the floor; its band peers
+    # donated the deficit.
+    assert abs(weights["SAT3"] - 0.10) < 1e-9
+    assert weights["SAT1"] > weights["SAT2"] > weights["SAT3"]
+
+
+def test_floor_falls_back_globally_when_band_floors_infeasible():
+    """Corner case: 4 satellites × 10 % floor = 40 % > the 30 % BALANCED cap —
+    cap and floor cannot both hold; the global fallback runs and the trace
+    flags the breach."""
+    engine = DecisionEngine()
+    funds = [
+        _fund(isin="CORE1", name="Core 1", provider="p1"),
+    ] + [
+        _fund(isin=f"SAT{i}", name=f"Sat {i}", theme="DEFENSE", provider=f"p{i+2}")
+        for i in (1, 2, 3, 4)
+    ]
+    funds[0].update(
+        {"_selection_pass": 2, "_rank_position": 1, "_scores": {"final": 200.0}}
+    )
+    for i, f in enumerate(funds[1:]):
+        f["_selection_pass"] = 1
+        f["_rank_position"] = 6 + i
+        f["_scores"] = {"final": 50.0}
+
+    trace = {"allocation": {"satellite_cap_applied": False, "funds": []}}
+    weights = engine._allocate_weights(
+        funds,
+        {"preferred_regions": [], "preferred_themes": []},
+        "BALANCED",
+        trace=trace,
+    )
+
+    assert trace["allocation"]["satellite_cap_applied"] is True
+    assert trace["allocation"]["cap_breached_by_floor"] is True
+    # The floor still holds for every fund (it wins in this corner).
+    assert all(w >= 0.10 - 1e-9 for w in weights.values())
+    assert abs(sum(weights.values()) - 1.0) < 1e-9
+
+
 # ---------------------------------------------------------------------------
 # Step 11 — integer rounding
 # ---------------------------------------------------------------------------

@@ -196,9 +196,10 @@ Expected portfolio structure: 2–4 core positions, 0–3 satellites.
    - Core band: receives the remainder (70 % or 60 % respectively)
    - Within each band, distribute proportionally by elevated score
 
-4. **Floor enforcement** (Step 11): every fund ≥ `min_allocation_percentage` (10 %)
-   - If infeasible (5 funds × 10 % minimum = 50 % minimum, always feasible for 5 funds), use equal split
-   - Adjustments taken from funds above minimum, proportionally
+4. **Floor enforcement** (Step 10/11): every fund ≥ `min_allocation_percentage` (10 %)
+   - Enforced **within each band**, so a capped satellite band stays exactly at its cap while every fund meets the floor
+   - Adjustments taken from funds above minimum **in the same band**, proportionally
+   - Only if a band's budget cannot cover its own floors (e.g. 4 satellites × 10 % under a 30 % cap) does a single global fallback run; the trace flags it as `cap_breached_by_floor`
 
 5. **Integer rounding** (Step 11): round all allocations to whole percent; largest allocation absorbs remainder to ensure total = 100 %
 
@@ -219,14 +220,15 @@ Expected portfolio structure: 2–4 core positions, 0–3 satellites.
 
 ### Step 10 — Minimum Allocation Floor & Normalization
 
-Apply the minimum allocation floor (`min_allocation_percentage` = 10 %) using a water-filling approach:
+Apply the minimum allocation floor (`min_allocation_percentage` = 10 %) using a water-filling approach, **per band** (this preserves the satellite band cap — a sub-floor satellite is lifted by its band peers, not by cores):
 
 1. Ensure every fund ≥ 10 %
 2. If the raw proportional weights already satisfy this, proceed to rounding
-3. If any fund < 10 %, lift it to 10 % and reduce funds above the floor proportionally to their excess weight
-4. If impossible (would require total > 100 %), fall back to equal split (20 % each for 5 funds)
+3. If any fund < 10 %, lift it to 10 % and reduce funds above the floor in its band proportionally to their excess weight
+4. If a band cannot cover its own floors (floor × band size > band budget), fall back to a single global pass and flag `cap_breached_by_floor` in the trace (the cap then yields to the floor)
+5. If even globally impossible (floor × fund count > 100 %), fall back to equal split (20 % each for 5 funds)
 
-After floor enforcement, normalize weights to sum to exactly 100 %.
+After floor enforcement, normalize weights to sum to exactly 100 % (band budgets preserved in the per-band case).
 
 ### Step 11 — Output Rounding
 

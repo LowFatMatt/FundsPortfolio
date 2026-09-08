@@ -1022,9 +1022,13 @@ class DecisionEngine:
           OPPORTUNITY 40 %), cores receive the remainder; allocation is
           distributed proportionally to elevated score within each band.
 
-        The per-fund floor (``min_allocation_percentage``) is enforced last via
-        water-filling; integer rounding happens in ``_build_recommendations``
-        where the largest position absorbs the remainder (Step 11).
+        The per-fund floor (``min_allocation_percentage``) is enforced via
+        water-filling **within each band**, so a capped satellite band stays
+        exactly at its cap while every fund still meets the floor (only if a
+        band cannot cover its own floors does a global fallback run, flagged
+        ``cap_breached_by_floor``). Integer rounding happens in
+        ``_build_recommendations`` where the largest position absorbs the
+        remainder (Step 11).
         """
         if not selected:
             return {}
@@ -1101,14 +1105,45 @@ class DecisionEngine:
         # Safety normalise (band budgets already sum to 1.0).
         weights = self._normalize(weights)
 
-        # Enforce the per-fund minimum allocation as the final step (Step 10),
-        # so it holds after banding. Lifts any sub-floor fund to the floor and
-        # reclaims the deficit from funds with surplus above it.
+        # Enforce the per-fund minimum allocation (Step 10) — per band, so the
+        # band budgets (and with them the satellite cap) survive the floor:
+        # water-filling preserves each band's total, so a capped satellite band
+        # stays exactly at its cap. Only when a band's budget cannot cover its
+        # own floors (e.g. 4 satellites × 10 % under a 30 % cap) do we fall
+        # back to a single global pass and flag the inevitable cap breach in
+        # the trace (`cap_breached_by_floor`).
         floor_applied = False
+        cap_breached_by_floor = False
         floor = self.min_allocation_percentage / 100.0
         if floor > 0:
             before_floor = dict(weights)
-            weights = self._enforce_min_allocation(weights, floor)
+            if core_budget > 0:
+                merged: Dict[str, float] = {}
+                band_floors_feasible = True
+                for group, budget in bands:
+                    band_weights = {
+                        f["isin"]: weights[f["isin"]] for f in group
+                    }
+                    if floor * len(band_weights) > budget + 1e-9:
+                        band_floors_feasible = False
+                        break
+                    # The helper expects weights summing to 1.0 — run it in
+                    # normalised space and scale back to the band budget so
+                    # the band total (the cap) is preserved exactly.
+                    scaled = {
+                        k: v / budget for k, v in band_weights.items()
+                    }
+                    fixed = self._enforce_min_allocation(
+                        scaled, floor / budget
+                    )
+                    merged.update({k: v * budget for k, v in fixed.items()})
+                if band_floors_feasible:
+                    weights = self._normalize(merged)
+                else:
+                    cap_breached_by_floor = True
+                    weights = self._enforce_min_allocation(weights, floor)
+            else:
+                weights = self._enforce_min_allocation(weights, floor)
             floor_applied = any(
                 abs(weights.get(i, 0.0) - before_floor.get(i, 0.0)) > 1e-9
                 for i in weights
@@ -1140,6 +1175,7 @@ class DecisionEngine:
             trace["allocation"]["satellite_cap_applied"] = sat_cap_applied
             trace["allocation"]["satellite_total_cap"] = cap_pct
             trace["allocation"]["risk_profile"] = risk_profile
+            trace["allocation"]["cap_breached_by_floor"] = cap_breached_by_floor
             trace["allocation"]["funds"] = [
                 alloc_rec[f["isin"]] for f in selected if f["isin"] in alloc_rec
             ]
