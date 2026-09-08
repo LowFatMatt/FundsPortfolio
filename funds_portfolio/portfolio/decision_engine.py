@@ -27,7 +27,12 @@ from .eligibility import (
     is_esg_fund,
     normalise_esg_preference,
 )
-from .risk_bands import fund_in_risk_band, risk_band_for_profile
+from .risk_bands import (
+    SATELLITE_TOTAL_CAPS,
+    fund_in_risk_band,
+    risk_band_for_profile,
+    satellite_total_cap_for_profile,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -93,7 +98,9 @@ class DecisionEngine:
         max_per_specific_theme: int = 2,  # quota: max funds carrying the SAME specific preferred theme
         max_per_specific_region: int = 2,  # quota: max funds from the SAME specific preferred region
         min_allocation_percentage: int = 10,  # minimum allocation percentage for any fund in the final portfolio
-        satellite_total_cap: float = 40,  # v4: satellite band cap (% of portfolio) in proportional elevated-score allocation
+        satellite_total_caps: Optional[
+            Dict[str, float]
+        ] = None,  # v4: per-profile satellite band cap (% of portfolio); None → risk_bands.SATELLITE_TOTAL_CAPS (DEF 30 / BAL 30 / OPP 40)
         boost_elevators: Optional[
             Dict[str, float]
         ] = None,  # per-preference scoring boosts; defaults to the module BOOST_ELEVATORS
@@ -110,7 +117,14 @@ class DecisionEngine:
         self.max_per_specific_theme = max_per_specific_theme
         self.max_per_specific_region = max_per_specific_region
         self.min_allocation_percentage = min_allocation_percentage
-        self.satellite_total_cap = satellite_total_cap
+        # Per-profile satellite cap (allocation policy — see risk_bands.py).
+        # A caller-supplied map overrides the profiles it defines; the rest
+        # keep the shared defaults. Copied so each instance stays isolated
+        # for the eval sweep.
+        self._satellite_total_caps: Dict[str, float] = {
+            **SATELLITE_TOTAL_CAPS,
+            **(satellite_total_caps or {}),
+        }
         self.thematic_guarantee = thematic_guarantee
         self.regional_guarantee = regional_guarantee
         self.regional_cap = regional_cap
@@ -1000,11 +1014,13 @@ class DecisionEngine:
 
         Raw weights are proportional to each fund's elevated score (final
         score after boosts — the same score that drives the ranking). Bands:
-        - No satellites, or satellites naturally take ≤ ``satellite_total_cap``:
-          single band — all funds share 100 % proportionally to elevated score.
-        - Otherwise two bands: satellites capped at ``satellite_total_cap``
-          (30 %), cores receive the remainder (70 %); allocation is distributed
-          proportionally to elevated score within each band.
+        - No satellites, or satellites naturally take ≤ the profile's satellite
+          band cap: single band — all funds share 100 % proportionally to
+          elevated score.
+        - Otherwise two bands: satellites capped at that cap (per
+          ``risk_bands.SATELLITE_TOTAL_CAPS``: DEFENSIVE/BALANCED 30 %,
+          OPPORTUNITY 40 %), cores receive the remainder; allocation is
+          distributed proportionally to elevated score within each band.
 
         The per-fund floor (``min_allocation_percentage``) is enforced last via
         water-filling; integer rounding happens in ``_build_recommendations``
@@ -1046,12 +1062,16 @@ class DecisionEngine:
         scores = {f["isin"]: _score(f) for f in selected}
 
         # Band budgeting (Step 9): split core/satellite only when needed.
+        # The cap is allocation policy and resolves per request (risk profile).
+        cap_pct = self._satellite_total_caps.get(
+            risk_profile, satellite_total_cap_for_profile(risk_profile)
+        )
         sat_budget = 1.0
         core_budget = 0.0
         if satellites and cores:
             total_score = sum(scores.values())
             sat_share = sum(scores[f["isin"]] for f in satellites) / total_score
-            cap = self.satellite_total_cap / 100.0
+            cap = cap_pct / 100.0
             if sat_share > cap:
                 sat_cap_applied = True
                 sat_budget = cap
@@ -1118,7 +1138,8 @@ class DecisionEngine:
                 self.min_allocation_percentage
             )
             trace["allocation"]["satellite_cap_applied"] = sat_cap_applied
-            trace["allocation"]["satellite_total_cap"] = self.satellite_total_cap
+            trace["allocation"]["satellite_total_cap"] = cap_pct
+            trace["allocation"]["risk_profile"] = risk_profile
             trace["allocation"]["funds"] = [
                 alloc_rec[f["isin"]] for f in selected if f["isin"] in alloc_rec
             ]

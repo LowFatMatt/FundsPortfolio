@@ -1975,8 +1975,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     'Weights are proportional to each fund\'s elevated score (final score after boosts).'));
             }
             if (alloc.band_logic === 'two_band') {
+                const satCap = Number.isFinite(alloc.satellite_total_cap)
+                    ? alloc.satellite_total_cap : 30;
                 note(t('ui.trace_two_band',
-                    'Cores receive 70% of the portfolio; the satellite share is capped at 30%.'));
+                    'Cores receive {core}% of the portfolio; the satellite share is capped at {sat}%.')
+                    .replace('{core}', String(100 - satCap))
+                    .replace('{sat}', String(satCap)));
             } else if (alloc.satellite_cap_applied) {
                 note(t('ui.trace_sat_cap', 'Satellite total was capped at 30%.'));
             }

@@ -129,7 +129,7 @@
   "ui.trace_col_class": "Klasse",
   "ui.trace_col_score": "Endscore",
   "ui.trace_alloc_note": "Die Gewichte verteilen sich proportional zum Endscore der Fonds (Endscore nach Boosts).",
-  "ui.trace_two_band": "Die Kernfonds erhalten 70% des Portfolios; der Satelliten-Anteil ist auf 30% gedeckelt.",
+  "ui.trace_two_band": "Die Kernfonds erhalten {core}% des Portfolios; der Satelliten-Anteil ist auf {sat}% gedeckelt.",
   "ui.trace_min_alloc": "Jeder Fonds hält mindestens {min}% des Portfolios.",
   "ui.trace_reason_quality": "nach Score gewählt (Rang {rank})",
   "ui.trace_reason_top": "Top-Performer (Rang {rank}) — Themen-/Regionstreffer nur begleitend",

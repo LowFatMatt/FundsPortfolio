@@ -349,7 +349,8 @@ def test_core_satellite_classification_v4():
 
 
 def test_satellite_weight_cap_30pct():
-    """Satellite total weight must not exceed 30% of the portfolio."""
+    """Satellite total weight must not exceed the profile cap (30 % for
+    BALANCED, the default profile used here; OPPORTUNITY allows 40 %)."""
     engine = DecisionEngine(min_candidates=1, top_k=10, final_fund_count=5)
     # 2 satellites, 3 core funds — all different providers, different categories
     funds = [

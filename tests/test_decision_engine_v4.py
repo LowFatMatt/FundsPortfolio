@@ -240,6 +240,8 @@ def test_two_band_allocation_caps_satellites_at_30_percent():
 
     assert trace["allocation"]["satellite_cap_applied"] is True
     assert trace["allocation"]["band_logic"] == "two_band"
+    assert trace["allocation"]["satellite_total_cap"] == 30
+    assert trace["allocation"]["risk_profile"] == "BALANCED"
 
     sat_total = sum(weights[i] for i in ("SAT1", "SAT2", "SAT3"))
     core_total = sum(weights[i] for i in ("CORE1", "CORE2"))
@@ -249,6 +251,57 @@ def test_two_band_allocation_caps_satellites_at_30_percent():
     assert abs(weights["SAT1"] - 0.10) < 1e-9
     assert abs(weights["CORE1"] - 0.35) < 1e-9
     assert abs(sum(weights.values()) - 1.0) < 1e-9
+
+
+def test_satellite_cap_is_40_percent_for_opportunity():
+    """v4.1: OPPORTUNITY resolves a 40 % satellite cap — the same fund setup
+    that triggers the 30/70 split under BALANCED yields 40/60 instead."""
+    engine = DecisionEngine()
+    funds = [
+        _fund(isin="CORE1", name="Core 1", provider="p1"),
+        _fund(isin="CORE2", name="Core 2", provider="p2"),
+    ] + [
+        _fund(isin=f"SAT{i}", name=f"Sat {i}", theme="DEFENSE", provider=f"p{i+3}")
+        for i in (1, 2, 3)
+    ]
+    for f in funds[:2]:
+        f["_selection_pass"] = 2
+        f["_rank_position"] = 1
+        f["_scores"] = {"final": 100.0}
+    for i, f in enumerate(funds[2:]):
+        f["_selection_pass"] = 1
+        f["_rank_position"] = 6 + i
+        f["_scores"] = {"final": 90.0}
+
+    trace = {"allocation": {"satellite_cap_applied": False, "funds": []}}
+    weights = engine._allocate_weights(
+        funds,
+        {"preferred_regions": [], "preferred_themes": []},
+        "OPPORTUNITY",
+        trace=trace,
+    )
+
+    assert trace["allocation"]["satellite_cap_applied"] is True
+    assert trace["allocation"]["band_logic"] == "two_band"
+    assert trace["allocation"]["satellite_total_cap"] == 40
+    assert trace["allocation"]["risk_profile"] == "OPPORTUNITY"
+
+    sat_total = sum(weights[i] for i in ("SAT1", "SAT2", "SAT3"))
+    core_total = sum(weights[i] for i in ("CORE1", "CORE2"))
+    assert abs(sat_total - 0.40) < 1e-9
+    assert abs(core_total - 0.60) < 1e-9
+    assert abs(weights["SAT1"] - 0.40 / 3.0) < 1e-9
+    assert abs(weights["CORE1"] - 0.30) < 1e-9
+    assert abs(sum(weights.values()) - 1.0) < 1e-9
+
+
+def test_constructor_overrides_satellite_caps():
+    """A caller-supplied satellite_total_caps map overrides the profiles it
+    defines; all other profiles keep the shared defaults from risk_bands."""
+    engine = DecisionEngine(satellite_total_caps={"BALANCED": 25.0})
+    assert engine._satellite_total_caps["BALANCED"] == 25.0
+    assert engine._satellite_total_caps["OPPORTUNITY"] == 40.0
+    assert engine._satellite_total_caps["DEFENSIVE"] == 30.0
 
 
 def test_single_band_when_satellites_naturally_below_cap():

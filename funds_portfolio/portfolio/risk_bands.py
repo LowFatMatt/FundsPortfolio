@@ -4,7 +4,6 @@ The bands were extracted from ``decision_engine.py`` so the dialog layer
 (feasibility advisor, questionnaire loader) can evaluate "would this fund be
 selectable for this risk profile?" without importing the whole engine or —
 worse — re-declaring the band values. The engine delegates to this module;
-Slide 8 of the Provinzial spec remains the ultimate authority for the values.
 
 Used by:
   * ``DecisionEngine._risk_band_for_profile`` / ``_fund_in_risk_band`` (hard
@@ -42,12 +41,29 @@ RISK_BANDS: Dict[str, Dict[str, Any]] = {
     },
 }
 
+# v4 allocation policy: maximum total share of the portfolio that satellites
+# may receive (percentage). OPPORTUNITY is deliberately more generous (40 %)
+# so that 3 satellites do not force equal 10 % floor allocations; the other
+# profiles keep the original 30 %.
+SATELLITE_TOTAL_CAPS: Dict[str, float] = {
+    "DEFENSIVE": 30.0,
+    "BALANCED": 30.0,
+    "OPPORTUNITY": 40.0,
+}
+
 PROFILES: tuple = ("DEFENSIVE", "BALANCED", "OPPORTUNITY")
 
 
 def risk_band_for_profile(risk_profile: str) -> Dict[str, Any]:
     """Return the band parameters for a profile (unknown → BALANCED)."""
     return RISK_BANDS.get(risk_profile, RISK_BANDS["BALANCED"])
+
+
+def satellite_total_cap_for_profile(risk_profile: str) -> float:
+    """Return the satellite band cap (in %) for a profile (unknown → BALANCED)."""
+    return SATELLITE_TOTAL_CAPS.get(
+        risk_profile, SATELLITE_TOTAL_CAPS["BALANCED"]
+    )
 
 
 def _as_float(value: Any) -> float:

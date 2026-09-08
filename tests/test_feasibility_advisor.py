@@ -398,6 +398,7 @@ def test_engine_esg_fund_predicate_delegation(funds):
 
 def test_band_values_unchanged():
     # Slide 8 values — frozen on purpose; a change here is a spec decision.
+    # BALANCED is a documented deviation (post-v4 tightening, see spec v4).
     assert risk_bands.RISK_BANDS["DEFENSIVE"] == {
         "srri_min": 1,
         "srri_max": 3,
@@ -407,10 +408,10 @@ def test_band_values_unchanged():
     }
     assert risk_bands.RISK_BANDS["BALANCED"] == {
         "srri_min": 2,
-        "srri_max": 5,
-        "vol_max": 15.0,
+        "srri_max": 4,
+        "vol_max": 12.0,
         "vol_min": 5.0,
-        "mdd_max": 30.0,
+        "mdd_max": 20.0,
     }
     assert risk_bands.RISK_BANDS["OPPORTUNITY"] == {
         "srri_min": 4,
@@ -419,3 +420,17 @@ def test_band_values_unchanged():
         "vol_min": 10.0,
         "mdd_max": 50.0,
     }
+
+
+def test_satellite_total_caps_per_profile():
+    # v4.1 allocation policy — frozen on purpose; a change here is a spec decision.
+    assert risk_bands.SATELLITE_TOTAL_CAPS == {
+        "DEFENSIVE": 30.0,
+        "BALANCED": 30.0,
+        "OPPORTUNITY": 40.0,
+    }
+    assert risk_bands.satellite_total_cap_for_profile("OPPORTUNITY") == 40.0
+    assert risk_bands.satellite_total_cap_for_profile("BALANCED") == 30.0
+    assert risk_bands.satellite_total_cap_for_profile("DEFENSIVE") == 30.0
+    # Unknown profile falls back to BALANCED (mirrors risk_band_for_profile).
+    assert risk_bands.satellite_total_cap_for_profile("NOPE") == 30.0

@@ -183,8 +183,8 @@ Expected portfolio structure: 2–4 core positions, 0–3 satellites.
 **Allocation method:**
 
 1. **Identify allocation bands:**
-   - If no satellites OR total satellite raw allocation ≤ 40 %: **single band** (all funds together)
-   - If satellites exist AND would exceed 40 %: **two bands** (cores / satellites)
+   - If no satellites OR total satellite raw allocation ≤ the profile's satellite cap (see `SATELLITE_TOTAL_CAPS`): **single band** (all funds together)
+   - If satellites exist AND would exceed that cap: **two bands** (cores / satellites)
 
 2. **Compute raw proportional weights** within each band:
    ```
@@ -192,8 +192,8 @@ Expected portfolio structure: 2–4 core positions, 0–3 satellites.
    ```
 
 3. **Apply band caps** (two-band case only):
-   - Satellite band: cap total at **40 %**
-   - Core band: receives remaining **60 %**
+   - Satellite band: cap total at the **profile's satellite cap** — 30 % (DEFENSIVE / BALANCED) or 40 % (OPPORTUNITY)
+   - Core band: receives the remainder (70 % or 60 % respectively)
    - Within each band, distribute proportionally by elevated score
 
 4. **Floor enforcement** (Step 11): every fund ≥ `min_allocation_percentage` (10 %)
@@ -204,7 +204,14 @@ Expected portfolio structure: 2–4 core positions, 0–3 satellites.
 
 **Configuration:**
 - `min_allocation_percentage` = **10 %** (unchanged)
-- `satellite_total_cap` = **40 %** (raised from 30 % so that 3 satellites do not force equal 10 % floor allocations; applied as a band cap before proportional distribution)
+- `satellite_total_caps` = per-profile allocation policy, defined in [`risk_bands.SATELLITE_TOTAL_CAPS`](funds_portfolio/portfolio/risk_bands.py):
+  | Profile | Cap |
+  |---------|-----|
+  | DEFENSIVE | 30 % |
+  | BALANCED | 30 % |
+  | OPPORTUNITY | **40 %** (raised so that 3 satellites do not force equal 10 % floor allocations) |
+
+  Applied as a band cap before proportional distribution; resolvable per request (constructor map overrides individual profiles).
 
 **Key differences from v3:**
 - v3: inverse-volatility weights + tier bounds (Core 1: 25–40 %, Core 2: 15–30 %, etc.) + regional tilt (×1.2)
@@ -269,11 +276,11 @@ Round all allocations to whole percent (integer values). The largest allocation 
 | 1 | Fewer than 5 eligible funds after all filters | Relaxations are gated by `min_candidates` (default 0 = off). The portfolio then contains as many funds as eligible; trace carries a warning below 3 funds. Selection never reduces the count further (invariant, see Step 7). |
 | 2 | `etf_only` leaves fewer than 5 ETFs | Active-fund backfill, each labelled `etf_not_available`; relaxation entry `etf_only_fallback` in the trace. |
 | 3 | Strong regional preference | Quota `max_per_specific_region` = 2 per value enforced as skip; coverage-beats-quota breach possible and logged; count restored via `caps_relaxed` only when the universe forces it. |
-| 4 | Thematic funds increase portfolio risk | Handled structurally: satellites weigh ≥ 10 % each, satellite total ≤ 40 %, elevated-score weighting naturally down-weights lower scorers. (No per-theme MDD check is implemented.) |
+| 4 | Thematic funds increase portfolio risk | Handled structurally: satellites weigh ≥ 10 % each, satellite total ≤ profile cap (30 %, OPPORTUNITY 40 %), elevated-score weighting naturally down-weights lower scorers. (No per-theme MDD check is implemented.) |
 | 5 | Many conflicting preferences / nearly empty intersection | Pass 1 covers every value that has a carrier anywhere; remaining slots fill with best funds; unsatisfiable values are logged (`coverage_unfulfillable`) with reason. No preference "hierarchy relaxation" is needed because no fund is ever evicted. |
 | 6 | More preferred values than slots | Values are satisfied in quality order of their best carrier; the rest surface as unfulfilled preference items in `preference_satisfaction` (7-item per-item report). |
-| 7 | All selected funds are pass-1 coverage picks AND all rank outside top 5 | All classified as satellites; if total > 40 %, satellite band is capped at 40 % and allocations distributed proportionally within that band. Core band would be empty (special case: single-band allocation). |
-| 8 | Sustainability fund is top-ranked AND selected in pass 1 | Classified as **core** (v4); receives proportional elevated-score allocation in core band, not downgraded to satellite allocation. |
+| 7 | All selected funds are pass-1 coverage picks AND all rank outside top 5 | All classified as satellites; if total exceeds the profile cap, the satellite band is capped there and allocations distributed proportionally within that band. Core band would be empty (special case: single-band allocation). |
+| 8 | Sustainability (or other theme) fund is top-ranked AND selected in pass 1 | Classified as **core** (v4); receives proportional elevated-score allocation in core band, not downgraded to satellite allocation. |
 
 ---
 
@@ -307,7 +314,7 @@ Ranking candidates carry a status: `selected` (pass 2), `selected_pass1_coverage
 | `max_per_specific_theme` | 2 | quota per preferred theme value |
 | `max_per_specific_region` | 2 | quota per preferred region value |
 | `min_allocation_percentage` | 10 | per-fund weight floor |
-| `satellite_total_cap` | 40 | *(v4: percentage)* satellite band cap (raised from 30 % post-v4 tuning) |
+| `satellite_total_caps` | DEF 30 / BAL 30 / OPP 40 | *(v4: per-profile percentages)* satellite band cap, shared via `risk_bands.SATELLITE_TOTAL_CAPS`; OPPORTUNITY raised from 30 % post-v4 tuning |
 | `BOOST_ELEVATORS` | ETF 6 / ESG 6 / Region 0 / Theme 0 | Step 6 boosts (all tie-breaker-level; preferences honored structurally — see rationale) |
 | `thematic_guarantee` / `regional_guarantee` | True / True | gate pass 1 per dimension |
 | `theme_cap` / `regional_cap` | True / True | gate the per-value quotas |
@@ -337,8 +344,9 @@ Ranking candidates carry a status: `selected` (pass 2), `selected_pass1_coverage
 | Aspect | v3 | v4 (this spec) |
 |--------|----|----------------|
 | **Core/Satellite classification** | Theme set and ≠ `NONE` → satellite | **Pass-1 fund is satellite ONLY IF elevated score ranks it outside top 5** (intelligent classification) |
-| **Allocation method** | Inverse-volatility weights + tier bounds (Core 1: 25–40 %, Core 2: 15–30 %, Core 3: 10–25 %, Core 4+: 10–15 %, Satellite: 10–15 %) + regional tilt (× 1.2) | **Proportional elevated-score weights** with satellite/core band caps (satellite ≤ 40 %, cores get remainder); no tiers, no regional tilt |
+| **Allocation method** | Inverse-volatility weights + tier bounds (Core 1: 25–40 %, Core 2: 15–30 %, Core 3: 10–25 %, Core 4+: 10–15 %, Satellite: 10–15 %) + regional tilt (× 1.2) | **Proportional elevated-score weights** with per-profile satellite/core band caps (satellite ≤ 30 %, OPPORTUNITY 40 %; cores get remainder); no tiers, no regional tilt |
 | **Allocation steps** | Step 9: tier bounds + inverse-vol; Step 10: regional tilt; Step 11: satellite cap; Step 12: floor + rounding | Step 9: proportional by elevated score + bands; Step 10: floor + normalize; Step 11: rounding |
+| **Satellite cap** | Global 30 % | **Per profile** (`risk_bands.SATELLITE_TOTAL_CAPS`): 30 % DEFENSIVE / BALANCED, **40 % OPPORTUNITY** (post-v4 tuning) |
 | **Sustainability funds** | Always satellite if theme set (even if top performer) | **Core if top-5 ranked** (v4: no allocation penalty for high-performing thematic funds) |
 | **Trace events** | Selection events only | *(v4 adds)* `core_satellite_classification` with reasoning |
 | Selection | Two-pass additive | (unchanged) |
@@ -359,8 +367,8 @@ Ranking candidates carry a status: `selected` (pass 2), `selected_pass1_coverage
 2. **Step 9 — Allocation:**
    - Remove inverse-volatility weighting, tier bounds, regional tilt logic
    - Implement proportional elevated-score allocation:
-     - Single-band if no satellites OR satellites ≤ 40 % raw
-     - Two-band (cores 60 % / satellites 40 %) otherwise
+     - Single-band if no satellites OR satellites ≤ the profile cap raw (30 %; OPPORTUNITY 40 %)
+     - Two-band (cores remainder / satellites capped) otherwise
    - Distribute proportionally by elevated score within each band
 
 3. **Step 10 — Floor:**
@@ -384,7 +392,7 @@ The v4 implementation should satisfy:
 
 1. **Classification correctness:** High-scoring sustainability funds selected in pass 1 are classified as core, not satellite
 2. **Allocation proportionality:** Core funds with higher elevated scores receive higher allocations (within constraints)
-3. **Satellite cap enforcement:** Total satellite allocation ≤ 40 % in all cases
+3. **Satellite cap enforcement:** Total satellite allocation ≤ the profile cap (30 %; OPPORTUNITY 40 %) in all cases
 4. **Minimum floor:** Every fund ≥ 10 % (or equal split if infeasible)
 5. **Integer allocations:** All weights are whole percent, sum = 100 %
 6. **Count safety:** (unchanged) Portfolio always contains exactly `final_fund_count` (5) funds when universe permits
@@ -393,5 +401,5 @@ The v4 implementation should satisfy:
 **Recommended test cases:**
 - Sustainability fund ranks #1, selected pass 1 → core, high allocation
 - Defense fund ranks #12, selected pass 1 → satellite, capped allocation
-- 3 satellites (all rank >5) → satellite band 40 %, core band 60 %
-- 1 satellite + 4 cores → single-band proportional (no artificial cap engaged)
+- 3 satellites (all rank >5) → satellite band at the profile cap (30 % BALANCED / 40 % OPPORTUNITY), cores take the remainder
+- 1 satellite + 4 cores → single-band proportional (no cap engaged)

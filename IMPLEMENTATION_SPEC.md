@@ -45,7 +45,7 @@ For each user profile:
 1. **Filter funds** — regulatory quality check → risk band (SRRI + volatility + MDD) → ESG → ETF → regional/thematic markers
 2. **Score** — composite score: 50 % Sharpe / 30 % MDD / 20 % TER (min-max normalised per metric) + preference bonuses
 3. **Select top 5** — diversification caps (max 1 per provider, max 2 per sub-category) + thematic guarantee
-4. **Allocate weights** — pass/rank-aware core/satellite classification; proportional elevated-score weighting with satellite/core bands; satellite total capped at 40 %
+4. **Allocate weights** — pass/rank-aware core/satellite classification; proportional elevated-score weighting with satellite/core bands; satellite total capped per profile (30 %; OPPORTUNITY 40 %)
 5. **Validate** against fee constraints and diversification requirements
 
 ### 4. Data Sources Required (MVP)
