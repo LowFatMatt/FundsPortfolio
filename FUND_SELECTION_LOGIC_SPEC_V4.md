@@ -278,7 +278,7 @@ Round all allocations to whole percent (integer values). The largest allocation 
 | 1 | Fewer than 5 eligible funds after all filters | Relaxations are gated by `min_candidates` (default 0 = off). The portfolio then contains as many funds as eligible; trace carries a warning below 3 funds. Selection never reduces the count further (invariant, see Step 7). |
 | 2 | `etf_only` leaves fewer than 5 ETFs | Active-fund backfill, each labelled `etf_not_available`; relaxation entry `etf_only_fallback` in the trace. |
 | 3 | Strong regional preference | Quota `max_per_specific_region` = 2 per value enforced as skip; coverage-beats-quota breach possible and logged; count restored via `caps_relaxed` only when the universe forces it. |
-| 4 | Thematic funds increase portfolio risk | Handled structurally: satellites weigh ≥ 10 % each, satellite total ≤ profile cap (30 %, OPPORTUNITY 40 %), elevated-score weighting naturally down-weights lower scorers. (No per-theme MDD check is implemented.) |
+| 4 | Thematic funds increase portfolio risk | Handled structurally: satellites weigh ≥ 10 % each, satellite total ≤ profile cap (30 %, OPPORTUNITY 40 %), elevated-score weighting naturally down-weights lower scorers. Both constraints hold simultaneously because the floor is enforced per band (see Step 10); the trace flags `cap_breached_by_floor` in the rare infeasible corner. (No per-theme MDD check is implemented.) |
 | 5 | Many conflicting preferences / nearly empty intersection | Pass 1 covers every value that has a carrier anywhere; remaining slots fill with best funds; unsatisfiable values are logged (`coverage_unfulfillable`) with reason. No preference "hierarchy relaxation" is needed because no fund is ever evicted. |
 | 6 | More preferred values than slots | Values are satisfied in quality order of their best carrier; the rest surface as unfulfilled preference items in `preference_satisfaction` (7-item per-item report). |
 | 7 | All selected funds are pass-1 coverage picks AND all rank outside top 5 | All classified as satellites; if total exceeds the profile cap, the satellite band is capped there and allocations distributed proportionally within that band. Core band would be empty (special case: single-band allocation). |
@@ -351,6 +351,7 @@ Ranking candidates carry a status: `selected` (pass 2), `selected_pass1_coverage
 | **Satellite cap** | Global 30 % | **Per profile** (`risk_bands.SATELLITE_TOTAL_CAPS`): 30 % DEFENSIVE / BALANCED, **40 % OPPORTUNITY** (post-v4 tuning) |
 | **Sustainability funds** | Always satellite if theme set (even if top performer) | **Core if top-5 ranked** (v4: no allocation penalty for high-performing thematic funds) |
 | **Trace events** | Selection events only | *(v4 adds)* `core_satellite_classification` with reasoning |
+| **Floor enforcement** | Global water-filling pass (could silently lift the satellite total above its cap, e.g. 41.61 % observed in a real OPPORTUNITY portfolio) | **Per band** (post-v4 fix): sub-floor funds are lifted within their own band so band budgets — and the satellite cap — are preserved; global fallback only when a band's floors alone exceed its budget, flagged `cap_breached_by_floor` |
 | Selection | Two-pass additive | (unchanged) |
 | Scoring, filters, boosts | — | (unchanged from v3) |
 | Risk bands | Slide-8 values (BALANCED: SRRI 2–5, vol 5–15 %, MDD < 30 %) | **BALANCED tightened** (SRRI 2–4, vol 5–12 %, MDD < 20 %) post-v4 real-universe testing; DEFENSIVE / OPPORTUNITY unchanged |
@@ -374,8 +375,8 @@ Ranking candidates carry a status: `selected` (pass 2), `selected_pass1_coverage
    - Distribute proportionally by elevated score within each band
 
 3. **Step 10 — Floor:**
-   - Apply 10 % floor via water-filling
-   - Fall back to equal split if infeasible
+   - Apply 10 % floor via water-filling **within each band** (post-v4 fix: a sub-floor satellite is lifted by its band peers, so the satellite cap is preserved — regression-tested against the real 41.61 % breach case)
+   - Only if a band cannot cover its own floors, fall back to a single global pass and flag `cap_breached_by_floor` in the trace; equal split only if even that is infeasible
 
 4. **Step 11 — Rounding:**
    - Integer rounding, largest absorbs remainder
@@ -395,7 +396,7 @@ The v4 implementation should satisfy:
 1. **Classification correctness:** High-scoring sustainability funds selected in pass 1 are classified as core, not satellite
 2. **Allocation proportionality:** Core funds with higher elevated scores receive higher allocations (within constraints)
 3. **Satellite cap enforcement:** Total satellite allocation ≤ the profile cap (30 %; OPPORTUNITY 40 %) in all cases
-4. **Minimum floor:** Every fund ≥ 10 % (or equal split if infeasible)
+4. **Minimum floor:** Every fund ≥ 10 % (equal split if even the global fallback is infeasible); satellite cap holds unless the trace flags `cap_breached_by_floor`
 5. **Integer allocations:** All weights are whole percent, sum = 100 %
 6. **Count safety:** (unchanged) Portfolio always contains exactly `final_fund_count` (5) funds when universe permits
 7. **Trace completeness:** Classification reasoning logged for every fund
