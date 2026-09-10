@@ -25,6 +25,8 @@
   "ui.select_placeholder": "Select an option...",
   "ui.option_no_funds": "No matching funds in the universe",
   "ui.option_unavailable_answers": "Not available for your answers",
+  "ui.option_excluded_profile": "Not available for your selected risk approach",
+  "ui.gating_excluded_option_note": "For your risk approach, one or more options on this step are not offered: the remaining fund universe would be too small for a diversified portfolio.",
   "ui.gating_budget_note": "For your risk approach you can combine up to {total} region/theme selections in total ({used} already chosen in the other step).",
   "ui.gating_per_field_note": "For your risk approach you can select up to {max} option(s) here and the same number in the other category — up to {total} in total ({used} already chosen in the other step).",
   "ui.gating_max_note": "Based on your risk approach you can select up to {max} option(s).",

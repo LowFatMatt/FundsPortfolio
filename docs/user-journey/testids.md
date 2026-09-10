@@ -121,7 +121,7 @@ Status legend: **IMPLEMENTED-TODO** — screen exists in the prototype today; ad
 | `esg-details--popup` / `--popup-advisor` / `--popup-back` | S-13 | SPEC (universe-collapsed popup) |
 | `esg-details--continue` / `--back` | S-13 | SPEC |
 | `etf--root` / `--title` | S-14 | IMPLEMENTED-TODO (step `etf`) |
-| `etf--option-no_preference` / `--option-prefer_etf` / `--option-etf_only` | S-14 | IMPLEMENTED-TODO |
+| `etf--option-no_preference` / `--option-prefer_etf` / `--option-etf_only` | S-14 | IMPLEMENTED-TODO; `--option-etf_only` disabled-with-reason under DEF/BAL ([D-19](README.md#d-19)) |
 | `etf--info-no_preference` / `--info-prefer_etf` / `--info-etf_only` | S-14 | SPEC |
 | `etf--continue` / `--back` | S-14 | IMPLEMENTED-TODO |
 

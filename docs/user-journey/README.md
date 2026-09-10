@@ -294,6 +294,11 @@ Slides 31/35 (`InvestmentObjectiveCapitalGrowth`: Vererben/verschenken, Optimier
 #### D-18 — Four colour themes via URL
 PPT slides 1–2: *"Ab Start 4 Farbthemes benötigt (Provinzial Grün, Provinzial Blau, HFK Rot, Sparkassen Rot). Über URL geregelt, sodass bei Absprung aus Tarifrechner die gleiche Farbe angezeigt werden kann."* **Prototype:** [`brand/`](../../brand/) has default + dark via `BRAND` env, not URL-switchable. Out of click-flow scope but the **URL parameter contract** (channel + theme) belongs to the entry-channel decision [D-10](#d-10).
 
+<a id="d-19"></a>
+#### D-19 — ETF-only (`etf_only`) under DEFENSIVE / BALANCED — **RESOLVED (2026-09-10)**
+- **Problem:** `etf_only` was offered for every risk profile, but the ETF-only universe inside the risk bands collapses: DEFENSIVE leaves **1 of 4** in-band funds (zero theme breadth, `esg8_9+etf` empty) and BALANCED **13 of 32** (themes reduced to Sustainability/Water — the D-03 composition "1 region + 1 theme" is un-honorable for most themes). A strict choice the engine could not honor — the same UX lesson as D-03: never offer choices that cannot be honored.
+- **Decision taken:** `etf_only` is **excluded from the answer space** under DEFENSIVE and BALANCED via `preference_gating.option_exclusions_by_profile` in [`preferences_schema.json`](../../preferences_schema.json) (L0 gating; `option_fallbacks` downgrades stale `etf_only` → `prefer_etf` at submission boundaries). OPPORTUNITY keeps all three ETF options. Resolved in [`feasibility.py`](../../funds_portfolio/dialog/feasibility.py) (`excluded_options()` resolver + soft warning), [`app.js`](../../static/js/app.js) (disabled-with-reason card, section note, prune on back-navigation, defensive downgrade) — engine untouched (soft philosophy).
+
 ---
 
 ## Open spec questions (verbatim from sources, unanswered)
@@ -314,6 +319,6 @@ PPT slides 1–2: *"Ab Start 4 Farbthemes benötigt (Provinzial Grün, Provinzia
 ## Next steps suggested by this distillation
 
 1. Resolve D-01, D-02, D-04, D-05 (budget family) — D-03 is **resolved** (per-field caps, 2026-09-10).
-2. Decide D-06 (OPP bound) and D-08 (ETF audience) — one-line engine/schema changes each.
+2. Decide D-06 (OPP bound) and D-08 (ETF audience) — one-line engine/schema changes each. (D-19 — ETF-only under DEF/BAL — is **resolved**, 2026-09-10.)
 3. Add `data-testid` attributes per [`testids.md`](testids.md) while porting screens — the inventory doubles as the implementation checklist (all rows currently `SPEC` or `IMPLEMENTED-TODO`).
 4. Model `entry_channel` (D-10/D-18) before A&G work (D-11), since the skip rule reorders the whole head of the journey.

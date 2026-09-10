@@ -10,6 +10,13 @@
           "BALANCED": { "preferred_regions": 1, "preferred_themes": 1 }
         }
       },
+      "option_exclusions_by_profile": {
+        "DEFENSIVE": { "etf_preference": ["etf_only"] },
+        "BALANCED": { "etf_preference": ["etf_only"] }
+      },
+      "option_fallbacks": {
+        "etf_only": "prefer_etf"
+      },
       "answer_to_profile": {
         "conservative": "DEFENSIVE",
         "moderate": "BALANCED",

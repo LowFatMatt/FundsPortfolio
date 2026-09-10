@@ -17,6 +17,14 @@ Scope (v2):
   regions/themes in schema order and in both flow variants) and disables
   chips whose count is zero. No dynamic endpoint needed; the loader
   recomputes on funds-DB refresh.
+* L0 — option exclusions: whole answer options can be removed from the
+  answer space per risk profile (``option_exclusions_by_profile``).
+  Currently ``etf_only`` is excluded for DEFENSIVE and BALANCED: the
+  ETF-only universe inside those bands is too small for diversified
+  selection (data check 2026-09-10: DEFENSIVE etf_only leaves 1 of 4
+  in-band funds, BALANCED 13 of 32 with collapsed theme breadth) and
+  ``esg8_9+etf`` is empty for DEFENSIVE — a choice the engine could not
+  honor (resolves user-journey decision D-19).
 * L1 — combined cardinality: ONE budget across themes + regions,
   DEFENSIVE 1 / BALANCED 2 / OPPORTUNITY 3 (per-section ``max`` remains an
   additional cap), plus an optional per-field cap vector
@@ -100,6 +108,22 @@ DEFAULT_MAX_BY_PROFILE: Dict[str, int] = {
 DEFAULT_PER_FIELD_MAX_BY_PROFILE: Dict[str, Dict[str, int]] = {
     "BALANCED": {"preferred_regions": 1, "preferred_themes": 1},
 }
+
+# Fallback option exclusions (L0) when the schema's preference_gating block
+# is absent: ``etf_only`` is not offered under DEFENSIVE/BALANCED — see the
+# module docstring for the data rationale. Profiles without an entry keep
+# every option. Mirrored in the schema's
+# ``preference_gating.option_exclusions_by_profile``.
+DEFAULT_EXCLUDED_OPTIONS_BY_PROFILE: Dict[str, Dict[str, List[str]]] = {
+    "DEFENSIVE": {"etf_preference": ["etf_only"]},
+    "BALANCED": {"etf_preference": ["etf_only"]},
+}
+
+# Fallback downgrade map for defensive trims: when a stored/prefilled answer
+# carries an excluded value (legacy portfolio, deep-link, back-navigation),
+# it is replaced by this fallback before submission. Mirrored in the
+# schema's ``preference_gating.option_fallbacks``.
+DEFAULT_OPTION_FALLBACKS: Dict[str, str] = {"etf_only": "prefer_etf"}
 
 # The no-preference placeholder — valid answer, never gated, never counted.
 THEME_NONE = "none"
@@ -262,6 +286,46 @@ def per_field_budget(
     return int(value) if isinstance(value, (int, float)) else None
 
 
+def excluded_options(
+    gating: Optional[Dict[str, Any]], risk_answer: Any, field: str
+) -> List[str]:
+    """Option values excluded from the answer space (L0) for the risk answer.
+
+    ``gating`` is the questionnaire-level ``preference_gating`` block; the
+    optional ``option_exclusions_by_profile`` maps profile → field → list of
+    excluded option values. When the block or the profile entry is absent
+    the module defaults apply (DEF/BAL: ``etf_only`` excluded; OPP: none).
+    """
+    profile = risk_profile_for_answer(risk_answer)
+    if profile is None:
+        return []
+    declared = (gating or {}).get("option_exclusions_by_profile") or {}
+    defaults_map = DEFAULT_EXCLUDED_OPTIONS_BY_PROFILE.get(profile) or {}
+    # Per-field fallback (mirrors per_field_budget): a declaration that
+    # overrides one field never blanks the others.
+    per_profile = declared.get(profile)
+    values = per_profile.get(field) if isinstance(per_profile, dict) else None
+    if values is None:
+        values = defaults_map.get(field)
+    if not isinstance(values, list):
+        return []
+    return [str(v) for v in values]
+
+
+def option_fallback(gating: Optional[Dict[str, Any]], value: Any) -> str:
+    """Downgrade target for an excluded option value (defensive trim).
+
+    ``gating`` is the questionnaire-level ``preference_gating`` block; the
+    optional ``option_fallbacks`` maps value → replacement. Values without a
+    declared or default fallback are returned unchanged.
+    """
+    raw = str(value or "").strip()
+    if not raw:
+        return raw
+    declared = (gating or {}).get("option_fallbacks") or {}
+    return str(declared.get(raw) or DEFAULT_OPTION_FALLBACKS.get(raw) or raw)
+
+
 def selected_values(answers: Dict[str, Any], field: str) -> List[str]:
     """Normalised selected values of a multi-select answer field."""
     raw = answers.get(field)
@@ -343,6 +407,19 @@ def feasibility_warnings(
                 f"({band_desc}){filter_desc}; "
                 "the selection engine cannot honor this preference"
             )
+
+    # L0 exclusions: values the answer space never offered for this profile
+    # (etf_only under DEFENSIVE/BALANCED) — legacy/prefilled answers only.
+    etf_answer = str(answers.get(ETF_FIELD) or "").strip()
+    if etf_answer and etf_answer in excluded_options(
+        None, answers.get(RISK_FIELD), ETF_FIELD
+    ):
+        warnings.append(
+            f'"etf_preference" = "{etf_answer}" is excluded for the {profile} '
+            "risk approach (the ETF-only universe inside this risk band is too "
+            "small for diversified selection); such answers are downgraded to "
+            f'"{option_fallback(None, etf_answer)}"'
+        )
 
     budget = combined_budget(None, answers.get(RISK_FIELD))
     total = combined_selection_count(answers)

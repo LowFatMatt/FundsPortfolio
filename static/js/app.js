@@ -305,6 +305,27 @@ document.addEventListener('DOMContentLoaded', () => {
         return perProfile[field];
     }
 
+    // Excluded option values (L0) for a section under the profile, or [].
+    // Schema block: preference_gating.option_exclusions_by_profile —
+    // etf_only is not offered under DEFENSIVE/BALANCED (the ETF-only
+    // universe inside those risk bands is too small for a diversified
+    // selection; resolves user-journey decision D-19).
+    function excludedOptions(profile, sectionId) {
+        const map =
+            (preferenceGating && preferenceGating.option_exclusions_by_profile) || {};
+        const perProfile = map[profile];
+        return perProfile && Array.isArray(perProfile[sectionId])
+            ? perProfile[sectionId].map(String)
+            : [];
+    }
+
+    // Downgrade target for an excluded option value (defensive trims).
+    function optionFallback(value) {
+        const map = (preferenceGating && preferenceGating.option_fallbacks) || {};
+        const raw = String(value == null ? '' : value).trim();
+        return map[raw] || raw;
+    }
+
     // Decorated shallow copy with gating applied (or the section unchanged).
     function applyGating(section) {
         const profile = gatingProfile();
@@ -315,6 +336,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const isBudgetSection = !!(budget && (budget.fields || []).includes(section.id));
 
         const options = (section.options || []).map(opt => {
+            if (excludedOptions(profile, section.id).includes(String(opt.value))) {
+                // L0 exclusion: never offered under this risk approach —
+                // disabled-with-reason via the shared gated rendering path.
+                return { ...opt, gated_unavailable: true, gated_reason: 'excluded' };
+            }
             const perProfile = (opt.feasible || {})[profile];
             if (!perProfile || perProfile[combo] == null || perProfile[combo] > 0) return opt;
             // Zero under the live combination. Distinguish "never in the
@@ -325,6 +351,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         const out = { ...section, options, gated_profile: profile };
+        const exclusions = excludedOptions(profile, section.id);
+        if (exclusions.length) out.excluded_options = exclusions;
 
         // Shared budget: this section's effective cap is the remaining
         // budget after the other budget sections' selections; the static
@@ -350,6 +378,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // Disabled-option reason text: distinguishes "no funds in the universe
     // at all" from "none under your current answers".
     function gatedReasonText(opt) {
+        if (opt.gated_reason === 'excluded') {
+            return t('ui.option_excluded_profile',
+                'Not available for your selected risk approach');
+        }
         return opt.gated_reason === 'no_funds'
             ? t('ui.option_no_funds', 'No matching funds in the universe')
             : t('ui.option_unavailable_answers', 'Not available for your answers');
@@ -460,6 +492,15 @@ document.addEventListener('DOMContentLoaded', () => {
         // approach (L1 cardinality shaping). A per-field composition cap
         // (BALANCED: max 1 per dimension) gets its own clearer wording.
         if (section.gated_profile) {
+            if (section.excluded_options && section.excluded_options.length) {
+                // L0 exclusion note: explains why a card on this step is
+                // disabled (e.g. "ETFs only" under DEFENSIVE/BALANCED).
+                const ex = document.createElement('p');
+                ex.className   = 'field-gating-note';
+                ex.textContent = t('ui.gating_excluded_option_note',
+                    'For your risk approach, one or more options on this step are not offered: the remaining fund universe would be too small for a diversified portfolio.');
+                group.appendChild(ex);
+            }
             let text = null;
             if (section.per_field_max != null) {
                 text = t('ui.gating_per_field_note',
@@ -564,6 +605,19 @@ document.addEventListener('DOMContentLoaded', () => {
             title.className   = 'question-card__title';
             title.textContent = opt.label;
             card.appendChild(title);
+
+            // Gated (L0 exclusion / infeasible under the live answers):
+            // render disabled-with-reason, never interactive — mirrors the
+            // multi-card and chip renderers (single-select sections like
+            // etf_preference previously bypassed gating entirely).
+            if (opt.gated_unavailable) {
+                card.classList.add('question-card--disabled');
+                card.title = gatedReasonText(opt);
+                card.setAttribute('aria-disabled', 'true');
+                radio.disabled = true;
+                grid.appendChild(card);
+                return;
+            }
 
             // Click handler
             card.addEventListener('click', () => {
@@ -823,7 +877,9 @@ document.addEventListener('DOMContentLoaded', () => {
         clearResults();
         setLoadingState(true);
 
-        const userAnswers = gatherAnswers(qForm);
+        // Defensive net: replace values the live risk profile excludes
+        // (e.g. a stale etf_only after a resume with a DEFENSIVE profile).
+        const userAnswers = applyOptionExclusions(gatherAnswers(qForm));
 
         const payload = { user_answers: userAnswers, language: currentLang };
         if (currentPortfolioId) payload.portfolio_id = currentPortfolioId;
@@ -1514,6 +1570,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             } else if (elements[0].type === 'radio') {
                 elements.forEach(radio => {
+                    // Never (pre-)select a gated option — e.g. a stale
+                    // etf_only under DEFENSIVE/BALANCED must not re-appear
+                    // as selected on a disabled card after a re-render.
+                    if (radio.disabled) return;
                     radio.checked = radio.value === value;
                     const card = radio.closest('.question-card');
                     if (card) card.classList.toggle('selected', radio.checked);
@@ -1755,6 +1815,24 @@ document.addEventListener('DOMContentLoaded', () => {
         return out;
     }
 
+    // Defensive net at submission boundaries: replace single-select values the
+    // current risk profile excludes (stale resume data, races) with their
+    // fallback. Mirrors the server's soft warning for direct API callers.
+    function applyOptionExclusions(answers) {
+        const profile = gatingProfile();
+        if (!profile) return answers;
+        const out = { ...answers };
+        questionnaireSections.forEach(sec => {
+            const excluded = excludedOptions(profile, sec.id);
+            if (!excluded.length) return;
+            const val = out[sec.id];
+            if (val != null && excluded.includes(String(val))) {
+                out[sec.id] = optionFallback(val);
+            }
+        });
+        return out;
+    }
+
     // Defensive net at the flow boundary: never send theme/region selections
     // the current answers render infeasible (stale resume data, races).
     // The server independently logs soft warnings for direct API callers.
@@ -1764,8 +1842,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const combo = liveComboKey();
         const budget = budgetConfig();
         const fields = (budget && budget.fields) || [];
-        if (!fields.length) return answers;
-        const out = { ...answers };
+        // L0 exclusions first (single-select downgrade), then budget fields.
+        const out = applyOptionExclusions(answers);
+        if (!fields.length) return out;
         fields.forEach(field => {
             const sec = questionnaireSections.find(s => s.id === field);
             const values = out[field];

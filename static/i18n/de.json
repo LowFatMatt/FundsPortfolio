@@ -25,6 +25,8 @@
   "ui.select_placeholder": "Option auswählen ...",
   "ui.option_no_funds": "Keine passenden Fonds im Universum",
   "ui.option_unavailable_answers": "Für Ihre Antworten nicht verfügbar",
+  "ui.option_excluded_profile": "Für Ihren gewählten Anlageansatz nicht verfügbar",
+  "ui.gating_excluded_option_note": "Für Ihren Anlageansatz werden einzelne Optionen auf diesem Schritt nicht angeboten: Die verbleibende Fondsauswahl wäre zu klein für ein diversifiziertes Portfolio.",
   "ui.gating_budget_note": "Basierend auf Ihrem Anlageansatz können Sie insgesamt {total} Regionen/Themen kombinieren ({used} bereits im anderen Schritt gewählt).",
   "ui.gating_per_field_note": "Basierend auf Ihrem Anlageansatz können Sie hier bis zu {max} Option(en) wählen und ebenso viele in der anderen Kategorie – insgesamt bis zu {total} ({used} bereits im anderen Schritt gewählt).",
   "ui.gating_max_note": "Basierend auf Ihrem Anlageansatz können Sie bis zu {max} Option(en) auswählen.",

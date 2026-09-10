@@ -290,6 +290,83 @@ def test_warnings_opportunity_two_regions_stay_silent(funds):
     assert not any("composition" in w for w in warnings)
 
 
+# --- option exclusions (L0, D-19: etf_only under DEFENSIVE/BALANCED) ------------
+
+
+def test_excluded_options_defaults():
+    """etf_only is never offered under DEFENSIVE/BALANCED; OPP keeps every
+    option; unknown answers and other fields are unaffected."""
+    assert feas.excluded_options(None, "conservative", "etf_preference") == ["etf_only"]
+    assert feas.excluded_options(None, "moderate", "etf_preference") == ["etf_only"]
+    assert feas.excluded_options(None, "aggressive", "etf_preference") == []
+    assert feas.excluded_options(None, "unknown-answer", "etf_preference") == []
+    assert feas.excluded_options(None, "conservative", "esg_preference") == []
+
+
+def test_excluded_options_respects_gating_block():
+    gating = {
+        "option_exclusions_by_profile": {
+            # Declared empty list overrides the default for BALANCED.
+            "BALANCED": {"etf_preference": []},
+        }
+    }
+    assert feas.excluded_options(gating, "moderate", "etf_preference") == []
+    # DEFENSIVE keeps its default via per-field fallback.
+    assert feas.excluded_options(gating, "conservative", "etf_preference") == ["etf_only"]
+    # OPPORTUNITY is unaffected either way.
+    assert feas.excluded_options(gating, "aggressive", "etf_preference") == []
+
+
+def test_option_fallback_defaults_and_override():
+    assert feas.option_fallback(None, "etf_only") == "prefer_etf"
+    assert feas.option_fallback(None, "no_preference") == "no_preference"
+    assert feas.option_fallback(None, None) == ""
+    assert (
+        feas.option_fallback(
+            {"option_fallbacks": {"etf_only": "no_preference"}}, "etf_only"
+        )
+        == "no_preference"
+    )
+
+
+def test_warnings_defensive_etf_only_excluded(funds):
+    """Legacy/prefilled etf_only under DEFENSIVE: soft warning with the
+    downgrade target (the SPA downgrades before submission)."""
+    answers = {
+        "risk_approach": "conservative",
+        "esg_preference": "NONE",
+        "etf_preference": "etf_only",
+    }
+    warnings = feas.feasibility_warnings(answers, funds)
+    assert any(
+        '"etf_preference"' in w
+        and "etf_only" in w
+        and "DEFENSIVE" in w
+        and "prefer_etf" in w
+        for w in warnings
+    )
+
+
+def test_warnings_balanced_etf_only_excluded(funds):
+    answers = {
+        "risk_approach": "moderate",
+        "esg_preference": "NONE",
+        "etf_preference": "etf_only",
+    }
+    warnings = feas.feasibility_warnings(answers, funds)
+    assert any("etf_only" in w and "BALANCED" in w for w in warnings)
+
+
+def test_warnings_opportunity_etf_only_allowed(funds):
+    answers = {
+        "risk_approach": "aggressive",
+        "esg_preference": "NONE",
+        "etf_preference": "etf_only",
+    }
+    warnings = feas.feasibility_warnings(answers, funds)
+    assert not any("excluded" in w for w in warnings)
+
+
 # --- availability checks (L2) --------------------------------------------------
 
 
@@ -360,10 +437,12 @@ def test_feasibility_warnings_budget_violation(funds):
 
 
 def test_feasibility_warnings_feasible_answers_are_silent(funds):
+    # D-19: etf_only is no longer silent under DEFENSIVE — the feasible
+    # variant of the same ESG-strict combination uses prefer_etf instead.
     answers = {
         "risk_approach": "conservative",
         "esg_preference": "ART_8_9_ONLY",
-        "etf_preference": "etf_only",
+        "etf_preference": "prefer_etf",
         "preferred_themes": ["sustainability"],
         "preferred_regions": [],
     }
@@ -379,7 +458,12 @@ MINIMAL_SCHEMA = {
             "budget": {
                 "fields": ["preferred_regions", "preferred_themes"],
                 "max_by_profile": {"DEFENSIVE": 1, "BALANCED": 2, "OPPORTUNITY": 3},
-            }
+            },
+            "option_exclusions_by_profile": {
+                "DEFENSIVE": {"etf_preference": ["etf_only"]},
+                "BALANCED": {"etf_preference": ["etf_only"]},
+            },
+            "option_fallbacks": {"etf_only": "prefer_etf"},
         },
         "sections": [
             {
@@ -442,11 +526,21 @@ def test_loader_serves_preference_gating_block(tmp_path, funds):
         "BALANCED": 2,
         "OPPORTUNITY": 3,
     }
+    assert served["preference_gating"]["option_exclusions_by_profile"] == {
+        "DEFENSIVE": {"etf_preference": ["etf_only"]},
+        "BALANCED": {"etf_preference": ["etf_only"]},
+    }
+    assert served["preference_gating"]["option_fallbacks"] == {
+        "etf_only": "prefer_etf",
+    }
     translated = loader.get_questionnaire(language="de")
     assert translated["preference_gating"]["budget"]["fields"] == [
         "preferred_regions",
         "preferred_themes",
     ]
+    assert translated["preference_gating"]["option_fallbacks"] == {
+        "etf_only": "prefer_etf",
+    }
 
 
 # --- engine regression: shared modules keep the backstop identical ---------------

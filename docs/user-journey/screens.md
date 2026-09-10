@@ -372,7 +372,7 @@ Legend for interaction tables — **testid** omits the `data-testid` attribute n
 - **Intent:** ETF stance — none / prefer / only (drives the eligibility filter).
 - **Entry:** `esg-basic` or `esg-details`.
 - **Exit:** → `customer-type`.
-- **Gating:** **unresolved** — PDF annotates `only for "Komfort"` but PPT 19 and both flow variants ask everyone ([D-08](README.md#d-08)).
+- **Gating:** **unresolved (audience)** — PDF annotates `only for "Komfort"` but PPT 19 and both flow variants ask everyone ([D-08](README.md#d-08)). **Resolved (risk):** the `etf_only` option renders disabled-with-reason when the risk approach is DEFENSIVE/BALANCED — the ETF-only universe inside those bands is too small for a diversified selection ([D-19](README.md#d-19)).
 
 | Element | testid | Spec |
 |--------|--------|------|
@@ -384,7 +384,7 @@ Legend for interaction tables — **testid** omits the `data-testid` attribute n
 | Info popovers | `etf--info-{no_preference\|etf_only\|prefer_etf}` | 3 mouseover texts (PPT 19): only = *"…nur aus kostengünstigen, passiv gemanagten Fonds (ETFs/Indexfonds)…"*; prefer = *"…zentrale Rolle und werden bevorzugt eingesetzt. Ergänzend können aktiv gemanagte Fonds hinzukommen…"*; none = *"…keine besondere Präferenz… flexibel kombinieren."* |
 | Continue / Back | `etf--continue` / `etf--back` | |
 
-**Prototype delta:** 3 options implemented (`etf_preference`); no popovers.
+**Prototype delta:** 3 options implemented (`etf_preference`); no popovers; `etf_only` gated per risk approach ([D-19](README.md#d-19)).
 
 ---
 

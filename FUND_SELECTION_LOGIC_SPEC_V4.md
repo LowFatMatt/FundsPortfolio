@@ -41,7 +41,7 @@ ESG is a single three-case preference (`esg_preference`); Article 8 and 9 count 
 
 ### Step 2 — ETF Preference Filter
 
-- **`etf_only`** — hard filter: keep only `is_etf` funds. If fewer than 5 ETFs remain after all filters, the ETF-only fallback (Step 7, end) fills the remaining positions with active funds.
+- **`etf_only`** — hard filter: keep only `is_etf` funds. If fewer than 5 ETFs remain after all filters, the ETF-only fallback (Step 7, end) fills the remaining positions with active funds. *Answer-space note (2026-09-10, user-journey decision D-19):* the dialog no longer offers `etf_only` under DEFENSIVE/BALANCED (`preference_gating.option_exclusions_by_profile`) — inside those bands the ETF-only universe is too small for a diversified selection (1 of 4 / 13 of 32 in-band funds).
 - **`prefer_etf`** — no exclusion; ETFs get a scoring boost (Step 6).
 - **`no_preference`** — no action.
 
