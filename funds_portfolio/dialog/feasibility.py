@@ -248,13 +248,17 @@ def per_field_budget(
     declared = (
         (gating or {}).get("budget", {}).get("per_field_max_by_profile") or {}
     )
-    # Per-profile fallback so a partial declaration never blanks the others.
-    per_profile = declared.get(profile) or DEFAULT_PER_FIELD_MAX_BY_PROFILE.get(
-        profile
+    defaults = DEFAULT_PER_FIELD_MAX_BY_PROFILE.get(profile) or {}
+    # Per-field fallback (mirrors combined_budget's per-profile fallback):
+    # a declaration that overrides one field never blanks the others.
+    per_profile = declared.get(profile)
+    value = (
+        per_profile.get(field)
+        if isinstance(per_profile, dict)
+        else None
     )
-    if not isinstance(per_profile, dict):
-        return None
-    value = per_profile.get(field)
+    if value is None:
+        value = defaults.get(field)
     return int(value) if isinstance(value, (int, float)) else None
 
 

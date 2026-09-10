@@ -163,18 +163,23 @@ answer (e.g. Komfort vs. Aktiv) is made on the very step that governs it.
 **Feasibility gating metadata** (both modes, served with the questionnaire):
 the questionnaire root carries a `preference_gating` block —
 `{ budget: { fields: [...], max_by_profile: {DEFENSIVE: 1, BALANCED: 2,
-OPPORTUNITY: 3} }, answer_to_profile: {...}, filters: [{field, value,
+OPPORTUNITY: 3}, per_field_max_by_profile: {BALANCED: {preferred_regions: 1,
+preferred_themes: 1}} }, answer_to_profile: {...}, filters: [{field, value,
 combo_key}] }` — and every region/theme option carries `feasible`:
 precomputed fund counts per (risk profile × `esg8_9` × `etf` filter
 combination). The SPA resolves the live combination from the answers
 (risk/ESG/ETF questions precede regions/themes in every flow), renders
 options with zero funds as **disabled-with-reason** (never hidden), and caps
-combined region+theme selections at the profile budget (per-section `max`
-stays an additional cap). Back-navigation prunes now-infeasible and
-over-budget selections with a visible notice; the flow submit drops
-infeasible values defensively. Direct API calls are never rejected —
-infeasible answers produce soft warnings in the portfolio logs. Counts are
-derived from the live funds DB by
+combined region+theme selections at the profile budget. The optional
+`per_field_max_by_profile` vector adds per-dimension composition caps
+(BALANCED: max 1 region and max 1 theme — the only 2-selection composition
+is 1R+1T; resolves user-journey decision D-03); the effective per-section
+cap is `min(per-section max, remaining budget, per-field cap)`, so profiles
+without a per-field entry keep the pure shared budget. Back-navigation
+prunes now-infeasible and over-budget selections with a visible notice; the
+flow submit drops infeasible and over-cap values defensively. Direct API
+calls are never rejected — infeasible answers produce soft warnings in the
+portfolio logs. Counts are derived from the live funds DB by
 [`funds_portfolio/dialog/feasibility.py`](../funds_portfolio/dialog/feasibility.py),
 which shares its band/filter semantics with the engine (no drift possible).
 

@@ -446,7 +446,7 @@ Legend for interaction tables — **testid** omits the `data-testid` attribute n
 - **Intent:** pick the regional focus (multi-select with budget).
 - **Entry:** `region-gate` = Ja. PDF: `only "Ja"`.
 - **Exit:** → `theme-gate`.
-- **Gating:** max **1** per spec (*"Maximal 1 Regionen auswählbar"*, PPT 22) vs. prototype `max: 2` ([D-01](README.md#d-01)). DEFENSIVE excludes `asia` + `emerging_markets` per PPT 22 ([D-05](README.md#d-05)). Cross-dimension budget DEF 1 / BAL 2 / OPP 3 (implemented in schema + [`app.js`](../../static/js/app.js)).
+- **Gating:** max **1** per spec (*"Maximal 1 Regionen auswählbar"*, PPT 22) vs. prototype `max: 2` ([D-01](README.md#d-01)). DEFENSIVE excludes `asia` + `emerging_markets` per PPT 22 ([D-05](README.md#d-05)). Cross-dimension budget DEF 1 / BAL 2 / OPP 3 plus BALANCED per-field composition cap (`preferred_regions ≤ 1` — the only 2-selection composition is 1 region + 1 theme, [D-03 RESOLVED](README.md#d-03); implemented in schema + [`app.js`](../../static/js/app.js)).
 
 | Element | testid | Spec |
 |--------|--------|------|
@@ -497,7 +497,7 @@ Legend for interaction tables — **testid** omits the `data-testid` attribute n
 - **Intent:** pick up to N thematic satellites.
 - **Entry:** `theme-gate` = Ja. PDF: `only "Ja"`.
 - **Exit:** → `result`.
-- **Gating:** *"Maximal 2 Themen auswählbar"* (prototype `max: 2` ✔). DEFENSIVE: **no themes at all** (PPT 24) vs. budget 1 ([D-02](README.md#d-02)). Budget family → [D-03](README.md#d-03)/[D-04](README.md#d-04). Label/value mapping → [D-07](README.md#d-07).
+- **Gating:** *"Maximal 2 Themen auswählbar"* (prototype `max: 2` ✔). DEFENSIVE: **no themes at all** (PPT 24) vs. budget 1 ([D-02](README.md#d-02)). BALANCED per-field composition cap: `preferred_themes ≤ 1` — only 1 theme + 1 region ([D-03 RESOLVED](README.md#d-03)); OPPORTUNITY stays 2+1 or 1+2 ([D-04](README.md#d-04)). Label/value mapping → [D-07](README.md#d-07).
 
 | Element | testid | Spec |
 |--------|--------|------|

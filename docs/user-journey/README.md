@@ -173,7 +173,7 @@ Each item states: divergence, sources, current prototype behaviour, and the deci
 
 > *"Anzahl der möglichen Präferenzen (Region und Thema) abhängig von Risikoprofil. Defensiv max. 1; Ausgewogen max. 2 (je max. 1 Region und max. 1 Thema); Chancenorientiert max. 3 (egal ob 2 Regionen und 1 Thema oder 1 Region und 2 Themen)."*
 
-The prototype implements a **cross-dimension budget** in [`preferences_schema.json`](../../preferences_schema.json) `preference_gating` (`max_by_profile: DEFENSIVE 1 / BALANCED 2 / OPPORTUNITY 3`, enforced in [`app.js`](../../static/js/app.js) with drop-from-end semantics) plus **per-section** `max` (regions 2, themes 2). The per-dimension composition rules are **not** encoded.
+The prototype implements a **cross-dimension budget** in [`preferences_schema.json`](../../preferences_schema.json) `preference_gating` (`max_by_profile: DEFENSIVE 1 / BALANCED 2 / OPPORTUNITY 3`, enforced in [`app.js`](../../static/js/app.js) with drop-from-end semantics) plus **per-section** `max` (regions 2, themes 2). The per-dimension composition rules **are now encoded** as an optional `budget.per_field_max_by_profile` vector (2026-09-10, resolving [D-03](#d-03): BALANCED caps regions and themes at 1 each — the only 2-selection composition is 1 region + 1 theme, matching user expectations from UX tests; DEF/OPP stay pure shared budgets).
 
 <a id="d-01"></a>
 #### D-01 — Regions max: spec 1 vs. schema 2
@@ -188,10 +188,10 @@ The prototype implements a **cross-dimension budget** in [`preferences_schema.js
 - **Decision:** encode `themes_max_by_profile: DEFENSIVE 0` (or a general per-field budget vector) vs. accept 1 theme for DEF.
 
 <a id="d-03"></a>
-#### D-03 — BALANCED composition: 1 Region + 1 Thema only
+#### D-03 — BALANCED composition: 1 Region + 1 Thema only — **RESOLVED (2026-09-10)**
 - **Spec:** *"Ausgewogen max. 2 (je max. 1 Region und max. 1 Thema)"* → only 1R+1T.
-- **Prototype:** allows 2R+0T and 0R+2T (per-section `max: 2`, budget 2).
-- **Decision:** per-field caps (`regions ≤ 1 ∧ themes ≤ 1` for BAL) vs. generic budget.
+- **Former prototype behaviour:** allowed 2R+0T and 0R+2T (per-section `max: 2`, budget 2).
+- **Decision taken:** per-field caps — `budget.per_field_max_by_profile: BALANCED {regions ≤ 1, themes ≤ 1}` in [`preferences_schema.json`](../../preferences_schema.json), enforced in [`app.js`](../../static/js/app.js) (effective cap = min(per-section `max`, remaining budget, per-field cap)) and in [`feasibility.py`](../../funds_portfolio/dialog/feasibility.py) (soft warnings for direct-API over-selection; direct calls stay valid). Confirmed by UX tests (2026-09): users expect exactly 1 region + 1 theme; 2 of one kind was never understood. Minimums are deliberately **not** enforced — 1R+0T and 0R+1T remain valid ("up to", matching the DEFENSIVE mental model).
 
 <a id="d-04"></a>
 #### D-04 — OPPORTUNITY composition
@@ -313,7 +313,7 @@ PPT slides 1–2: *"Ab Start 4 Farbthemes benötigt (Provinzial Grün, Provinzia
 
 ## Next steps suggested by this distillation
 
-1. Resolve D-01…D-05 (budget family) — they block the final gating metadata and tests.
+1. Resolve D-01, D-02, D-04, D-05 (budget family) — D-03 is **resolved** (per-field caps, 2026-09-10).
 2. Decide D-06 (OPP bound) and D-08 (ETF audience) — one-line engine/schema changes each.
 3. Add `data-testid` attributes per [`testids.md`](testids.md) while porting screens — the inventory doubles as the implementation checklist (all rows currently `SPEC` or `IMPLEMENTED-TODO`).
 4. Model `entry_channel` (D-10/D-18) before A&G work (D-11), since the skip rule reorders the whole head of the journey.

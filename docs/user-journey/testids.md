@@ -141,7 +141,7 @@ Status legend: **IMPLEMENTED-TODO** — screen exists in the prototype today; ad
 | `regions--option-germany` / `--option-europe` / `--option-north_america` | S-17 | IMPLEMENTED-TODO |
 | `regions--option-asia` / `--option-emerging_markets` | S-17 | IMPLEMENTED-TODO (DEF hard-disable pending [D-05](README.md#d-05)) |
 | `regions--option-{value}-disabled-reason` | S-17 | SPEC |
-| `regions--note-max` / `--note-budget` | S-17 | budget note IMPLEMENTED-TODO; wording per [D-01](README.md#d-01) pending |
+| `regions--note-max` / `--note-budget` | S-17 | budget note IMPLEMENTED-TODO; wording per [D-01](README.md#d-01) pending; BALANCED composition note (max 1 per dimension, [D-03 RESOLVED](README.md#d-03)) |
 | `regions--continue` / `--back` | S-17 | IMPLEMENTED-TODO |
 | `theme-gate--root` / `--title` | S-18 | IMPLEMENTED-TODO in variant B (step `themes_gate`); SPEC for variant A |
 | `theme-gate--option-ja` / `--option-nein` | S-18 | IMPLEMENTED-TODO (B) |
@@ -150,7 +150,7 @@ Status legend: **IMPLEMENTED-TODO** — screen exists in the prototype today; ad
 | `themes--root` / `--title` | S-19 | IMPLEMENTED-TODO (step `themes`) |
 | `themes--option-commodities` / `--option-sustainability` / `--option-megatrends` / `--option-healthcare` / `--option-infrastructure` / `--option-ai_robotics` / `--option-defense` / `--option-water` / `--option-technology` / `--option-dividends` | S-19 | IMPLEMENTED-TODO (names per [D-07](README.md#d-07)) |
 | `themes--info-{value}` × 10 | S-19 | SPEC |
-| `themes--note-max` / `--note-budget` | S-19 | budget note IMPLEMENTED-TODO; DEF 0-theme rule pending [D-02](README.md#d-02) |
+| `themes--note-max` / `--note-budget` | S-19 | budget note IMPLEMENTED-TODO; DEF 0-theme rule pending [D-02](README.md#d-02); BALANCED composition note (max 1 per dimension, [D-03 RESOLVED](README.md#d-03)) |
 | `themes--continue` / `--back` | S-19 | IMPLEMENTED-TODO |
 
 ### Result surface

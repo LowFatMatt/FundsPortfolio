@@ -193,6 +193,103 @@ def test_combined_selection_count_ignores_placeholders():
     assert feas.combined_selection_count(answers) == 3
 
 
+# --- per-field composition cap (L1, D-03) -------------------------------------
+
+
+def test_per_field_budget_defaults():
+    # BALANCED: regions/themes ≤ 1 each (the only 2-selection composition is
+    # 1 region + 1 theme). DEF/OPP and unknown answers have no per-field cap.
+    assert feas.per_field_budget(None, "moderate", "preferred_regions") == 1
+    assert feas.per_field_budget(None, "moderate", "preferred_themes") == 1
+    assert feas.per_field_budget(None, "conservative", "preferred_regions") is None
+    assert feas.per_field_budget(None, "conservative", "preferred_themes") is None
+    assert feas.per_field_budget(None, "aggressive", "preferred_regions") is None
+    assert feas.per_field_budget(None, "aggressive", "preferred_themes") is None
+    assert feas.per_field_budget(None, "unknown-answer", "preferred_regions") is None
+
+
+def test_per_field_budget_respects_gating_block():
+    gating = {
+        "budget": {
+            "per_field_max_by_profile": {
+                "BALANCED": {"preferred_regions": 2},
+            }
+        }
+    }
+    assert feas.per_field_budget(gating, "moderate", "preferred_regions") == 2
+    # Partial declaration: other fields fall back per-field.
+    assert feas.per_field_budget(gating, "moderate", "preferred_themes") == 1
+    # Other profiles are unaffected by the BALANCED override.
+    assert feas.per_field_budget(gating, "conservative", "preferred_regions") is None
+    assert feas.per_field_budget(gating, "aggressive", "preferred_themes") is None
+
+
+def test_warnings_balanced_two_regions_composition(funds):
+    """2 regions + 0 themes: within the combined budget of 2 but violates
+    the per-field composition cap — the UX-test finding (D-03)."""
+    answers = {
+        "risk_approach": "moderate",
+        "esg_preference": "NONE",
+        "etf_preference": "no_preference",
+        "preferred_themes": [],
+        "preferred_regions": ["europe", "asia"],
+    }
+    warnings = feas.feasibility_warnings(answers, funds)
+    assert any(
+        '"preferred_regions"' in w and "at most 1" in w and "BALANCED" in w
+        for w in warnings
+    )
+
+
+def test_warnings_balanced_two_themes_composition(funds):
+    answers = {
+        "risk_approach": "moderate",
+        "esg_preference": "NONE",
+        "etf_preference": "no_preference",
+        "preferred_themes": ["sustainability", "technology"],
+        "preferred_regions": [],
+    }
+    warnings = feas.feasibility_warnings(answers, funds)
+    assert any('"preferred_themes"' in w and "at most 1" in w for w in warnings)
+
+
+def test_warnings_balanced_one_region_one_theme_is_silent(funds):
+    """The expected BALANCED composition: 1 region + 1 theme, no warnings
+    (values backed by BALANCED-band funds)."""
+    balanced_backed = funds + [
+        make_fund(
+            isin="R2",
+            region="Europe",
+            srri=3,
+            volatility=8.0,
+            max_drawdown=12.0,
+            esg_label="LOW",
+            is_etf=False,
+        )
+    ]
+    answers = {
+        "risk_approach": "moderate",
+        "esg_preference": "NONE",
+        "etf_preference": "no_preference",
+        "preferred_themes": ["sustainability"],
+        "preferred_regions": ["europe"],
+    }
+    assert feas.feasibility_warnings(answers, balanced_backed) == []
+
+
+def test_warnings_opportunity_two_regions_stay_silent(funds):
+    """OPPORTUNITY has no per-field cap: 2 regions + 1 theme is valid."""
+    answers = {
+        "risk_approach": "aggressive",
+        "esg_preference": "NONE",
+        "etf_preference": "no_preference",
+        "preferred_themes": ["technology"],
+        "preferred_regions": ["europe", "asia"],
+    }
+    warnings = feas.feasibility_warnings(answers, funds)
+    assert not any("composition" in w for w in warnings)
+
+
 # --- availability checks (L2) --------------------------------------------------
 
 
@@ -398,7 +495,8 @@ def test_engine_esg_fund_predicate_delegation(funds):
 
 def test_band_values_unchanged():
     # Slide 8 values — frozen on purpose; a change here is a spec decision.
-    # BALANCED is a documented deviation (post-v4 tightening, see spec v4).
+    # BALANCED is a documented deviation: post-v4 tightening, re-widened to
+    # vol 15 % / MDD 25 % after real-universe testing (commit 2f66a73).
     assert risk_bands.RISK_BANDS["DEFENSIVE"] == {
         "srri_min": 1,
         "srri_max": 3,
@@ -409,9 +507,9 @@ def test_band_values_unchanged():
     assert risk_bands.RISK_BANDS["BALANCED"] == {
         "srri_min": 2,
         "srri_max": 4,
-        "vol_max": 12.0,
+        "vol_max": 15.0,
         "vol_min": 5.0,
-        "mdd_max": 20.0,
+        "mdd_max": 25.0,
     }
     assert risk_bands.RISK_BANDS["OPPORTUNITY"] == {
         "srri_min": 4,

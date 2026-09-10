@@ -22,7 +22,7 @@ Hub for all project documentation. The product's current feature set lives in
 | Stress-period config | `funds_portfolio/config/stress_periods.py` | Reads `data/stress_periods.json` |
 | Price fetcher | `funds_portfolio/data/price_fetcher.py` | yfinance wrapper (legacy enrichment) |
 | Questionnaire loader | `funds_portfolio/questionnaire/loader.py` | Loads & validates user answers; decorates theme AND region options with per-(profile × esg8_9 × etf_only) feasible fund counts |
-| Feasibility advisor v2 | `funds_portfolio/dialog/feasibility.py` | Answer-space shaping: themes+regions gated by risk band ∧ ESG-only ∧ ETF-only filters (L2 availability) plus a shared selection budget DEF 1 / BAL 2 / OPP 3 (L1); pure functions, soft warnings for direct API calls |
+| Feasibility advisor v2 | `funds_portfolio/dialog/feasibility.py` | Answer-space shaping: themes+regions gated by risk band ∧ ESG-only ∧ ETF-only filters (L2 availability) plus a shared selection budget DEF 1 / BAL 2 / OPP 3 with BALANCED per-field composition caps 1 region + 1 theme (L1, `per_field_max_by_profile`); pure functions, soft warnings for direct API calls |
 | Eval harness | `funds_portfolio/eval/` + `scripts/eval_decision_engine.py` | Answer grid, config sweeps (boost elevators), metrics, reporting |
 | Portfolio model | `funds_portfolio/models/portfolio.py` | UUID persistence to disk |
 | Web UI | `templates/index.html` + `static/` | M3-styled SPA, 4 result tabs (Summary / Preferences / Performance / Volatility) |

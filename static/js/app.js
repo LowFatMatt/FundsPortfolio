@@ -293,6 +293,18 @@ document.addEventListener('DOMContentLoaded', () => {
         return gatingSelections(field).filter(v => String(v).toLowerCase() !== 'none').length;
     }
 
+    // Per-field composition cap (L1) for the profile and budget field, or
+    // null when the profile has none (shared budget only). Schema block:
+    // budget.per_field_max_by_profile — BALANCED caps regions/themes at 1
+    // each so the only 2-selection composition is 1 region + 1 theme.
+    function perFieldMax(profile, field) {
+        const budget = budgetConfig();
+        if (!budget || !budget.per_field_max_by_profile) return null;
+        const perProfile = budget.per_field_max_by_profile[profile];
+        if (!perProfile || perProfile[field] == null) return null;
+        return perProfile[field];
+    }
+
     // Decorated shallow copy with gating applied (or the section unchanged).
     function applyGating(section) {
         const profile = gatingProfile();
@@ -316,7 +328,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Shared budget: this section's effective cap is the remaining
         // budget after the other budget sections' selections; the static
-        // per-section `max` remains an additional cap.
+        // per-section `max` and the profile's per-field composition cap
+        // (BALANCED: 1 region + 1 theme) remain additional caps.
         if (isBudgetSection) {
             const total = maxByProfile[profile] != null ? maxByProfile[profile] : section.max;
             const used = (budget.fields || [])
@@ -325,7 +338,10 @@ document.addEventListener('DOMContentLoaded', () => {
             const remaining = Math.max(0, total - used);
             out.budget_total = total;
             out.budget_used  = used;
-            const cap = section.max != null ? Math.min(section.max, remaining) : remaining;
+            const fieldMax = perFieldMax(profile, section.id);
+            if (fieldMax != null) out.per_field_max = fieldMax;
+            let cap = section.max != null ? Math.min(section.max, remaining) : remaining;
+            if (fieldMax != null) cap = Math.min(cap, fieldMax);
             out.max = cap;
         }
         return out;
@@ -441,10 +457,17 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         // Feasibility note: shared budget / caps for the answered risk
-        // approach (L1 cardinality shaping).
+        // approach (L1 cardinality shaping). A per-field composition cap
+        // (BALANCED: max 1 per dimension) gets its own clearer wording.
         if (section.gated_profile) {
             let text = null;
-            if (section.budget_total != null) {
+            if (section.per_field_max != null) {
+                text = t('ui.gating_per_field_note',
+                    'For your risk approach you can select up to {max} option(s) here and the same number in the other category — up to {total} in total ({used} already chosen in the other step).')
+                    .replace('{max}', section.per_field_max)
+                    .replace('{total}', section.budget_total)
+                    .replace('{used}', section.budget_used);
+            } else if (section.budget_total != null) {
                 text = t('ui.gating_budget_note',
                     'For your risk approach you can combine up to {total} region/theme selections in total ({used} already chosen in the other step).')
                     .replace('{total}', section.budget_total)
@@ -1739,7 +1762,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const profile = gatingProfile();
         if (!profile) return answers;
         const combo = liveComboKey();
-        const fields = (budgetConfig() && budgetConfig().fields) || [];
+        const budget = budgetConfig();
+        const fields = (budget && budget.fields) || [];
         if (!fields.length) return answers;
         const out = { ...answers };
         fields.forEach(field => {
@@ -1754,7 +1778,24 @@ document.addEventListener('DOMContentLoaded', () => {
                     })
                     .map(opt => String(opt.value).toUpperCase())
             );
-            const filtered = values.filter(v => !unavailable.has(String(v).toUpperCase()));
+            let filtered = values.filter(v => !unavailable.has(String(v).toUpperCase()));
+            // Defensive composition trim: per-field cap, then the shared
+            // budget across the other budget field's live selections
+            // (drop from the end — mirrors pruneInfeasibleSelections).
+            const fieldMax = perFieldMax(profile, field);
+            if (fieldMax != null && filtered.length > fieldMax) {
+                filtered = filtered.slice(0, fieldMax);
+            }
+            const maxByProfile = (budget.max_by_profile || {})[profile];
+            if (maxByProfile != null) {
+                const used = fields
+                    .filter(f => f !== field)
+                    .reduce((sum, f) => sum + (Array.isArray(out[f])
+                        ? out[f].filter(v => String(v).toLowerCase() !== 'none').length
+                        : 0), 0);
+                const cap = Math.max(0, maxByProfile - used);
+                if (filtered.length > cap) filtered = filtered.slice(0, cap);
+            }
             if (filtered.length !== values.length) out[field] = filtered;
         });
         return out;
