@@ -5,7 +5,10 @@
     "preference_gating": {
       "budget": {
         "fields": ["preferred_regions", "preferred_themes"],
-        "max_by_profile": { "DEFENSIVE": 1, "BALANCED": 2, "OPPORTUNITY": 3 }
+        "max_by_profile": { "DEFENSIVE": 1, "BALANCED": 2, "OPPORTUNITY": 3 },
+        "per_field_max_by_profile": {
+          "BALANCED": { "preferred_regions": 1, "preferred_themes": 1 }
+        }
       },
       "answer_to_profile": {
         "conservative": "DEFENSIVE",

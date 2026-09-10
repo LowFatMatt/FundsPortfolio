@@ -29,8 +29,8 @@ RISK_BANDS: Dict[str, Dict[str, Any]] = {
         "srri_min": 2,
         "srri_max": 4,
         "vol_min": 5.0,
-        "vol_max": 12.0,
-        "mdd_max": 20.0,
+        "vol_max": 15.0,
+        "mdd_max": 25.0,
     },
     "OPPORTUNITY": {
         "srri_min": 4,

@@ -19,7 +19,11 @@ Scope (v2):
   recomputes on funds-DB refresh.
 * L1 — combined cardinality: ONE budget across themes + regions,
   DEFENSIVE 1 / BALANCED 2 / OPPORTUNITY 3 (per-section ``max`` remains an
-  additional cap). Declared in the schema's questionnaire-level
+  additional cap), plus an optional per-field cap vector
+  (``per_field_max_by_profile``): BALANCED additionally caps regions and
+  themes at 1 each, so the only 2-selection composition is 1 region +
+  1 theme — matching user expectations (2026-09 UX tests, resolves
+  user-journey decision D-03). Declared in the schema's questionnaire-level
   ``preference_gating`` block; this module provides fallback defaults.
 
 Design constraints:
@@ -86,6 +90,15 @@ DEFAULT_MAX_BY_PROFILE: Dict[str, int] = {
     "DEFENSIVE": 1,
     "BALANCED": 2,
     "OPPORTUNITY": 3,
+}
+
+# Fallback per-field caps (L1 composition) when the schema's
+# preference_gating block is absent: BALANCED must not spend its budget of 2
+# on a single dimension (2 regions or 2 themes) — 1 region + 1 theme is the
+# composition users expect. Profiles without an entry have no per-field cap
+# (pure shared budget, DEF/OPP behaviour unchanged).
+DEFAULT_PER_FIELD_MAX_BY_PROFILE: Dict[str, Dict[str, int]] = {
+    "BALANCED": {"preferred_regions": 1, "preferred_themes": 1},
 }
 
 # The no-preference placeholder — valid answer, never gated, never counted.
@@ -218,6 +231,33 @@ def combined_budget(
     return int(value) if isinstance(value, (int, float)) else None
 
 
+def per_field_budget(
+    gating: Optional[Dict[str, Any]], risk_answer: Any, field: str
+) -> Optional[int]:
+    """Per-field composition cap (L1) for the risk answer and budget field.
+
+    ``gating`` is the questionnaire-level ``preference_gating`` block; the
+    optional ``budget.per_field_max_by_profile`` maps profile → field → max.
+    When the block or the profile entry is absent the module defaults apply
+    (BALANCED: regions/themes ≤ 1 each; DEF/OPP: no per-field cap → None).
+    None means "no per-field cap" — the shared combined budget still applies.
+    """
+    profile = risk_profile_for_answer(risk_answer)
+    if profile is None:
+        return None
+    declared = (
+        (gating or {}).get("budget", {}).get("per_field_max_by_profile") or {}
+    )
+    # Per-profile fallback so a partial declaration never blanks the others.
+    per_profile = declared.get(profile) or DEFAULT_PER_FIELD_MAX_BY_PROFILE.get(
+        profile
+    )
+    if not isinstance(per_profile, dict):
+        return None
+    value = per_profile.get(field)
+    return int(value) if isinstance(value, (int, float)) else None
+
+
 def selected_values(answers: Dict[str, Any], field: str) -> List[str]:
     """Normalised selected values of a multi-select answer field."""
     raw = answers.get(field)
@@ -308,5 +348,22 @@ def feasibility_warnings(
             f"budget of {budget}; expect reduced coverage or "
             "diversified-away preferences"
         )
+
+    # L1 composition: per-field caps (BALANCED: regions/themes ≤ 1 each).
+    for field in BUDGET_FIELDS:
+        field_budget = per_field_budget(None, answers.get(RISK_FIELD), field)
+        if field_budget is None:
+            continue
+        field_count = sum(
+            1
+            for value in selected_values(answers, field)
+            if value.lower() != THEME_NONE
+        )
+        if field_count > field_budget:
+            warnings.append(
+                f'"{field}" has {field_count} selections but the {profile} '
+                f"composition allows at most {field_budget} per dimension "
+                "(e.g. BALANCED expects 1 region + 1 theme, not 2 of one kind)"
+            )
 
     return warnings
