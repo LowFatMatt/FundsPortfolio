@@ -17,7 +17,7 @@ The fund selection logic operates in three sequential phases, each fully recorde
 |-------|------|--------|
 | **1 — Filter** | Exclude ineligible funds (data quality, ESG, ETF, risk band) | Reduced fund universe |
 | **2 — Scoring** | Score remaining funds: quantitative base + preference boosts | Single ranked list (the ranking) |
-| **3 — Portfolio Construction** | Two-pass selection of 5 funds, then Core-Satellite weighting | 5-fund portfolio with allocations + full decision log |
+| **3 — Portfolio Construction** | Three-pass selection (defensive anchor → coverage → fill) of 5 funds, then Core-Satellite weighting with anchor carve-out | 5-fund portfolio with allocations + full decision log |
 
 ---
 
@@ -114,9 +114,17 @@ Proxies when a metric is missing at scoring time: MDD ← `SRRI_MDD_PROXY[srri]`
 
 ## Phase 3 — Portfolio Construction
 
-### Step 7 — Selection: Two-Pass, Coverage-First, Purely Additive
+### Step 7 — Selection: Three-Pass, Coverage-First, Purely Additive
 
 Selection operates on the single ranked list and only ever **adds** funds. No fund is dropped, protected, or swapped after being selected — the portfolio size can only grow toward `final_fund_count` (5). The count is safe by construction.
+
+**Pass 0 — defensive anchor (v4.1).** Before coverage runs, one **anchor fund** is reserved for BALANCED portfolios: the top-scored fund of the anchor pool, pinned to a fixed budget (`ANCHOR_BUDGETS`, BALANCED 35 %).
+
+- **Anchor pool** = funds from the **pre-risk-band** filtered set (post ESG/ETF filters) with `asset_class == "bond"` **and** DEFENSIVE-band membership (SRRI 1–3, vol ≤ 8 %, MDD ≤ 15 %). The pool is deliberately *not* derived from the post-band pool — the BALANCED `vol_min` would exclude every ballast fund; pass 0 is the one explicit, trace-logged exception to the profile band.
+- The bond-label guard keeps srri-3 mixed funds (~35–40 % equity) from winning the ballast slot; label errors fail safe (pool shrinks → skip, never a wrong anchor).
+- Profiles with a zero budget (DEFENSIVE, OPPORTUNITY) skip pass 0; an empty pool (e.g. the `etf_only` + `ART_8_9_ONLY` corner) skips gracefully with a trace note — selection then proceeds exactly as before.
+- The anchor is seeded into quota counting before pass 1, so any preferred dimension it carries counts as satisfied.
+- Rationale: with Sharpe-dominated scoring over this universe, selection alone cannot produce balanced equity quotas (few bond funds, all bottom-ranked). The anchor is the structural defensive bias. A derived target-equity-quota weight (W2) is a documented upgrade path; the fixed per-profile budget (W1) is the implemented policy (see `plans/defensive_anchor_balanced.md`).
 
 **Pass 1 — coverage (preferences first).** Walk the *full* ranking in quality order and select a fund only if it matches at least one **still-unsatisfied** preferred region or theme. Stop when every preferred value is covered, no candidate exists anywhere in the ranking, or the portfolio is full.
 
@@ -165,6 +173,7 @@ Result: 5 funds (ranks 1, 2, 5, 7, 12), **7/7 preference items fulfilled**. Rank
 
 **Classification rule:**
 
+0. **If the fund is the pass-0 defensive anchor:** → **core** (`core_defensive_anchor`) — its fixed budget is the portfolio's ballast and never part of the capped satellite band.
 1. **If the fund was selected in pass 2:** → **core** (selected by quality ranking).
 2. **If the fund was selected in pass 1 AND its elevated score ranks it in the top `final_fund_count` (5) positions of the full ranking:** → **core** (would have been selected in pass 2 anyway; the preference match is incidental).
 3. **If the fund was selected in pass 1 AND its elevated score does NOT rank it in the top 5:** → **satellite** (selected only because of coverage guarantee).
@@ -182,6 +191,7 @@ Expected portfolio structure: 2–4 core positions, 0–3 satellites.
 
 **Allocation method:**
 
+0. **Anchor carve-out (v4.1).** If a defensive anchor was selected, it receives exactly its budget (BALANCED 35 %; reduced to the largest feasible value and flagged `anchor_reduced_by_floor` only if the remaining funds could not carry the 10 % floor). The remaining 65 % are allocated by the band logic below, evaluated in the rest's normalised space so the satellite cap keeps its portfolio-level meaning (cap % of total ⇔ cap/rest_total % of the rest).
 1. **Identify allocation bands:**
    - If no satellites OR total satellite raw allocation ≤ the profile's satellite cap (see `SATELLITE_TOTAL_CAPS`): **single band** (all funds together)
    - If satellites exist AND would exceed that cap: **two bands** (cores / satellites)
@@ -213,6 +223,14 @@ Expected portfolio structure: 2–4 core positions, 0–3 satellites.
   | OPPORTUNITY | **40 %** (raised so that 3 satellites do not force equal 10 % floor allocations) |
 
   Applied as a band cap before proportional distribution; resolvable per request (constructor map overrides individual profiles).
+- `anchor_budgets` = per-profile defensive-anchor policy, defined in [`risk_bands.ANCHOR_BUDGETS`](funds_portfolio/portfolio/risk_bands.py):
+ | Profile | Anchor budget |
+ |---------|---------------|
+ | DEFENSIVE | 0 % (the whole band is defensive) |
+ | BALANCED | **35 %** |
+ | OPPORTUNITY | 0 % |
+
+ Eval-sweepable via `eval.config_space.augment_anchor_budgets` (grid 25/30/35 + 0 = pre-v4.1 contrast). The 2026-09-14 corridor sweep (12-config BALANCED grid; equity quota from breakdowns + documented mixed-fund heuristic) fixed the default: 0 % → avg 86.9 % equity, 25 % → 65.8 % avg with 10/12 above the 65 % ceiling, 30 % → 61.3 % avg (max 63.7 %, thin margin), **35 % → 57.3 % avg (52.3–59.7 %), mid-corridor with robust margin**.
 
 **Key differences from v3:**
 - v3: inverse-volatility weights + tier bounds (Core 1: 25–40 %, Core 2: 15–30 %, etc.) + regional tilt (×1.2)
@@ -352,7 +370,7 @@ Ranking candidates carry a status: `selected` (pass 2), `selected_pass1_coverage
 | **Sustainability funds** | Always satellite if theme set (even if top performer) | **Core if top-5 ranked** (v4: no allocation penalty for high-performing thematic funds) |
 | **Trace events** | Selection events only | *(v4 adds)* `core_satellite_classification` with reasoning |
 | **Floor enforcement** | Global water-filling pass (could silently lift the satellite total above its cap, e.g. 41.61 % observed in a real OPPORTUNITY portfolio) | **Per band** (post-v4 fix): sub-floor funds are lifted within their own band so band budgets — and the satellite cap — are preserved; global fallback only when a band's floors alone exceed its budget, flagged `cap_breached_by_floor` |
-| Selection | Two-pass additive | (unchanged) |
+| Selection | Two-pass additive | Three-pass additive (v4.1): pass-0 defensive anchor with fixed per-profile budget (BALANCED 35 %) before coverage/fill |
 | Scoring, filters, boosts | — | (unchanged from v3) |
 | Risk bands | Slide-8 values (BALANCED: SRRI 2–5, vol 5–15 %, MDD < 30 %) | **BALANCED tightened** (SRRI 2–4, vol 5–12 %, MDD < 20 %) post-v4 real-universe testing; DEFENSIVE / OPPORTUNITY unchanged |
 

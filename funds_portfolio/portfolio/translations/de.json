@@ -23,5 +23,6 @@
   "decision.reason.theme": "Entspricht Ihrer thematischen Präferenz.",
   "decision.reason.score": "Qualitäts-Score: {score} (Sharpe: {sharpe_norm}, MDD: {mdd_norm}, TER: {ter_norm}).",
   "decision.reason.etf_not_available": "Aktiv verwalteter Fonds (kein passendes ETF verfügbar).",
+  "decision.reason.defensive_anchor": "Defensiver Anker: feste {budget}%-Allokation, die Ihr ausgewogenes Risikoprofil stabilisiert.",
   "decision.reason.default": "An Ihren Präferenzen ausgerichtet."
 }

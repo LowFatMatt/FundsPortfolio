@@ -23,5 +23,6 @@
   "decision.reason.theme": "Matches your thematic preference.",
   "decision.reason.score": "Quality score: {score} (Sharpe: {sharpe_norm}, MDD: {mdd_norm}, TER: {ter_norm}).",
   "decision.reason.etf_not_available": "Active fund (ETF not available within your criteria).",
+  "decision.reason.defensive_anchor": "Defensive anchor: fixed {budget}% allocation that stabilises your balanced risk profile.",
   "decision.reason.default": "Aligned with your preferences."
 }

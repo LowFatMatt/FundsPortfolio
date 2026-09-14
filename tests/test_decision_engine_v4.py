@@ -4,6 +4,11 @@ Covers spec v4 Steps 8-11 (see FUND_SELECTION_LOGIC_SPEC_V4.md):
 - pass/rank-aware core/satellite classification (Step 8)
 - proportional elevated-score allocation with core/satellite bands (Step 9)
 - 30 % satellite band cap, 10 % floor (Step 10), integer rounding to 100 % (Step 11)
+
+Plus the v4.1 defensive anchor (pass 0, plans/defensive_anchor_balanced.md):
+- anchor pool from the pre-risk-band set, DEFENSIVE band + bond label guard
+- fixed per-profile budget carve-out, floor/satellite-cap preservation
+- graceful skip for zero-budget profiles and empty pools
 """
 
 from funds_portfolio.portfolio.decision_engine import DecisionEngine
@@ -484,3 +489,267 @@ def test_integer_allocations_sum_to_100():
 
     assert all(isinstance(a, int) for a in allocs)
     assert sum(allocs) == 100
+
+
+# ---------------------------------------------------------------------------
+# v4.1 — Pass 0 defensive anchor (plans/defensive_anchor_balanced.md)
+# ---------------------------------------------------------------------------
+
+
+def _anchored_universe():
+    """5 BALANCED-band equity candidates + 2 bond ballast funds + 1 srri-3
+    multi-asset fund that must NOT win the anchor slot (bond-label guard)."""
+    funds = [
+        _fund(
+            isin=f"E{i}",
+            name=f"Equity {i}",
+            sharpe_ratio=2.0 - 0.1 * i,
+            provider=f"q{i}",
+        )
+        for i in range(1, 6)
+    ]
+    funds += [
+        # Ballast candidates (DEFENSIVE band: srri 1-3, vol <= 8, mdd <= 15).
+        _fund(
+            isin="BOND1",
+            name="Corp bond ETF",
+            asset_class="bond",
+            srri=2,
+            volatility=3.4,
+            max_drawdown=2.9,
+            sharpe_ratio=0.5,
+            provider="b1",
+        ),
+        _fund(
+            isin="BOND2",
+            name="Money market ETF",
+            asset_class="bond",
+            srri=1,
+            volatility=0.8,
+            max_drawdown=1.7,
+            sharpe_ratio=0.4,
+            provider="b2",
+        ),
+        # srri-3 multi-asset (~35-40 % equity): inside the DEFENSIVE band but
+        # not a bond → the P3 hybrid guard keeps it out of the anchor pool.
+        _fund(
+            isin="MA1",
+            name="Conservative multi-asset",
+            asset_class="mixed",
+            srri=3,
+            volatility=6.0,
+            max_drawdown=9.0,
+            sharpe_ratio=1.2,
+            provider="b3",
+        ),
+    ]
+    return funds
+
+
+def test_balanced_selects_defensive_anchor_with_fixed_budget():
+    """BALANCED: anchor = top-scored bond of the pool, pinned at exactly 30 %,
+    classified core_defensive_anchor; 4 remaining funds share 70 %."""
+    engine = DecisionEngine()
+    result = engine.recommend(_base_answers(), _anchored_universe())
+
+    tr = result["decision_trace"]
+    anchor = tr["anchor"]
+    assert anchor["enabled"] is True
+    assert anchor["budget_pct"] == 35.0
+    assert set(anchor["pool_isins"]) == {"BOND1", "BOND2"}
+    assert anchor["selected_isin"] == "BOND1"  # top-scored of the pool
+
+    allocs = _alloc_by_isin(result)
+    assert len(result["recommendations"]) == 5  # anchor + 4 pass-2 picks
+    assert allocs["BOND1"] == 35
+    assert sum(allocs.values()) == 100
+    assert all(a >= 10 for a in allocs.values())
+
+    rec = next(r for r in result["recommendations"] if r["isin"] == "BOND1")
+    assert rec["core_satellite_class"] == "core"
+    assert rec["core_satellite_reason"] == "core_defensive_anchor"
+    assert rec["is_defensive_anchor"] is True
+
+    at = tr["allocation"]
+    assert at["anchor_isin"] == "BOND1"
+    assert at["anchor_budget"] == 35.0
+    assert at["anchor_reduced_by_floor"] is False
+
+    assert result["portfolio_metrics"]["defensive_share"] == 0.35
+
+    events = tr["selection"]["events"]
+    assert any(
+        e.get("type") == "pass0_anchor_select" and e.get("isin") == "BOND1"
+        for e in events
+    )
+
+
+def test_anchor_pool_uses_pre_risk_band_set():
+    """The ballast funds fail the BALANCED vol_min (5.0) — the risk band filter
+    removes them — yet the anchor is still picked: the pool derives from the
+    pre-risk-band set, the one deliberate exception to the profile band."""
+    engine = DecisionEngine()
+    result = engine.recommend(_base_answers(), _anchored_universe())
+    tr = result["decision_trace"]
+
+    rb = next(f for f in tr["filters"] if f["name"] == "risk_band")
+    assert rb["before"] == 8  # all funds survived ESG/ETF filters
+    assert rb["after"] == 6  # BOND1/BOND2 removed by vol_min…
+    assert tr["anchor"]["selected_isin"] == "BOND1"  # …but anchor anyway
+
+
+def test_zero_budget_profiles_skip_anchor():
+    """DEFENSIVE and OPPORTUNITY carry a zero anchor budget → pass 0 skipped,
+    selection proceeds exactly as before."""
+    engine = DecisionEngine()
+
+    aggressive = _base_answers()
+    aggressive["risk_approach"] = "aggressive"
+    result = engine.recommend(aggressive, _anchored_universe())
+    assert result["decision_trace"]["anchor"]["skipped_reason"] == (
+        "zero_budget_for_profile"
+    )
+    assert result["decision_trace"]["allocation"].get("anchor_isin") is None
+    assert len(result["recommendations"]) == 5
+
+    conservative = _base_answers()
+    conservative["risk_approach"] = "conservative"
+    result = engine.recommend(conservative, _anchored_universe())
+    assert result["decision_trace"]["anchor"]["enabled"] is False
+    # Thin defensive universe (3 of 8 funds) — the portfolio reflects it.
+    assert len(result["recommendations"]) == 3
+
+
+def test_anchor_skips_gracefully_without_bond_candidates():
+    """No bond fund in the universe → pool empty → anchor skipped, portfolio
+    unchanged (pre-v4.1 behaviour)."""
+    engine = DecisionEngine()
+    funds = [f for f in _anchored_universe() if f["asset_class"] != "bond"]
+    result = engine.recommend(_base_answers(), funds)
+
+    tr = result["decision_trace"]
+    assert tr["anchor"]["enabled"] is True
+    assert tr["anchor"]["skipped_reason"] == "no_eligible_defensive_bond_fund"
+    assert tr["allocation"].get("anchor_isin") is None
+    assert len(result["recommendations"]) == 5
+    assert result["portfolio_metrics"]["defensive_share"] == 0.0
+
+
+def test_constructor_overrides_anchor_budgets():
+    engine = DecisionEngine(anchor_budgets={"BALANCED": 40.0})
+    assert engine._anchor_budgets["BALANCED"] == 40.0
+    assert engine._anchor_budgets["DEFENSIVE"] == 0.0
+    assert engine._anchor_budgets["OPPORTUNITY"] == 0.0
+
+    result = engine.recommend(_base_answers(), _anchored_universe())
+    assert _alloc_by_isin(result)["BOND1"] == 40
+
+
+def test_anchor_budget_reduced_when_floor_infeasible():
+    """An 80 % budget leaves the 4 rest funds unable to carry the 10 % floor
+    (4 × 10 % > 20 %) → reduced to the maximum feasible 60 %, flagged."""
+    engine = DecisionEngine(anchor_budgets={"BALANCED": 80.0})
+    result = engine.recommend(_base_answers(), _anchored_universe())
+
+    at = result["decision_trace"]["allocation"]
+    assert at["anchor_reduced_by_floor"] is True
+    assert at["anchor_budget"] == 60.0
+
+    allocs = _alloc_by_isin(result)
+    assert allocs["BOND1"] == 60
+    assert all(a >= 10 for a in allocs.values())
+    assert sum(allocs.values()) == 100
+
+
+def test_anchor_carve_out_preserves_satellite_cap_and_floor():
+    """Anchor pinned at 30 %; satellites capped at 30 % of the TOTAL portfolio
+    (expressed as 30/70 % of the rest's space); every fund ≥ 10 %."""
+    engine = DecisionEngine()
+    funds = [
+        _fund(
+            isin="ANCHOR",
+            name="Anchor",
+            asset_class="bond",
+            srri=2,
+            volatility=3.0,
+            max_drawdown=3.0,
+            provider="b0",
+        ),
+        _fund(isin="CORE1", name="Core 1", provider="p1"),
+        _fund(isin="CORE2", name="Core 2", provider="p2"),
+    ] + [
+        _fund(isin=f"SAT{i}", name=f"Sat {i}", theme="DEFENSE", provider=f"p{i + 3}")
+        for i in (1, 2, 3)
+    ]
+    funds[0].update(
+        {
+            "_selection_pass": 0,
+            "_rank_position": 1,
+            "_anchor": True,
+            "_anchor_budget_pct": 30.0,
+            "_scores": {"final": 40.0},
+        }
+    )
+    for f in funds[1:3]:
+        f["_selection_pass"] = 2
+        f["_rank_position"] = 1
+        f["_scores"] = {"final": 100.0}
+    for i, f in enumerate(funds[3:]):
+        f["_selection_pass"] = 1
+        f["_rank_position"] = 6 + i
+        f["_scores"] = {"final": 90.0}
+
+    trace = {"allocation": {"satellite_cap_applied": False, "funds": []}}
+    weights = engine._allocate_weights(
+        funds,
+        {"preferred_regions": [], "preferred_themes": []},
+        "BALANCED",
+        trace=trace,
+    )
+
+    assert trace["allocation"]["satellite_cap_applied"] is True
+    assert abs(weights["ANCHOR"] - 0.30) < 1e-9
+    sat_total = sum(weights[i] for i in ("SAT1", "SAT2", "SAT3"))
+    assert abs(sat_total - 0.30) < 1e-9  # cap measured over the whole portfolio
+    assert all(w >= 0.10 - 1e-9 for w in weights.values())
+    assert abs(sum(weights.values()) - 1.0) < 1e-9
+    assert trace["allocation"]["anchor_isin"] == "ANCHOR"
+
+
+def test_anchor_budget_sweep_dimension():
+    """eval.config_space: the opt-in anchor dimension spans 25/30/35 (+0 as
+    pre-v4.1 contrast); only the live budget keeps the baseline flag."""
+    from funds_portfolio.eval.config_space import (
+        LIVE_ANCHOR_BAL,
+        augment_anchor_budgets,
+        baseline_configs,
+    )
+
+    assert LIVE_ANCHOR_BAL == 35.0
+    configs = augment_anchor_budgets(baseline_configs())
+    budgets = sorted(
+        {c["engine_kwargs"]["anchor_budgets"]["BALANCED"] for c in configs}
+    )
+    assert budgets == [0.0, 25.0, 30.0, 35.0]
+
+    live = [c for c in configs if c["is_baseline"]]
+    assert len(live) == 1
+    assert live[0]["engine_kwargs"]["anchor_budgets"]["BALANCED"] == 35.0
+
+
+def test_ranking_trace_prepends_anchor_row():
+    """The anchor lives outside the banded ranking (pre-band pool) — the
+    ranking trace still shows it as rank 0 / selected_pass0_anchor so the
+    GUI ranking table includes the pass-0 pick."""
+    engine = DecisionEngine()
+    result = engine.recommend(_base_answers(), _anchored_universe())
+    candidates = result["decision_trace"]["ranking"]["candidates"]
+
+    first = candidates[0]
+    assert first["status"] == "selected_pass0_anchor"
+    assert first["isin"] == "BOND1"
+    assert first["rank"] == 0
+    assert first["final"] is not None  # pool-normalised score attached
+    # Ranked candidates (rank >= 1) follow unchanged.
+    assert candidates[1]["rank"] == 1
+    assert len({c["isin"] for c in candidates}) == len(candidates)

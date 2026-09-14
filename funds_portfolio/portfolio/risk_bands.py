@@ -51,6 +51,27 @@ SATELLITE_TOTAL_CAPS: Dict[str, float] = {
     "OPPORTUNITY": 40.0,
 }
 
+# v4.1 allocation policy: fixed defensive-anchor budget per profile (% of the
+# portfolio). Pass 0 (see ``decision_engine._select_defensive_anchor``)
+# reserves exactly this share for one top-scored DEFENSIVE-band bond fund
+# before the coverage/quality passes run — the deliberate defensive bias that
+# keeps BALANCED portfolios inside their equity corridor. DEFENSIVE needs no
+# anchor (its whole band is defensive); OPPORTUNITY deliberately carries none.
+# The value is a policy constant (W1): an adaptive derived weight (W2, solved
+# from a target equity quota) is a documented upgrade path, not implemented.
+#
+# BALANCED = 35 % per the 2026-09-14 corridor sweep (12-config BALANCED grid;
+# equity quota incl. breakdown data + documented mixed-fund heuristic):
+#   0 % → avg 86.9 % equity (80.9–90.7 %) — the pre-v4.1 problem
+#   25 % → avg 65.8 %, 10/12 configs above the 65 % ceiling  → rejected
+#   30 % → avg 61.3 %, max 63.7 % — passes, only 1.3 pp margin → runner-up
+#   35 % → avg 57.3 % (52.3–59.7 %) — mid-corridor, robust margin → DEFAULT
+ANCHOR_BUDGETS: Dict[str, float] = {
+    "DEFENSIVE": 0.0,
+    "BALANCED": 35.0,
+    "OPPORTUNITY": 0.0,
+}
+
 PROFILES: tuple = ("DEFENSIVE", "BALANCED", "OPPORTUNITY")
 
 
@@ -64,6 +85,11 @@ def satellite_total_cap_for_profile(risk_profile: str) -> float:
     return SATELLITE_TOTAL_CAPS.get(
         risk_profile, SATELLITE_TOTAL_CAPS["BALANCED"]
     )
+
+
+def anchor_budget_for_profile(risk_profile: str) -> float:
+    """Return the defensive-anchor budget (in %) for a profile (unknown → BALANCED)."""
+    return ANCHOR_BUDGETS.get(risk_profile, ANCHOR_BUDGETS["BALANCED"])
 
 
 def _as_float(value: Any) -> float:

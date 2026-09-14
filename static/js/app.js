@@ -1956,6 +1956,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // stored trace), so legacy pre-rework statuses are not needed here.
     const TRACE_STATUS = {
         selected:                 { key: 'ui.trace_status_selected',  fallback: 'Selected',            cls: 'trace-status--ok' },
+        selected_pass0_anchor:    { key: 'ui.trace_status_pass0',     fallback: 'Selected (0) · anchor', cls: 'trace-status--ok' },
         selected_pass1_coverage:  { key: 'ui.trace_status_pass1',     fallback: 'Selected (1) · {dims} match', cls: 'trace-status--ok' },
         skipped_provider_cap:     { key: 'ui.trace_status_provider',  fallback: 'Skipped · provider cap', cls: 'trace-status--skip' },
         skipped_category_cap:     { key: 'ui.trace_status_category',  fallback: 'Skipped · category cap', cls: 'trace-status--skip' },
@@ -2075,15 +2076,26 @@ document.addEventListener('DOMContentLoaded', () => {
             host.appendChild(buildRankingTable(ranking.candidates, trace.selection?.events || []));
         }
 
-        // Selection decisions (two-pass, coverage-first): every pick and skip
-        // is listed in the order the engine made it — pass 1 (coverage of
-        // preferred regions/themes) first, then pass 2 (best-score fill).
+        // Selection decisions (three-pass, coverage-first): every pick and
+        // skip is listed in the order the engine made it — pass 0 (defensive
+        // anchor, v4.1) first, then pass 1 (coverage of preferred
+        // regions/themes), then pass 2 (best-score fill).
         const events = trace.selection?.events || [];
         if (events.length) {
             heading(t('ui.trace_events_title', 'Selection decisions'));
-            note(t('ui.trace_pass_note',
-                'Pass 1 covers your preferred regions and themes with the best matching funds; pass 2 fills the remaining slots with the best funds by score.'));
-            host.appendChild(buildEventList(events));
+            const anchorTrace = trace.anchor || {};
+            if (anchorTrace.selected_isin) {
+                note(t('ui.trace_pass_note_anchor',
+                    'Pass 0 reserves a defensive anchor fund at a fixed {budget}% budget; pass 1 covers your preferred regions and themes with the best matching funds; pass 2 fills the remaining slots with the best funds by score.')
+                    .replace('{budget}', Math.round(anchorTrace.budget_pct ?? 0)));
+            } else {
+                note(t('ui.trace_pass_note',
+                    'Pass 1 covers your preferred regions and themes with the best matching funds; pass 2 fills the remaining slots with the best funds by score.'));
+            }
+            const profile = String(
+                trace.allocation?.risk_profile || anchorTrace.risk_profile || ''
+            ).toLowerCase();
+            host.appendChild(buildEventList(events, profile));
         }
 
         // Allocation (v4: proportional to elevated score, banded)
@@ -2108,7 +2120,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 note(t('ui.trace_min_alloc', 'Every fund holds at least {min}% of the portfolio.')
                     .replace('{min}', alloc.min_allocation_percentage ?? 10));
             }
-            host.appendChild(buildAllocationTable(alloc.funds));
+            if (alloc.anchor_isin) {
+                note(t('ui.trace_anchor_note',
+                    'The defensive anchor is pinned at {budget}% of the portfolio; the remaining funds share the rest.')
+                    .replace('{budget}', Math.round(alloc.anchor_budget ?? 0)));
+            }
+            host.appendChild(buildAllocationTable(alloc.funds, alloc));
         }
     }
 
@@ -2175,12 +2192,19 @@ document.addEventListener('DOMContentLoaded', () => {
             .join(', ');
     }
 
-    function buildEventList(events) {
+    function buildEventList(events, profile) {
         const ul = document.createElement('ul');
         ul.className = 'decision-trace__events';
         events.forEach(e => {
             let text;
             switch (e.type) {
+                case 'pass0_anchor_select':
+                    text = t('ui.trace_ev_pass0',
+                        'Pass 0 · Anchor pick: {name} — anchors the defensive bias ({budget}% of the {profile} portfolio).')
+                        .replace('{name}', e.name || e.isin)
+                        .replace('{budget}', Math.round(e.budget_pct ?? 0))
+                        .replace('{profile}', profile || 'balanced');
+                    break;
                 case 'pass1_select': {
                     const matched = fmtDims(e.matched);
                     const also = fmtDims(e.also_satisfies);
@@ -2240,9 +2264,12 @@ document.addEventListener('DOMContentLoaded', () => {
         return ul;
     }
 
-    function buildAllocationTable(funds) {
+    function buildAllocationTable(funds, alloc) {
         // v4: elevated score + classification reason (no inverse-vol tiers/tilt).
+        // v4.1: core_defensive_anchor explains the anchor pick with the
+        // budget/profile derived from the allocation trace block.
         const reasonKeys = {
+            core_defensive_anchor: 'ui.trace_reason_anchor',
             core_quality_selected: 'ui.trace_reason_quality',
             core_top_performer: 'ui.trace_reason_top',
             satellite_coverage_only: 'ui.trace_reason_coverage',
@@ -2266,6 +2293,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 ? `<span class="trace-fund-sub">${escHtml(
                       t(reasonKey, f.classification_reason || '')
                           .replace('{rank}', f.rank_position ?? '—')
+                          .replace('{budget}', Math.round(alloc?.anchor_budget ?? (f.final_weight ?? 0) * 100))
+                          .replace('{profile}', String(alloc?.risk_profile || '').toLowerCase() || 'balanced')
                   )}</span>`
                 : '';
             const tr = document.createElement('tr');

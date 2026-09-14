@@ -28,7 +28,9 @@ from .eligibility import (
     normalise_esg_preference,
 )
 from .risk_bands import (
+    ANCHOR_BUDGETS,
     SATELLITE_TOTAL_CAPS,
+    anchor_budget_for_profile,
     fund_in_risk_band,
     risk_band_for_profile,
     satellite_total_cap_for_profile,
@@ -101,6 +103,9 @@ class DecisionEngine:
         satellite_total_caps: Optional[
             Dict[str, float]
         ] = None,  # v4: per-profile satellite band cap (% of portfolio); None → risk_bands.SATELLITE_TOTAL_CAPS (DEF 30 / BAL 30 / OPP 40)
+        anchor_budgets: Optional[
+            Dict[str, float]
+        ] = None,  # v4.1: per-profile defensive-anchor budget (% of portfolio); None → risk_bands.ANCHOR_BUDGETS (DEF 0 / BAL 35 / OPP 0)
         boost_elevators: Optional[
             Dict[str, float]
         ] = None,  # per-preference scoring boosts; defaults to the module BOOST_ELEVATORS
@@ -124,6 +129,12 @@ class DecisionEngine:
         self._satellite_total_caps: Dict[str, float] = {
             **SATELLITE_TOTAL_CAPS,
             **(satellite_total_caps or {}),
+        }
+        # v4.1 defensive-anchor budgets — same merge semantics as the satellite
+        # caps (caller overrides per profile, shared defaults fill the rest).
+        self._anchor_budgets: Dict[str, float] = {
+            **ANCHOR_BUDGETS,
+            **(anchor_budgets or {}),
         }
         self.thematic_guarantee = thematic_guarantee
         self.regional_guarantee = regional_guarantee
@@ -315,8 +326,22 @@ class DecisionEngine:
             },
             "events": [],
         }
+
+        # v4.1 Pass 0 — defensive anchor (risk_bands.ANCHOR_BUDGETS). The pool
+        # is deliberately built from the PRE-risk-band set: deriving it from
+        # the post-band `working` set would intersect the profile band with
+        # the defensive constraints (e.g. BALANCED vol_min excludes every
+        # ballast fund) and empty the pool.
+        anchor = self._select_defensive_anchor(
+            pre_risk, user_answers, risk_profile, trace=trace
+        )
+
         selected = self._select_funds(
-            scored, user_answers, active_fallback=active_fallback, trace=trace
+            scored,
+            user_answers,
+            active_fallback=active_fallback,
+            trace=trace,
+            anchor=anchor,
         )
 
         # 7) Allocate weights
@@ -575,12 +600,84 @@ class DecisionEngine:
 
         return boosts
 
+    def _select_defensive_anchor(
+        self,
+        pre_risk: List[Dict[str, Any]],
+        user_answers: Dict[str, Any],
+        risk_profile: str,
+        trace: Optional[Dict[str, Any]] = None,
+    ) -> Optional[Dict[str, Any]]:
+        """v4.1 Pass 0 — pick the defensive anchor fund, or None.
+
+        The anchor gives BALANCED portfolios their deliberate defensive bias:
+        one top-scored bond fund from the DEFENSIVE band, reserved a fixed
+        budget (``risk_bands.ANCHOR_BUDGETS``). The pool is built from the
+        PRE-risk-band set (post ESG/ETF filters) because the profile's own
+        band would exclude the ballast funds (e.g. BALANCED ``vol_min``).
+        Constraints (P3 hybrid): ``asset_class == "bond"`` AND DEFENSIVE-band
+        membership — srri-3 mixed funds cannot win the ballast slot, and label
+        errors fail safe (pool shrinks → skip, never a wrong anchor). Profiles
+        with a zero budget and empty pools skip the anchor gracefully.
+        """
+        budget_pct = self._anchor_budgets.get(
+            risk_profile, anchor_budget_for_profile(risk_profile)
+        )
+        if budget_pct <= 0:
+            if trace is not None:
+                trace["anchor"] = {
+                    "enabled": False,
+                    "budget_pct": budget_pct,
+                    "risk_profile": risk_profile,
+                    "skipped_reason": "zero_budget_for_profile",
+                }
+            return None
+
+        defensive_band = self._risk_band_for_profile("DEFENSIVE")
+        pool = [
+            f
+            for f in pre_risk
+            if str(f.get("asset_class") or "").lower() == "bond"
+            and self._fund_in_risk_band(f, defensive_band)
+        ]
+        if not pool:
+            if trace is not None:
+                trace["anchor"] = {
+                    "enabled": True,
+                    "budget_pct": budget_pct,
+                    "risk_profile": risk_profile,
+                    "pool_size": 0,
+                    "pool_isins": [],
+                    "skipped_reason": "no_eligible_defensive_bond_fund",
+                }
+            return None
+
+        # Score within the pool: only the ranking *within* the candidates
+        # matters for the pick (same semantics as every other selection pass).
+        scored_pool = self._score_funds(pool, user_answers, risk_profile)
+        anchor = scored_pool[0]
+        anchor["_selection_pass"] = 0
+        anchor["_rank_position"] = 1  # top of the anchor pool
+        anchor["_anchor"] = True
+        anchor["_anchor_budget_pct"] = float(budget_pct)
+        if trace is not None:
+            trace["anchor"] = {
+                "enabled": True,
+                "budget_pct": budget_pct,
+                "risk_profile": risk_profile,
+                "pool_size": len(pool),
+                "pool_isins": [f.get("isin") for f in pool],
+                "selected_isin": anchor.get("isin"),
+                "selected_name": anchor.get("name"),
+            }
+        return anchor
+
     def _select_funds(
         self,
         scored: List[Dict[str, Any]],
         user_answers: Optional[Dict[str, Any]] = None,
         active_fallback: Optional[List[Dict[str, Any]]] = None,
         trace: Optional[Dict[str, Any]] = None,
+        anchor: Optional[Dict[str, Any]] = None,
     ) -> List[Dict[str, Any]]:
         pool = scored[: self.top_k]
         selected: List[Dict[str, Any]] = []
@@ -708,6 +805,27 @@ class DecisionEngine:
             provider_count[provider] = provider_count.get(provider, 0) + 1
             cat = category_for(f)
             category_count[cat] = category_count.get(cat, 0) + 1
+
+        # ---- Pass 0: defensive anchor (v4.1) --------------------------------
+        # Seeded before coverage so its theme/region/provider/category quota
+        # counts apply to the later passes (a carried preferred dimension is
+        # thereby considered satisfied). The selected_isins guard keeps a
+        # fund from ever being selected twice.
+        if anchor is not None and anchor.get("isin"):
+            _select(anchor, 0)
+            # _select derives the rank from the main ranking; the anchor pool
+            # has its own (absent there → rank 1 of the pool).
+            if anchor.get("_rank_position") is None:
+                anchor["_rank_position"] = 1
+            _note(
+                {
+                    "type": "pass0_anchor_select",
+                    "pass": 0,
+                    "isin": anchor.get("isin"),
+                    "name": anchor.get("name"),
+                    "budget_pct": anchor.get("_anchor_budget_pct"),
+                }
+            )
 
         # ---- Pass 1: coverage-first walk over the FULL ranking --------------
         # Guarantees must not depend on top_k: scan every scored fund, in
@@ -938,6 +1056,31 @@ class DecisionEngine:
                     status_by_isin.setdefault(ev["isin"], status)
 
         candidates = []
+
+        # v4.1: the defensive anchor is picked from the pre-band pool, so it is
+        # not part of `scored` — prepend it as rank 0 so the ranking trace
+        # (and with it the GUI table) shows the pass-0 pick. Guarded against
+        # the rare case of an in-band anchor that also appears in the ranking.
+        ranked_isins = {f.get("isin") for f in scored[: self.top_k]}
+        anchor = next((f for f in selected if f.get("_anchor")), None)
+        if anchor is not None and anchor.get("isin") not in ranked_isins:
+            sc = anchor.get("_scores", {})
+            candidates.append(
+                {
+                    "rank": 0,
+                    "isin": anchor.get("isin"),
+                    "name": anchor.get("name"),
+                    "provider": anchor.get("provider"),
+                    "base": sc.get("base"),
+                    "sharpe_norm": sc.get("sharpe_norm"),
+                    "mdd_norm": sc.get("mdd_norm"),
+                    "ter_norm": sc.get("ter_norm"),
+                    "boosts": sc.get("boosts", {}),
+                    "final": sc.get("final"),
+                    "status": "selected_pass0_anchor",
+                }
+            )
+
         for rank, f in enumerate(scored[: self.top_k], start=1):
             sc = f.get("_scores", {})
             isin = f.get("isin")
@@ -986,16 +1129,22 @@ class DecisionEngine:
     def _is_core_fund(self, fund: Dict[str, Any]) -> bool:
         sel_pass = fund.get("_selection_pass")
         rank = fund.get("_rank_position")
+        if sel_pass == 0:
+            # v4.1 defensive anchor — always core: its fixed budget is the
+            # portfolio's ballast, never a capped satellite.
+            return True
         if sel_pass == 1:
             return rank is not None and rank <= self.final_fund_count
         # pass 2 (or unannotated): selected by quality ranking → core
         return True
 
     def _classification_reason(self, fund: Dict[str, Any]) -> str:
-        """Trace-facing reason: core_top_performer / core_quality_selected /
-        satellite_coverage_only."""
+        """Trace-facing reason: core_defensive_anchor / core_top_performer /
+        core_quality_selected / satellite_coverage_only."""
         sel_pass = fund.get("_selection_pass")
         rank = fund.get("_rank_position")
+        if sel_pass == 0:
+            return "core_defensive_anchor"
         if sel_pass == 1:
             if rank is not None and rank <= self.final_fund_count:
                 return "core_top_performer"
@@ -1037,8 +1186,34 @@ class DecisionEngine:
 
         # v4 classification (Step 8) — pass/rank aware, recorded in the trace.
         classifications = {f["isin"]: self._classify_core_satellite(f) for f in selected}
-        cores = [f for f in selected if classifications[f["isin"]] == "core"]
-        satellites = [f for f in selected if classifications[f["isin"]] == "satellite"]
+
+        # v4.1 anchor carve-out: the defensive anchor receives its fixed
+        # budget; the remaining funds share the rest under the band logic
+        # unchanged. Satellite cap and per-fund floor are evaluated in the
+        # rest's normalised space so their portfolio-level meaning survives.
+        anchor_fund = next((f for f in selected if f.get("_anchor")), None)
+        anchor_budget = 0.0
+        anchor_reduced_by_floor = False
+        if anchor_fund is not None:
+            anchor_budget = self._as_float(anchor_fund.get("_anchor_budget_pct"))
+            if anchor_budget <= 0:
+                anchor_budget = self._anchor_budgets.get(
+                    risk_profile, anchor_budget_for_profile(risk_profile)
+                )
+            anchor_budget = min(100.0, max(0.0, anchor_budget)) / 100.0
+            # The rest must still be able to carry the per-fund floor.
+            floor0 = self.min_allocation_percentage / 100.0
+            max_anchor = 1.0 - floor0 * (len(selected) - 1)
+            if anchor_budget > max_anchor + 1e-9:
+                anchor_budget = max(0.0, max_anchor)
+                anchor_reduced_by_floor = True
+        rest_total = 1.0 - anchor_budget
+        alloc_pool = [f for f in selected if f is not anchor_fund]
+
+        cores = [f for f in alloc_pool if classifications[f["isin"]] == "core"]
+        satellites = [
+            f for f in alloc_pool if classifications[f["isin"]] == "satellite"
+        ]
 
         if trace is not None:
             trace["classification"] = {
@@ -1066,16 +1241,19 @@ class DecisionEngine:
         scores = {f["isin"]: _score(f) for f in selected}
 
         # Band budgeting (Step 9): split core/satellite only when needed.
-        # The cap is allocation policy and resolves per request (risk profile).
+        # The cap is allocation policy and resolves per request (risk profile)
+        # and is expressed in the rest's normalised space when an anchor is
+        # carved out (cap_pct / rest_total ⇔ the same % of the total).
         cap_pct = self._satellite_total_caps.get(
             risk_profile, satellite_total_cap_for_profile(risk_profile)
         )
+        cap_pct_alloc = cap_pct / rest_total if rest_total > 0 else cap_pct
         sat_budget = 1.0
         core_budget = 0.0
         if satellites and cores:
-            total_score = sum(scores.values())
+            total_score = sum(scores[f["isin"]] for f in alloc_pool)
             sat_share = sum(scores[f["isin"]] for f in satellites) / total_score
-            cap = cap_pct / 100.0
+            cap = cap_pct_alloc / 100.0
             if sat_share > cap:
                 sat_cap_applied = True
                 sat_budget = cap
@@ -1087,7 +1265,7 @@ class DecisionEngine:
         bands = (
             ((cores, core_budget), (satellites, sat_budget))
             if core_budget > 0
-            else ((selected, 1.0),)
+            else ((alloc_pool, 1.0),)
         )
         weights: Dict[str, float] = {}
         for group, budget in bands:
@@ -1114,7 +1292,12 @@ class DecisionEngine:
         # the trace (`cap_breached_by_floor`).
         floor_applied = False
         cap_breached_by_floor = False
-        floor = self.min_allocation_percentage / 100.0
+        # Effective floor in the rest's normalised space: actual ≥ floor.
+        floor = (
+            self.min_allocation_percentage / 100.0 / rest_total
+            if rest_total > 0
+            else self.min_allocation_percentage / 100.0
+        )
         if floor > 0:
             before_floor = dict(weights)
             if core_budget > 0:
@@ -1149,6 +1332,13 @@ class DecisionEngine:
                 for i in weights
             )
 
+        # v4.1: scale the rest back to actual portfolio weights and pin the
+        # anchor at exactly its (possibly floor-reduced) budget.
+        if anchor_fund is not None:
+            weights = {k: v * rest_total for k, v in weights.items()}
+            weights[anchor_fund["isin"]] = anchor_budget
+        weights = self._normalize(weights)
+
         # Trace-only: finalise the per-fund allocation breakdown.
         if trace is not None and "allocation" in trace:
             alloc_rec: Dict[str, Dict[str, Any]] = {}
@@ -1176,6 +1366,15 @@ class DecisionEngine:
             trace["allocation"]["satellite_total_cap"] = cap_pct
             trace["allocation"]["risk_profile"] = risk_profile
             trace["allocation"]["cap_breached_by_floor"] = cap_breached_by_floor
+            trace["allocation"]["anchor_isin"] = (
+                anchor_fund["isin"] if anchor_fund is not None else None
+            )
+            trace["allocation"]["anchor_budget"] = (
+                round(anchor_budget * 100.0, 2)
+                if anchor_fund is not None
+                else None
+            )
+            trace["allocation"]["anchor_reduced_by_floor"] = anchor_reduced_by_floor
             trace["allocation"]["funds"] = [
                 alloc_rec[f["isin"]] for f in selected if f["isin"] in alloc_rec
             ]
@@ -1264,6 +1463,16 @@ class DecisionEngine:
             alloc = int(round(weights.get(isin, 0.0) * 100))
 
             reasons = []
+            if f.get("_anchor"):
+                reasons.append(
+                    self._t(
+                        language,
+                        "decision.reason.defensive_anchor",
+                        "Defensive anchor: fixed {budget}% allocation that stabilises your balanced risk profile.",
+                    ).format(
+                        budget=int(round(self._as_float(f.get("_anchor_budget_pct"))))
+                    )
+                )
             if f.get("is_etf"):
                 reasons.append(
                     self._t(
@@ -1361,6 +1570,7 @@ class DecisionEngine:
                     "core_satellite_class": self._classify_core_satellite(f),
                     "core_satellite_reason": self._classification_reason(f),
                     "etf_not_available": f.get("etf_not_available", False),
+                    "is_defensive_anchor": bool(f.get("_anchor")),
                     "rationale": " ".join(reasons[:2])
                     if reasons
                     else self._t(
@@ -1394,6 +1604,7 @@ class DecisionEngine:
         region_exposure: Dict[str, float] = {}
         theme_exposure: Dict[str, float] = {}
         etf_share = 0.0
+        defensive_share = 0.0
 
         for r in recommendations:
             w = (r.get("allocation_percent", 0.0) or 0.0) / 100.0
@@ -1409,6 +1620,8 @@ class DecisionEngine:
 
             if r.get("is_etf"):
                 etf_share += w
+            if str(r.get("asset_class") or "").lower() == "bond":
+                defensive_share += w
 
         if total_weight <= 0:
             total_weight = 1.0
@@ -1430,6 +1643,7 @@ class DecisionEngine:
             "region_exposures": {k: round(v, 3) for k, v in region_exposure.items()},
             "theme_exposures": {k: round(v, 3) for k, v in theme_exposure.items()},
             "etf_share": round(etf_share, 3),
+            "defensive_share": round(defensive_share, 3),
         }
 
     def _build_summary(

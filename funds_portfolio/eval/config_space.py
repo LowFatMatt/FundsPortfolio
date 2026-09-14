@@ -26,6 +26,7 @@ import itertools
 from typing import Any, Dict, List, Optional, Sequence
 
 from ..portfolio.decision_engine import BOOST_ELEVATORS as _ENGINE_BOOSTS
+from ..portfolio.risk_bands import ANCHOR_BUDGETS as _ENGINE_ANCHOR_BUDGETS
 
 # Canonical boost keys; must match decision_engine.BOOST_ELEVATORS.
 BOOST_KEYS = ("ETF", "ESG", "Region", "Theme")
@@ -109,4 +110,45 @@ def baseline_configs() -> List[Dict[str, Any]]:
     out = [_make_config(LIVE_BOOSTS, True, "live")]
     if SPEC_BOOSTS != LIVE_BOOSTS:
         out.append(_make_config(SPEC_BOOSTS, True, "spec"))
+    return out
+
+
+# --- v4.1: defensive-anchor sweep dimension ---------------------------------
+#
+# The BALANCED anchor budget is the tunable behind the equity-quota corridor
+# (plans/defensive_anchor_balanced.md). The live default is DERIVED from the
+# engine's policy table (drift-proof, like the boosts); 0 disables the anchor
+# (pre-v4.1 behaviour) so every sweep contains the status quo ante contrast.
+LIVE_ANCHOR_BAL: float = float(_ENGINE_ANCHOR_BUDGETS["BALANCED"])
+DEFAULT_ANCHOR_GRID: List[float] = [0.0, 25.0, 30.0, 35.0]
+
+
+def augment_anchor_budgets(
+    configs: List[Dict[str, Any]],
+    grid: Optional[Sequence[float]] = None,
+) -> List[Dict[str, Any]]:
+    """Clone each config across the BALANCED anchor-budget grid.
+
+    Opt-in: callers who want the anchor dimension call this on the boost
+    configs (or the baselines). ``engine_kwargs.anchor_budgets`` overrides the
+    BALANCED budget only; DEFENSIVE/OPPORTUNITY keep their zero defaults. The
+    baseline flag survives only on the clone matching the live budget.
+    """
+    values = list(grid) if grid is not None else list(DEFAULT_ANCHOR_GRID)
+    if LIVE_ANCHOR_BAL not in values:
+        values.append(LIVE_ANCHOR_BAL)
+    out: List[Dict[str, Any]] = []
+    for cfg in configs:
+        for budget in sorted(values):
+            clone = dict(cfg)
+            clone["config_id"] = f"{cfg['config_id']}_anc{int(round(budget))}"
+            clone["label"] = f"{cfg['label']}|Anc={int(round(budget))}"
+            clone["engine_kwargs"] = {
+                **cfg.get("engine_kwargs", {}),
+                "anchor_budgets": {"BALANCED": budget},
+            }
+            clone["is_baseline"] = bool(cfg.get("is_baseline")) and (
+                budget == LIVE_ANCHOR_BAL
+            )
+            out.append(clone)
     return out
