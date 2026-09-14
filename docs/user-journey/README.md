@@ -147,7 +147,7 @@ Legend — **Screen**: canonical slug used in [`screens.md`](screens.md) and [`t
 | S-11 | `investment-strategy` | `InvestmentStrategy` / `InvestmentStrategyRecommendation` | 13, 39, 42 | `risk` → section `risk_approach` | **PARTIAL** | no A&G-based recommendation/preselection; no mouseover vol texts 8/15/30 %; open spec questions ([D-06](#d-06), [D-11](#d-11)) |
 | S-12 | `esg-basic` | `EsgBasic` *(once `EsgBasics` — [D-17](#d-17))* | 14–16 | `esg` → section `esg_preference` | **PARTIAL** | no confirm popup for strict selection (slide 16); entry to details screen missing |
 | S-13 | `esg-details` | `EsgDetails` | 17–18 | — | **PLANNED** | regulatory question set; shown *"only when clicking on präferenzen festlegen"*; error popup *"zu wenig Fonds"* → Berater finden ([D-12](#d-12)) |
-| S-14 | `etf` | `ETF` | 19 | `etf` → section `etf_preference` | **PARTIAL** | 3 mouseover info texts not rendered; PDF annotates *"only for Komfort"* ([D-08](#d-08)) |
+| S-14 | `etf` | `ETF` | 19 | `etf` → section `etf_preference` | **PARTIAL** | 3 mouseover info texts not rendered; PDF annotates *"only for Komfort"* ([D-08](#d-08)); `etf_only` gated per risk approach ([D-19](#d-19), resolved) |
 | S-15 | `customer-type` | `CustomerType` | 20 | `activity` | **IMPLEMENTED** | Komfort → direct result works via `showIf` in variant B |
 | S-16 | `region-gate` | — *(annotation `only for "Aktiv-Kunde"`)* | 21 | `region_gate` (B only) | **IMPLEMENTED** | variant A shows regions ungated |
 | S-17 | `regions` | `RegionTypes` *(also `Regions`)* | 22 | `regions` | **PARTIAL** | `max: 2` vs. spec max 1 ([D-01](#d-01)); DEF exclusion of Asia/Emerging soft, not hard ([D-05](#d-05)); budget DEF1/BAL2/OPP3 enforced |
