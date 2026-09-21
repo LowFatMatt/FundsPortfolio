@@ -1,11 +1,11 @@
 {
   "isin": "DE000ETFL631",
-  "as_of": "2026-06-01",
+  "as_of": "2026-09-18",
   "schema_version": 2,
   "source": "factsheetslive",
-  "source_url": "https://provinzial-nord.stg.wt.factsheetslive.com/produkt/DE000ETFL631",
+  "source_url": "https://provinzial-nord.wt.factsheetslive.com/produkt/DE000ETFL631",
   "currency": "EUR",
-  "fund_name": "Deka S&P 500 UCITS ETF",
+  "fund_name": "Deka SP 500 UCITS ETF",
   "provinzial_fund_type": "Aktienfonds",
   "region": "north_america",
   "theme": "NONE",
@@ -13,14 +13,14 @@
   "sri": 4,
   "performance": {
     "periods": {
-      "3m": 0.1149,
-      "6m": 0.1027,
-      "ytd": 0.1088,
-      "1y": 0.2527,
+      "3m": 0.0131,
+      "6m": 0.126,
+      "ytd": 0.1219,
+      "1y": 0.1826,
       "3y_pa": null,
       "5y_pa": null,
       "10y_pa": null,
-      "si_pa": 0.1541
+      "si_pa": 0.1394
     },
     "nav_series": [
       {
@@ -121,26 +121,42 @@
       },
       {
         "d": "2026-03-31",
-        "v": 118.0411
+        "v": 118.2168
       },
       {
         "d": "2026-04-30",
-        "v": 128.0677
+        "v": 128.2583
       },
       {
-        "d": "2026-05-28",
-        "v": 135.4094
+        "d": "2026-05-29",
+        "v": 135.6541
+      },
+      {
+        "d": "2026-06-30",
+        "v": 137.0955
+      },
+      {
+        "d": "2026-07-31",
+        "v": 136.1037
+      },
+      {
+        "d": "2026-08-31",
+        "v": 138.4282
+      },
+      {
+        "d": "2026-09-16",
+        "v": 137.0037
       }
     ]
   },
   "volatility": {
-    "1y": 0.12,
+    "1y": 0.125,
     "3y": null,
     "5y": null
   },
   "risk_metrics": {
     "sharpe": {
-      "1y": 1.91,
+      "1y": 1.27,
       "3y": null,
       "5y": null
     },
@@ -151,32 +167,33 @@
     }
   },
   "asset_class_breakdown": {
-    "equity": 1.0005
+    "equity": 0.9997,
+    "cash": 0.0003
   },
   "top_holdings": [
     {
       "name": "Nvidia Corp.",
-      "weight": 0.0758
+      "weight": 0.0809
     },
     {
       "name": "Apple Inc.",
-      "weight": 0.0667
+      "weight": 0.0704
     },
     {
       "name": "Microsoft Corp.",
-      "weight": 0.0492
+      "weight": 0.0571
     },
     {
       "name": "Amazon.com Inc.",
-      "weight": 0.0364
+      "weight": 0.0385
     },
     {
       "name": "Alphabet, Inc. - Class A",
-      "weight": 0.03
+      "weight": 0.0301
     },
     {
       "name": "Broadcom Inc.",
-      "weight": 0.0263
+      "weight": 0.0265
     },
     {
       "name": "Alphabet, Inc. - Class C",
@@ -184,14 +201,14 @@
     },
     {
       "name": "Meta Platforms Inc.",
-      "weight": 0.0224
+      "weight": 0.019
+    },
+    {
+      "name": "Micron Technology",
+      "weight": 0.0163
     },
     {
       "name": "Tesla Inc.",
-      "weight": 0.0187
-    },
-    {
-      "name": "Berkshire Hathaway, Inc. B",
       "weight": 0.0157
     }
   ]

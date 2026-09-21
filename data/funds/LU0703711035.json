@@ -1,9 +1,9 @@
 {
   "isin": "LU0703711035",
-  "as_of": "2026-06-01",
+  "as_of": "2026-09-18",
   "schema_version": 2,
   "source": "factsheetslive",
-  "source_url": "https://provinzial-nord.stg.wt.factsheetslive.com/produkt/LU0703711035",
+  "source_url": "https://provinzial-nord.wt.factsheetslive.com/produkt/LU0703711035",
   "currency": "EUR",
   "fund_name": "Deka-ESG Renten CF (A)",
   "provinzial_fund_type": "Renten/Geldmarktfonds",
@@ -13,14 +13,14 @@
   "sri": 2,
   "performance": {
     "periods": {
-      "3m": -0.0084,
-      "6m": 0.0017,
-      "ytd": 0.0037,
-      "1y": 0.0208,
-      "3y_pa": 0.0447,
-      "5y_pa": 0.0043,
-      "10y_pa": 0.0201,
-      "si_pa": 0.037
+      "3m": -0.0215,
+      "6m": -0.0106,
+      "ytd": -0.0145,
+      "1y": -0.0119,
+      "3y_pa": 0.0368,
+      "5y_pa": -0.0016,
+      "10y_pa": 0.0148,
+      "si_pa": 0.0349
     },
     "nav_series": [
       {
@@ -718,62 +718,74 @@
       {
         "d": "2026-05-29",
         "v": 168.8798
+      },
+      {
+        "d": "2026-06-30",
+        "v": 169.9436
+      },
+      {
+        "d": "2026-07-31",
+        "v": 168.2443
+      },
+      {
+        "d": "2026-08-31",
+        "v": 167.8713
+      },
+      {
+        "d": "2026-09-17",
+        "v": 165.8266
       }
     ]
   },
   "volatility": {
-    "1y": 0.0258,
-    "3y": 0.0291,
-    "5y": 0.0341
+    "1y": 0.0272,
+    "3y": 0.028,
+    "5y": 0.0345
   },
   "risk_metrics": {
     "sharpe": {
-      "1y": 0.06,
-      "3y": 0.53,
-      "5y": -0.42
+      "1y": -1.16,
+      "3y": 0.32,
+      "5y": -0.63
     },
     "max_drawdown": {
       "1y": null,
       "3y": -0.0279,
-      "5y": -0.1688
+      "5y": -0.1648
     }
   },
   "asset_class_breakdown": {
-    "bond": 0.9707,
-    "other": 0.0293
+    "bond": 0.9778,
+    "cash": 0.0222
   },
   "top_holdings": [
-    {
-      "name": "mBank S.A. FLR Non-Pref. MTN 23/27",
-      "weight": 0.0024
-    },
-    {
-      "name": "Lloyds Banking Group PLC FLR MTN 24/32",
-      "weight": 0.0023
-    },
     {
       "name": "Bque Fédérative du Cr. Mutuel Pref. MTN 24/31",
       "weight": 0.0023
     },
     {
       "name": "Generali S.p.A. FLR Bonds 17/47",
-      "weight": 0.0022
+      "weight": 0.0023
     },
     {
       "name": "Caixa Geral de Depósitos S.A. FLR Pref. MTN 25/31",
       "weight": 0.0021
     },
     {
-      "name": "Muenchener Rueckvers.-G. AG FLR Sub. Nts 22/42 R.S",
-      "weight": 0.002
-    },
-    {
       "name": "GEWOBAG Wohnungsbau-AG Berlin MTN 21/27",
-      "weight": 0.002
+      "weight": 0.0021
     },
     {
       "name": "ELM B.V. LPN FLR MTN 17/47",
       "weight": 0.002
+    },
+    {
+      "name": "Muenchener Rueckvers.-G. AG FLR Sub. Nts 22/42 R.S",
+      "weight": 0.002
+    },
+    {
+      "name": "IHG Finance LLC MTN 25/30",
+      "weight": 0.0019
     },
     {
       "name": "Bankinter S.A. FLR Pref. MTN 25/33",
@@ -781,6 +793,10 @@
     },
     {
       "name": "Coöperatieve Rabobank U.A. Non-Preferred MTN 25/35",
+      "weight": 0.0019
+    },
+    {
+      "name": "3.5% Swisscom Finance B.V. 24/31 11/2031",
       "weight": 0.0018
     }
   ]

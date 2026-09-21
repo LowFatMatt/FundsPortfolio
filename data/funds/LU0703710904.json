@@ -1,9 +1,9 @@
 {
   "isin": "LU0703710904",
-  "as_of": "2026-06-01",
+  "as_of": "2026-09-18",
   "schema_version": 2,
   "source": "factsheetslive",
-  "source_url": "https://provinzial-nord.stg.wt.factsheetslive.com/produkt/LU0703710904",
+  "source_url": "https://provinzial-nord.wt.factsheetslive.com/produkt/LU0703710904",
   "currency": "EUR",
   "fund_name": "Deka-ESG Aktien CF (A)",
   "provinzial_fund_type": "Aktienfonds",
@@ -13,14 +13,14 @@
   "sri": 4,
   "performance": {
     "periods": {
-      "3m": 0.0932,
-      "6m": 0.1025,
-      "ytd": 0.1011,
-      "1y": 0.2138,
-      "3y_pa": 0.1475,
-      "5y_pa": 0.0922,
+      "3m": -0.0048,
+      "6m": 0.1212,
+      "ytd": 0.1047,
+      "1y": 0.1525,
+      "3y_pa": 0.1342,
+      "5y_pa": 0.0754,
       "10y_pa": 0.1002,
-      "si_pa": 0.1015
+      "si_pa": 0.0996
     },
     "nav_series": [
       {
@@ -718,19 +718,35 @@
       {
         "d": "2026-05-29",
         "v": 402.4699
+      },
+      {
+        "d": "2026-06-30",
+        "v": 408.0857
+      },
+      {
+        "d": "2026-07-31",
+        "v": 401.1005
+      },
+      {
+        "d": "2026-08-31",
+        "v": 409.9154
+      },
+      {
+        "d": "2026-09-17",
+        "v": 403.7703
       }
     ]
   },
   "volatility": {
-    "1y": 0.1121,
-    "3y": 0.1417,
-    "5y": 0.1467
+    "1y": 0.1192,
+    "3y": 0.1436,
+    "5y": 0.1484
   },
   "risk_metrics": {
     "sharpe": {
-      "1y": 1.71,
-      "3y": 0.82,
-      "5y": 0.49
+      "1y": 1.09,
+      "3y": 0.72,
+      "5y": 0.36
     },
     "max_drawdown": {
       "1y": null,
@@ -739,49 +755,49 @@
     }
   },
   "asset_class_breakdown": {
-    "equity": 0.9782,
-    "other": 0.0218
+    "equity": 0.9972,
+    "cash": 0.0028
   },
   "top_holdings": [
     {
       "name": "Nvidia Corp.",
-      "weight": 0.0782
+      "weight": 0.0748
     },
     {
       "name": "Apple Inc.",
-      "weight": 0.0606
+      "weight": 0.0709
     },
     {
       "name": "Alphabet, Inc. - Class A",
-      "weight": 0.0583
+      "weight": 0.0554
     },
     {
       "name": "Microsoft Corp.",
-      "weight": 0.0463
+      "weight": 0.0491
     },
     {
       "name": "Amazon.com Inc.",
-      "weight": 0.0406
+      "weight": 0.0416
     },
     {
       "name": "Broadcom Inc.",
-      "weight": 0.0253
-    },
-    {
-      "name": "Meta Platforms Inc.",
-      "weight": 0.023
+      "weight": 0.0225
     },
     {
       "name": "JPMorgan Chase & Co.",
-      "weight": 0.0174
+      "weight": 0.0182
     },
     {
       "name": "Tesla Inc.",
-      "weight": 0.0155
+      "weight": 0.0158
     },
     {
-      "name": "Walmart Inc.",
-      "weight": 0.0113
+      "name": "Meta Platforms Inc.",
+      "weight": 0.0157
+    },
+    {
+      "name": "Eli Lilly & Co.",
+      "weight": 0.0141
     }
   ]
 }

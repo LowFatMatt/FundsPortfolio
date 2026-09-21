@@ -1,9 +1,9 @@
 {
   "isin": "LU2531392699",
-  "as_of": "2026-06-01",
+  "as_of": "2026-09-18",
   "schema_version": 2,
   "source": "factsheetslive",
-  "source_url": "https://provinzial-nord.stg.wt.factsheetslive.com/produkt/LU2531392699",
+  "source_url": "https://provinzial-nord.wt.factsheetslive.com/produkt/LU2531392699",
   "currency": "EUR",
   "fund_name": "SK UnnaKamen Impact Invest",
   "provinzial_fund_type": "Bankspezifische Fonds",
@@ -13,14 +13,14 @@
   "sri": 3,
   "performance": {
     "periods": {
-      "3m": 0.0344,
-      "6m": 0.0572,
-      "ytd": 0.0686,
-      "1y": 0.0681,
-      "3y_pa": null,
+      "3m": -0.0385,
+      "6m": 0.0197,
+      "ytd": 0.0335,
+      "1y": 0.0315,
+      "3y_pa": 0.0461,
       "5y_pa": null,
       "10y_pa": null,
-      "si_pa": 0.061
+      "si_pa": 0.0433
     },
     "nav_series": [
       {
@@ -154,18 +154,34 @@
       {
         "d": "2026-05-29",
         "v": 121.2159
+      },
+      {
+        "d": "2026-06-30",
+        "v": 124.5028
+      },
+      {
+        "d": "2026-07-31",
+        "v": 117.8877
+      },
+      {
+        "d": "2026-08-31",
+        "v": 118.7223
+      },
+      {
+        "d": "2026-09-17",
+        "v": 117.2385
       }
     ]
   },
   "volatility": {
-    "1y": 0.084,
-    "3y": null,
+    "1y": 0.103,
+    "3y": 0.0899,
     "5y": null
   },
   "risk_metrics": {
     "sharpe": {
-      "1y": 0.58,
-      "3y": null,
+      "1y": 0.11,
+      "3y": 0.2,
       "5y": null
     },
     "max_drawdown": {
@@ -175,50 +191,51 @@
     }
   },
   "asset_class_breakdown": {
-    "equity": 0.541,
-    "bond": 0.349,
-    "other": 0.11
+    "equity": 0.525,
+    "bond": 0.365,
+    "cash": 0.063,
+    "other": 0.047
   },
   "top_holdings": [
     {
       "name": "Nvidia Corp.",
-      "weight": 0.024
+      "weight": 0.031
     },
     {
       "name": "Taiwan Semiconductor Manufact.",
-      "weight": 0.019
-    },
-    {
-      "name": "Microsoft Corp.",
-      "weight": 0.016
-    },
-    {
-      "name": "nVent Electric PLC",
-      "weight": 0.014
-    },
-    {
-      "name": "Vertiv Holdings Co. - A",
-      "weight": 0.013
+      "weight": 0.022
     },
     {
       "name": "Alphabet, Inc. - Class A",
-      "weight": 0.013
+      "weight": 0.02
     },
     {
-      "name": "Ecolab",
-      "weight": 0.012
+      "name": "nVent Electric PLC",
+      "weight": 0.018
+    },
+    {
+      "name": "Prysmian",
+      "weight": 0.018
+    },
+    {
+      "name": "Broadcom Inc.",
+      "weight": 0.016
+    },
+    {
+      "name": "Vertiv Holdings Co. - A",
+      "weight": 0.015
+    },
+    {
+      "name": "Microsoft Corp.",
+      "weight": 0.015
     },
     {
       "name": "Quanta Services",
-      "weight": 0.012
+      "weight": 0.015
     },
     {
-      "name": "SSE PLC",
-      "weight": 0.012
-    },
-    {
-      "name": "Siemens Energy AG",
-      "weight": 0.011
+      "name": "Eaton Corp.",
+      "weight": 0.013
     }
   ]
 }

@@ -1,26 +1,26 @@
 {
   "isin": "DE000DK0V6U7",
-  "as_of": "2026-06-11",
+  "as_of": "2026-09-18",
   "schema_version": 2,
   "source": "factsheetslive",
-  "source_url": "https://provinzial-nord.stg.wt.factsheetslive.com/produkt/DE000DK0V6U7",
+  "source_url": "https://provinzial-nord.wt.factsheetslive.com/produkt/DE000DK0V6U7",
   "currency": "EUR",
   "fund_name": "Deka-Perspektive Dynamisch CF",
   "provinzial_fund_type": "Mischfonds",
   "region": "global",
   "theme": "NONE",
-  "ter": 0.0148,
+  "ter": 0.0139,
   "sri": 3,
   "performance": {
     "periods": {
-      "3m": 0.0205,
-      "6m": 0.0263,
-      "ytd": 0.0243,
-      "1y": 0.1404,
-      "3y_pa": 0.1179,
-      "5y_pa": 0.0424,
+      "3m": 0.0375,
+      "6m": 0.0555,
+      "ytd": 0.0602,
+      "1y": 0.1123,
+      "3y_pa": 0.1341,
+      "5y_pa": 0.0423,
       "10y_pa": null,
-      "si_pa": 0.0414
+      "si_pa": 0.0459
     },
     "nav_series": [
       {
@@ -92,8 +92,8 @@
         "v": 83.9699
       },
       {
-        "d": "2022-10-27",
-        "v": 84.2723
+        "d": "2022-10-31",
+        "v": 86.2882
       },
       {
         "d": "2022-11-30",
@@ -268,21 +268,33 @@
         "v": 125.7904
       },
       {
-        "d": "2026-06-09",
-        "v": 123.6087
+        "d": "2026-06-30",
+        "v": 122.2056
+      },
+      {
+        "d": "2026-07-31",
+        "v": 124.2317
+      },
+      {
+        "d": "2026-08-31",
+        "v": 129.4324
+      },
+      {
+        "d": "2026-09-17",
+        "v": 127.9372
       }
     ]
   },
   "volatility": {
-    "1y": 0.09,
-    "3y": 0.1061,
-    "5y": 0.1208
+    "1y": 0.0959,
+    "3y": 0.107,
+    "5y": 0.1222
   },
   "risk_metrics": {
     "sharpe": {
-      "1y": 1.32,
-      "3y": 0.82,
-      "5y": 0.19
+      "1y": 0.94,
+      "3y": 0.97,
+      "5y": 0.18
     },
     "max_drawdown": {
       "1y": null,
@@ -291,51 +303,51 @@
     }
   },
   "asset_class_breakdown": {
-    "equity": 0.6688,
-    "other": 0.1735,
-    "bond": 0.0886,
-    "commodities": 0.0691
+    "equity": 0.7961,
+    "commodities": 0.1125,
+    "bond": 0.0837,
+    "cash": 0.0827
   },
   "top_holdings": [
     {
+      "name": "Invesco Physical Markets PLC",
+      "weight": 0.0734
+    },
+    {
       "name": "Bundesrep.Deutschland Anl. Gruene 23/33",
-      "weight": 0.0784
-    },
-    {
-      "name": "Alphabet, Inc. - Class A",
-      "weight": 0.0527
-    },
-    {
-      "name": "Amazon.com Inc.",
-      "weight": 0.0507
-    },
-    {
-      "name": "Nvidia Corp.",
-      "weight": 0.0505
+      "weight": 0.0728
     },
     {
       "name": "Microsoft Corp.",
-      "weight": 0.0489
+      "weight": 0.0517
     },
     {
-      "name": "Invesco Physical Markets PLC",
-      "weight": 0.0439
-    },
-    {
-      "name": "Broadcom Inc.",
-      "weight": 0.0375
+      "name": "Nvidia Corp.",
+      "weight": 0.0454
     },
     {
       "name": "Apple Inc.",
-      "weight": 0.0364
+      "weight": 0.0434
     },
     {
-      "name": "Meta Platforms Inc.",
-      "weight": 0.0267
+      "name": "Alphabet, Inc. - Class A",
+      "weight": 0.0417
+    },
+    {
+      "name": "Amazon.com Inc.",
+      "weight": 0.0413
+    },
+    {
+      "name": "Broadcom Inc.",
+      "weight": 0.0266
     },
     {
       "name": "Taiwan Semiconductor Manufact.",
-      "weight": 0.0241
+      "weight": 0.023
+    },
+    {
+      "name": "Samsung Eletr. GDR",
+      "weight": 0.0215
     }
   ]
 }

@@ -1,9 +1,9 @@
 {
   "isin": "DE000A403EK7",
-  "as_of": "2026-06-01",
+  "as_of": "2026-09-18",
   "schema_version": 2,
   "source": "factsheetslive",
-  "source_url": "https://provinzial-nord.stg.wt.factsheetslive.com/produkt/DE000A403EK7",
+  "source_url": "https://provinzial-nord.wt.factsheetslive.com/produkt/DE000A403EK7",
   "currency": "EUR",
   "fund_name": "Provinzial Aktien Welt",
   "provinzial_fund_type": "Aktienfonds",
@@ -13,14 +13,14 @@
   "sri": 4,
   "performance": {
     "periods": {
-      "3m": 0.0823,
-      "6m": 0.106,
-      "ytd": 0.1066,
-      "1y": 0.2332,
+      "3m": 0.0119,
+      "6m": 0.1278,
+      "ytd": 0.1314,
+      "1y": 0.1794,
       "3y_pa": null,
       "5y_pa": null,
       "10y_pa": null,
-      "si_pa": 0.1838
+      "si_pa": 0.1614
     },
     "nav_series": [
       {
@@ -80,19 +80,35 @@
         "v": 120.1558
       },
       {
-        "d": "2026-05-27",
-        "v": 125.7711
+        "d": "2026-05-29",
+        "v": 126.2732
+      },
+      {
+        "d": "2026-06-30",
+        "v": 128.1176
+      },
+      {
+        "d": "2026-07-31",
+        "v": 128.0152
+      },
+      {
+        "d": "2026-08-31",
+        "v": 129.9313
+      },
+      {
+        "d": "2026-09-15",
+        "v": 128.589
       }
     ]
   },
   "volatility": {
-    "1y": 0.1012,
+    "1y": 0.1052,
     "3y": null,
     "5y": null
   },
   "risk_metrics": {
     "sharpe": {
-      "1y": 2.08,
+      "1y": 1.48,
       "3y": null,
       "5y": null
     },
@@ -103,49 +119,49 @@
     }
   },
   "asset_class_breakdown": {
-    "equity": 0.9981,
-    "cash": 0.0016
+    "other": 0.9977,
+    "cash": 0.0023
   },
   "top_holdings": [
     {
-      "name": "NVIDIA Corp.",
-      "weight": 0.053
+      "name": "NVIDIA",
+      "weight": 0.0557
     },
     {
       "name": "Apple Inc.",
-      "weight": 0.045
+      "weight": 0.049
     },
     {
-      "name": "Alphabet Inc.",
-      "weight": 0.043
+      "name": "Microsoft",
+      "weight": 0.0385
     },
     {
-      "name": "Microsoft Corp.",
-      "weight": 0.036
+      "name": "iShares MSCI World ESG Screened UCITS ETF USD (Acc)",
+      "weight": 0.0272
     },
     {
-      "name": "Amazon.com Inc.",
-      "weight": 0.027
+      "name": "Amazon.com, Inc.",
+      "weight": 0.026
     },
     {
-      "name": "Meta Platforms Inc.",
-      "weight": 0.018
+      "name": "Alphabet Inc. Class A",
+      "weight": 0.0205
     },
     {
-      "name": "Broadcom Inc.",
-      "weight": 0.017
+      "name": "Broadcom (N)",
+      "weight": 0.0173
     },
     {
-      "name": "Tesla Inc.",
-      "weight": 0.014
+      "name": "Alphabet Inc.-CL C",
+      "weight": 0.0172
     },
     {
-      "name": "Eli Lilly and Co.",
-      "weight": 0.01
+      "name": "Meta Platforms Inc. Reg.Shares Cl.A DL-",
+      "weight": 0.0133
     },
     {
-      "name": "JP Morgan Chanse & Co.",
-      "weight": 0.01
+      "name": "Micron Technology Inc",
+      "weight": 0.0116
     }
   ]
 }

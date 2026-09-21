@@ -1,9 +1,9 @@
 {
   "isin": "LU0360863863",
-  "as_of": "2026-06-11",
+  "as_of": "2026-09-18",
   "schema_version": 2,
   "source": "factsheetslive",
-  "source_url": "https://provinzial-nord.stg.wt.factsheetslive.com/produkt/LU0360863863",
+  "source_url": "https://provinzial-nord.wt.factsheetslive.com/produkt/LU0360863863",
   "currency": "EUR",
   "fund_name": "ARERO - Der Weltfonds",
   "provinzial_fund_type": "Mischfonds",
@@ -13,14 +13,14 @@
   "sri": 3,
   "performance": {
     "periods": {
-      "3m": 0.0524,
-      "6m": 0.1082,
-      "ytd": 0.1006,
-      "1y": 0.187,
-      "3y_pa": 0.118,
+      "3m": 0.0051,
+      "6m": 0.0782,
+      "ytd": 0.1331,
+      "1y": 0.1845,
+      "3y_pa": 0.1189,
       "5y_pa": 0.071,
-      "10y_pa": 0.0734,
-      "si_pa": 0.0721
+      "10y_pa": 0.0746,
+      "si_pa": 0.0727
     },
     "nav_series": [
       {
@@ -872,21 +872,33 @@
         "v": 352.854
       },
       {
-        "d": "2026-06-10",
-        "v": 344.7459
+        "d": "2026-06-30",
+        "v": 352.4203
+      },
+      {
+        "d": "2026-07-31",
+        "v": 349.7378
+      },
+      {
+        "d": "2026-08-31",
+        "v": 357.2408
+      },
+      {
+        "d": "2026-09-17",
+        "v": 354.9113
       }
     ]
   },
   "volatility": {
-    "1y": 0.0731,
-    "3y": 0.0833,
-    "5y": 0.0866
+    "1y": 0.0795,
+    "3y": 0.0843,
+    "5y": 0.0873
   },
   "risk_metrics": {
     "sharpe": {
-      "1y": 2.25,
-      "3y": 1.04,
-      "5y": 0.59
+      "1y": 2.03,
+      "3y": 1.06,
+      "5y": 0.57
     },
     "max_drawdown": {
       "1y": null,
@@ -895,9 +907,10 @@
     }
   },
   "asset_class_breakdown": {
-    "equity": 0.589,
-    "bond": 0.354,
-    "other": 0.057
+    "equity": 0.595,
+    "bond": 0.381,
+    "cash": 0.015,
+    "other": 0.01
   },
   "top_holdings": []
 }

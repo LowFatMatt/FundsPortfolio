@@ -1,9 +1,9 @@
 {
   "isin": "LU2941481082",
-  "as_of": "2026-06-01",
+  "as_of": "2026-09-18",
   "schema_version": 2,
   "source": "factsheetslive",
-  "source_url": "https://provinzial-nord.stg.wt.factsheetslive.com/produkt/LU2941481082",
+  "source_url": "https://provinzial-nord.wt.factsheetslive.com/produkt/LU2941481082",
   "currency": "EUR",
   "fund_name": "Deka-Security and Defense CF",
   "provinzial_fund_type": "Aktienfonds",
@@ -13,14 +13,14 @@
   "sri": 4,
   "performance": {
     "periods": {
-      "3m": 0.0521,
-      "6m": 0.0758,
-      "ytd": 0.0732,
-      "1y": 0.0482,
+      "3m": 0.0024,
+      "6m": 0.0696,
+      "ytd": 0.0861,
+      "1y": 0.0504,
       "3y_pa": null,
       "5y_pa": null,
       "10y_pa": null,
-      "si_pa": 0.08
+      "si_pa": 0.0723
     },
     "nav_series": [
       {
@@ -86,17 +86,33 @@
       {
         "d": "2026-05-29",
         "v": 109.9735
+      },
+      {
+        "d": "2026-06-30",
+        "v": 113.1865
+      },
+      {
+        "d": "2026-07-31",
+        "v": 110.0955
+      },
+      {
+        "d": "2026-08-31",
+        "v": 113.3797
+      },
+      {
+        "d": "2026-09-17",
+        "v": 111.2953
       }
     ]
   },
   "volatility": {
-    "1y": 0.1441,
+    "1y": 0.162,
     "3y": null,
     "5y": null
   },
   "risk_metrics": {
     "sharpe": {
-      "1y": 0.2,
+      "1y": 0.18,
       "3y": null,
       "5y": null
     },
@@ -112,43 +128,43 @@
   "top_holdings": [
     {
       "name": "Palo Alto Networks, Inc",
-      "weight": 0.039
-    },
-    {
-      "name": "Broadcom Inc.",
-      "weight": 0.031
+      "weight": 0.038
     },
     {
       "name": "Crowdstrike Holdings, Inc.",
-      "weight": 0.029
+      "weight": 0.033
     },
     {
       "name": "RTX Corp",
-      "weight": 0.028
-    },
-    {
-      "name": "Palantir Technologies Inc.",
-      "weight": 0.025
-    },
-    {
-      "name": "Rolls-Royce Holdings Plc",
-      "weight": 0.025
-    },
-    {
-      "name": "GE Aerospace",
-      "weight": 0.024
-    },
-    {
-      "name": "Cloudflare",
-      "weight": 0.023
+      "weight": 0.031
     },
     {
       "name": "Alphabet, Inc. - Class A",
+      "weight": 0.025
+    },
+    {
+      "name": "Cisco Systems, Inc.",
+      "weight": 0.022
+    },
+    {
+      "name": "BAE Systems",
+      "weight": 0.022
+    },
+    {
+      "name": "Rolls Royce",
       "weight": 0.021
     },
     {
+      "name": "GE Aerospace",
+      "weight": 0.021
+    },
+    {
+      "name": "Cloudflare, Inc.",
+      "weight": 0.02
+    },
+    {
       "name": "Northrop Grumman",
-      "weight": 0.019
+      "weight": 0.02
     }
   ]
 }

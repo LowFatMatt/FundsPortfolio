@@ -1,26 +1,26 @@
 {
   "isin": "LU1508359509",
-  "as_of": "2026-06-01",
+  "as_of": "2026-09-18",
   "schema_version": 2,
   "source": "factsheetslive",
-  "source_url": "https://provinzial-nord.stg.wt.factsheetslive.com/produkt/LU1508359509",
+  "source_url": "https://provinzial-nord.wt.factsheetslive.com/produkt/LU1508359509",
   "currency": "EUR",
   "fund_name": "Deka-Industrie 4.0 CF",
   "provinzial_fund_type": "Aktienfonds",
   "region": "global",
   "theme": "technology",
   "ter": 0.015,
-  "sri": 4,
+  "sri": 5,
   "performance": {
     "periods": {
-      "3m": 0.1859,
-      "6m": 0.2124,
-      "ytd": 0.2236,
-      "1y": 0.353,
-      "3y_pa": 0.1762,
-      "5y_pa": 0.0936,
+      "3m": -0.0805,
+      "6m": 0.1081,
+      "ytd": 0.113,
+      "1y": 0.1274,
+      "3y_pa": 0.1342,
+      "5y_pa": 0.0516,
       "10y_pa": null,
-      "si_pa": 0.1265
+      "si_pa": 0.1115
     },
     "nav_series": [
       {
@@ -478,19 +478,35 @@
       {
         "d": "2026-05-29",
         "v": 311.848
+      },
+      {
+        "d": "2026-06-30",
+        "v": 312.9059
+      },
+      {
+        "d": "2026-07-31",
+        "v": 280.2863
+      },
+      {
+        "d": "2026-08-31",
+        "v": 290.5681
+      },
+      {
+        "d": "2026-09-17",
+        "v": 283.6584
       }
     ]
   },
   "volatility": {
-    "1y": 0.1661,
-    "3y": 0.1897,
-    "5y": 0.2006
+    "1y": 0.2001,
+    "3y": 0.2001,
+    "5y": 0.206
   },
   "risk_metrics": {
     "sharpe": {
-      "1y": 1.99,
-      "3y": 0.76,
-      "5y": 0.37
+      "1y": 0.53,
+      "3y": 0.52,
+      "5y": 0.15
     },
     "max_drawdown": {
       "1y": null,
@@ -499,49 +515,49 @@
     }
   },
   "asset_class_breakdown": {
-    "equity": 0.9892,
-    "other": 0.0108
+    "equity": 0.9687,
+    "cash": 0.0313
   },
   "top_holdings": [
     {
-      "name": "Nvidia Corp.",
-      "weight": 0.0771
-    },
-    {
-      "name": "Taiwan Semiconductor Manufact.",
-      "weight": 0.0764
-    },
-    {
       "name": "Amazon.com Inc.",
-      "weight": 0.0662
+      "weight": 0.0735
+    },
+    {
+      "name": "Nvidia Corp.",
+      "weight": 0.0664
     },
     {
       "name": "Alphabet, Inc. - Class A",
-      "weight": 0.0485
+      "weight": 0.0639
     },
     {
-      "name": "Advanced Mic. Dev",
-      "weight": 0.0467
+      "name": "ASM International",
+      "weight": 0.0555
     },
     {
-      "name": "ASML Holding N.V.",
-      "weight": 0.0455
+      "name": "Taiwan Semiconductor Manufact.",
+      "weight": 0.0528
+    },
+    {
+      "name": "Keyence Corp.",
+      "weight": 0.0349
     },
     {
       "name": "Microsoft Corp.",
-      "weight": 0.0348
+      "weight": 0.0311
     },
     {
-      "name": "Keyence",
-      "weight": 0.0319
+      "name": "Samsung Electronics, Co. Ltd.",
+      "weight": 0.0253
     },
     {
-      "name": "ON Semiconductor Corp.",
-      "weight": 0.028
+      "name": "Palo Alto Networks, Inc",
+      "weight": 0.0238
     },
     {
-      "name": "Analog Devices",
-      "weight": 0.0257
+      "name": "Meta Platforms Inc.",
+      "weight": 0.022
     }
   ]
 }

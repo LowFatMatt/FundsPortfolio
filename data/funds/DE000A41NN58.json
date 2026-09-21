@@ -1,15 +1,15 @@
 {
-  "isin": "DE000A41NN41",
+  "isin": "DE000A41NN58",
   "as_of": "2026-09-18",
   "schema_version": 2,
   "source": "factsheetslive",
-  "source_url": "https://provinzial-nord.wt.factsheetslive.com/produkt/DE000A41NN41",
+  "source_url": "https://provinzial-nord.wt.factsheetslive.com/produkt/DE000A41NN58",
   "currency": "EUR",
-  "fund_name": "Provinzial MSCI World",
+  "fund_name": "Provinzial Global Dividend",
   "provinzial_fund_type": "Aktienfonds",
   "region": "global",
-  "theme": "NONE",
-  "ter": 0.0019,
+  "theme": "dividends",
+  "ter": 0.0045,
   "sri": 4,
   "performance": {
     "periods": {
@@ -20,7 +20,7 @@
       "3y_pa": null,
       "5y_pa": null,
       "10y_pa": null,
-      "si_pa": 0.2308
+      "si_pa": -0.0103
     },
     "nav_series": [
       {
@@ -29,23 +29,23 @@
       },
       {
         "d": "2026-05-29",
-        "v": 105.0749
+        "v": 103.7573
       },
       {
         "d": "2026-06-30",
-        "v": 106.4368
+        "v": 104.9427
       },
       {
         "d": "2026-07-31",
-        "v": 106.329
+        "v": 101.0749
       },
       {
         "d": "2026-08-31",
-        "v": 108.0337
+        "v": 102.5618
       },
       {
         "d": "2026-09-15",
-        "v": 107.0344
+        "v": 99.9699
       }
     ]
   },
@@ -62,54 +62,54 @@
     },
     "max_drawdown": {
       "1y": null,
-      "3y": -0.0317,
-      "5y": -0.0317
+      "3y": -0.0513,
+      "5y": -0.0513
     }
   },
   "asset_class_breakdown": {
-    "other": 0.997,
-    "cash": 0.003
+    "other": 0.996,
+    "cash": 0.004
   },
   "top_holdings": [
     {
-      "name": "NVIDIA",
-      "weight": 0.0528
+      "name": "Oracle Corporation",
+      "weight": 0.0357
     },
     {
-      "name": "iShares Core MSCI World UCITS ETF USD Acc",
-      "weight": 0.0481
+      "name": "carsales.com Ltd. Registered Shares o.N.",
+      "weight": 0.0341
     },
     {
-      "name": "Apple Inc.",
-      "weight": 0.0477
+      "name": "Telenor ASA",
+      "weight": 0.0307
     },
     {
-      "name": "Microsoft",
-      "weight": 0.0367
+      "name": "Sanofi",
+      "weight": 0.0304
     },
     {
-      "name": "Amazon.com, Inc.",
-      "weight": 0.0259
+      "name": "United Parcel Service, Inc. Class B",
+      "weight": 0.0283
     },
     {
-      "name": "Alphabet Inc. Class A",
-      "weight": 0.0203
+      "name": "Enel SpA",
+      "weight": 0.0281
+    },
+    {
+      "name": "T. Rowe Price Group Inc. Registered Shares",
+      "weight": 0.0278
+    },
+    {
+      "name": "Munich Reinsurance Company",
+      "weight": 0.0275
+    },
+    {
+      "name": "Best Buy Co Inc",
+      "weight": 0.0273
     },
     {
       "name": "Broadcom (N)",
-      "weight": 0.0174
-    },
-    {
-      "name": "Alphabet Inc.-CL C",
-      "weight": 0.0161
-    },
-    {
-      "name": "Meta Platforms Inc. Reg.Shares Cl.A DL-",
-      "weight": 0.0128
-    },
-    {
-      "name": "Micron Technology Inc",
-      "weight": 0.0113
+      "weight": 0.0271
     }
   ]
 }

@@ -1,9 +1,9 @@
 {
   "isin": "LU2339791803",
-  "as_of": "2026-06-01",
+  "as_of": "2026-09-18",
   "schema_version": 2,
   "source": "factsheetslive",
-  "source_url": "https://provinzial-nord.stg.wt.factsheetslive.com/produkt/LU2339791803",
+  "source_url": "https://provinzial-nord.wt.factsheetslive.com/produkt/LU2339791803",
   "currency": "EUR",
   "fund_name": "Deka-Künstliche Intelligenz CF",
   "provinzial_fund_type": "Aktienfonds",
@@ -13,14 +13,14 @@
   "sri": 5,
   "performance": {
     "periods": {
-      "3m": 0.2551,
-      "6m": 0.2715,
-      "ytd": 0.2698,
-      "1y": 0.3869,
-      "3y_pa": 0.2448,
-      "5y_pa": null,
+      "3m": -0.0354,
+      "6m": 0.2469,
+      "ytd": 0.2534,
+      "1y": 0.255,
+      "3y_pa": 0.2225,
+      "5y_pa": 0.0878,
       "10y_pa": null,
-      "si_pa": 0.1078
+      "si_pa": 0.0984
     },
     "nav_series": [
       {
@@ -258,19 +258,35 @@
       {
         "d": "2026-05-29",
         "v": 164.1693
+      },
+      {
+        "d": "2026-06-30",
+        "v": 172.6496
+      },
+      {
+        "d": "2026-07-31",
+        "v": 154.9383
+      },
+      {
+        "d": "2026-08-31",
+        "v": 163.1171
+      },
+      {
+        "d": "2026-09-17",
+        "v": 162.0427
       }
     ]
   },
   "volatility": {
-    "1y": 0.1974,
-    "3y": 0.2117,
-    "5y": null
+    "1y": 0.2443,
+    "3y": 0.2257,
+    "5y": 0.2375
   },
   "risk_metrics": {
     "sharpe": {
-      "1y": 1.84,
-      "3y": 0.99,
-      "5y": null
+      "1y": 0.94,
+      "3y": 0.84,
+      "5y": 0.28
     },
     "max_drawdown": {
       "1y": null,
@@ -284,42 +300,42 @@
   "top_holdings": [
     {
       "name": "Taiwan Semiconductor Manufact.",
-      "weight": 0.07
+      "weight": 0.071
     },
     {
       "name": "Nvidia Corp.",
-      "weight": 0.066
-    },
-    {
-      "name": "Alphabet, Inc. - Class A",
-      "weight": 0.053
+      "weight": 0.064
     },
     {
       "name": "Microsoft Corp.",
-      "weight": 0.044
-    },
-    {
-      "name": "Amazon.com Inc.",
       "weight": 0.037
     },
     {
+      "name": "Amazon.com Inc.",
+      "weight": 0.036
+    },
+    {
       "name": "Advanced Mic. Dev",
+      "weight": 0.032
+    },
+    {
+      "name": "Alphabet, Inc. - Class A",
       "weight": 0.031
     },
     {
-      "name": "Samsung Electronics Co. Ltd.",
-      "weight": 0.031
+      "name": "Micron Technology",
+      "weight": 0.027
     },
     {
-      "name": "Meta Platforms Inc.",
-      "weight": 0.03
+      "name": "Arista Networks, Inc.",
+      "weight": 0.026
+    },
+    {
+      "name": "Apple Hospitality REIT",
+      "weight": 0.026
     },
     {
       "name": "Broadcom Inc.",
-      "weight": 0.029
-    },
-    {
-      "name": "KLA Corp.",
       "weight": 0.025
     }
   ]
