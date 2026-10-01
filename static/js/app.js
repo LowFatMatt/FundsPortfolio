@@ -210,17 +210,27 @@ document.addEventListener('DOMContentLoaded', () => {
         const badge = document.getElementById('product-context-badge');
         if (!badge || !productContext) return;
         const prefix = t('ui.product_context_label', 'Product');
+        let valid = false;
         let label = productContext;
         try {
             const resp = await fetch('/api/products');
             if (resp.ok) {
                 const catalog = (await resp.json()).products || [];
                 const entry = catalog.find(p => p.key === productContext);
-                if (entry) label = entry.label;
+                if (entry) {
+                    valid = true;
+                    label = entry.label;
+                }
+            } else {
+                valid = true; // catalog unavailable — keep badge, API error surfaces elsewhere
             }
         } catch (err) {
             console.warn('Failed to load product catalog:', err);
+            valid = true; // network hiccup — keep badge, avoid hiding on transient failure
         }
+        // Unknown product: no badge — loadQuestionnaire() renders the
+        // "not a valid product" error screen instead.
+        if (!valid) return;
         badge.textContent = `${prefix}: ${label}`;
         badge.classList.remove('hidden');
     }
@@ -232,7 +242,22 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             const productQs = productContext ? `&product=${encodeURIComponent(productContext)}` : '';
             const response = await fetch(`/api/questionnaire?lang=${currentLang}${productQs}`);
-            if (!response.ok) throw new Error(t('errors.load_questionnaire'));
+            if (!response.ok) {
+                // Surface API error details — e.g. an unknown ?product= value
+                // yields 400 with { error, valid_products } — instead of a
+                // generic "could not load" message.
+                let detail = null;
+                try {
+                    detail = await response.json();
+                } catch (jsonErr) { /* non-JSON body — fall back to generic */ }
+                if (detail && detail.error) {
+                    const valid = Array.isArray(detail.valid_products) && detail.valid_products.length
+                        ? ` — ${t('errors.valid_products', 'Valid products')}: ${detail.valid_products.join(', ')}`
+                        : '';
+                    throw new Error(`${t('errors.invalid_product', 'Not a valid product')}: ${detail.error}${valid}`);
+                }
+                throw new Error(t('errors.load_questionnaire', 'Could not connect to server.'));
+            }
             const data = await response.json();
             questionnaireSections = data.sections || [];
             preferenceGating      = data.preference_gating || null;
@@ -240,7 +265,12 @@ document.addEventListener('DOMContentLoaded', () => {
             loadingView.classList.add('hidden');
             welcomeView.classList.remove('hidden');
         } catch (err) {
-            showError(t('errors.load_questionnaire', 'Could not connect to server.'));
+            // The error alert (#error-view) lives inside #form-view, so both
+            // views must be made visible for the message to actually show —
+            // previously #loading-view stayed on screen, leaving a blank pane.
+            loadingView.classList.add('hidden');
+            formView.classList.remove('hidden');
+            showError(err.message);
             console.error(err);
         }
     }
