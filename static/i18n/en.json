@@ -3,6 +3,7 @@
   "app.title": "FundsPortfolio",
   "app.subtitle": "Discover your personalized data-driven investment strategy.",
   "ui.language_label": "Language",
+  "ui.product_context_label": "Product",
   "ui.loading": "Loading...",
   "ui.welcome_title": "Welcome",
   "ui.welcome_subtitle": "Build your personalized portfolio — simple, clear, and globally diversified.",

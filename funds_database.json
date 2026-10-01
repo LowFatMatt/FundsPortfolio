@@ -28,7 +28,21 @@
         "cash": 0.0016
       },
       "region_breakdown": null,
-      "benchmark_id": null
+      "benchmark_id": null,
+      "valid_for": [
+        "avg80",
+        "avg100",
+        "garantrentevario",
+        "flexgarant",
+        "firmengarantrente",
+        "firmenflexgarant",
+        "basisgarantrente",
+        "basisflexgarant",
+        "fondsrentevario",
+        "starterkids",
+        "1lf",
+        "1ltf"
+      ]
     },
     {
       "isin": "DE000A41NN41",
@@ -55,7 +69,21 @@
       "source": "csv_merge",
       "asset_class_breakdown": null,
       "region_breakdown": null,
-      "benchmark_id": null
+      "benchmark_id": null,
+      "valid_for": [
+        "avg80",
+        "avg100",
+        "garantrentevario",
+        "flexgarant",
+        "firmengarantrente",
+        "firmenflexgarant",
+        "basisgarantrente",
+        "basisflexgarant",
+        "fondsrentevario",
+        "starterkids",
+        "1lf",
+        "1ltf"
+      ]
     },
     {
       "isin": "DE000ETFL581",
@@ -87,7 +115,22 @@
         "other": 0.0006
       },
       "region_breakdown": null,
-      "benchmark_id": null
+      "benchmark_id": null,
+      "valid_for": [
+        "avi",
+        "avg80",
+        "avg100",
+        "garantrentevario",
+        "flexgarant",
+        "firmengarantrente",
+        "firmenflexgarant",
+        "basisgarantrente",
+        "basisflexgarant",
+        "fondsrentevario",
+        "starterkids",
+        "1lf",
+        "1ltf"
+      ]
     },
     {
       "isin": "LU1829220216",
@@ -114,7 +157,14 @@
       "source": "csv_merge",
       "asset_class_breakdown": null,
       "region_breakdown": null,
-      "benchmark_id": null
+      "benchmark_id": null,
+      "valid_for": [
+        "avi",
+        "fondsrentevario",
+        "starterkids",
+        "1lf",
+        "1ltf"
+      ]
     },
     {
       "isin": "LU0133819333",
@@ -141,7 +191,21 @@
       "source": "csv_merge",
       "asset_class_breakdown": null,
       "region_breakdown": null,
-      "benchmark_id": null
+      "benchmark_id": null,
+      "valid_for": [
+        "avi",
+        "avg80",
+        "avg100",
+        "garantrentevario",
+        "flexgarant",
+        "firmengarantrente",
+        "firmenflexgarant",
+        "basisgarantrente",
+        "basisflexgarant",
+        "fondsrentevario",
+        "starterkids",
+        "1lf"
+      ]
     },
     {
       "isin": "LU0703710904",
@@ -171,7 +235,22 @@
         "other": 0.0218
       },
       "region_breakdown": null,
-      "benchmark_id": null
+      "benchmark_id": null,
+      "valid_for": [
+        "avi",
+        "avg80",
+        "avg100",
+        "garantrentevario",
+        "flexgarant",
+        "firmengarantrente",
+        "firmenflexgarant",
+        "basisgarantrente",
+        "basisflexgarant",
+        "fondsrentevario",
+        "starterkids",
+        "1lf",
+        "1ltf"
+      ]
     },
     {
       "isin": "LU3179669380",
@@ -225,7 +304,22 @@
       "source": "csv_merge",
       "asset_class_breakdown": null,
       "region_breakdown": null,
-      "benchmark_id": null
+      "benchmark_id": null,
+      "valid_for": [
+        "avi",
+        "avg80",
+        "avg100",
+        "garantrentevario",
+        "flexgarant",
+        "firmengarantrente",
+        "firmenflexgarant",
+        "basisgarantrente",
+        "basisflexgarant",
+        "fondsrentevario",
+        "starterkids",
+        "1lf",
+        "1ltf"
+      ]
     },
     {
       "isin": "DE000DK0ECU8",
@@ -399,7 +493,13 @@
         "equity": 1.0
       },
       "region_breakdown": null,
-      "benchmark_id": null
+      "benchmark_id": null,
+      "valid_for": [
+        "avi",
+        "fondsrentevario",
+        "starterkids",
+        "1lf"
+      ]
     },
     {
       "isin": "DE000A428XCI",
@@ -456,7 +556,21 @@
         "other": 0.0002
       },
       "region_breakdown": null,
-      "benchmark_id": null
+      "benchmark_id": null,
+      "valid_for": [
+        "avi",
+        "avg80",
+        "avg100",
+        "garantrentevario",
+        "flexgarant",
+        "firmengarantrente",
+        "firmenflexgarant",
+        "basisgarantrente",
+        "basisflexgarant",
+        "fondsrentevario",
+        "starterkids",
+        "1lf"
+      ]
     },
     {
       "isin": "DE000ETFL631",
@@ -485,7 +599,21 @@
         "equity": 1.0005
       },
       "region_breakdown": null,
-      "benchmark_id": null
+      "benchmark_id": null,
+      "valid_for": [
+        "avi",
+        "avg80",
+        "avg100",
+        "garantrentevario",
+        "flexgarant",
+        "firmengarantrente",
+        "firmenflexgarant",
+        "basisgarantrente",
+        "basisflexgarant",
+        "fondsrentevario",
+        "starterkids",
+        "1lf"
+      ]
     },
     {
       "isin": "DE000ETFL565",
@@ -517,7 +645,22 @@
         "other": 0.0055
       },
       "region_breakdown": null,
-      "benchmark_id": null
+      "benchmark_id": null,
+      "valid_for": [
+        "avi",
+        "avg80",
+        "avg100",
+        "garantrentevario",
+        "flexgarant",
+        "firmengarantrente",
+        "firmenflexgarant",
+        "basisgarantrente",
+        "basisflexgarant",
+        "fondsrentevario",
+        "starterkids",
+        "1lf",
+        "1ltf"
+      ]
     },
     {
       "isin": "DE000A41NN66",
@@ -544,7 +687,21 @@
       "source": "csv_merge",
       "asset_class_breakdown": null,
       "region_breakdown": null,
-      "benchmark_id": null
+      "benchmark_id": null,
+      "valid_for": [
+        "avg80",
+        "avg100",
+        "garantrentevario",
+        "flexgarant",
+        "firmengarantrente",
+        "firmenflexgarant",
+        "basisgarantrente",
+        "basisflexgarant",
+        "fondsrentevario",
+        "starterkids",
+        "1lf",
+        "1ltf"
+      ]
     },
     {
       "isin": "DE000ETFL284",
@@ -571,7 +728,22 @@
       "source": "csv_merge",
       "asset_class_breakdown": null,
       "region_breakdown": null,
-      "benchmark_id": null
+      "benchmark_id": null,
+      "valid_for": [
+        "avi",
+        "avg80",
+        "avg100",
+        "garantrentevario",
+        "flexgarant",
+        "firmengarantrente",
+        "firmenflexgarant",
+        "basisgarantrente",
+        "basisflexgarant",
+        "fondsrentevario",
+        "starterkids",
+        "1lf",
+        "1ltf"
+      ]
     },
     {
       "isin": "LU1865159435",
@@ -598,7 +770,21 @@
       "source": "csv_merge",
       "asset_class_breakdown": null,
       "region_breakdown": null,
-      "benchmark_id": null
+      "benchmark_id": null,
+      "valid_for": [
+        "avi",
+        "avg80",
+        "avg100",
+        "garantrentevario",
+        "flexgarant",
+        "firmengarantrente",
+        "firmenflexgarant",
+        "basisgarantrente",
+        "basisflexgarant",
+        "fondsrentevario",
+        "starterkids",
+        "1lf"
+      ]
     },
     {
       "isin": "DE000ETFL029",
@@ -629,7 +815,22 @@
         "other": 0.0012
       },
       "region_breakdown": null,
-      "benchmark_id": null
+      "benchmark_id": null,
+      "valid_for": [
+        "avi",
+        "avg80",
+        "avg100",
+        "garantrentevario",
+        "flexgarant",
+        "firmengarantrente",
+        "firmenflexgarant",
+        "basisgarantrente",
+        "basisflexgarant",
+        "fondsrentevario",
+        "starterkids",
+        "1lf",
+        "1ltf"
+      ]
     },
     {
       "isin": "DE000ETFL466",
@@ -656,7 +857,22 @@
       "source": "csv_merge",
       "asset_class_breakdown": null,
       "region_breakdown": null,
-      "benchmark_id": null
+      "benchmark_id": null,
+      "valid_for": [
+        "avi",
+        "avg80",
+        "avg100",
+        "garantrentevario",
+        "flexgarant",
+        "firmengarantrente",
+        "firmenflexgarant",
+        "basisgarantrente",
+        "basisflexgarant",
+        "fondsrentevario",
+        "starterkids",
+        "1lf",
+        "1ltf"
+      ]
     },
     {
       "isin": "DE000ETFL011",
@@ -686,7 +902,22 @@
         "equity": 1.0003
       },
       "region_breakdown": null,
-      "benchmark_id": null
+      "benchmark_id": null,
+      "valid_for": [
+        "avi",
+        "avg80",
+        "avg100",
+        "garantrentevario",
+        "flexgarant",
+        "firmengarantrente",
+        "firmenflexgarant",
+        "basisgarantrente",
+        "basisflexgarant",
+        "fondsrentevario",
+        "starterkids",
+        "1lf",
+        "1ltf"
+      ]
     },
     {
       "isin": "DE000ETFL540",
@@ -713,7 +944,22 @@
       "source": "csv_merge",
       "asset_class_breakdown": null,
       "region_breakdown": null,
-      "benchmark_id": null
+      "benchmark_id": null,
+      "valid_for": [
+        "avi",
+        "avg80",
+        "avg100",
+        "garantrentevario",
+        "flexgarant",
+        "firmengarantrente",
+        "firmenflexgarant",
+        "basisgarantrente",
+        "basisflexgarant",
+        "fondsrentevario",
+        "starterkids",
+        "1lf",
+        "1ltf"
+      ]
     },
     {
       "isin": "LU0195950992",
@@ -740,7 +986,21 @@
       "source": "csv_merge",
       "asset_class_breakdown": null,
       "region_breakdown": null,
-      "benchmark_id": null
+      "benchmark_id": null,
+      "valid_for": [
+        "avi",
+        "avg80",
+        "avg100",
+        "garantrentevario",
+        "flexgarant",
+        "firmengarantrente",
+        "firmenflexgarant",
+        "basisgarantrente",
+        "basisflexgarant",
+        "fondsrentevario",
+        "starterkids",
+        "1lf"
+      ]
     },
     {
       "isin": "LU3179669893",
@@ -821,7 +1081,21 @@
       "source": "csv_merge",
       "asset_class_breakdown": null,
       "region_breakdown": null,
-      "benchmark_id": null
+      "benchmark_id": null,
+      "valid_for": [
+        "avi",
+        "avg80",
+        "avg100",
+        "garantrentevario",
+        "flexgarant",
+        "firmengarantrente",
+        "firmenflexgarant",
+        "basisgarantrente",
+        "basisflexgarant",
+        "fondsrentevario",
+        "starterkids",
+        "1lf"
+      ]
     },
     {
       "isin": "DE0005152706",
@@ -909,7 +1183,21 @@
       "source": "csv_merge",
       "asset_class_breakdown": null,
       "region_breakdown": null,
-      "benchmark_id": null
+      "benchmark_id": null,
+      "valid_for": [
+        "avg80",
+        "avg100",
+        "garantrentevario",
+        "flexgarant",
+        "firmengarantrente",
+        "firmenflexgarant",
+        "basisgarantrente",
+        "basisflexgarant",
+        "fondsrentevario",
+        "starterkids",
+        "1lf",
+        "1ltf"
+      ]
     },
     {
       "isin": "DE000ETFL607",
@@ -936,7 +1224,21 @@
       "source": "csv_merge",
       "asset_class_breakdown": null,
       "region_breakdown": null,
-      "benchmark_id": null
+      "benchmark_id": null,
+      "valid_for": [
+        "avi",
+        "avg80",
+        "avg100",
+        "garantrentevario",
+        "flexgarant",
+        "firmengarantrente",
+        "firmenflexgarant",
+        "basisgarantrente",
+        "basisflexgarant",
+        "fondsrentevario",
+        "starterkids",
+        "1lf"
+      ]
     },
     {
       "isin": "DE000A2AQZX9",
@@ -994,7 +1296,21 @@
         "other": 0.0108
       },
       "region_breakdown": null,
-      "benchmark_id": null
+      "benchmark_id": null,
+      "valid_for": [
+        "avi",
+        "avg80",
+        "avg100",
+        "garantrentevario",
+        "flexgarant",
+        "firmengarantrente",
+        "firmenflexgarant",
+        "basisgarantrente",
+        "basisflexgarant",
+        "fondsrentevario",
+        "starterkids",
+        "1lf"
+      ]
     },
     {
       "isin": "LU2339791803",
@@ -1025,7 +1341,21 @@
         "equity": 1.0
       },
       "region_breakdown": null,
-      "benchmark_id": null
+      "benchmark_id": null,
+      "valid_for": [
+        "avi",
+        "avg80",
+        "avg100",
+        "garantrentevario",
+        "flexgarant",
+        "firmengarantrente",
+        "firmenflexgarant",
+        "basisgarantrente",
+        "basisflexgarant",
+        "fondsrentevario",
+        "starterkids",
+        "1lf"
+      ]
     },
     {
       "isin": "LU0346389348",
@@ -1052,7 +1382,21 @@
       "source": "csv_merge",
       "asset_class_breakdown": null,
       "region_breakdown": null,
-      "benchmark_id": null
+      "benchmark_id": null,
+      "valid_for": [
+        "avi",
+        "avg80",
+        "avg100",
+        "garantrentevario",
+        "flexgarant",
+        "firmengarantrente",
+        "firmenflexgarant",
+        "basisgarantrente",
+        "basisflexgarant",
+        "fondsrentevario",
+        "starterkids",
+        "1lf"
+      ]
     },
     {
       "isin": "LU0533033667",
@@ -1079,7 +1423,13 @@
       "source": "csv_merge",
       "asset_class_breakdown": null,
       "region_breakdown": null,
-      "benchmark_id": null
+      "benchmark_id": null,
+      "valid_for": [
+        "avi",
+        "fondsrentevario",
+        "starterkids",
+        "1lf"
+      ]
     },
     {
       "isin": "IE00BJ5JS448",
@@ -1106,7 +1456,21 @@
       "source": "csv_merge",
       "asset_class_breakdown": null,
       "region_breakdown": null,
-      "benchmark_id": null
+      "benchmark_id": null,
+      "valid_for": [
+        "avi",
+        "avg80",
+        "avg100",
+        "garantrentevario",
+        "flexgarant",
+        "firmengarantrente",
+        "firmenflexgarant",
+        "basisgarantrente",
+        "basisflexgarant",
+        "fondsrentevario",
+        "starterkids",
+        "1lf"
+      ]
     },
     {
       "isin": "DE000A2N67X0",
@@ -1133,7 +1497,21 @@
       "source": "csv_merge",
       "asset_class_breakdown": null,
       "region_breakdown": null,
-      "benchmark_id": null
+      "benchmark_id": null,
+      "valid_for": [
+        "avi",
+        "avg80",
+        "avg100",
+        "garantrentevario",
+        "flexgarant",
+        "firmengarantrente",
+        "firmenflexgarant",
+        "basisgarantrente",
+        "basisflexgarant",
+        "fondsrentevario",
+        "starterkids",
+        "1lf"
+      ]
     },
     {
       "isin": "DE000ETFL656",
@@ -1160,7 +1538,21 @@
       "source": "csv_merge",
       "asset_class_breakdown": null,
       "region_breakdown": null,
-      "benchmark_id": null
+      "benchmark_id": null,
+      "valid_for": [
+        "avi",
+        "avg80",
+        "avg100",
+        "garantrentevario",
+        "flexgarant",
+        "firmengarantrente",
+        "firmenflexgarant",
+        "basisgarantrente",
+        "basisflexgarant",
+        "fondsrentevario",
+        "starterkids",
+        "1lf"
+      ]
     },
     {
       "isin": "LU0252963623",
@@ -1187,7 +1579,16 @@
       "source": "csv_merge",
       "asset_class_breakdown": null,
       "region_breakdown": null,
-      "benchmark_id": null
+      "benchmark_id": null,
+      "valid_for": [
+        "garantrentevario",
+        "flexgarant",
+        "firmengarantrente",
+        "firmenflexgarant",
+        "fondsrentevario",
+        "starterkids",
+        "1lf"
+      ]
     },
     {
       "isin": "LU0252963383",
@@ -1214,7 +1615,16 @@
       "source": "csv_merge",
       "asset_class_breakdown": null,
       "region_breakdown": null,
-      "benchmark_id": null
+      "benchmark_id": null,
+      "valid_for": [
+        "garantrentevario",
+        "flexgarant",
+        "firmengarantrente",
+        "firmenflexgarant",
+        "fondsrentevario",
+        "starterkids",
+        "1lf"
+      ]
     },
     {
       "isin": "LU2941481082",
@@ -1244,7 +1654,16 @@
         "equity": 1.0
       },
       "region_breakdown": null,
-      "benchmark_id": null
+      "benchmark_id": null,
+      "valid_for": [
+        "garantrentevario",
+        "flexgarant",
+        "firmengarantrente",
+        "firmenflexgarant",
+        "fondsrentevario",
+        "starterkids",
+        "1lf"
+      ]
     },
     {
       "isin": "DE000ETFL664",
@@ -1271,7 +1690,21 @@
       "source": "csv_merge",
       "asset_class_breakdown": null,
       "region_breakdown": null,
-      "benchmark_id": null
+      "benchmark_id": null,
+      "valid_for": [
+        "avi",
+        "avg80",
+        "avg100",
+        "garantrentevario",
+        "flexgarant",
+        "firmengarantrente",
+        "firmenflexgarant",
+        "basisgarantrente",
+        "basisflexgarant",
+        "fondsrentevario",
+        "starterkids",
+        "1lf"
+      ]
     },
     {
       "isin": "LU0290357929",
@@ -1298,7 +1731,14 @@
       "source": "csv_merge",
       "asset_class_breakdown": null,
       "region_breakdown": null,
-      "benchmark_id": null
+      "benchmark_id": null,
+      "valid_for": [
+        "avi",
+        "fondsrentevario",
+        "starterkids",
+        "1lf",
+        "1ltf"
+      ]
     },
     {
       "isin": "LU1563454310",
@@ -1326,7 +1766,14 @@
       "source": "csv_merge",
       "asset_class_breakdown": null,
       "region_breakdown": null,
-      "benchmark_id": null
+      "benchmark_id": null,
+      "valid_for": [
+        "avi",
+        "fondsrentevario",
+        "starterkids",
+        "1lf",
+        "1ltf"
+      ]
     },
     {
       "isin": "LU0703711035",
@@ -1356,7 +1803,22 @@
         "other": 0.0293
       },
       "region_breakdown": null,
-      "benchmark_id": null
+      "benchmark_id": null,
+      "valid_for": [
+        "avi",
+        "avg80",
+        "avg100",
+        "garantrentevario",
+        "flexgarant",
+        "firmengarantrente",
+        "firmenflexgarant",
+        "basisgarantrente",
+        "basisflexgarant",
+        "fondsrentevario",
+        "starterkids",
+        "1lf",
+        "1ltf"
+      ]
     },
     {
       "isin": "DE000ETFL375",
@@ -1387,7 +1849,22 @@
         "other": 0.0016
       },
       "region_breakdown": null,
-      "benchmark_id": null
+      "benchmark_id": null,
+      "valid_for": [
+        "avi",
+        "avg80",
+        "avg100",
+        "garantrentevario",
+        "flexgarant",
+        "firmengarantrente",
+        "firmenflexgarant",
+        "basisgarantrente",
+        "basisflexgarant",
+        "fondsrentevario",
+        "starterkids",
+        "1lf",
+        "1ltf"
+      ]
     },
     {
       "isin": "LU1437018168",
@@ -1443,7 +1920,14 @@
       "source": "csv_merge",
       "asset_class_breakdown": null,
       "region_breakdown": null,
-      "benchmark_id": null
+      "benchmark_id": null,
+      "valid_for": [
+        "avi",
+        "fondsrentevario",
+        "starterkids",
+        "1lf",
+        "1ltf"
+      ]
     },
     {
       "isin": "LU1650491282",
@@ -1471,7 +1955,14 @@
       "source": "csv_merge",
       "asset_class_breakdown": null,
       "region_breakdown": null,
-      "benchmark_id": null
+      "benchmark_id": null,
+      "valid_for": [
+        "avi",
+        "fondsrentevario",
+        "starterkids",
+        "1lf",
+        "1ltf"
+      ]
     },
     {
       "isin": "DE000ETFL227",
@@ -1499,7 +1990,22 @@
       "source": "csv_merge",
       "asset_class_breakdown": null,
       "region_breakdown": null,
-      "benchmark_id": null
+      "benchmark_id": null,
+      "valid_for": [
+        "avi",
+        "avg80",
+        "avg100",
+        "garantrentevario",
+        "flexgarant",
+        "firmengarantrente",
+        "firmenflexgarant",
+        "basisgarantrente",
+        "basisflexgarant",
+        "fondsrentevario",
+        "starterkids",
+        "1lf",
+        "1ltf"
+      ]
     },
     {
       "isin": "DE000DK0LMG1",
@@ -1528,7 +2034,11 @@
         "other": 1.0
       },
       "region_breakdown": null,
-      "benchmark_id": null
+      "benchmark_id": null,
+      "valid_for": [
+        "1lf",
+        "1ltf"
+      ]
     },
     {
       "isin": "DE000DK2CFQ9",
@@ -1560,7 +2070,16 @@
         "commodities": 0.05
       },
       "region_breakdown": null,
-      "benchmark_id": null
+      "benchmark_id": null,
+      "valid_for": [
+        "garantrentevario",
+        "flexgarant",
+        "firmengarantrente",
+        "firmenflexgarant",
+        "fondsrentevario",
+        "starterkids",
+        "1lf"
+      ]
     },
     {
       "isin": "DE000DK2CFT3",
@@ -1590,7 +2109,16 @@
         "other": 0.005
       },
       "region_breakdown": null,
-      "benchmark_id": null
+      "benchmark_id": null,
+      "valid_for": [
+        "garantrentevario",
+        "flexgarant",
+        "firmengarantrente",
+        "firmenflexgarant",
+        "fondsrentevario",
+        "starterkids",
+        "1lf"
+      ]
     },
     {
       "isin": "DE000DK0LPX9",
@@ -1617,7 +2145,16 @@
       "source": "csv_merge",
       "asset_class_breakdown": null,
       "region_breakdown": null,
-      "benchmark_id": null
+      "benchmark_id": null,
+      "valid_for": [
+        "garantrentevario",
+        "flexgarant",
+        "firmengarantrente",
+        "firmenflexgarant",
+        "fondsrentevario",
+        "starterkids",
+        "1lf"
+      ]
     },
     {
       "isin": "LU2531392699",
@@ -1649,7 +2186,16 @@
         "other": 0.11
       },
       "region_breakdown": null,
-      "benchmark_id": null
+      "benchmark_id": null,
+      "valid_for": [
+        "garantrentevario",
+        "flexgarant",
+        "firmengarantrente",
+        "firmenflexgarant",
+        "fondsrentevario",
+        "starterkids",
+        "1lf"
+      ]
     },
     {
       "isin": "DE000DK0EF98",
@@ -1676,7 +2222,16 @@
       "source": "csv_merge",
       "asset_class_breakdown": null,
       "region_breakdown": null,
-      "benchmark_id": null
+      "benchmark_id": null,
+      "valid_for": [
+        "garantrentevario",
+        "flexgarant",
+        "firmengarantrente",
+        "firmenflexgarant",
+        "fondsrentevario",
+        "starterkids",
+        "1lf"
+      ]
     },
     {
       "isin": "DE000A3ERM93",
@@ -1703,7 +2258,22 @@
       "source": "provinzial_nord_universe",
       "asset_class_breakdown": null,
       "region_breakdown": null,
-      "benchmark_id": null
+      "benchmark_id": null,
+      "valid_for": [
+        "avi",
+        "avg80",
+        "avg100",
+        "garantrentevario",
+        "flexgarant",
+        "firmengarantrente",
+        "firmenflexgarant",
+        "basisgarantrente",
+        "basisflexgarant",
+        "fondsrentevario",
+        "starterkids",
+        "1lf",
+        "1ltf"
+      ]
     },
     {
       "isin": "DE000DK0V6U7",
@@ -1735,7 +2305,16 @@
         "commodities": 0.0691
       },
       "region_breakdown": null,
-      "benchmark_id": null
+      "benchmark_id": null,
+      "valid_for": [
+        "garantrentevario",
+        "flexgarant",
+        "firmengarantrente",
+        "firmenflexgarant",
+        "fondsrentevario",
+        "starterkids",
+        "1lf"
+      ]
     },
     {
       "isin": "LU0360863863",
@@ -1766,7 +2345,22 @@
         "other": 0.057
       },
       "region_breakdown": null,
-      "benchmark_id": null
+      "benchmark_id": null,
+      "valid_for": [
+        "avi",
+        "avg80",
+        "avg100",
+        "garantrentevario",
+        "flexgarant",
+        "firmengarantrente",
+        "firmenflexgarant",
+        "basisgarantrente",
+        "basisflexgarant",
+        "fondsrentevario",
+        "starterkids",
+        "1lf",
+        "1ltf"
+      ]
     },
     {
       "isin": "LU2437374510",
@@ -1793,7 +2387,22 @@
       "source": "provinzial_nord_universe",
       "asset_class_breakdown": null,
       "region_breakdown": null,
-      "benchmark_id": null
+      "benchmark_id": null,
+      "valid_for": [
+        "avi",
+        "avg80",
+        "avg100",
+        "garantrentevario",
+        "flexgarant",
+        "firmengarantrente",
+        "firmenflexgarant",
+        "basisgarantrente",
+        "basisflexgarant",
+        "fondsrentevario",
+        "starterkids",
+        "1lf",
+        "1ltf"
+      ]
     },
     {
       "isin": "LU2737649090",
@@ -1818,6 +2427,1084 @@
       "max_drawdown": 13.3589,
       "notes": "Manually added from TW2027 draft",
       "source": "provinzial_nord_universe",
+      "asset_class_breakdown": null,
+      "region_breakdown": null,
+      "benchmark_id": null,
+      "valid_for": [
+        "garantrentevario",
+        "flexgarant",
+        "firmengarantrente",
+        "firmenflexgarant",
+        "fondsrentevario",
+        "starterkids",
+        "1lf"
+      ]
+    },
+    {
+      "isin": "DE0008474750",
+      "ticker": "FK84.F",
+      "name": "Deka Tresor",
+      "provider": "Deka",
+      "asset_class": null,
+      "region": null,
+      "categories": [],
+      "risk_level": null,
+      "yearly_fee": 1.0,
+      "is_etf": false,
+      "esg_label": null,
+      "theme": "NONE",
+      "valid_for": [],
+      "notes": "Stub from compass CSV import — risk metrics pending enrichment.",
+      "source": "csv_20260928",
+      "asset_class_breakdown": null,
+      "region_breakdown": null,
+      "benchmark_id": null
+    },
+    {
+      "isin": "DE0009771824",
+      "ticker": "FK82.F",
+      "name": "Deka-VarioZins TF",
+      "provider": "Deka",
+      "asset_class": null,
+      "region": null,
+      "categories": [],
+      "risk_level": null,
+      "yearly_fee": 0.7,
+      "is_etf": false,
+      "esg_label": null,
+      "theme": "NONE",
+      "valid_for": [],
+      "notes": "Stub from compass CSV import — risk metrics pending enrichment.",
+      "source": "csv_20260928",
+      "asset_class_breakdown": null,
+      "region_breakdown": null,
+      "benchmark_id": null
+    },
+    {
+      "isin": "DE000A41ZZW7",
+      "ticker": "0P00035W67.F",
+      "name": "TBF Smart Power EUR V",
+      "provider": "HansaInvest",
+      "asset_class": null,
+      "region": null,
+      "categories": [],
+      "risk_level": null,
+      "yearly_fee": 1.2,
+      "is_etf": false,
+      "esg_label": "SFDR_ARTICLE_8",
+      "theme": "NONE",
+      "valid_for": [
+        "avi",
+        "avg80",
+        "avg100",
+        "garantrentevario",
+        "flexgarant",
+        "firmengarantrente",
+        "firmenflexgarant",
+        "basisgarantrente",
+        "basisflexgarant",
+        "fondsrentevario",
+        "starterkids",
+        "1lf"
+      ],
+      "notes": "Stub from compass CSV import — risk metrics pending enrichment.",
+      "source": "csv_20260928",
+      "asset_class_breakdown": null,
+      "region_breakdown": null,
+      "benchmark_id": null
+    },
+    {
+      "isin": "DE000DK0LMR8",
+      "ticker": null,
+      "name": "HI-Provinzial-Multi-Protect-80-Fonds",
+      "provider": "Helaba",
+      "asset_class": null,
+      "region": null,
+      "categories": [],
+      "risk_level": null,
+      "yearly_fee": 0.94,
+      "is_etf": false,
+      "esg_label": null,
+      "theme": "NONE",
+      "valid_for": [],
+      "notes": "Stub from compass CSV import — risk metrics pending enrichment.",
+      "source": "csv_20260928",
+      "asset_class_breakdown": null,
+      "region_breakdown": null,
+      "benchmark_id": null
+    },
+    {
+      "isin": "DE000ETFL508",
+      "ticker": "ELFW.DE",
+      "name": "Deka MSCI World  UCITS ETF",
+      "provider": "Deka",
+      "asset_class": null,
+      "region": null,
+      "categories": [],
+      "risk_level": null,
+      "yearly_fee": 0.3,
+      "is_etf": true,
+      "esg_label": null,
+      "theme": "NONE",
+      "valid_for": [
+        "avi",
+        "avg80",
+        "avg100",
+        "garantrentevario",
+        "flexgarant",
+        "firmengarantrente",
+        "firmenflexgarant",
+        "basisgarantrente",
+        "basisflexgarant",
+        "fondsrentevario",
+        "starterkids",
+        "1lf",
+        "1ltf"
+      ],
+      "notes": "Stub from compass CSV import — risk metrics pending enrichment.",
+      "source": "csv_20260928",
+      "asset_class_breakdown": null,
+      "region_breakdown": null,
+      "benchmark_id": null
+    },
+    {
+      "isin": "DE000ETFL532",
+      "ticker": null,
+      "name": "Deka Euro Corporates 0-3 Liquid UCITS ETF",
+      "provider": "Deka",
+      "asset_class": null,
+      "region": null,
+      "categories": [],
+      "risk_level": null,
+      "yearly_fee": 0.2,
+      "is_etf": true,
+      "esg_label": null,
+      "theme": "NONE",
+      "valid_for": [
+        "avi",
+        "avg80",
+        "avg100",
+        "garantrentevario",
+        "flexgarant",
+        "firmengarantrente",
+        "firmenflexgarant",
+        "basisgarantrente",
+        "basisflexgarant",
+        "fondsrentevario",
+        "starterkids",
+        "1lf",
+        "1ltf"
+      ],
+      "notes": "Stub from compass CSV import — risk metrics pending enrichment.",
+      "source": "csv_20260928",
+      "asset_class_breakdown": null,
+      "region_breakdown": null,
+      "benchmark_id": null
+    },
+    {
+      "isin": "DE000ETFL599",
+      "ticker": "D6RA.DE",
+      "name": "Deka MSCI EUR Corporates Climate Change ESG CTB UCITS ETF",
+      "provider": "Deka",
+      "asset_class": null,
+      "region": null,
+      "categories": [],
+      "risk_level": null,
+      "yearly_fee": 0.2,
+      "is_etf": true,
+      "esg_label": "SFDR_ARTICLE_9",
+      "theme": "NONE",
+      "valid_for": [
+        "avi",
+        "avg80",
+        "avg100",
+        "garantrentevario",
+        "flexgarant",
+        "firmengarantrente",
+        "firmenflexgarant",
+        "basisgarantrente",
+        "basisflexgarant",
+        "fondsrentevario",
+        "starterkids",
+        "1lf",
+        "1ltf"
+      ],
+      "notes": "Stub from compass CSV import — risk metrics pending enrichment.",
+      "source": "csv_20260928",
+      "asset_class_breakdown": null,
+      "region_breakdown": null,
+      "benchmark_id": null
+    },
+    {
+      "isin": "DE000LB8PME1",
+      "ticker": null,
+      "name": "ProAM MSCI Europe UCITS FUND",
+      "provider": "LBBW",
+      "asset_class": null,
+      "region": null,
+      "categories": [],
+      "risk_level": null,
+      "yearly_fee": 0.26,
+      "is_etf": false,
+      "esg_label": null,
+      "theme": "NONE",
+      "valid_for": [
+        "avi"
+      ],
+      "notes": "Stub from compass CSV import — risk metrics pending enrichment.",
+      "source": "csv_20260928",
+      "asset_class_breakdown": null,
+      "region_breakdown": null,
+      "benchmark_id": null
+    },
+    {
+      "isin": "DE000LB8PMW3",
+      "ticker": null,
+      "name": "ProAM MSCI World UCITS Fund",
+      "provider": "LBBW",
+      "asset_class": null,
+      "region": null,
+      "categories": [],
+      "risk_level": null,
+      "yearly_fee": 0.26,
+      "is_etf": false,
+      "esg_label": null,
+      "theme": "NONE",
+      "valid_for": [
+        "standarddepot",
+        "avi"
+      ],
+      "notes": "Stub from compass CSV import — risk metrics pending enrichment.",
+      "source": "csv_20260928",
+      "asset_class_breakdown": null,
+      "region_breakdown": null,
+      "benchmark_id": null
+    },
+    {
+      "isin": "DE000LB8PSB4",
+      "ticker": null,
+      "name": "ProAM Global Sovereign Bond UCITS Fund",
+      "provider": "LBBW",
+      "asset_class": null,
+      "region": null,
+      "categories": [],
+      "risk_level": null,
+      "yearly_fee": 0.26,
+      "is_etf": false,
+      "esg_label": null,
+      "theme": "NONE",
+      "valid_for": [
+        "standarddepot",
+        "avi",
+        "avg80",
+        "avg100",
+        "garantrentevario",
+        "flexgarant",
+        "firmengarantrente",
+        "firmenflexgarant",
+        "basisgarantrente",
+        "basisflexgarant",
+        "fondsrentevario",
+        "starterkids",
+        "1lf",
+        "1ltf"
+      ],
+      "notes": "Stub from compass CSV import — risk metrics pending enrichment.",
+      "source": "csv_20260928",
+      "asset_class_breakdown": null,
+      "region_breakdown": null,
+      "benchmark_id": null
+    },
+    {
+      "isin": "FR0014011E94",
+      "ticker": "0P0001XWZR.F",
+      "name": "WorldGuard 80 Portfolio Fund",
+      "provider": "BNP",
+      "asset_class": null,
+      "region": null,
+      "categories": [],
+      "risk_level": null,
+      "yearly_fee": 1.68,
+      "is_etf": false,
+      "esg_label": "SFDR_ARTICLE_8",
+      "theme": "NONE",
+      "valid_for": [
+        "garantrentevario",
+        "flexgarant",
+        "firmengarantrente",
+        "firmenflexgarant",
+        "basisgarantrente",
+        "basisflexgarant"
+      ],
+      "notes": "Stub from compass CSV import — risk metrics pending enrichment.",
+      "source": "csv_20260928",
+      "asset_class_breakdown": null,
+      "region_breakdown": null,
+      "benchmark_id": null
+    },
+    {
+      "isin": "FR0014011N36",
+      "ticker": "0P0001XWZS.F",
+      "name": "WorldGuard 90 Portfolio Fund",
+      "provider": "BNP",
+      "asset_class": null,
+      "region": null,
+      "categories": [],
+      "risk_level": null,
+      "yearly_fee": 1.0,
+      "is_etf": false,
+      "esg_label": "SFDR_ARTICLE_8",
+      "theme": "NONE",
+      "valid_for": [],
+      "notes": "Stub from compass CSV import — risk metrics pending enrichment.",
+      "source": "csv_20260928",
+      "asset_class_breakdown": null,
+      "region_breakdown": null,
+      "benchmark_id": null
+    },
+    {
+      "isin": "IE0006FM6MI8",
+      "ticker": "WELS.DE",
+      "name": "Amundi S&P World Health Care Screended UCITS ETF Acc",
+      "provider": "Amundi",
+      "asset_class": null,
+      "region": null,
+      "categories": [],
+      "risk_level": null,
+      "yearly_fee": 0.25,
+      "is_etf": true,
+      "esg_label": "SFDR_ARTICLE_8",
+      "theme": "NONE",
+      "valid_for": [
+        "avi",
+        "fondsrentevario",
+        "starterkids",
+        "1lf"
+      ],
+      "notes": "Stub from compass CSV import — risk metrics pending enrichment.",
+      "source": "csv_20260928",
+      "asset_class_breakdown": null,
+      "region_breakdown": null,
+      "benchmark_id": null
+    },
+    {
+      "isin": "IE000PYEKKW0",
+      "ticker": "CEMI.DE",
+      "name": "iShares MSCI Europe Quality Dividend Advanc. UCITS ETF",
+      "provider": "Blackrock",
+      "asset_class": null,
+      "region": null,
+      "categories": [],
+      "risk_level": null,
+      "yearly_fee": 0.41,
+      "is_etf": true,
+      "esg_label": "SFDR_ARTICLE_8",
+      "theme": "NONE",
+      "valid_for": [
+        "avi",
+        "fondsrentevario",
+        "starterkids",
+        "1lf",
+        "1ltf"
+      ],
+      "notes": "Stub from compass CSV import — risk metrics pending enrichment.",
+      "source": "csv_20260928",
+      "asset_class_breakdown": null,
+      "region_breakdown": null,
+      "benchmark_id": null
+    },
+    {
+      "isin": "IE00B4L5YC18",
+      "ticker": "IEMA.L",
+      "name": "iShares MSCI EM UCITS ETF",
+      "provider": "Blackrock",
+      "asset_class": null,
+      "region": null,
+      "categories": [],
+      "risk_level": null,
+      "yearly_fee": 0.22,
+      "is_etf": true,
+      "esg_label": null,
+      "theme": "NONE",
+      "valid_for": [
+        "avi",
+        "fondsrentevario",
+        "starterkids",
+        "1lf"
+      ],
+      "notes": "Stub from compass CSV import — risk metrics pending enrichment.",
+      "source": "csv_20260928",
+      "asset_class_breakdown": null,
+      "region_breakdown": null,
+      "benchmark_id": null
+    },
+    {
+      "isin": "IE00BMVB5K07",
+      "ticker": "IE00BMVB5K07.SG",
+      "name": "Vanguard LifeStrategy 20%",
+      "provider": "Vanguard",
+      "asset_class": null,
+      "region": null,
+      "categories": [],
+      "risk_level": null,
+      "yearly_fee": 0.3,
+      "is_etf": true,
+      "esg_label": null,
+      "theme": "NONE",
+      "valid_for": [
+        "avi",
+        "fondsrentevario",
+        "starterkids",
+        "1lf",
+        "1ltf"
+      ],
+      "notes": "Stub from compass CSV import — risk metrics pending enrichment.",
+      "source": "csv_20260928",
+      "asset_class_breakdown": null,
+      "region_breakdown": null,
+      "benchmark_id": null
+    },
+    {
+      "isin": "IE00BMVB5M21",
+      "ticker": "IE00BMVB5M21.SG",
+      "name": "Vanguard LifeStrategy 40%",
+      "provider": "Vanguard",
+      "asset_class": null,
+      "region": null,
+      "categories": [],
+      "risk_level": null,
+      "yearly_fee": 0.29,
+      "is_etf": true,
+      "esg_label": null,
+      "theme": "NONE",
+      "valid_for": [
+        "avi",
+        "fondsrentevario",
+        "starterkids",
+        "1lf",
+        "1ltf"
+      ],
+      "notes": "Stub from compass CSV import — risk metrics pending enrichment.",
+      "source": "csv_20260928",
+      "asset_class_breakdown": null,
+      "region_breakdown": null,
+      "benchmark_id": null
+    },
+    {
+      "isin": "IE00BMVB5P51",
+      "ticker": "IE00BMVB5P51.SG",
+      "name": "Vanguard LifeStrategy 60%",
+      "provider": "Vanguard",
+      "asset_class": null,
+      "region": null,
+      "categories": [],
+      "risk_level": null,
+      "yearly_fee": 0.3,
+      "is_etf": true,
+      "esg_label": null,
+      "theme": "NONE",
+      "valid_for": [
+        "avi",
+        "fondsrentevario",
+        "starterkids",
+        "1lf",
+        "1ltf"
+      ],
+      "notes": "Stub from compass CSV import — risk metrics pending enrichment.",
+      "source": "csv_20260928",
+      "asset_class_breakdown": null,
+      "region_breakdown": null,
+      "benchmark_id": null
+    },
+    {
+      "isin": "IE00BMVB5R75",
+      "ticker": "IE00BMVB5R75.SG",
+      "name": "Vanguard LifeStrategy 80%",
+      "provider": "Vanguard",
+      "asset_class": null,
+      "region": null,
+      "categories": [],
+      "risk_level": null,
+      "yearly_fee": 0.3,
+      "is_etf": true,
+      "esg_label": null,
+      "theme": "NONE",
+      "valid_for": [
+        "avi",
+        "fondsrentevario",
+        "starterkids",
+        "1lf",
+        "1ltf"
+      ],
+      "notes": "Stub from compass CSV import — risk metrics pending enrichment.",
+      "source": "csv_20260928",
+      "asset_class_breakdown": null,
+      "region_breakdown": null,
+      "benchmark_id": null
+    },
+    {
+      "isin": "LU0027797579",
+      "ticker": "DEDC.F",
+      "name": "Deka-Flex: Euro C",
+      "provider": "Deka",
+      "asset_class": null,
+      "region": null,
+      "categories": [],
+      "risk_level": null,
+      "yearly_fee": 0.9,
+      "is_etf": false,
+      "esg_label": null,
+      "theme": "NONE",
+      "valid_for": [],
+      "notes": "Stub from compass CSV import — risk metrics pending enrichment.",
+      "source": "csv_20260928",
+      "asset_class_breakdown": null,
+      "region_breakdown": null,
+      "benchmark_id": null
+    },
+    {
+      "isin": "LU0107368036",
+      "ticker": "DED8.F",
+      "name": "Deka-ESG BasisStrategie Renten CF",
+      "provider": "Deka",
+      "asset_class": null,
+      "region": null,
+      "categories": [],
+      "risk_level": null,
+      "yearly_fee": 0.8,
+      "is_etf": false,
+      "esg_label": "SFDR_ARTICLE_8",
+      "theme": "NONE",
+      "valid_for": [],
+      "notes": "Stub from compass CSV import — risk metrics pending enrichment.",
+      "source": "csv_20260928",
+      "asset_class_breakdown": null,
+      "region_breakdown": null,
+      "benchmark_id": null
+    },
+    {
+      "isin": "LU0249486092",
+      "ticker": "0P0000619U.F",
+      "name": "Deka-FlexZins CF",
+      "provider": "Deka",
+      "asset_class": null,
+      "region": null,
+      "categories": [],
+      "risk_level": null,
+      "yearly_fee": 0.6,
+      "is_etf": false,
+      "esg_label": null,
+      "theme": "NONE",
+      "valid_for": [],
+      "notes": "Stub from compass CSV import — risk metrics pending enrichment.",
+      "source": "csv_20260928",
+      "asset_class_breakdown": null,
+      "region_breakdown": null,
+      "benchmark_id": null
+    },
+    {
+      "isin": "LU0292106167",
+      "ticker": "XDBC.DE",
+      "name": "Xtrackers Commodity ex Agriculture",
+      "provider": "DWS",
+      "asset_class": null,
+      "region": null,
+      "categories": [],
+      "risk_level": null,
+      "yearly_fee": 0.39,
+      "is_etf": true,
+      "esg_label": null,
+      "theme": "NONE",
+      "valid_for": [
+        "avi",
+        "fondsrentevario",
+        "starterkids",
+        "1lf"
+      ],
+      "notes": "Stub from compass CSV import — risk metrics pending enrichment.",
+      "source": "csv_20260928",
+      "asset_class_breakdown": null,
+      "region_breakdown": null,
+      "benchmark_id": null
+    },
+    {
+      "isin": "LU0323578228",
+      "ticker": "0P0000KAJJ.F",
+      "name": "Flossbach von Storch - Multi Asset Growth I",
+      "provider": "Flossbach von Storch",
+      "asset_class": null,
+      "region": null,
+      "categories": [],
+      "risk_level": null,
+      "yearly_fee": 0.94,
+      "is_etf": false,
+      "esg_label": "SFDR_ARTICLE_8",
+      "theme": "NONE",
+      "valid_for": [
+        "avi",
+        "avg80",
+        "avg100",
+        "garantrentevario",
+        "flexgarant",
+        "firmengarantrente",
+        "firmenflexgarant",
+        "basisgarantrente",
+        "basisflexgarant",
+        "fondsrentevario",
+        "starterkids",
+        "1lf",
+        "1ltf"
+      ],
+      "notes": "Stub from compass CSV import — risk metrics pending enrichment.",
+      "source": "csv_20260928",
+      "asset_class_breakdown": null,
+      "region_breakdown": null,
+      "benchmark_id": null
+    },
+    {
+      "isin": "LU1211621138",
+      "ticker": "0P000166EY.F",
+      "name": "Deka-EuropaGarant 80A",
+      "provider": "Deka",
+      "asset_class": null,
+      "region": null,
+      "categories": [],
+      "risk_level": null,
+      "yearly_fee": 1.5,
+      "is_etf": false,
+      "esg_label": null,
+      "theme": "NONE",
+      "valid_for": [
+        "garantrentevario",
+        "flexgarant",
+        "firmengarantrente",
+        "firmenflexgarant",
+        "basisgarantrente",
+        "basisflexgarant"
+      ],
+      "notes": "Stub from compass CSV import — risk metrics pending enrichment.",
+      "source": "csv_20260928",
+      "asset_class_breakdown": null,
+      "region_breakdown": null,
+      "benchmark_id": null
+    },
+    {
+      "isin": "LU1211644858",
+      "ticker": "0P000166EW.F",
+      "name": "Deka-GlobalStrategie Garant 80KR",
+      "provider": "Deka",
+      "asset_class": null,
+      "region": null,
+      "categories": [],
+      "risk_level": null,
+      "yearly_fee": 1.7,
+      "is_etf": false,
+      "esg_label": null,
+      "theme": "NONE",
+      "valid_for": [
+        "garantrentevario",
+        "flexgarant",
+        "firmengarantrente",
+        "firmenflexgarant",
+        "basisgarantrente",
+        "basisflexgarant"
+      ],
+      "notes": "Stub from compass CSV import — risk metrics pending enrichment.",
+      "source": "csv_20260928",
+      "asset_class_breakdown": null,
+      "region_breakdown": null,
+      "benchmark_id": null
+    },
+    {
+      "isin": "LU1984712593",
+      "ticker": "0P0001I1JV.F",
+      "name": "Janus Henderson Global Smaller Companies FD H2 EUR",
+      "provider": "JanusHenderson",
+      "asset_class": null,
+      "region": null,
+      "categories": [],
+      "risk_level": null,
+      "yearly_fee": 2.3,
+      "is_etf": false,
+      "esg_label": "SFDR_ARTICLE_8",
+      "theme": "NONE",
+      "valid_for": [
+        "garantrentevario",
+        "flexgarant",
+        "firmengarantrente",
+        "firmenflexgarant",
+        "fondsrentevario",
+        "starterkids",
+        "1lf"
+      ],
+      "notes": "Stub from compass CSV import — risk metrics pending enrichment.",
+      "source": "csv_20260928",
+      "asset_class_breakdown": null,
+      "region_breakdown": null,
+      "benchmark_id": null
+    },
+    {
+      "isin": "LU2224496260",
+      "ticker": null,
+      "name": "Deka-EuropaGarant 90",
+      "provider": "Deka",
+      "asset_class": null,
+      "region": null,
+      "categories": [],
+      "risk_level": null,
+      "yearly_fee": 1.2,
+      "is_etf": false,
+      "esg_label": null,
+      "theme": "NONE",
+      "valid_for": [],
+      "notes": "Stub from compass CSV import — risk metrics pending enrichment.",
+      "source": "csv_20260928",
+      "asset_class_breakdown": null,
+      "region_breakdown": null,
+      "benchmark_id": null
+    },
+    {
+      "isin": "DE000DK1NUK0",
+      "ticker": "0P00008Y5P.F",
+      "name": "Deka-GlobalChampions V",
+      "provider": "Deka",
+      "asset_class": null,
+      "region": null,
+      "categories": [],
+      "risk_level": null,
+      "yearly_fee": 0.94,
+      "is_etf": false,
+      "esg_label": null,
+      "theme": "NONE",
+      "valid_for": [
+        "garantrentevario",
+        "flexgarant",
+        "firmengarantrente",
+        "firmenflexgarant",
+        "fondsrentevario",
+        "starterkids",
+        "1lf"
+      ],
+      "notes": "Stub from compass CSV import — risk metrics pending enrichment.",
+      "source": "csv_20260928",
+      "asset_class_breakdown": null,
+      "region_breakdown": null,
+      "benchmark_id": null
+    },
+    {
+      "isin": "DE000DK1NUM6",
+      "ticker": "0P0001L6M2.F",
+      "name": "Deka-ESG Global Champions V",
+      "provider": "Deka",
+      "asset_class": null,
+      "region": null,
+      "categories": [],
+      "risk_level": null,
+      "yearly_fee": 0.91,
+      "is_etf": false,
+      "esg_label": "SFDR_ARTICLE_8",
+      "theme": "NONE",
+      "valid_for": [
+        "avi",
+        "avg80",
+        "avg100",
+        "garantrentevario",
+        "flexgarant",
+        "firmengarantrente",
+        "firmenflexgarant",
+        "basisgarantrente",
+        "basisflexgarant",
+        "fondsrentevario",
+        "starterkids",
+        "1lf",
+        "1ltf"
+      ],
+      "notes": "Stub from compass CSV import — risk metrics pending enrichment.",
+      "source": "csv_20260928",
+      "asset_class_breakdown": null,
+      "region_breakdown": null,
+      "benchmark_id": null
+    },
+    {
+      "isin": "DE000DK1NUP9",
+      "ticker": "0P0001L2K1.F",
+      "name": "Deka-ESG DividendenStrategie V",
+      "provider": "Deka",
+      "asset_class": null,
+      "region": null,
+      "categories": [],
+      "risk_level": null,
+      "yearly_fee": 1.17,
+      "is_etf": false,
+      "esg_label": "SFDR_ARTICLE_8",
+      "theme": "NONE",
+      "valid_for": [
+        "avi",
+        "avg80",
+        "avg100",
+        "garantrentevario",
+        "flexgarant",
+        "firmengarantrente",
+        "firmenflexgarant",
+        "basisgarantrente",
+        "basisflexgarant",
+        "fondsrentevario",
+        "starterkids",
+        "1lf",
+        "1ltf"
+      ],
+      "notes": "Stub from compass CSV import — risk metrics pending enrichment.",
+      "source": "csv_20260928",
+      "asset_class_breakdown": null,
+      "region_breakdown": null,
+      "benchmark_id": null
+    },
+    {
+      "isin": "LU0851806900",
+      "ticker": "0P0000Y4GF.F",
+      "name": "Deka-Globale Aktien LowRisk V",
+      "provider": "Deka",
+      "asset_class": null,
+      "region": null,
+      "categories": [],
+      "risk_level": null,
+      "yearly_fee": 0.87,
+      "is_etf": false,
+      "esg_label": null,
+      "theme": "NONE",
+      "valid_for": [
+        "avi",
+        "avg80",
+        "avg100",
+        "garantrentevario",
+        "flexgarant",
+        "firmengarantrente",
+        "firmenflexgarant",
+        "basisgarantrente",
+        "basisflexgarant",
+        "fondsrentevario",
+        "starterkids",
+        "1lf",
+        "1ltf"
+      ],
+      "notes": "Stub from compass CSV import — risk metrics pending enrichment.",
+      "source": "csv_20260928",
+      "asset_class_breakdown": null,
+      "region_breakdown": null,
+      "benchmark_id": null
+    },
+    {
+      "isin": "DE000DK1NUL8",
+      "ticker": "OG7X.F",
+      "name": "Deka-MegaTrends V",
+      "provider": "Deka",
+      "asset_class": null,
+      "region": null,
+      "categories": [],
+      "risk_level": null,
+      "yearly_fee": 1.16,
+      "is_etf": false,
+      "esg_label": null,
+      "theme": "NONE",
+      "valid_for": [
+        "garantrentevario",
+        "flexgarant",
+        "firmengarantrente",
+        "firmenflexgarant",
+        "fondsrentevario",
+        "starterkids",
+        "1lf"
+      ],
+      "notes": "Stub from compass CSV import — risk metrics pending enrichment.",
+      "source": "csv_20260928",
+      "asset_class_breakdown": null,
+      "region_breakdown": null,
+      "benchmark_id": null
+    },
+    {
+      "isin": "DE000DK1NUN4",
+      "ticker": "0P0000P8Q6.F",
+      "name": "Deka DividendenStrategie V",
+      "provider": "Deka",
+      "asset_class": null,
+      "region": null,
+      "categories": [],
+      "risk_level": null,
+      "yearly_fee": 0.93,
+      "is_etf": false,
+      "esg_label": null,
+      "theme": "NONE",
+      "valid_for": [
+        "avi",
+        "avg80",
+        "avg100",
+        "garantrentevario",
+        "flexgarant",
+        "firmengarantrente",
+        "firmenflexgarant",
+        "basisgarantrente",
+        "basisflexgarant",
+        "fondsrentevario",
+        "starterkids",
+        "1lf",
+        "1ltf"
+      ],
+      "notes": "Stub from compass CSV import — risk metrics pending enrichment.",
+      "source": "csv_20260928",
+      "asset_class_breakdown": null,
+      "region_breakdown": null,
+      "benchmark_id": null
+    },
+    {
+      "isin": "DE000ETFL672",
+      "ticker": null,
+      "name": "Deka MSCI World 400 Select",
+      "provider": "Deka",
+      "asset_class": null,
+      "region": null,
+      "categories": [],
+      "risk_level": null,
+      "yearly_fee": 0.12,
+      "is_etf": false,
+      "esg_label": null,
+      "theme": "NONE",
+      "valid_for": [
+        "avi",
+        "avg80",
+        "avg100",
+        "garantrentevario",
+        "flexgarant",
+        "firmengarantrente",
+        "firmenflexgarant",
+        "basisgarantrente",
+        "basisflexgarant",
+        "fondsrentevario",
+        "starterkids",
+        "1lf",
+        "1ltf"
+      ],
+      "notes": "Stub from compass CSV import — risk metrics pending enrichment.",
+      "source": "csv_20260928",
+      "asset_class_breakdown": null,
+      "region_breakdown": null,
+      "benchmark_id": null
+    },
+    {
+      "isin": "LU3503246079",
+      "ticker": null,
+      "name": "Deka MSCI Europe Protect",
+      "provider": "Deka",
+      "asset_class": null,
+      "region": null,
+      "categories": [],
+      "risk_level": null,
+      "yearly_fee": 0.48,
+      "is_etf": false,
+      "esg_label": null,
+      "theme": "NONE",
+      "valid_for": [
+        "avg80",
+        "avg100"
+      ],
+      "notes": "Stub from compass CSV import — risk metrics pending enrichment.",
+      "source": "csv_20260928",
+      "asset_class_breakdown": null,
+      "region_breakdown": null,
+      "benchmark_id": null
+    },
+    {
+      "isin": null,
+      "ticker": null,
+      "name": "Provinzial Aktien Welt 70",
+      "provider": "Helaba/LBBW",
+      "asset_class": null,
+      "region": null,
+      "categories": [],
+      "risk_level": null,
+      "yearly_fee": 0.48,
+      "is_etf": false,
+      "esg_label": "SFDR_ARTICLE_8",
+      "theme": "NONE",
+      "valid_for": [
+        "avg80",
+        "avg100"
+      ],
+      "notes": "Stub from compass CSV import — risk metrics pending enrichment.",
+      "source": "csv_20260928",
+      "asset_class_breakdown": null,
+      "region_breakdown": null,
+      "benchmark_id": null
+    },
+    {
+      "isin": null,
+      "ticker": null,
+      "name": "VK Zukunft Staatsanleihen",
+      "provider": "Universal Investment",
+      "asset_class": null,
+      "region": null,
+      "categories": [],
+      "risk_level": null,
+      "yearly_fee": null,
+      "is_etf": false,
+      "esg_label": null,
+      "theme": "NONE",
+      "valid_for": [
+        "standarddepot",
+        "avi",
+        "avg80",
+        "avg100"
+      ],
+      "notes": "Stub from compass CSV import — risk metrics pending enrichment.",
+      "source": "csv_20260928",
+      "asset_class_breakdown": null,
+      "region_breakdown": null,
+      "benchmark_id": null
+    },
+    {
+      "isin": null,
+      "ticker": null,
+      "name": "VK Zukunft Euro Unternehmensanleihen",
+      "provider": "Universal Investment",
+      "asset_class": null,
+      "region": null,
+      "categories": [],
+      "risk_level": null,
+      "yearly_fee": null,
+      "is_etf": false,
+      "esg_label": null,
+      "theme": "NONE",
+      "valid_for": [
+        "avi",
+        "avg80",
+        "avg100"
+      ],
+      "notes": "Stub from compass CSV import — risk metrics pending enrichment.",
+      "source": "csv_20260928",
+      "asset_class_breakdown": null,
+      "region_breakdown": null,
+      "benchmark_id": null
+    },
+    {
+      "isin": null,
+      "ticker": null,
+      "name": "VK Zukunft MSCI World",
+      "provider": "Universal Investment",
+      "asset_class": null,
+      "region": null,
+      "categories": [],
+      "risk_level": null,
+      "yearly_fee": null,
+      "is_etf": false,
+      "esg_label": null,
+      "theme": "NONE",
+      "valid_for": [
+        "standarddepot",
+        "avi",
+        "avg80",
+        "avg100"
+      ],
+      "notes": "Stub from compass CSV import — risk metrics pending enrichment.",
+      "source": "csv_20260928",
       "asset_class_breakdown": null,
       "region_breakdown": null,
       "benchmark_id": null

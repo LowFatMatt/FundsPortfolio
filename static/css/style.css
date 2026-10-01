@@ -184,6 +184,20 @@ body {
     outline-offset: 2px;
 }
 
+/* Layer-0 product-context badge (app bar) — hidden unless a ?product=
+   context is active; JS fills the label from GET /api/products. */
+.product-context-badge {
+    background: var(--md-sys-color-secondary-container);
+    color: var(--md-sys-color-on-secondary-container);
+    border: 1px solid var(--md-sys-color-outline);
+    border-radius: var(--md-sys-shape-small);
+    padding: 0.3rem 0.75rem;
+    font-family: var(--font-body);
+    font-size: var(--md-typescale-label-medium-size);
+    font-weight: 500;
+    white-space: nowrap;
+}
+
 /* --------------------------------------------------------------------------
    5. Page Content
    -------------------------------------------------------------------------- */

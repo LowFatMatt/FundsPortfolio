@@ -10,9 +10,9 @@ Hub for all project documentation. The product's current feature set lives in
 | Component | File(s) | Notes |
 |-----------|---------|-------|
 | Flask app & API | `funds_portfolio/app.py` | All endpoints (core + charts/breakdowns/health) |
-| Decision engine | `funds_portfolio/portfolio/decision_engine.py` | Filter → score → select → allocate (three-pass: pass-0 defensive anchor — fixed per-profile budget, BALANCED 35 % — then coverage-first, then quality fill; pass/rank-aware core/satellite classification + proportional elevated-score weighting with per-profile satellite band cap (30 %, OPPORTUNITY 40 %) and anchor carve-out; integer allocation output) |
+| Decision engine | `funds_portfolio/portfolio/decision_engine.py` | Layer-0 product-context filter (`user_answers.product_context`, trace entry `product_context`, absent → passthrough) → filter → score → select → allocate (three-pass: pass-0 defensive anchor — fixed per-profile budget, BALANCED 35 % — then coverage-first, then quality fill; pass/rank-aware core/satellite classification + proportional elevated-score weighting with per-profile satellite band cap (30 %, OPPORTUNITY 40 %) and anchor carve-out; integer allocation output) |
 | Shared risk bands | `funds_portfolio/portfolio/risk_bands.py` | Single source of truth for DEFENSIVE/BALANCED/OPPORTUNITY bands (Slide 8), satellite total caps and v4.1 defensive-anchor budgets; engine backstop and dialog advisor both delegate here |
-| Shared eligibility | `funds_portfolio/portfolio/eligibility.py` | Single source of truth for ESG (SFDR Art. 8/9) and ETF-only filter semantics; engine and advisor both delegate here |
+| Shared eligibility | `funds_portfolio/portfolio/eligibility.py` | Single source of truth for ESG (SFDR Art. 8/9), ETF-only and layer-0 product-context filter semantics + the 14-key insurance-product catalog (`PRODUCTS`, compass CSV columns L–T); engine and advisor both delegate here |
 | Sharpe calculator | `funds_portfolio/portfolio/calculator.py` | Risk-adjusted return scoring |
 | Validator | `funds_portfolio/portfolio/validator.py` | Diversification, fee, count checks (max_fee default 1.50%) |
 | Preference reporting | `funds_portfolio/portfolio/preference_match.py` | Single source of truth for preference-satisfaction scoring (engine output, trace, eval, GUI) |
@@ -31,6 +31,7 @@ Hub for all project documentation. The product's current feature set lives in
 | i18n | `static/i18n/` | UI strings in `en.json` / `de.json` (incl. `stress.*`, period, vol & gating labels) |
 | Scraper (offline) | `scripts/sync_factsheetslive.py` | Pulls per-ISIN data into `data/funds/{ISIN}.json` |
 | Customer catalog tools | `scripts/build_customer_catalog.py`, `scripts/select_customer.py` | Build a customer-specific catalog and activate it |
+| Product-validity import | `scripts/import_product_validity.py` | Compass CSV columns L–T → `valid_for` (14 canonical product keys, strict `ja`-only, compound families expanded); full sync: stubs for CSV-only funds, absent-DB report, annotation report |
 | UI modes & flows | `MODES.md`, `flows/`, `static/js/app.js` | Quick-Mode (`?mode=quick`) + Flow-Mode wizard (`?mode=flow&flowVariant=A\|B`); shared result component; declarative flow configs |
 
 ---

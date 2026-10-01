@@ -190,6 +190,7 @@ Status legend: **IMPLEMENTED-TODO** — screen exists in the prototype today; ad
 | `flow--progress` | IMPLEMENTED-TODO (`flow-progress-fill` / `-label`) |
 | `flow--back` / `flow--continue` | IMPLEMENTED-TODO (`flow-back-btn` / `flow-next-btn`; continue becomes submit on last step) |
 | `chrome--lang-select` | IMPLEMENTED-TODO (`lang-select`) |
+| `chrome--badge-product` | IMPLEMENTED (`product-context-badge`) — layer-0 product context from `?product=`, hidden when unset |
 | `chrome--session-banner` | IMPLEMENTED-TODO (`active-session-banner`) |
 | `chrome--error` | IMPLEMENTED-TODO (`error-view` / `error-message`) |
 | `chrome--restart` | IMPLEMENTED-TODO (`restart-btn`) |

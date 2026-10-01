@@ -671,6 +671,7 @@ Legend for interaction tables — **testid** omits the `data-testid` attribute n
 | Flow progress bar | `flow--progress` | progress fill + label (visible steps only) |
 | Flow back / next | `flow--back` / `flow--continue` | global nav under every flow step |
 | Language switch | `chrome--lang-select` | en/de |
+| Product context badge | `chrome--badge-product` | layer-0 context from `?product=` (LeAn handover D-10); hidden when unset |
 | Active session banner | `chrome--session-banner` | shows active portfolio id |
 | Error view | `chrome--error` | API failure display |
 | Restart | `chrome--restart` | back to welcome |

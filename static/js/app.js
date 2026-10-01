@@ -71,6 +71,12 @@ document.addEventListener('DOMContentLoaded', () => {
     let flowStepIndex      = 0;
     const flowVariant      = (urlParams.get('flowVariant') || 'A').toUpperCase();
 
+    // Layer-0 product context (insurance product the portfolio is built
+    // for). Comes from the LeAn handover via URL (like brand/mode), never
+    // from a customer question — see docs/user-journey D-10. Null → the
+    // engine applies no product filtering (backward compatible).
+    const productContext   = (urlParams.get('product') || '').trim() || null;
+
     // Phase 2 — portfolio + chart state
     let lastPortfolio      = null;     // most recent /api/portfolio response
     let stressPeriodsCfg   = null;     // cached /api/config/stress-periods
@@ -191,7 +197,32 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
 
-        loadTranslations(currentLang).then(loadQuestionnaire);
+        loadTranslations(currentLang).then(() => {
+            renderProductBadge();
+            loadQuestionnaire();
+        });
+    }
+
+    // Product-context badge — surfaces the active layer-0 context in the
+    // app bar so the user (and tests, via data-testid) can see which
+    // insurance product shapes the fund universe.
+    async function renderProductBadge() {
+        const badge = document.getElementById('product-context-badge');
+        if (!badge || !productContext) return;
+        const prefix = t('ui.product_context_label', 'Product');
+        let label = productContext;
+        try {
+            const resp = await fetch('/api/products');
+            if (resp.ok) {
+                const catalog = (await resp.json()).products || [];
+                const entry = catalog.find(p => p.key === productContext);
+                if (entry) label = entry.label;
+            }
+        } catch (err) {
+            console.warn('Failed to load product catalog:', err);
+        }
+        badge.textContent = `${prefix}: ${label}`;
+        badge.classList.remove('hidden');
     }
 
     // -------------------------------------------------------------------------
@@ -199,7 +230,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // -------------------------------------------------------------------------
     async function loadQuestionnaire() {
         try {
-            const response = await fetch(`/api/questionnaire?lang=${currentLang}`);
+            const productQs = productContext ? `&product=${encodeURIComponent(productContext)}` : '';
+            const response = await fetch(`/api/questionnaire?lang=${currentLang}${productQs}`);
             if (!response.ok) throw new Error(t('errors.load_questionnaire'));
             const data = await response.json();
             questionnaireSections = data.sections || [];
@@ -882,6 +914,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const userAnswers = applyOptionExclusions(gatherAnswers(qForm));
 
         const payload = { user_answers: userAnswers, language: currentLang };
+        if (productContext) payload.product = productContext;
         if (currentPortfolioId) payload.portfolio_id = currentPortfolioId;
 
         console.log('Submitting payload:', payload);
@@ -968,10 +1001,14 @@ document.addEventListener('DOMContentLoaded', () => {
         if (userAnswersFilters) {
             userAnswersFilters.innerHTML = '';
             const answers = portfolio.user_answers || {};
-            Object.entries(answers).forEach(([key, value]) => {
-                const displayValue = Array.isArray(value) ? value.join(', ') : String(value);
-                userAnswersFilters.appendChild(makeFilterPill(`${key}: ${displayValue}`));
-            });
+            // product_context is surfaced by the app-bar badge instead —
+            // keep the raw answers pills limited to questionnaire fields.
+            Object.entries(answers)
+                .filter(([key]) => key !== 'product_context')
+                .forEach(([key, value]) => {
+                    const displayValue = Array.isArray(value) ? value.join(', ') : String(value);
+                    userAnswersFilters.appendChild(makeFilterPill(`${key}: ${displayValue}`));
+                });
         }
 
         if (!portfolio.recommendations?.length) {
@@ -1886,6 +1923,7 @@ document.addEventListener('DOMContentLoaded', () => {
             user_answers: filterInfeasiblePreferences(mapFlowToUserAnswers(flowAnswers)),
             language: currentLang,
         };
+        if (productContext) payload.product = productContext;
         if (currentPortfolioId) payload.portfolio_id = currentPortfolioId;
 
         try {

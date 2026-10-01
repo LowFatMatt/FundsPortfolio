@@ -15,6 +15,7 @@ FundsPortfolio is a Flask-based portfolio recommender for investment funds. It l
 7. **Per-ISIN time-series data** in [data/funds/](data/funds/) — NAV history (monthly, rebased to 100), per-period returns, volatility, Sharpe ratios, max drawdown, asset-class breakdown, top holdings. Populated by [scripts/sync_factsheetslive.py](scripts/sync_factsheetslive.py).
 8. **Customer-specific fund universes** under [data/customers/](data/customers/) — current profiles: `general` (197-fund accumulated catalog) and `provinzial_nord` (127-fund customer-curated universe). Selected via `CUSTOMER` env var or [scripts/select_customer.py](scripts/select_customer.py).
 9. EN/DE i18n across UI, decision trace, and stress-period labels.
+10. **Layer-0 product context** ([funds_portfolio/portfolio/eligibility.py](funds_portfolio/portfolio/eligibility.py)) — insurance-product validity per fund (`valid_for`, 14 canonical keys from the funds compass CSV columns L–T, strict `ja`-only import via [scripts/import_product_validity.py](scripts/import_product_validity.py)). Optional `product` on `POST /api/portfolio` / `?product=` (GUI URL, LeAn handover D-10; badge `chrome--badge-product`) gates the universe before all other filters; absent → passthrough (backward compatible). Catalog served at `GET /api/products`; feasibility counts shaped via `GET /api/questionnaire?product=`; spec: [FUND_SELECTION_LOGIC_SPEC_V4.md](FUND_SELECTION_LOGIC_SPEC_V4.md) Step −1.
 
 **Quick Start (Docker)**
 1. `docker compose up --build -d`

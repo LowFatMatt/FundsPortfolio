@@ -15,6 +15,7 @@ from ..dialog.feasibility import (
     region_counts as region_feasible_counts,
     theme_counts as theme_feasible_counts,
 )
+from ..portfolio.eligibility import filter_by_product, normalise_product
 
 logger = logging.getLogger(__name__)
 
@@ -70,17 +71,33 @@ class QuestionnaireLoader:
             logger.error("Failed to load questionnaire schema: %s", e)
             return False
 
-    def get_questionnaire(self, language: Optional[str] = None) -> Dict:
+    def get_questionnaire(
+        self, language: Optional[str] = None, product: Optional[str] = None
+    ) -> Dict:
         """
         Get the full questionnaire schema.
+
+        Args:
+            language: Optional language code for translated labels.
+            product: Optional canonical insurance-product key (layer-0
+                context). When given, region/theme options are re-decorated
+                with feasible counts computed on the product-reduced fund
+                universe (overlay copy — the cached questionnaire and the
+                product-less counts are left untouched).
 
         Returns:
             Questionnaire dictionary with sections and options
         """
         self._refresh_dynamic_options_if_needed()
+        questionnaire = self._questionnaire or {}
+        product_key = normalise_product(product)
+        if product_key is not None and questionnaire:
+            questionnaire = self._apply_product_context_overlay(
+                questionnaire, product_key
+            )
         if not language:
-            return self._questionnaire or {}
-        return self._translate_questionnaire(language)
+            return questionnaire
+        return self._translate_questionnaire(language, questionnaire)
 
     def get_sections(self) -> List[Dict]:
         """
@@ -135,15 +152,16 @@ class QuestionnaireLoader:
                 logger.warning("Failed to load translation %s: %s", path, e)
         return translations
 
-    def _translate_questionnaire(self, language: str) -> Dict:
-        if not self._questionnaire:
+    def _translate_questionnaire(self, language: str, questionnaire: Optional[Dict] = None) -> Dict:
+        source = questionnaire if questionnaire is not None else self._questionnaire
+        if not source:
             return {}
 
         translations = self._translations.get(language) or self._translations.get("en")
         if not translations:
-            return self._questionnaire
+            return source
 
-        translated = copy.deepcopy(self._questionnaire)
+        translated = copy.deepcopy(source)
         section_map = translations.get("sections", {})
         region_map = translations.get("regions", {})
         theme_map = translations.get("themes", {})
@@ -355,17 +373,9 @@ class QuestionnaireLoader:
         if not self._questionnaire:
             return False
 
-        if not self._funds_db_path or not os.path.exists(self._funds_db_path):
+        funds = self._load_funds_for_decoration()
+        if funds is None:
             return False
-
-        try:
-            with open(self._funds_db_path, "r", encoding="utf-8") as f:
-                data = json.load(f)
-        except (json.JSONDecodeError, OSError) as e:
-            logger.error("Failed to load funds database for dynamic options: %s", e)
-            return False
-
-        funds = data.get("funds_database", [])
         region_counts: Counter[str] = Counter()
         theme_counts: Counter[str] = Counter()
 
@@ -396,6 +406,64 @@ class QuestionnaireLoader:
         self._set_section_options("preferred_regions", region_options)
         self._set_section_options("preferred_themes", theme_options)
         return True
+
+    def _load_funds_for_decoration(self) -> Optional[List[Dict]]:
+        """Funds list for option decoration, or None when unavailable."""
+        if not self._funds_db_path or not os.path.exists(self._funds_db_path):
+            return None
+        try:
+            with open(self._funds_db_path, "r", encoding="utf-8") as f:
+                data = json.load(f)
+        except (json.JSONDecodeError, OSError) as e:
+            logger.error("Failed to load funds database for dynamic options: %s", e)
+            return None
+        return data.get("funds_database", [])
+
+    def _apply_product_context_overlay(
+        self, questionnaire: Dict, product_key: str
+    ) -> Dict:
+        """Product-specific copy of the questionnaire (layer-0 overlay).
+
+        Same decoration pipeline as the cached refresh, but computed on the
+        product-reduced universe. Returns a deep copy carrying
+        ``product_context`` so the SPA can detect the context it was
+        shaped for; the shared cache stays product-less.
+        """
+        overlay = copy.deepcopy(questionnaire)
+        funds = self._load_funds_for_decoration()
+        if funds is None:
+            overlay["product_context"] = product_key
+            return overlay
+
+        funds = filter_by_product(funds, product_key)
+
+        region_counts: Counter[str] = Counter()
+        theme_counts: Counter[str] = Counter()
+        for fund in funds:
+            region = fund.get("region")
+            if region:
+                region_counts[str(region).strip().lower()] += 1
+            theme = fund.get("theme")
+            if theme:
+                theme_counts[str(theme).strip().upper()] += 1
+
+        region_options = self._build_region_options(region_counts)
+        theme_options = self._build_theme_options(theme_counts)
+        region_options = decorate_region_options(
+            region_options, region_feasible_counts(funds)
+        )
+        theme_options = decorate_theme_options(
+            theme_options, theme_feasible_counts(funds)
+        )
+
+        for section in overlay.get("sections", []):
+            if section.get("id") == "preferred_regions":
+                section["options"] = region_options
+            elif section.get("id") == "preferred_themes":
+                section["options"] = theme_options
+
+        overlay["product_context"] = product_key
+        return overlay
 
     def _set_section_options(self, section_id: str, options: List[Dict]) -> None:
         sections = (

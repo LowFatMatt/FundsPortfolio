@@ -258,6 +258,11 @@ def create_app():
     from funds_portfolio.portfolio.decision_engine import DecisionEngine
     from funds_portfolio.models.portfolio import Portfolio
     from funds_portfolio.dialog.feasibility import feasibility_warnings
+    from funds_portfolio.portfolio.eligibility import (
+        PRODUCTS,
+        filter_by_product,
+        normalise_product,
+    )
     from flask import request
 
     # Initialize singletons
@@ -267,6 +272,16 @@ def create_app():
     # Init calculation engine components
     decision_engine = DecisionEngine()
 
+    # Product-context catalog (layer-0) — canonical insurance products the
+    # portfolio can be built for (compass CSV columns L–T).
+    @app.route("/api/products", methods=["GET"])
+    def get_products():
+        catalog = [
+            {"key": key, "label": meta["label"], "column": meta["column"]}
+            for key, meta in PRODUCTS.items()
+        ]
+        return jsonify({"products": catalog}), 200
+
     # Questionnaire endpoint
     @app.route("/api/questionnaire", methods=["GET"])
     def get_questionnaire():
@@ -275,7 +290,21 @@ def create_app():
             accept_lang = request.headers.get("Accept-Language", "")
             if accept_lang:
                 lang = accept_lang.split(",")[0].strip().split("-")[0]
-        return jsonify(ql.get_questionnaire(language=lang)), 200
+        product_key = None
+        product = request.args.get("product")
+        if product:
+            product_key = normalise_product(product)
+            if product_key is None:
+                return jsonify(
+                    {
+                        "error": f"Unknown product '{product}'",
+                        "valid_products": sorted(PRODUCTS),
+                    }
+                ), 400
+        return (
+            jsonify(ql.get_questionnaire(language=lang, product=product_key)),
+            200,
+        )
 
     # Portfolio endpoints
     @app.route("/api/portfolio", methods=["POST"])
@@ -290,6 +319,22 @@ def create_app():
             accept_lang = request.headers.get("Accept-Language", "")
             if accept_lang:
                 lang = accept_lang.split(",")[0].strip().split("-")[0]
+
+        # Layer-0 product context (optional): canonical insurance-product
+        # key the portfolio is built for. Aliases (labels / raw CSV
+        # headlines) are normalized; unknown values are rejected. Absent
+        # → no product filtering (backward compatible).
+        product = data.get("product")
+        if product:
+            product_key = normalise_product(product)
+            if product_key is None:
+                return jsonify(
+                    {
+                        "error": f"Unknown product '{product}'",
+                        "valid_products": sorted(PRODUCTS),
+                    }
+                ), 400
+            user_answers["product_context"] = product_key
 
         # 0. Inject implicit defaults for missing logic-relevant answers
         user_answers, applied_defaults = ql.apply_defaults(user_answers)
@@ -338,8 +383,13 @@ def create_app():
         # 4.5 Soft feasibility warnings — answer combinations the dialog's
         # gating would not have offered (legacy portfolios, direct API calls,
         # eval grid). Logged, never rejected: the engine's hard risk bands
-        # remain the backstop.
-        for warning in feasibility_warnings(user_answers, funds):
+        # remain the backstop. Warnings are computed on the product-reduced
+        # universe when a layer-0 context is set.
+        product_ctx = user_answers.get("product_context")
+        funds_for_warnings = (
+            filter_by_product(funds, product_ctx) if product_ctx else funds
+        )
+        for warning in feasibility_warnings(user_answers, funds_for_warnings):
             portfolio.add_log(f"Feasibility warning: {warning}")
 
         for note in applied_defaults:

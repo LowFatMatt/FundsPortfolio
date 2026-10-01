@@ -6,6 +6,7 @@
 > **v4 headline changes:**
 > 1. **Satellite classification** now distinguishes funds selected *only because of* pass 1 preferences from those that would have ranked top-5 anyway (Step 8)
 > 2. **Allocation logic** switched from inverse-volatility + tier bounds to **proportional elevated-score weighting** with satellite/core bands (Steps 9–11)
+> 3. **Layer-0 product-context filter** (2026-10-01): insurance-product validity (`valid_for`) gates the universe before all other filters — see Step −1
 
 ---
 
@@ -15,7 +16,7 @@ The fund selection logic operates in three sequential phases, each fully recorde
 
 | Phase | Goal | Output |
 |-------|------|--------|
-| **1 — Filter** | Exclude ineligible funds (data quality, ESG, ETF, risk band) | Reduced fund universe |
+| **1 — Filter** | Exclude ineligible funds (product context, data quality, ESG, ETF, risk band) | Reduced fund universe |
 | **2 — Scoring** | Score remaining funds: quantitative base + preference boosts | Single ranked list (the ranking) |
 | **3 — Portfolio Construction** | Three-pass selection (defensive anchor → coverage → fill) of 5 funds, then Core-Satellite weighting with anchor carve-out | 5-fund portfolio with allocations + full decision log |
 
@@ -24,6 +25,18 @@ The fund selection logic operates in three sequential phases, each fully recorde
 ## Phase 1 — Filter
 
 Funds pass sequential hard filters before being admitted to scoring. The trace records each filter with before/after counts.
+
+### Step −1 — Product Context Filter (Layer 0)
+
+*Added 2026-10-01.* An optional insurance-product context (`user_answers.product_context`, canonical key from the funds compass CSV columns L–T) gates the universe **before every other filter**:
+
+- Each fund carries `valid_for`: the list of canonical product keys it may be incorporated into (14 keys; the three compound CSV column families expand to individual keys sharing the column's validity). Catalog and filter semantics live in [`funds_portfolio/portfolio/eligibility.py`](funds_portfolio/portfolio/eligibility.py) (`PRODUCTS`, `filter_by_product`) — the engine and the dialog advisor both delegate there.
+- **Strict boolean import rule** ([`scripts/import_product_validity.py`](scripts/import_product_validity.py)): a product key is written only for a plain `ja` cell; conditional annotations (`ja (SW)`, `ja (NW)`, `Ablaufm. T93/T82`, `Einstiegsm.`, `nein (alte WSF)`) are **not** valid (all surfaced in the import report).
+- **No context (absent/None) → passthrough** — legacy answers, the eval grid and API calls without `product` behave exactly as before (backward compatible).
+- Funds without `valid_for` (DB entries absent from the compass CSV) are dropped whenever a context is set — full-sync semantics: the CSV is the master list.
+- Trace entry: `product_context` with `details.product` (the canonical key or `null`).
+
+The context is *not* a questionnaire answer: it arrives via the LeAn handover as `POST /api/portfolio {product}` / `?product=` (GUI URL, badge `chrome--badge-product`), is persisted in `user_answers.product_context`, and shapes the dialog's feasibility counts (`GET /api/questionnaire?product=`).
 
 ### Step 0 — Required Fields Filter
 
@@ -350,6 +363,7 @@ Ranking candidates carry a status: `selected` (pass 2), `selected_pass1_coverage
 | `max_drawdown` | risk band, scoring |
 | `yearly_fee` | scoring (TER) |
 | `sharpe_ratio` | scoring |
+| `valid_for` | layer-0 product-context filter (Step −1) |
 | `is_etf` | ETF filter/boost |
 | `esg_label` | ESG filter/boost |
 | `region` | region boost, coverage |

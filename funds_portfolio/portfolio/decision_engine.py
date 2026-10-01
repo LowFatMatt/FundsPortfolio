@@ -24,8 +24,10 @@ import json
 from .preference_match import preference_satisfaction
 from .eligibility import (
     ESG_SUSTAINABLE_LABELS,
+    filter_by_product,
     is_esg_fund,
     normalise_esg_preference,
+    normalise_product,
 )
 from .risk_bands import (
     ANCHOR_BUDGETS,
@@ -178,6 +180,17 @@ class DecisionEngine:
         trace["used_fallback_risk"] = used_fallback
 
         working = list(funds)
+
+        # 0) Layer-0 product-context filter — insurance-product validity
+        # (compass CSV columns L–T, funds_portfolio.portfolio.eligibility is
+        # the single source of truth). No product context (None) →
+        # passthrough: legacy answers, eval grid and API calls without a
+        # product behave exactly as before (backward compatible).
+        product = normalise_product(user_answers.get("product_context"))
+        user_answers["product_context"] = product
+        before = len(working)
+        working = filter_by_product(working, product)
+        note_filter("product_context", before, len(working), {"product": product})
 
         # 1) Basic eligibility test for required fileds: isin + name + fee + sharpe + mdd + (srri or risk_level) + volatility
         before = len(working)
