@@ -135,7 +135,15 @@ def import_product_validity(
     dry_run: bool = False,
     remove_absent: bool = False,
     report_file: Optional[str] = None,
+    skip_stubs: bool = False,
 ) -> int:
+    """Import validity columns into ``db_path``.
+
+    ``skip_stubs`` enables match-only mode for customer catalogs: existing
+    entries get their ``valid_for`` set, but CSV-only funds are NOT added as
+    stubs (a customer universe is closed — the CSV may list funds the
+    customer does not offer). Skipped funds are still reported.
+    """
     with open(db_path, "r", encoding="utf-8") as f:
         data = json.load(f)
     funds: List[Dict[str, Any]] = data.get("funds_database", [])
@@ -188,13 +196,18 @@ def import_product_validity(
         funds = [f for f in funds if id(f) in touched]
 
     # Append stubs (CSV-only funds) — deduped against existing ISINs/names.
+    # With skip_stubs (match-only mode) they are only reported, never added.
     existing_isins = {f.get("isin") for f in funds if f.get("isin")}
     existing_names = {_norm_name(f.get("name")) for f in funds if f.get("name")}
     added = []
+    skipped: List[Dict[str, Any]] = []
     for stub in stubs:
         if stub.get("isin") and stub["isin"] in existing_isins:
             continue
         if stub.get("name") and _norm_name(stub["name"]) in existing_names:
+            continue
+        if skip_stubs:
+            skipped.append(stub)
             continue
         funds.append(stub)
         added.append(stub)
@@ -210,6 +223,10 @@ def import_product_validity(
     lines.append(f"  Stubs added (CSV-only funds): {len(added)}")
     for s in added:
         lines.append(f"    + {s.get('name')} ({s.get('isin') or 'no ISIN'})")
+    if skip_stubs:
+        lines.append(f"  Stubs skipped (match-only mode --skip-stubs): {len(skipped)}")
+        for s in skipped:
+            lines.append(f"    ~ {s.get('name')} ({s.get('isin') or 'no ISIN'})")
     lines.append(f"  DB funds absent from CSV (review{' — REMOVED' if remove_absent else ''}): {len(absent)}")
     for f in absent:
         lines.append(f"    - {f.get('name')} ({f.get('isin')})")
@@ -235,7 +252,8 @@ def import_product_validity(
     with open(db_path, "w", encoding="utf-8") as f:
         json.dump(data, f, indent=2, ensure_ascii=False)
         f.write("\n")
-    print(f"\nWritten {db_path}: {len(funds)} funds ({len(added)} stubs added).")
+    skipped_note = f", {len(skipped)} skipped (--skip-stubs)" if skip_stubs else ""
+    print(f"\nWritten {db_path}: {len(funds)} funds ({len(added)} stubs added{skipped_note}).")
     return 0
 
 
@@ -250,6 +268,12 @@ def main() -> int:
         help="Remove DB funds absent from the CSV (default: report only)",
     )
     parser.add_argument("--report-file", default=None, help="Also write the report to this path")
+    parser.add_argument(
+        "--skip-stubs",
+        action="store_true",
+        help="Match-only mode: do NOT add CSV-only funds as stubs "
+        "(for customer catalogs whose universe is closed)",
+    )
     args = parser.parse_args()
     return import_product_validity(
         args.db_path,
@@ -257,6 +281,7 @@ def main() -> int:
         dry_run=args.dry_run,
         remove_absent=args.remove_absent,
         report_file=args.report_file,
+        skip_stubs=args.skip_stubs,
     )
 
 

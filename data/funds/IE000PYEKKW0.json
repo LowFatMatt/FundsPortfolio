@@ -1,0 +1,98 @@
+{
+  "isin": "IE000PYEKKW0",
+  "as_of": "2026-09-30",
+  "schema_version": 2,
+  "source": "yfinance",
+  "source_url": "https://finance.yahoo.com/quote/CEMI.DE",
+  "currency": null,
+  "fund_name": "iShares MSCI Europe Quality Dividend Advanc. UCITS ETF",
+  "ticker": "CEMI.DE",
+  "region": null,
+  "theme": "NONE",
+  "ter": 0.41,
+  "sri": null,
+  "performance": {
+    "periods": {
+      "3m": -0.0123,
+      "6m": 0.1696,
+      "ytd": 0.1325,
+      "1y": 0.1512,
+      "3y_pa": null,
+      "5y_pa": null,
+      "si_pa": 0.1759
+    },
+    "nav_series": [
+      {
+        "d": "2025-09-30",
+        "v": 100.0
+      },
+      {
+        "d": "2025-10-31",
+        "v": 100.7773
+      },
+      {
+        "d": "2025-11-30",
+        "v": 99.1838
+      },
+      {
+        "d": "2025-12-31",
+        "v": 101.6518
+      },
+      {
+        "d": "2026-01-31",
+        "v": 103.8282
+      },
+      {
+        "d": "2026-02-28",
+        "v": 103.5562
+      },
+      {
+        "d": "2026-03-31",
+        "v": 95.6277
+      },
+      {
+        "d": "2026-04-30",
+        "v": 107.1318
+      },
+      {
+        "d": "2026-05-31",
+        "v": 112.4563
+      },
+      {
+        "d": "2026-06-30",
+        "v": 116.6731
+      },
+      {
+        "d": "2026-07-31",
+        "v": 111.6595
+      },
+      {
+        "d": "2026-08-31",
+        "v": 116.8092
+      },
+      {
+        "d": "2026-09-30",
+        "v": 115.1185
+      }
+    ]
+  },
+  "volatility": {
+    "1y": 0.1369,
+    "3y": 0.135,
+    "5y": 0.135
+  },
+  "risk_metrics": {
+    "sharpe": {
+      "1y": 1.1052,
+      "3y": null,
+      "5y": null
+    },
+    "max_drawdown": {
+      "1y": -0.09,
+      "3y": -0.09,
+      "5y": -0.09
+    }
+  },
+  "asset_class_breakdown": null,
+  "top_holdings": null
+}

@@ -159,7 +159,22 @@
         "other": 0.057
       },
       "region_breakdown": null,
-      "benchmark_id": null
+      "benchmark_id": null,
+      "valid_for": [
+        "avi",
+        "avg80",
+        "avg100",
+        "garantrentevario",
+        "flexgarant",
+        "firmengarantrente",
+        "firmenflexgarant",
+        "basisgarantrente",
+        "basisflexgarant",
+        "fondsrentevario",
+        "starterkids",
+        "1lf",
+        "1ltf"
+      ]
     },
     {
       "isin": "DE0008474511",
@@ -557,7 +572,16 @@
         "commodities": 0.05
       },
       "region_breakdown": null,
-      "benchmark_id": null
+      "benchmark_id": null,
+      "valid_for": [
+        "garantrentevario",
+        "flexgarant",
+        "firmengarantrente",
+        "firmenflexgarant",
+        "fondsrentevario",
+        "starterkids",
+        "1lf"
+      ]
     },
     {
       "isin": "DE000DK2CFT3",
@@ -589,7 +613,16 @@
         "other": 0.005
       },
       "region_breakdown": null,
-      "benchmark_id": null
+      "benchmark_id": null,
+      "valid_for": [
+        "garantrentevario",
+        "flexgarant",
+        "firmengarantrente",
+        "firmenflexgarant",
+        "fondsrentevario",
+        "starterkids",
+        "1lf"
+      ]
     },
     {
       "isin": "DE000DK2EAR4",
@@ -714,7 +747,22 @@
         "equity": 1.0003
       },
       "region_breakdown": null,
-      "benchmark_id": null
+      "benchmark_id": null,
+      "valid_for": [
+        "avi",
+        "avg80",
+        "avg100",
+        "garantrentevario",
+        "flexgarant",
+        "firmengarantrente",
+        "firmenflexgarant",
+        "basisgarantrente",
+        "basisflexgarant",
+        "fondsrentevario",
+        "starterkids",
+        "1lf",
+        "1ltf"
+      ]
     },
     {
       "isin": "DE000DK2CDS0",
@@ -779,7 +827,22 @@
         "other": 0.0218
       },
       "region_breakdown": null,
-      "benchmark_id": null
+      "benchmark_id": null,
+      "valid_for": [
+        "avi",
+        "avg80",
+        "avg100",
+        "garantrentevario",
+        "flexgarant",
+        "firmengarantrente",
+        "firmenflexgarant",
+        "basisgarantrente",
+        "basisflexgarant",
+        "fondsrentevario",
+        "starterkids",
+        "1lf",
+        "1ltf"
+      ]
     },
     {
       "isin": "LU2339785821",
@@ -876,7 +939,8 @@
         "other": 0.0277
       },
       "region_breakdown": null,
-      "benchmark_id": null
+      "benchmark_id": null,
+      "valid_for": []
     },
     {
       "isin": "DE000DK0V521",
@@ -1006,7 +1070,22 @@
         "other": 0.0293
       },
       "region_breakdown": null,
-      "benchmark_id": null
+      "benchmark_id": null,
+      "valid_for": [
+        "avi",
+        "avg80",
+        "avg100",
+        "garantrentevario",
+        "flexgarant",
+        "firmengarantrente",
+        "firmenflexgarant",
+        "basisgarantrente",
+        "basisflexgarant",
+        "fondsrentevario",
+        "starterkids",
+        "1lf",
+        "1ltf"
+      ]
     },
     {
       "isin": "DE0008480666",
@@ -1165,7 +1244,15 @@
         "other": 1.0
       },
       "region_breakdown": null,
-      "benchmark_id": null
+      "benchmark_id": null,
+      "valid_for": [
+        "garantrentevario",
+        "flexgarant",
+        "firmengarantrente",
+        "firmenflexgarant",
+        "basisgarantrente",
+        "basisflexgarant"
+      ]
     },
     {
       "isin": "LU2224496260",
@@ -1196,7 +1283,8 @@
         "other": 1.0
       },
       "region_breakdown": null,
-      "benchmark_id": null
+      "benchmark_id": null,
+      "valid_for": []
     },
     {
       "isin": "DE000ETFL029",
@@ -1229,7 +1317,22 @@
         "other": 0.0012
       },
       "region_breakdown": null,
-      "benchmark_id": null
+      "benchmark_id": null,
+      "valid_for": [
+        "avi",
+        "avg80",
+        "avg100",
+        "garantrentevario",
+        "flexgarant",
+        "firmengarantrente",
+        "firmenflexgarant",
+        "basisgarantrente",
+        "basisflexgarant",
+        "fondsrentevario",
+        "starterkids",
+        "1lf",
+        "1ltf"
+      ]
     },
     {
       "isin": "LU0027797579",
@@ -1261,7 +1364,8 @@
         "other": 0.0398
       },
       "region_breakdown": null,
-      "benchmark_id": null
+      "benchmark_id": null,
+      "valid_for": []
     },
     {
       "isin": "LU0249486092",
@@ -1293,7 +1397,8 @@
         "other": 0.0122
       },
       "region_breakdown": null,
-      "benchmark_id": null
+      "benchmark_id": null,
+      "valid_for": []
     },
     {
       "isin": "DE0008474503",
@@ -1356,7 +1461,11 @@
         "other": 1.0
       },
       "region_breakdown": null,
-      "benchmark_id": null
+      "benchmark_id": null,
+      "valid_for": [
+        "1lf",
+        "1ltf"
+      ]
     },
     {
       "isin": "DE000DK2J8N2",
@@ -1454,7 +1563,22 @@
         "other": 0.0191
       },
       "region_breakdown": null,
-      "benchmark_id": null
+      "benchmark_id": null,
+      "valid_for": [
+        "avi",
+        "avg80",
+        "avg100",
+        "garantrentevario",
+        "flexgarant",
+        "firmengarantrente",
+        "firmenflexgarant",
+        "basisgarantrente",
+        "basisflexgarant",
+        "fondsrentevario",
+        "starterkids",
+        "1lf",
+        "1ltf"
+      ]
     },
     {
       "isin": "LU0350093026",
@@ -1517,7 +1641,15 @@
         "bond": 1.0
       },
       "region_breakdown": null,
-      "benchmark_id": null
+      "benchmark_id": null,
+      "valid_for": [
+        "garantrentevario",
+        "flexgarant",
+        "firmengarantrente",
+        "firmenflexgarant",
+        "basisgarantrente",
+        "basisflexgarant"
+      ]
     },
     {
       "isin": "DE000ETFL375",
@@ -1550,7 +1682,22 @@
         "other": 0.0016
       },
       "region_breakdown": null,
-      "benchmark_id": null
+      "benchmark_id": null,
+      "valid_for": [
+        "avi",
+        "avg80",
+        "avg100",
+        "garantrentevario",
+        "flexgarant",
+        "firmengarantrente",
+        "firmenflexgarant",
+        "basisgarantrente",
+        "basisflexgarant",
+        "fondsrentevario",
+        "starterkids",
+        "1lf",
+        "1ltf"
+      ]
     },
     {
       "isin": "DE0009809566",
@@ -1648,7 +1795,21 @@
         "other": 0.0108
       },
       "region_breakdown": null,
-      "benchmark_id": null
+      "benchmark_id": null,
+      "valid_for": [
+        "avi",
+        "avg80",
+        "avg100",
+        "garantrentevario",
+        "flexgarant",
+        "firmengarantrente",
+        "firmenflexgarant",
+        "basisgarantrente",
+        "basisflexgarant",
+        "fondsrentevario",
+        "starterkids",
+        "1lf"
+      ]
     },
     {
       "isin": "LU2339791803",
@@ -1681,7 +1842,21 @@
         "equity": 1.0
       },
       "region_breakdown": null,
-      "benchmark_id": null
+      "benchmark_id": null,
+      "valid_for": [
+        "avi",
+        "avg80",
+        "avg100",
+        "garantrentevario",
+        "flexgarant",
+        "firmengarantrente",
+        "firmenflexgarant",
+        "basisgarantrente",
+        "basisflexgarant",
+        "fondsrentevario",
+        "starterkids",
+        "1lf"
+      ]
     },
     {
       "isin": "LU0011194601",
@@ -1875,7 +2050,22 @@
         "other": 0.0055
       },
       "region_breakdown": null,
-      "benchmark_id": null
+      "benchmark_id": null,
+      "valid_for": [
+        "avi",
+        "avg80",
+        "avg100",
+        "garantrentevario",
+        "flexgarant",
+        "firmengarantrente",
+        "firmenflexgarant",
+        "basisgarantrente",
+        "basisflexgarant",
+        "fondsrentevario",
+        "starterkids",
+        "1lf",
+        "1ltf"
+      ]
     },
     {
       "isin": "DE000ETFL581",
@@ -1909,7 +2099,22 @@
         "other": 0.0006
       },
       "region_breakdown": null,
-      "benchmark_id": null
+      "benchmark_id": null,
+      "valid_for": [
+        "avi",
+        "avg80",
+        "avg100",
+        "garantrentevario",
+        "flexgarant",
+        "firmengarantrente",
+        "firmenflexgarant",
+        "basisgarantrente",
+        "basisflexgarant",
+        "fondsrentevario",
+        "starterkids",
+        "1lf",
+        "1ltf"
+      ]
     },
     {
       "isin": "DE000ETFL508",
@@ -1943,7 +2148,22 @@
         "other": 0.0007
       },
       "region_breakdown": null,
-      "benchmark_id": null
+      "benchmark_id": null,
+      "valid_for": [
+        "avi",
+        "avg80",
+        "avg100",
+        "garantrentevario",
+        "flexgarant",
+        "firmengarantrente",
+        "firmenflexgarant",
+        "basisgarantrente",
+        "basisflexgarant",
+        "fondsrentevario",
+        "starterkids",
+        "1lf",
+        "1ltf"
+      ]
     },
     {
       "isin": "DE000DK2J662",
@@ -2039,7 +2259,21 @@
         "other": 0.0002
       },
       "region_breakdown": null,
-      "benchmark_id": null
+      "benchmark_id": null,
+      "valid_for": [
+        "avi",
+        "avg80",
+        "avg100",
+        "garantrentevario",
+        "flexgarant",
+        "firmengarantrente",
+        "firmenflexgarant",
+        "basisgarantrente",
+        "basisflexgarant",
+        "fondsrentevario",
+        "starterkids",
+        "1lf"
+      ]
     },
     {
       "isin": "DE000DK2CCQ6",
@@ -2139,7 +2373,16 @@
         "commodities": 0.0691
       },
       "region_breakdown": null,
-      "benchmark_id": null
+      "benchmark_id": null,
+      "valid_for": [
+        "garantrentevario",
+        "flexgarant",
+        "firmengarantrente",
+        "firmenflexgarant",
+        "fondsrentevario",
+        "starterkids",
+        "1lf"
+      ]
     },
     {
       "isin": "DE000DK0AYK1",
@@ -2269,7 +2512,21 @@
         "equity": 1.0005
       },
       "region_breakdown": null,
-      "benchmark_id": null
+      "benchmark_id": null,
+      "valid_for": [
+        "avi",
+        "avg80",
+        "avg100",
+        "garantrentevario",
+        "flexgarant",
+        "firmengarantrente",
+        "firmenflexgarant",
+        "basisgarantrente",
+        "basisflexgarant",
+        "fondsrentevario",
+        "starterkids",
+        "1lf"
+      ]
     },
     {
       "isin": "LU2941481082",
@@ -2301,7 +2558,16 @@
         "equity": 1.0
       },
       "region_breakdown": null,
-      "benchmark_id": null
+      "benchmark_id": null,
+      "valid_for": [
+        "garantrentevario",
+        "flexgarant",
+        "firmengarantrente",
+        "firmenflexgarant",
+        "fondsrentevario",
+        "starterkids",
+        "1lf"
+      ]
     },
     {
       "isin": "DE0005896864",
@@ -2799,7 +3065,8 @@
         "other": 0.0056
       },
       "region_breakdown": null,
-      "benchmark_id": null
+      "benchmark_id": null,
+      "valid_for": []
     },
     {
       "isin": "DE000DK0ECS2",
@@ -3378,7 +3645,13 @@
         "equity": 1.0
       },
       "region_breakdown": null,
-      "benchmark_id": null
+      "benchmark_id": null,
+      "valid_for": [
+        "avi",
+        "fondsrentevario",
+        "starterkids",
+        "1lf"
+      ]
     },
     {
       "isin": "IE00B4L5Y983",
@@ -3446,7 +3719,13 @@
         "other": 0.0045
       },
       "region_breakdown": null,
-      "benchmark_id": null
+      "benchmark_id": null,
+      "valid_for": [
+        "avi",
+        "fondsrentevario",
+        "starterkids",
+        "1lf"
+      ]
     },
     {
       "isin": "LU0113993801",
@@ -3770,7 +4049,21 @@
         "cash": 0.0016
       },
       "region_breakdown": null,
-      "benchmark_id": null
+      "benchmark_id": null,
+      "valid_for": [
+        "avg80",
+        "avg100",
+        "garantrentevario",
+        "flexgarant",
+        "firmengarantrente",
+        "firmenflexgarant",
+        "basisgarantrente",
+        "basisflexgarant",
+        "fondsrentevario",
+        "starterkids",
+        "1lf",
+        "1ltf"
+      ]
     },
     {
       "isin": "DE0008474537",
@@ -3835,7 +4128,16 @@
         "other": 0.11
       },
       "region_breakdown": null,
-      "benchmark_id": null
+      "benchmark_id": null,
+      "valid_for": [
+        "garantrentevario",
+        "flexgarant",
+        "firmengarantrente",
+        "firmenflexgarant",
+        "fondsrentevario",
+        "starterkids",
+        "1lf"
+      ]
     },
     {
       "isin": "LU0136171559",
@@ -4092,7 +4394,15 @@
       "source": "provinzial_nord_universe",
       "asset_class_breakdown": null,
       "region_breakdown": null,
-      "benchmark_id": null
+      "benchmark_id": null,
+      "valid_for": [
+        "garantrentevario",
+        "flexgarant",
+        "firmengarantrente",
+        "firmenflexgarant",
+        "basisgarantrente",
+        "basisflexgarant"
+      ]
     },
     {
       "isin": "FR0014011N36",
@@ -4121,7 +4431,8 @@
       "source": "provinzial_nord_universe",
       "asset_class_breakdown": null,
       "region_breakdown": null,
-      "benchmark_id": null
+      "benchmark_id": null,
+      "valid_for": []
     }
   ],
   "metadata": {

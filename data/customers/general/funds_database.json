@@ -167,7 +167,15 @@
       "notes": "Region corrected from 'global' to 'europe'.",
       "source": "FundsInitDB_de_de",
       "volatility": 10.44,
-      "max_drawdown": 11.28
+      "max_drawdown": 11.28,
+      "valid_for": [
+        "garantrentevario",
+        "flexgarant",
+        "firmengarantrente",
+        "firmenflexgarant",
+        "basisgarantrente",
+        "basisflexgarant"
+      ]
     },
     {
       "isin": "LU1211644858",
@@ -193,7 +201,15 @@
       "notes": null,
       "source": "FundsInitDB_de_de",
       "volatility": 9.65,
-      "max_drawdown": 13.97
+      "max_drawdown": 13.97,
+      "valid_for": [
+        "garantrentevario",
+        "flexgarant",
+        "firmengarantrente",
+        "firmenflexgarant",
+        "basisgarantrente",
+        "basisflexgarant"
+      ]
     },
     {
       "isin": "FR0014011E94",
@@ -219,7 +235,15 @@
       "notes": "Provider corrected: 'WorldGuard 80' is the fund name; Amundi is the provider.",
       "source": "FundsInitDB_de_de",
       "volatility": 12.5,
-      "max_drawdown": 6.03
+      "max_drawdown": 6.03,
+      "valid_for": [
+        "garantrentevario",
+        "flexgarant",
+        "firmengarantrente",
+        "firmenflexgarant",
+        "basisgarantrente",
+        "basisflexgarant"
+      ]
     },
     {
       "isin": "LU2224496260",
@@ -245,7 +269,8 @@
       "notes": "Region corrected from 'global' to 'europe'.",
       "source": "FundsInitDB_de_de",
       "volatility": 6.84,
-      "max_drawdown": 6.01
+      "max_drawdown": 6.01,
+      "valid_for": []
     },
     {
       "isin": "FR0014011N36",
@@ -271,7 +296,8 @@
       "notes": "Provider corrected from 'WorldGuard 90' to 'Amundi'.",
       "source": "FundsInitDB_de_de",
       "volatility": 7.5,
-      "max_drawdown": 1.97
+      "max_drawdown": 1.97,
+      "valid_for": []
     },
     {
       "isin": "LU1883318740",
@@ -403,7 +429,22 @@
       "notes": null,
       "source": "FundsInitDB_de_de",
       "volatility": 14.17,
-      "max_drawdown": 21.54
+      "max_drawdown": 21.54,
+      "valid_for": [
+        "avi",
+        "avg80",
+        "avg100",
+        "garantrentevario",
+        "flexgarant",
+        "firmengarantrente",
+        "firmenflexgarant",
+        "basisgarantrente",
+        "basisflexgarant",
+        "fondsrentevario",
+        "starterkids",
+        "1lf",
+        "1ltf"
+      ]
     },
     {
       "isin": "DE000DK0V521",
@@ -509,7 +550,22 @@
       "notes": null,
       "source": "FundsInitDB_de_de",
       "volatility": 9.45,
-      "max_drawdown": 12.45
+      "max_drawdown": 12.45,
+      "valid_for": [
+        "avi",
+        "avg80",
+        "avg100",
+        "garantrentevario",
+        "flexgarant",
+        "firmengarantrente",
+        "firmenflexgarant",
+        "basisgarantrente",
+        "basisflexgarant",
+        "fondsrentevario",
+        "starterkids",
+        "1lf",
+        "1ltf"
+      ]
     },
     {
       "isin": "LU0350093026",
@@ -589,7 +645,21 @@
       "notes": "Theme corrected to TECHNOLOGY. Industrie 4.0 = tech/automation theme.",
       "source": "FundsInitDB_de_de",
       "volatility": 18.97,
-      "max_drawdown": 28.09
+      "max_drawdown": 28.09,
+      "valid_for": [
+        "avi",
+        "avg80",
+        "avg100",
+        "garantrentevario",
+        "flexgarant",
+        "firmengarantrente",
+        "firmenflexgarant",
+        "basisgarantrente",
+        "basisflexgarant",
+        "fondsrentevario",
+        "starterkids",
+        "1lf"
+      ]
     },
     {
       "isin": "DE0005152706",
@@ -694,7 +764,21 @@
       "notes": null,
       "source": "FundsInitDB_de_de",
       "volatility": 10.12,
-      "max_drawdown": 13.89
+      "max_drawdown": 13.89,
+      "valid_for": [
+        "avg80",
+        "avg100",
+        "garantrentevario",
+        "flexgarant",
+        "firmengarantrente",
+        "firmenflexgarant",
+        "basisgarantrente",
+        "basisflexgarant",
+        "fondsrentevario",
+        "starterkids",
+        "1lf",
+        "1ltf"
+      ]
     },
     {
       "isin": "LU0136171559",
@@ -1092,7 +1176,21 @@
       "notes": "Theme corrected to TECHNOLOGY. AI theme fund.",
       "source": "FundsInitDB_de_de",
       "volatility": 21.17,
-      "max_drawdown": 29.89
+      "max_drawdown": 29.89,
+      "valid_for": [
+        "avi",
+        "avg80",
+        "avg100",
+        "garantrentevario",
+        "flexgarant",
+        "firmengarantrente",
+        "firmenflexgarant",
+        "basisgarantrente",
+        "basisflexgarant",
+        "fondsrentevario",
+        "starterkids",
+        "1lf"
+      ]
     },
     {
       "isin": "LU2941481082",
@@ -1119,7 +1217,16 @@
       "notes": "Theme corrected to DEFENSE.",
       "source": "FundsInitDB_de_de",
       "volatility": 14.41,
-      "max_drawdown": 16.14
+      "max_drawdown": 16.14,
+      "valid_for": [
+        "garantrentevario",
+        "flexgarant",
+        "firmengarantrente",
+        "firmenflexgarant",
+        "fondsrentevario",
+        "starterkids",
+        "1lf"
+      ]
     },
     {
       "isin": "LU0099574567",
@@ -1280,7 +1387,22 @@
       "notes": null,
       "source": "FundsInitDB_de_de",
       "volatility": 2.91,
-      "max_drawdown": 2.79
+      "max_drawdown": 2.79,
+      "valid_for": [
+        "avi",
+        "avg80",
+        "avg100",
+        "garantrentevario",
+        "flexgarant",
+        "firmengarantrente",
+        "firmenflexgarant",
+        "basisgarantrente",
+        "basisflexgarant",
+        "fondsrentevario",
+        "starterkids",
+        "1lf",
+        "1ltf"
+      ]
     },
     {
       "isin": "DE0008474560",
@@ -1410,7 +1532,8 @@
       "notes": null,
       "source": "FundsInitDB_de_de",
       "volatility": 1.26,
-      "max_drawdown": 1.48
+      "max_drawdown": 1.48,
+      "valid_for": []
     },
     {
       "isin": "LU0011194601",
@@ -1462,7 +1585,8 @@
       "notes": null,
       "source": "FundsInitDB_de_de",
       "volatility": 1.41,
-      "max_drawdown": 1.65
+      "max_drawdown": 1.65,
+      "valid_for": []
     },
     {
       "isin": "LU0027797579",
@@ -1488,7 +1612,8 @@
       "notes": null,
       "source": "FundsInitDB_de_de",
       "volatility": 0.59,
-      "max_drawdown": 0.56
+      "max_drawdown": 0.56,
+      "valid_for": []
     },
     {
       "isin": "LU0249486092",
@@ -1514,7 +1639,8 @@
       "notes": null,
       "source": "FundsInitDB_de_de",
       "volatility": 2.33,
-      "max_drawdown": 2.35
+      "max_drawdown": 2.35,
+      "valid_for": []
     },
     {
       "isin": "DE000A0X7541",
@@ -1567,7 +1693,22 @@
       "notes": "Provider corrected: ARERO is the fund name, DWS is the KVG. TER 0.50%. ARERO = Aktien, Renten, Rohstoffe.",
       "source": "FundsInitDB_de_de",
       "volatility": 8.27,
-      "max_drawdown": 13.5
+      "max_drawdown": 13.5,
+      "valid_for": [
+        "avi",
+        "avg80",
+        "avg100",
+        "garantrentevario",
+        "flexgarant",
+        "firmengarantrente",
+        "firmenflexgarant",
+        "basisgarantrente",
+        "basisflexgarant",
+        "fondsrentevario",
+        "starterkids",
+        "1lf",
+        "1ltf"
+      ]
     },
     {
       "isin": "FR0010135103",
@@ -1777,7 +1918,16 @@
       "notes": null,
       "source": "FundsInitDB_de_de",
       "volatility": 10.62,
-      "max_drawdown": 15.06
+      "max_drawdown": 15.06,
+      "valid_for": [
+        "garantrentevario",
+        "flexgarant",
+        "firmengarantrente",
+        "firmenflexgarant",
+        "fondsrentevario",
+        "starterkids",
+        "1lf"
+      ]
     },
     {
       "isin": "LU0431139764",
@@ -1908,7 +2058,16 @@
       "notes": "Provider corrected from 'SK' to 'Sparkasse UnnaKamen'.",
       "source": "FundsInitDB_de_de",
       "volatility": 8.4,
-      "max_drawdown": 13.39
+      "max_drawdown": 13.39,
+      "valid_for": [
+        "garantrentevario",
+        "flexgarant",
+        "firmengarantrente",
+        "firmenflexgarant",
+        "fondsrentevario",
+        "starterkids",
+        "1lf"
+      ]
     },
     {
       "isin": "LU0208341965",
@@ -1960,7 +2119,16 @@
       "notes": null,
       "source": "FundsInitDB_de_de",
       "volatility": 11.38,
-      "max_drawdown": 18.38
+      "max_drawdown": 18.38,
+      "valid_for": [
+        "garantrentevario",
+        "flexgarant",
+        "firmengarantrente",
+        "firmenflexgarant",
+        "fondsrentevario",
+        "starterkids",
+        "1lf"
+      ]
     },
     {
       "isin": "DE000DK0LMG1",
@@ -1986,7 +2154,11 @@
       "notes": null,
       "source": "FundsInitDB_de_de",
       "volatility": 5.84,
-      "max_drawdown": 9.68
+      "max_drawdown": 9.68,
+      "valid_for": [
+        "1lf",
+        "1ltf"
+      ]
     },
     {
       "isin": "DE000DK2J8Q5",
@@ -2143,7 +2315,22 @@
       "notes": "Region corrected from 'global' to 'germany'. TER 0.15%.",
       "source": "FundsInitDB_de_de",
       "volatility": 15.2,
-      "max_drawdown": 16.01
+      "max_drawdown": 16.01,
+      "valid_for": [
+        "avi",
+        "avg80",
+        "avg100",
+        "garantrentevario",
+        "flexgarant",
+        "firmengarantrente",
+        "firmenflexgarant",
+        "basisgarantrente",
+        "basisflexgarant",
+        "fondsrentevario",
+        "starterkids",
+        "1lf",
+        "1ltf"
+      ]
     },
     {
       "isin": "DE000ETFL029",
@@ -2170,7 +2357,22 @@
       "notes": "Region corrected from 'global' to 'eurozone'. TER 0.15%.",
       "source": "FundsInitDB_de_de",
       "volatility": 15.33,
-      "max_drawdown": 16.38
+      "max_drawdown": 16.38,
+      "valid_for": [
+        "avi",
+        "avg80",
+        "avg100",
+        "garantrentevario",
+        "flexgarant",
+        "firmengarantrente",
+        "firmenflexgarant",
+        "basisgarantrente",
+        "basisflexgarant",
+        "fondsrentevario",
+        "starterkids",
+        "1lf",
+        "1ltf"
+      ]
     },
     {
       "isin": "DE000ETFL375",
@@ -2197,7 +2399,22 @@
       "notes": "Asset class corrected from 'equity' to 'bond'. Region corrected to 'europe'. TER 0.20%.",
       "source": "FundsInitDB_de_de",
       "volatility": 3.41,
-      "max_drawdown": 2.93
+      "max_drawdown": 2.93,
+      "valid_for": [
+        "avi",
+        "avg80",
+        "avg100",
+        "garantrentevario",
+        "flexgarant",
+        "firmengarantrente",
+        "firmenflexgarant",
+        "basisgarantrente",
+        "basisflexgarant",
+        "fondsrentevario",
+        "starterkids",
+        "1lf",
+        "1ltf"
+      ]
     },
     {
       "isin": "DE000ETFL565",
@@ -2225,7 +2442,22 @@
       "notes": "Region corrected from 'global' to 'europe'. TER 0.25%.",
       "source": "FundsInitDB_de_de",
       "volatility": 12.99,
-      "max_drawdown": 17.39
+      "max_drawdown": 17.39,
+      "valid_for": [
+        "avi",
+        "avg80",
+        "avg100",
+        "garantrentevario",
+        "flexgarant",
+        "firmengarantrente",
+        "firmenflexgarant",
+        "basisgarantrente",
+        "basisflexgarant",
+        "fondsrentevario",
+        "starterkids",
+        "1lf",
+        "1ltf"
+      ]
     },
     {
       "isin": "DE000ETFL508",
@@ -2253,7 +2485,22 @@
       "notes": "TER 0.31%.",
       "source": "FundsInitDB_de_de",
       "volatility": 12.65,
-      "max_drawdown": 20.28
+      "max_drawdown": 20.28,
+      "valid_for": [
+        "avi",
+        "avg80",
+        "avg100",
+        "garantrentevario",
+        "flexgarant",
+        "firmengarantrente",
+        "firmenflexgarant",
+        "basisgarantrente",
+        "basisflexgarant",
+        "fondsrentevario",
+        "starterkids",
+        "1lf",
+        "1ltf"
+      ]
     },
     {
       "isin": "DE000ETFL581",
@@ -2281,7 +2528,22 @@
       "notes": "TER 0.26%.",
       "source": "FundsInitDB_de_de",
       "volatility": 15.06,
-      "max_drawdown": 22.84
+      "max_drawdown": 22.84,
+      "valid_for": [
+        "avi",
+        "avg80",
+        "avg100",
+        "garantrentevario",
+        "flexgarant",
+        "firmengarantrente",
+        "firmenflexgarant",
+        "basisgarantrente",
+        "basisflexgarant",
+        "fondsrentevario",
+        "starterkids",
+        "1lf",
+        "1ltf"
+      ]
     },
     {
       "isin": "IE00B4L5YC18",
@@ -2308,7 +2570,13 @@
       "notes": "Name corrected to include 'IMI'. Region corrected from 'global' to 'emerging_markets'. TER 0.18%.",
       "source": "FundsInitDB_de_de",
       "volatility": 16.22,
-      "max_drawdown": 15.56
+      "max_drawdown": 15.56,
+      "valid_for": [
+        "avi",
+        "fondsrentevario",
+        "starterkids",
+        "1lf"
+      ]
     },
     {
       "isin": "IE00B1W6CY02",
@@ -3691,7 +3959,22 @@
       "notes": "WARNING: 'ETFL19' is a WKN, not ISIN. Actual ISIN likely DE000ETFL193. ESG/theme corrected.",
       "source": "etfs_50",
       "volatility": 7.5,
-      "max_drawdown": 20.0
+      "max_drawdown": 20.0,
+      "valid_for": [
+        "avi",
+        "avg80",
+        "avg100",
+        "garantrentevario",
+        "flexgarant",
+        "firmengarantrente",
+        "firmenflexgarant",
+        "basisgarantrente",
+        "basisflexgarant",
+        "fondsrentevario",
+        "starterkids",
+        "1lf",
+        "1ltf"
+      ]
     },
     {
       "isin": "ETFL20",
@@ -5016,7 +5299,22 @@
       "notes": "Name corrected. is_etf corrected to true. TER 0.12% confirmed.",
       "source": "rentenfonds_50",
       "volatility": 0.25,
-      "max_drawdown": 5.0
+      "max_drawdown": 5.0,
+      "valid_for": [
+        "avi",
+        "avg80",
+        "avg100",
+        "garantrentevario",
+        "flexgarant",
+        "firmengarantrente",
+        "firmenflexgarant",
+        "basisgarantrente",
+        "basisflexgarant",
+        "fondsrentevario",
+        "starterkids",
+        "1lf",
+        "1ltf"
+      ]
     },
     {
       "isin": "FR0010510800",

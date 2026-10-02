@@ -7,6 +7,11 @@ Inputs:
                Assetklasse, lfnd. Jahr, 5 Jahre, Risikoklasse (SRI), TER).
   --customer   Customer id (used to pick the output path).
 
+Product validity (2026-10-01): ``valid_for`` is carried through the
+resolution chain — general profile first, then the root
+``funds_database.json`` as fallback. Funds present in neither keep
+``valid_for: None`` (= eligible for every product, passthrough).
+
 Reads enrichment data from:
   - data/funds/{ISIN}.json    (scraped per-ISIN files from Phase 2)
   - data/customers/general/funds_database.json (master/general profile for
@@ -168,6 +173,21 @@ def read_general_profile() -> Dict[str, Dict[str, Any]]:
     return {fund["isin"].upper(): fund for fund in data.get("funds_database", [])}
 
 
+def read_root_catalog() -> Dict[str, Dict[str, Any]]:
+    """Root funds_database.json, indexed by ISIN — valid_for fallback source."""
+    path = REPO_ROOT / "funds_database.json"
+    if not path.exists():
+        logger.warning("Root catalog not found at %s — valid_for fallback skipped", path)
+        return {}
+    with open(path, "r", encoding="utf-8") as f:
+        data = json.load(f)
+    return {
+        fund["isin"].upper(): fund
+        for fund in data.get("funds_database", [])
+        if fund.get("isin")
+    }
+
+
 def read_per_isin(isin: str) -> Optional[Dict[str, Any]]:
     path = REPO_ROOT / "data" / "funds" / f"{isin.upper()}.json"
     if not path.exists():
@@ -201,6 +221,7 @@ def build_record(
     row: Dict[str, Any],
     general_profile: Dict[str, Dict[str, Any]],
     per_isin: Optional[Dict[str, Any]],
+    root_catalog: Optional[Dict[str, Dict[str, Any]]] = None,
 ) -> Dict[str, Any]:
     isin = row["isin"]
     name = row["name"]
@@ -276,6 +297,14 @@ def build_record(
         slug = category_slug_from_german(row["asset_class_de"])
         categories = [slug] if slug and slug != "other" else [asset_class]
 
+    # Product-validity: general profile (already synced with the compass CSV)
+    # wins; fall back to the root catalog. Missing valid_for keeps the
+    # passthrough semantics — the fund is eligible for every product.
+    valid_for = gp.get("valid_for")
+    if valid_for is None:
+        rc = (root_catalog or {}).get(isin) or {}
+        valid_for = rc.get("valid_for")
+
     record: Dict[str, Any] = {
         "isin": isin,
         "ticker": gp.get("ticker"),
@@ -291,6 +320,7 @@ def build_record(
         "is_etf": bool(gp.get("is_etf")) or is_etf_from_name(name),
         "esg_label": gp.get("esg_label"),
         "theme": theme,
+        "valid_for": valid_for,
         "srri": srri,
         "sharpe_ratio": sharpe,
         "volatility": volatility,
@@ -323,6 +353,7 @@ def coverage_report(records: List[Dict[str, Any]]) -> Dict[str, Any]:
         "categories": f"{filled('categories')}/{n}",
         "esg_label": f"{sum(1 for r in records if r.get('esg_label'))}/{n}",
         "is_etf": f"{sum(1 for r in records if r.get('is_etf'))}/{n}",
+        "valid_for": f"{sum(1 for r in records if r.get('valid_for') is not None)}/{n}",
     }
 
 
@@ -370,11 +401,16 @@ def main(argv: Optional[List[str]] = None) -> int:
     logger.info(
         "Loaded general profile with %d funds for enrichment", len(general_profile)
     )
+    root_catalog = read_root_catalog()
+    logger.info(
+        "Loaded root catalog with %d funds for valid_for fallback",
+        len(root_catalog),
+    )
 
     records: List[Dict[str, Any]] = []
     for row in rows:
         ts = read_per_isin(row["isin"])
-        record = build_record(row, general_profile, ts)
+        record = build_record(row, general_profile, ts, root_catalog)
         records.append(record)
 
     output_path = args.output or (
@@ -421,6 +457,7 @@ def main(argv: Optional[List[str]] = None) -> int:
                 "asset_class_breakdown",
                 "region_breakdown",
                 "benchmark_id",
+                "valid_for",
             ],
             "notes": (
                 f"Built by build_customer_catalog.py from {args.source.name}. "

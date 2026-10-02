@@ -1,0 +1,62 @@
+{
+  "isin": "DE000A41ZZW7",
+  "as_of": "2026-09-30",
+  "schema_version": 2,
+  "source": "yfinance",
+  "source_url": "https://finance.yahoo.com/quote/0P00035W67.F",
+  "currency": null,
+  "fund_name": "TBF Smart Power EUR V",
+  "ticker": "0P00035W67.F",
+  "region": null,
+  "theme": "NONE",
+  "ter": 1.2,
+  "sri": null,
+  "performance": {
+    "periods": {
+      "3m": -0.0732,
+      "6m": null,
+      "ytd": -0.0414,
+      "1y": null,
+      "3y_pa": null,
+      "5y_pa": null,
+      "si_pa": -0.1344
+    },
+    "nav_series": [
+      {
+        "d": "2026-06-30",
+        "v": 100.0
+      },
+      {
+        "d": "2026-07-31",
+        "v": 89.6395
+      },
+      {
+        "d": "2026-08-31",
+        "v": 89.649
+      },
+      {
+        "d": "2026-09-30",
+        "v": 90.6992
+      }
+    ]
+  },
+  "volatility": {
+    "1y": 0.2609,
+    "3y": 0.2609,
+    "5y": 0.2609
+  },
+  "risk_metrics": {
+    "sharpe": {
+      "1y": null,
+      "3y": null,
+      "5y": null
+    },
+    "max_drawdown": {
+      "1y": -0.1769,
+      "3y": -0.1769,
+      "5y": -0.1769
+    }
+  },
+  "asset_class_breakdown": null,
+  "top_holdings": null
+}

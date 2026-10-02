@@ -494,3 +494,65 @@ def test_importer_dry_run_writes_nothing(mini_db, mini_csv):
     before = mini_db.read_text(encoding="utf-8")
     _run_importer(mini_db, mini_csv, dry_run=True)
     assert mini_db.read_text(encoding="utf-8") == before
+
+
+def test_importer_skip_stubs_match_only(mini_db, mini_csv, capsys):
+    """Match-only mode for customer catalogs: no stubs, but valid_for is set."""
+    _run_importer(mini_db, mini_csv, skip_stubs=True)
+    funds = {f["name"]: f for f in _load(mini_db)}
+    # CSV-only fund NOT added — customer universe stays closed
+    assert "Brand New Fund" not in funds
+    assert len(funds) == 4
+    # matched funds still receive their valid_for (AVG80 + both families)
+    assert funds["Match By Isin"]["valid_for"] == [
+        "avg80",
+        "garantrentevario",
+        "flexgarant",
+        "firmengarantrente",
+        "firmenflexgarant",
+        "basisgarantrente",
+        "basisflexgarant",
+    ]
+    # report lists the skipped stubs
+    out = capsys.readouterr().out
+    assert "Stubs skipped (match-only mode --skip-stubs): 1" in out
+
+
+# ---------------------------------------------------------------------------
+# Customer-catalog builder (scripts/build_customer_catalog.py)
+# ---------------------------------------------------------------------------
+
+
+def _tsv_row(isin="LU1111111111", name="Customer Fund"):
+    return {
+        "name": name,
+        "isin": isin,
+        "asset_class_de": "Aktienfonds",
+        "ytd_return": None,
+        "five_y_return": None,
+        "sri": 3,
+        "ter_pct": 1.5,
+    }
+
+
+def test_build_record_valid_for_from_general_profile():
+    from scripts.build_customer_catalog import build_record
+
+    gp = {"LU1111111111": {"provider": "Deka", "valid_for": ["avg80"]}}
+    rec = build_record(_tsv_row(), gp, None, {})
+    assert rec["valid_for"] == ["avg80"]
+
+
+def test_build_record_valid_for_falls_back_to_root_catalog():
+    from scripts.build_customer_catalog import build_record
+
+    root = {"LU1111111111": {"valid_for": ["1lf"]}}
+    rec = build_record(_tsv_row(), {}, None, root)
+    assert rec["valid_for"] == ["1lf"]
+
+
+def test_build_record_valid_for_passthrough_when_unknown():
+    from scripts.build_customer_catalog import build_record
+
+    rec = build_record(_tsv_row(), {}, None, {})
+    assert rec["valid_for"] is None

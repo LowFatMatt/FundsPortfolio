@@ -597,7 +597,13 @@ class DecisionEngine:
         preferred_regions = {
             str(r).lower() for r in (user_answers.get("preferred_regions") or [])
         }
-        if preferred_regions and fund.get("region").lower() in preferred_regions:
+        # `(x or "")` guard: region may be None for funds that pass the
+        # required-fields filter without a scraped region (e.g. enriched
+        # compass stubs) — previously an AttributeError.
+        if (
+            preferred_regions
+            and str(fund.get("region") or "").lower() in preferred_regions
+        ):
             boosts["Region"] = self._boost_elevators["Region"]
 
         # Thematic preference boost
