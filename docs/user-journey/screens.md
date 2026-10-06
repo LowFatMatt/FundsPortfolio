@@ -393,7 +393,7 @@ Legend for interaction tables — **testid** omits the `data-testid` attribute n
 | | |
 |---|---|
 | **Sources** | PDF `ID: CustomerType` · PPT 20 · flow step `activity` |
-| **Status** | IMPLEMENTED |
+| **Status** | **RETIRED in variant C** ([D-20](README.md#d-20)) — Komfort/Aktiv distinction dropped, every customer sets preferences; prototype variants A/B keep the step |
 
 - **Intent:** self-service level. Komfort → experts build the portfolio; Aktiv → region/theme steps follow.
 - **Entry:** `etf`.
@@ -419,7 +419,7 @@ Legend for interaction tables — **testid** omits the `data-testid` attribute n
 | | |
 |---|---|
 | **Sources** | PPT 21 · PDF annotation `only for "Aktiv-Kunde"` on the following screens · flow step `region_gate` (variant B) |
-| **Status** | IMPLEMENTED (B) |
+| **Status** | **RETIRED in variant C** ([D-20](README.md#d-20)) — absorbed by the adaptive CTA on the regions picker; variant B keeps the gate |
 
 - **Intent:** cheap opt-out before the region picker.
 - **Entry:** `customer-type` (Aktiv only).
@@ -470,7 +470,7 @@ Legend for interaction tables — **testid** omits the `data-testid` attribute n
 | | |
 |---|---|
 | **Sources** | PDF `ID: Industries` · PPT 23 · flow step `themes_gate` (variant B) |
-| **Status** | IMPLEMENTED (B) |
+| **Status** | **RETIRED in variant C** ([D-20](README.md#d-20)) — absorbed by the adaptive CTA on the themes picker; variant B keeps the gate |
 
 - **Intent:** opt-out before the theme picker.
 - **Entry:** `regions` or `region-gate` = Nein.
@@ -518,6 +518,8 @@ Legend for interaction tables — **testid** omits the `data-testid` attribute n
 | Continue / Back | `themes--continue` / `themes--back` | at least one selection required (Ja path) |
 
 **Spec annotations (PPT 24):** mouseover examples — Megatrends: *"Langfristige, globale Entwicklungen wie Digitalisierung, Demografie oder Urbanisierung…"*; Rohstoffe: *"…Energie, Metalle, Industrie- und Agrarrohstoffe. Geeignet zur Diversifikation und als Schutz vor Inflation…"*. Full set in the dump.
+
+**Prototype delta (2026-10-06, card pattern):** themed inline-SVG icons per option (leaf/chip/heart/percent/bridge/shield/trend/drop/robot/ingots/bolt — regions analogous); `selectable: false` "NONE" renders **no card** (the adaptive CTA covers "no preference", [D-20](README.md#d-20)); exactly one brand-styled indicator per card, top-left (native inputs hidden); hover = neutral `surface-variant` wash, selected = light `primary-container` brand tint — the Kundenportal tile pattern from `plans/user-journey-redesign.md` Appendix A.4. Same treatment for regions and chips.
 
 ---
 
@@ -669,6 +671,10 @@ Legend for interaction tables — **testid** omits the `data-testid` attribute n
 | Element | testid | Notes |
 |--------|--------|-------|
 | Flow progress bar | `flow--progress` | progress fill + label (visible steps only) |
+| Phase indicator | `flow--phase-indicator` | one chip per journey phase (variant C: Produktbestimmung → Strategie & Präferenzen); active/done states; hidden for flat variants A/B |
+| Adaptive CTA (next button) | `flow--cta` | step-declared `cta`: "Weiter ohne regionale Präferenz" ↔ "Regionale Präferenz festlegen" (themes analogous); always enabled, empty = valid skip; classic Next/Generate otherwise |
+| Optional chip | `flow--optional-chip` | "Optional" affordance on skippable steps (variant C: regions/themes) |
+| Feasible-count footer | `flow--feasible-count` | "N Fonds passen zu Ihren aktuellen Antworten" — `preference_gating.universe_totals` per risk approach × ESG/ETF combo, live; hidden until risk is answered |
 | Flow back / next | `flow--back` / `flow--continue` | global nav under every flow step |
 | Language switch | `chrome--lang-select` | en/de |
 | Product context badge | `chrome--badge-product` | layer-0 context from `?product=` (LeAn handover D-10); hidden when unset |

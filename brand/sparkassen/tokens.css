@@ -1,0 +1,55 @@
+/* ==========================================================================
+   Sparkassen (blau) — M3 role tokens, mapped from the Kundenportal token
+   dump (plans/user-journey-redesign.md, Appendix A.1). Primary #0054e9,
+   shade #004acd. Shared neutral ramp with the Provinzial themes.
+   ========================================================================== */
+
+@font-face {
+  font-family: "Provinzial Iconfont";
+  src: url("fonts/iconfont-provinzial.woff2") format("woff2");
+  font-display: swap;
+}
+
+:root {
+  /* Primary — Sparkassen blue */
+  --md-sys-color-primary: #0054e9;
+  --md-sys-color-on-primary: #ffffff;
+  --md-sys-color-primary-container: #e7eefd;
+  --md-sys-color-on-primary-container: #004acd;
+
+  /* Secondary / tertiary */
+  --md-sys-color-secondary: #0163aa;
+  --md-sys-color-on-secondary: #ffffff;
+  --md-sys-color-secondary-container: #d9e8f3;
+  --md-sys-color-on-secondary-container: #015796;
+  --md-sys-color-tertiary: #6030ff;
+
+  /* Error — Sparkassen red */
+  --md-sys-color-error: #e30614;
+  --md-sys-color-on-error: #ffffff;
+  --md-sys-color-error-container: rgba(227, 6, 20, 0.08);
+  --md-sys-color-on-error-container: #ad000d;
+
+  /* Extended roles */
+  --md-sys-color-success: #4f7e23;
+  --md-sys-color-on-success: #ffffff;
+  --md-sys-color-success-container: rgba(79, 126, 35, 0.12);
+  --md-sys-color-on-success-container: #4f7e23;
+  --md-sys-color-info-container: rgba(0, 84, 233, 0.1);
+  --md-sys-color-on-info-container: #0054e9;
+  --md-sys-color-warning-container: rgba(236, 103, 47, 0.12);
+  --md-sys-color-on-warning-container: #b35415;
+
+  /* Surfaces & outlines */
+  --md-sys-color-surface: #ffffff;
+  --md-sys-color-surface-variant: #f4f5f8;
+  --md-sys-color-on-surface: #363030;
+  --md-sys-color-on-surface-variant: #5c5c5c;
+  --md-sys-color-outline: #898989;
+  --md-sys-color-outline-variant: rgba(0, 0, 0, 0.1);
+
+  /* Typography — "Sparkasse Web" per dump, robust fallback */
+  --font-body: "Sparkasse Web", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-heading: var(--font-body);
+}

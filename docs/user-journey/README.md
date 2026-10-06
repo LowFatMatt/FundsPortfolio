@@ -299,6 +299,24 @@ PPT slides 1–2: *"Ab Start 4 Farbthemes benötigt (Provinzial Grün, Provinzia
 - **Problem:** `etf_only` was offered for every risk profile, but the ETF-only universe inside the risk bands collapses: DEFENSIVE leaves **1 of 4** in-band funds (zero theme breadth, `esg8_9+etf` empty) and BALANCED **13 of 32** (themes reduced to Sustainability/Water — the D-03 composition "1 region + 1 theme" is un-honorable for most themes). A strict choice the engine could not honor — the same UX lesson as D-03: never offer choices that cannot be honored.
 - **Decision taken:** `etf_only` is **excluded from the answer space** under DEFENSIVE and BALANCED via `preference_gating.option_exclusions_by_profile` in [`preferences_schema.json`](../../preferences_schema.json) (L0 gating; `option_fallbacks` downgrades stale `etf_only` → `prefer_etf` at submission boundaries). OPPORTUNITY keeps all three ETF options. Resolved in [`feasibility.py`](../../funds_portfolio/dialog/feasibility.py) (`excluded_options()` resolver + soft warning), [`app.js`](../../static/js/app.js) (disabled-with-reason card, section note, prune on back-navigation, defensive downgrade) — engine untouched (soft philosophy).
 
+<a id="d-20"></a>
+#### D-20 — Komfort/Aktiv persona and Ja/Nein gates retired in variant C — **RESOLVED (2026-10-05)**
+- **Product decision:** the Aktiv-/Komfort-Kunde question (S-15) does not carry its weight — every customer may set preferences, "not now" is expressed on the preference screens themselves, not by a persona question. The region/theme Ja/Nein gates (S-16/S-18) are absorbed by **adaptive CTAs** on the pickers ("Weiter ohne regionale Präferenz" ↔ "Regionale Präferenz festlegen").
+- **Implementation:** variant C ([`flows/variantC.json`](../../flows/variantC.json)) has no `activity`/`region_gate`/`themes_gate` steps; `optional: true` + `cta.empty_label/filled_label` on the regions/themes steps; the next button (`flow--cta`) is always enabled and relabels live. Variants A/B keep the retired screens for comparison. Options flagged `selectable: false` (the themes `NONE` default) render **no card** — the adaptive CTA is the only "no preference" affordance (2026-10-06; the multi-card renderer now honours the flag like the chip renderer).
+
+<a id="d-21"></a>
+#### D-21 — Product handover skips Phase A one-way — **RESOLVED (2026-10-05)**
+- **Decision:** with a valid `?product=` context the whole product-determination phase (S-01–S-06; the goal question branches the product — FRV/GRV vs. GenDep/StarterKids) is unreachable: the Tarifrechner already made that determination and it cannot sensibly be un-made inside the Fondskompass. Entry lands on the first strategy step; Back from there goes to welcome, never into Phase A; the wizard auto-starts (welcome bypassed). Implemented as the phase property `skipOnProductContext` (extends [D-10](#d-10)).
+
+<a id="d-22"></a>
+#### D-22 — Brand URL contract (extends [D-18](#d-18)) — **IMPLEMENTED (2026-10-06)**
+- **Decision:** `?brand=<slug>` selects the Kundenportal colour theme (provinzial-west grün / provinzial-nord blau / sparkassen blau / hfk rot) so a Tarifrechner absprung keeps its look; `BRAND` env remains the server default; unknown slugs fall back to `default`.
+- **Implementation:** per-brand M3 token sheets (`brand/<slug>/tokens.css`, full `--md-sys-color-*` role set + `@font-face` for the Provinzial iconfont) wired in [`app.py`](../../funds_portfolio/app.py) (`_load_brand` slug allowlist + cache, `/brand/<name>/<file>` asset route, `brand_tokens_url` template var). **All four themes mapped from Kundenportal dumps** (west `#005940`, nord `#003b82`, sparkassen `#0054e9`, hfk `#941921`).
+
+<a id="d-23"></a>
+#### D-23 — Merged screens, auto-advance, optional markers, live feasibility signal — **RESOLVED (2026-10-05)**
+- **Decision (MVP-2 click reduction):** per-step opt-in properties in the flow configs — `auto_advance: true` (single-select card steps advance on selection; Flow-Mode only), merged steps (`section` + `fields` on one step: payment mode + amounts; `sections: [...]`: ESG + ETF as one preferences screen), `optional: true` ("Optional" chip + skip-valid steps), adaptive `cta` (see [D-20](#d-20)), and the live feasibility footer (`flow--feasible-count` fed by `preference_gating.universe_totals` — funds per risk approach × ESG/ETF combo, product-reduced under a `?product=` handover). Region metadata gaps (48 % `global`/untagged funds) currently mask several region choices under BALANCED — a data task, deliberately deferred (product decision 2026-10-05).
+
 ---
 
 ## Open spec questions (verbatim from sources, unanswered)

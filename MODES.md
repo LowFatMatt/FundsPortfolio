@@ -1,10 +1,13 @@
 # Multi-Mode UI — Contracts & Architecture
 
 **Status:** Phase 4 — contract defined; shared result component + mode handling
-(`?mode=`) live. Two flow variants: A (`flows/variantA.json`, linear reference)
-and B (`flows/variantB.json`, dummy-faithful with conditional navigation —
-Komfort skip + region/theme Ja/Nein gates). Switch via `?flowVariant=A|B`.
-Commercial fields are collected/persisted but ignored by the engine.
+(`?mode=`) live. Three flow variants: A (`flows/variantA.json`, linear reference),
+B (`flows/variantB.json`, dummy-faithful with conditional navigation —
+Komfort skip + region/theme Ja/Nein gates) and C (`flows/variantC.json`,
+**phase model** — product-determination phase skipped one-way under a
+`?product=` handover, no Komfort/Aktiv persona). Switch via
+`?flowVariant=A|B|C`. Commercial fields are collected/persisted but ignored by
+the engine.
 
 This document is the binding contract for the multi-mode prototype (Quick-Mode,
 Flow-Mode, future A/B flow variants). All modes share **one logic core, one REST
@@ -47,8 +50,9 @@ these fields:
 
 The `ranking`/`selection`/`allocation` stages are **recording only** — the
 engine computes them as a by-product of the existing pipeline and they never
-influence the recommendation. Quick-Mode renders them in the Preferences tab;
-Flow-Mode (`showTraces: false`) hides them.
+influence the recommendation. Both modes render them in the Preferences tab
+(product feedback 2026-10-05: the trace is wanted in Flow-Mode too; the
+`showTraces` flag remains as the shared component's switch).
 
 **Partial input:** `ql.apply_defaults()` already injects defaults for missing
 logic-relevant answers, so the endpoint tolerates incomplete `user_answers`
@@ -67,8 +71,10 @@ renderResults(portfolio, { showTraces = true } = {})
 
 - `showTraces: true`  → Quick-Mode. Renders the technical decision trace
   (`#decision-filters` = `decision_trace.filters` + `relaxations`).
-- `showTraces: false` → Flow-Mode (end-user friendly). Hides the technical
-  trace block. Summary and "Your Answers" recap stay visible in both modes.
+- `showTraces: false` → hides the technical trace block. Summary and
+  "Your Answers" recap stay visible in either case. Flow-Mode passes
+  `showTraces: true` since 2026-10-05 (the wizard's result presentation needs
+  the trace for transparency).
 
 The component reads only the response fields listed in §1. It owns the
 Summary / Preferences / Performance / Volatility tabs and is mode-agnostic
@@ -84,7 +90,7 @@ One SPA, selected via query parameter (default = `flow`):
 |-----|------|
 | `/` or `/?mode=flow` | Flow-Mode (multi-step wizard) — **default** |
 | `/?mode=quick` | Quick-Mode (single-page form + full traces) |
-| `/?mode=flow&flowVariant=A\|B` | A/B flow variants |
+| `/?mode=flow&flowVariant=A\|B\|C` | A/B/C flow variants |
 
 Branding (`brand/`) and i18n (`static/i18n/`) are already centralized and apply
 to every mode automatically — no per-mode duplication.
@@ -145,20 +151,25 @@ at the final step (identical call to Quick-Mode).
   `multi_select`, and `number` (with `min`/`step`/`value`/`suffix`).
 
 **Conditional navigation** (`showIf`): any step may declare
-`"showIf": { "field": "<id>", "equals"|"notEquals": "<value>" }` or
-`"showIf": { "allOf": [ <conditions> ] }`. Steps whose condition fails are
-skipped during next/back navigation and excluded from the progress count;
-answers owned by hidden steps are not sent in the final POST. Variant B uses
-this for the Komfort skip (`aktivitaet notEquals "Komfort-Kunde"`) and the
-region/theme Ja/Nein gates (`set_region`/`set_themes equals "ja"`).
+`"showIf": { "field": "<id>", "equals"|"notEquals": "<value>" }`,
+`"showIf": { "allOf": [ <conditions> ] }` (all must hold) or
+`"showIf": { "anyOf": [ <conditions> ] }` (at least one must hold). Steps
+whose condition fails are skipped during next/back navigation and excluded
+from the progress count; answers owned by hidden steps are not sent in the
+final POST. Variant B uses this for the Komfort skip
+(`aktivitaet notEquals "Komfort-Kunde"`) and the region/theme Ja/Nein gates
+(`set_region`/`set_themes equals "ja"`).
 
 `showIf` also works at the **field level** inside an inline `fields` step: a
 field with an unmet condition is hidden while the step itself stays visible.
-The contribution step uses this so only the relevant amount field shows per
-payment mode (`beitragLaufend` when `beitrag notEquals "einmalig"`,
-`beitragEinmalig` when `beitrag notEquals "laufend"`). The Next/"Generate"
-button label is re-evaluated live as selections change, since the deciding
-answer (e.g. Komfort vs. Aktiv) is made on the very step that governs it.
+The variant C payment step uses **positive `anyOf` reveal**: an amount field
+appears only once its payment mode is explicitly chosen (monthly for
+`laufend`/`beides`, one-off for `einmalig`/`beides`) — before any choice
+neither field shows, matching the spec's *"Je nach Auswahl erscheint entweder
+das eine und/oder das andere"*. When an interaction changes which sections of
+the current step are visible, the wizard re-renders the step in place
+(`applyPrefill` restores every answer). The Next/"Generate"/adaptive CTA
+label is re-evaluated live as selections change.
 
 **Feasibility gating metadata** (both modes, served with the questionnaire):
 the questionnaire root carries a `preference_gating` block —
@@ -191,5 +202,64 @@ portfolio logs. Counts are derived from the live funds DB by
 [`funds_portfolio/dialog/feasibility.py`](../funds_portfolio/dialog/feasibility.py),
 which shares its band/filter semantics with the engine (no drift possible).
 
+**Phase model (variant C)** — `flows/variantC.json` replaces the flat
+`steps` list with declarative `phases` (plans/user-journey-redesign.md §1):
+
+```json
+{ "phases": [
+  { "id": "product-determination", "title": {"de": "…", "en": "…"},
+    "skipOnProductContext": true, "steps": [ …goal, payment, contribution, product… ] },
+  { "id": "strategy-preferences",  "title": {"de": "…", "en": "…"},
+    "steps": [ …risk, esg, etf, regions, themes… ] } ] }
+```
+
+The loader flattens phases into the same step list the engine already
+navigates (each step tagged with its `phase` id), so every existing mechanism
+(`showIf`, feasibility gating, progress) keeps working unchanged. Phase
+semantics:
+
+- **Entry-channel skip (D-10/D-21):** a phase with
+  `skipOnProductContext: true` vanishes when the journey is entered with a
+  valid `?product=` handover — the insurance product (and its fund universe)
+  was determined upstream. **One-way:** Back-navigation from the first
+  strategy step returns to the welcome screen, never into the skipped phase;
+  restart re-enters the wizard directly (still past the skipped phase).
+- **Auto-start:** with `?product=` or an explicit `#/<step-id>` hash, the
+  wizard opens directly after the questionnaire loads (welcome screen
+  bypassed). An invalid `?product=` surfaces the API error instead of
+  starting the wizard. "Start Over" clears the step hash and re-enters at the
+  FIRST visible step (with a `?product=` context directly in the wizard,
+  otherwise on the welcome screen) — a stale hash must never act as a back
+  button into the last visited step.
+- **Session end:** generating the portfolio or backing out to welcome clears
+  the `#/<step-id>` hash, so URLs shared from the results view stay clean.
+- **Hash deep links:** `#/<step-id>` (e.g. `?product=avg80#/risk`) jumps
+  straight to a visible step; the current step is mirrored back into the URL
+  via `replaceState`; `hashchange` navigates between steps while the wizard
+  is open. Deep links into a skipped phase resolve to "not visible" and fall
+  back to the phase-B entry.
+- **Answers:** hidden (skipped-phase) steps' keys are dropped from the final
+  POST by the existing `mapFlowToUserAnswers` hidden-step rule.
+- **Progress:** the phase indicator (`flow--phase-indicator`, one chip per
+  phase with visible steps; active/done states) renders above the progress
+  bar for phase-model variants; flat variants A/B keep the plain bar.
+- **No persona:** variant C has no Komfort/Aktiv (`activity`) step and no
+  region/theme Ja/Nein gates — every customer gets the preference steps
+  (product decision 2026-10-05).
+- **MVP-2 click reduction (per-step properties, variant C only):**
+  `auto_advance: true` advances single-select card steps on selection
+  (goal, product, risk; Flow-Mode only); `optional: true` marks skippable
+  steps (regions/themes — "Optional" chip, empty selection is valid); an
+  adaptive `cta` (`empty_label`/`filled_label`, `{de,en}`) relabels the
+  always-enabled next button (`flow--cta`) live while selecting; steps can
+  merge screens — `section` + `fields` on one step (payment mode + amounts)
+  or `sections: [...]` stacking questionnaire sections (ESG + ETF as one
+  preferences screen). The sticky `flow--feasible-count` footer shows
+  `preference_gating.universe_totals` (funds per risk approach × ESG/ETF
+  combo, product-reduced under a `?product=` handover) once the risk
+  approach is answered.
+
 **Adding a variant:** drop a new `flows/variant<X>.json` and open
-`?mode=flow&flowVariant=<X>` — no code change.
+`?mode=flow&flowVariant=<X>` — no code change. A config may use either the
+phase model or a flat `steps` list; the contract tests in
+[`tests/test_flow_variants.py`](tests/test_flow_variants.py) pin both shapes.

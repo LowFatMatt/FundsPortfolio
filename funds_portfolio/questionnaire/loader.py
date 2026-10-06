@@ -14,6 +14,7 @@ from ..dialog.feasibility import (
     decorate_theme_options,
     region_counts as region_feasible_counts,
     theme_counts as theme_feasible_counts,
+    universe_feasible_counts,
 )
 from ..portfolio.eligibility import filter_by_product, normalise_product
 
@@ -405,6 +406,12 @@ class QuestionnaireLoader:
 
         self._set_section_options("preferred_regions", region_options)
         self._set_section_options("preferred_themes", theme_options)
+
+        # Live-universe totals per (risk profile × esg8_9 × etf) combo — the
+        # SPA's "N funds match your current answers" signal (MVP-2). Recomputed
+        # together with the per-option counts so both stay in sync.
+        gating = self._questionnaire.setdefault("preference_gating", {})
+        gating["universe_totals"] = universe_feasible_counts(funds)
         return True
 
     def _load_funds_for_decoration(self) -> Optional[List[Dict]]:
@@ -461,6 +468,11 @@ class QuestionnaireLoader:
                 section["options"] = region_options
             elif section.get("id") == "preferred_themes":
                 section["options"] = theme_options
+
+        # Totals recomputed on the product-reduced universe (the overlay's
+        # per-option feasible counts are product-reduced as well).
+        gating = overlay.setdefault("preference_gating", {})
+        gating["universe_totals"] = universe_feasible_counts(funds)
 
         overlay["product_context"] = product_key
         return overlay

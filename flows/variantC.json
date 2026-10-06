@@ -1,0 +1,138 @@
+{
+  "id": "C",
+  "name": "Mein Fondskompass (Phasen — leichtgewichtig)",
+  "description": "Phase-model variant C (user-journey redesign MVP-1/MVP-2). Declarative phases instead of a flat step list: Phase A 'product-determination' asks the commercial questions that determine the insurance product (and with it the fund universe) and is skipped entirely — one-way — when the journey is entered with a ?product= handover (Tarifrechner / Online Sales / LeAn, docs/user-journey D-10/D-21). Phase B 'strategy-preferences' always runs. MVP-2 click reduction: payment mode + amounts merged into one step, ESG + ETF merged into one preferences step, single-select cards auto-advance (goal, product, risk), and the region/theme steps carry adaptive CTAs plus an 'Optional' chip instead of the retired Ja/Nein gates (Komfort/Aktiv persona dropped entirely, product decision 2026-10-05). See plans/user-journey-redesign.md §2 and MODES.md.",
+  "phases": [
+    {
+      "id": "product-determination",
+      "title": { "de": "Ihr passendes Produkt", "en": "Your matching product" },
+      "skipOnProductContext": true,
+      "steps": [
+        {
+          "id": "goal",
+          "auto_advance": true,
+          "source": "inline",
+          "section": {
+            "id": "anlageziel",
+            "type": "single_select",
+            "display_hint": "cards",
+            "required": true,
+            "name": { "de": "Welches Anlageziel haben Sie?", "en": "What is your investment goal?" },
+            "description": { "de": "Wählen Sie das Ziel, das am besten zu Ihrer Situation passt.", "en": "Choose the goal that best fits your situation." },
+            "options": [
+              { "id": "altersvorsorge", "value": "altersvorsorge", "label": { "de": "Altersvorsorge", "en": "Retirement provision" } },
+              { "id": "vermoegensaufbau", "value": "vermoegensaufbau", "label": { "de": "Vermögensaufbau", "en": "Wealth building" } },
+              { "id": "kapitalanlage", "value": "kapitalanlage", "label": { "de": "Kapitalanlage", "en": "Capital investment" } }
+            ]
+          }
+        },
+        {
+          "id": "payment",
+          "source": "inline",
+          "section": {
+            "id": "beitrag",
+            "type": "single_select",
+            "display_hint": "cards",
+            "required": true,
+            "name": { "de": "Wie soll Ihr Beitrag gezahlt werden?", "en": "How would you like to contribute?" },
+            "description": { "de": "Wählen Sie Ihre bevorzugte Zahlungsweise und ggf. die Beitragshöhe.", "en": "Choose your preferred payment method and, if applicable, the amount." },
+            "options": [
+              { "id": "laufend", "value": "laufend", "label": { "de": "Laufender Beitrag", "en": "Recurring contribution" } },
+              { "id": "einmalig", "value": "einmalig", "label": { "de": "Einmalbeitrag", "en": "One-off contribution" } },
+              { "id": "beides", "value": "beides", "label": { "de": "Beides", "en": "Both" } }
+            ]
+          },
+          "fields": [
+            {
+              "id": "beitragLaufend",
+              "type": "number",
+              "required": false,
+              "min": 25,
+              "step": 5,
+              "value": 100,
+              "suffix": "€",
+              "showIf": { "anyOf": [
+                { "field": "beitrag", "equals": "laufend" },
+                { "field": "beitrag", "equals": "beides" }
+              ] },
+              "name": { "de": "Monatlicher Beitrag", "en": "Monthly contribution" },
+              "description": { "de": "Mindestbeitrag: 25 € monatlich.", "en": "Minimum: €25 per month." }
+            },
+            {
+              "id": "beitragEinmalig",
+              "type": "number",
+              "required": false,
+              "min": 1000,
+              "step": 500,
+              "value": 10000,
+              "suffix": "€",
+              "showIf": { "anyOf": [
+                { "field": "beitrag", "equals": "einmalig" },
+                { "field": "beitrag", "equals": "beides" }
+              ] },
+              "name": { "de": "Einmalbeitrag", "en": "One-off contribution" },
+              "description": { "de": "Mindesteinmalbeitrag: 1.000 €.", "en": "Minimum one-off: €1,000." }
+            }
+          ]
+        },
+        {
+          "id": "product",
+          "auto_advance": true,
+          "source": "inline",
+          "section": {
+            "id": "produkt",
+            "type": "single_select",
+            "display_hint": "cards",
+            "required": true,
+            "name": { "de": "Welche Rentenversicherung kommt für Sie in Frage?", "en": "Which pension product suits you?" },
+            "description": { "de": "Wählen Sie das Produkt, das zu Ihren Zielen und Ihrer Risikobereitschaft passt.", "en": "Choose the product that matches your goals and risk appetite." },
+            "options": [
+              { "id": "fondsrente_vario", "value": "FondsRente Vario", "label": { "de": "FondsRente Vario – clever investieren, flexibel profitieren", "en": "FondsRente Vario – invest smartly, stay flexible" } },
+              { "id": "garantrente_vario", "value": "GarantRente Vario", "label": { "de": "GarantRente Vario – Sicherheit trifft Renditechancen", "en": "GarantRente Vario – security meets opportunity" } }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "strategy-preferences",
+      "title": { "de": "Ihre Anlagestrategie", "en": "Your investment strategy" },
+      "steps": [
+        {
+          "id": "risk",
+          "auto_advance": true,
+          "source": "section",
+          "section": "risk_approach"
+        },
+        {
+          "id": "preferences",
+          "source": "section",
+          "sections": ["esg_preference", "etf_preference"]
+        },
+        {
+          "id": "regions",
+          "optional": true,
+          "source": "section",
+          "section": "preferred_regions",
+          "display_hint": "cards",
+          "cta": {
+            "empty_label": { "de": "Weiter ohne regionale Präferenz", "en": "Continue without regional preference" },
+            "filled_label": { "de": "Regionale Präferenz festlegen", "en": "Lock in regional preference" }
+          }
+        },
+        {
+          "id": "themes",
+          "optional": true,
+          "source": "section",
+          "section": "preferred_themes",
+          "display_hint": "cards",
+          "max": 2,
+          "cta": {
+            "empty_label": { "de": "Weiter ohne thematische Präferenz", "en": "Continue without thematic preference" },
+            "filled_label": { "de": "Thematische Präferenz festlegen", "en": "Lock in thematic preference" }
+          }
+        }
+      ]
+    }
+  ]
+}

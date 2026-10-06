@@ -1,6 +1,6 @@
 # `data-testid` Contract — Mein Fondskompass UI
 
-> **State of the code:** [`static/js/app.js`](../../static/js/app.js) and [`templates/index.html`](../../templates/index.html) currently emit **zero** `data-testid` attributes (verified by search). The inventory below is therefore a **specification contract**, not a description of the DOM. Attach these ids while porting each screen from [`screens.md`](screens.md); the `Status` column tells you whether the screen's DOM already exists (attribute TODO only) or is still to be built.
+> **State of the code:** chrome-level testids are **implemented** (`chrome--badge-product`, `flow--phase-indicator`, `flow--cta`, `flow--optional-chip`, `flow--feasible-count` — see the Chrome section); screen-level ids below remain a **specification contract** with attributes TODO on the existing DOM. Attach the remaining ids while porting each screen from [`screens.md`](screens.md); the `Status` column tells you whether the screen's DOM already exists (attribute TODO only) or is still to be built.
 
 ## Convention
 
@@ -188,7 +188,11 @@ Status legend: **IMPLEMENTED-TODO** — screen exists in the prototype today; ad
 | testid | Status |
 |--------|--------|
 | `flow--progress` | IMPLEMENTED-TODO (`flow-progress-fill` / `-label`) |
-| `flow--back` / `flow--continue` | IMPLEMENTED-TODO (`flow-back-btn` / `flow-next-btn`; continue becomes submit on last step) |
+| `flow--phase-indicator` | **IMPLEMENTED** (variant C: one chip per phase with visible steps; active/done states; hidden for flat variants A/B) |
+| `flow--cta` | **IMPLEMENTED** (`flow-next-btn`) — adaptive label when the step declares `cta` (regions/themes: "continue without …" ↔ "lock in …"); classic Next/Generate otherwise |
+| `flow--optional-chip` | **IMPLEMENTED** (variant C optional steps: regions/themes) |
+| `flow--feasible-count` | **IMPLEMENTED** (`flow-feasible`; hidden until a risk approach is answered — shows `preference_gating.universe_totals` for the live profile × ESG/ETF combo) |
+| `flow--back` | IMPLEMENTED-TODO (`flow-back-btn`) |
 | `chrome--lang-select` | IMPLEMENTED-TODO (`lang-select`) |
 | `chrome--badge-product` | IMPLEMENTED (`product-context-badge`) — layer-0 product context from `?product=`, hidden when unset |
 | `chrome--session-banner` | IMPLEMENTED-TODO (`active-session-banner`) |

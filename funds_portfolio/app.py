@@ -3,6 +3,7 @@
 import os
 import logging
 import json
+import re
 from datetime import datetime, timezone
 from flask import (
     Flask,
@@ -104,14 +105,32 @@ def _build_brand_css_vars(config: dict) -> dict:
     }
 
 
-def _load_brand(base_dir: str) -> dict:
+_BRAND_CACHE: dict = {}
+_BRAND_SLUG_RE = re.compile(r"^[a-z0-9][a-z0-9_-]*$")
+
+
+def _load_brand(base_dir: str, requested: str | None = None) -> dict:
+    """Load one brand config (cached per slug).
+
+    ``requested`` comes from the ``?brand=`` URL parameter (D-22 brand
+    contract — "Absprung aus Tarifrechner mit gleicher Farbe") or from the
+    ``BRAND`` environment default. Unknown/invalid slugs fall back to
+    ``default``; the slug regex blocks path tricks before any filesystem
+    access (``send_from_directory`` re-checks traversal on serving).
+    """
     brand_root = os.path.join(base_dir, "brand")
-    requested = os.getenv("BRAND", "default")
+    slug = requested or os.getenv("BRAND", "default")
+    if not _BRAND_SLUG_RE.match(slug):
+        logger.warning("Invalid brand slug %r; falling back to default.", slug)
+        slug = "default"
+    if slug in _BRAND_CACHE:
+        return _BRAND_CACHE[slug]
+
     default_dir = os.path.join(brand_root, "default")
-    brand_dir = os.path.join(brand_root, requested)
+    brand_dir = os.path.join(brand_root, slug)
     if not os.path.isdir(brand_dir):
-        logger.warning("Brand '%s' not found. Falling back to default.", requested)
-        requested = "default"
+        logger.warning("Brand '%s' not found. Falling back to default.", slug)
+        slug = "default"
         brand_dir = default_dir
 
     config_path = os.path.join(brand_dir, "brand.json")
@@ -122,23 +141,28 @@ def _load_brand(base_dir: str) -> dict:
     except (OSError, json.JSONDecodeError) as exc:
         logger.warning("Failed to load brand config %s: %s", config_path, exc)
 
-    brand_name = config.get("name", requested)
+    brand_name = config.get("name", slug)
     logo_file = config.get("logo", "logo.svg")
     overrides_file = config.get("overrides_css", "overrides.css")
+    tokens_file = config.get("tokens_css")
     font_import_url = config.get("font_import_url")
 
     logo_path = os.path.join(brand_dir, logo_file)
     overrides_path = os.path.join(brand_dir, overrides_file)
+    tokens_path = os.path.join(brand_dir, tokens_file) if tokens_file else None
 
-    return {
+    entry = {
         "name": brand_name,
-        "slug": requested,
+        "slug": slug,
         "dir": brand_dir,
         "font_import_url": font_import_url,
         "logo": logo_file if os.path.exists(logo_path) else None,
         "overrides_css": overrides_file if os.path.exists(overrides_path) else None,
+        "tokens_css": tokens_file if tokens_path and os.path.exists(tokens_path) else None,
         "css_vars": _build_brand_css_vars(config),
     }
+    _BRAND_CACHE[slug] = entry
+    return entry
 
 
 def create_app():
@@ -154,18 +178,15 @@ def create_app():
         else os.path.join(base_dir, "static"),
     )
 
-    brand = _load_brand(base_dir)
-    brand_css_vars = "; ".join(
-        f"{key}: {value}" for key, value in brand.get("css_vars", {}).items()
-    )
-    brand_logo_url = f"/brand/{brand['logo']}" if brand.get("logo") else None
-    brand_overrides_url = (
-        f"/brand/{brand['overrides_css']}" if brand.get("overrides_css") else None
-    )
+    brand_root = os.path.join(base_dir, "brand")
+    default_brand_slug = os.getenv("BRAND", "default")
 
-    @app.route("/brand/<path:filename>")
-    def brand_asset(filename: str):
-        return send_from_directory(brand["dir"], filename)
+    @app.route("/brand/<name>/<path:filename>")
+    def brand_asset(name: str, filename: str):
+        """Brand assets incl. per-brand token sheets and fonts, e.g.
+        ``/brand/provinzial-west/tokens.css`` or
+        ``/brand/sparkassen/fonts/iconfont-provinzial.woff2``."""
+        return send_from_directory(brand_root, os.path.join(name, filename))
 
     # Flow-Mode wizard definitions (see MODES.md §4) — served like brand assets.
     flows_dir = (
@@ -187,6 +208,26 @@ def create_app():
         build_time = _format_build_time(os.getenv("BUILD_TIME"))
         assets_version = _assets_version(app.static_folder)
         if os.path.exists(tpl_path):
+            from flask import request as _request
+
+            brand = _load_brand(
+                base_dir, _request.args.get("brand") or default_brand_slug
+            )
+            brand_css_vars = "; ".join(
+                f"{key}: {value}" for key, value in brand.get("css_vars", {}).items()
+            )
+            slug = brand["slug"]
+            brand_logo_url = f"/brand/{slug}/{brand['logo']}" if brand.get("logo") else None
+            brand_overrides_url = (
+                f"/brand/{slug}/{brand['overrides_css']}"
+                if brand.get("overrides_css")
+                else None
+            )
+            brand_tokens_url = (
+                f"/brand/{slug}/{brand['tokens_css']}"
+                if brand.get("tokens_css")
+                else None
+            )
             return render_template(
                 "index.html",
                 build_id=build_id,
@@ -196,6 +237,7 @@ def create_app():
                 brand_css_vars=brand_css_vars,
                 brand_logo_url=brand_logo_url,
                 brand_overrides_url=brand_overrides_url,
+                brand_tokens_url=brand_tokens_url,
                 brand_font_url=brand.get("font_import_url"),
             )
         logging.warning(

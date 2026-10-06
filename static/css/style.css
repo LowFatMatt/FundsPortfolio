@@ -417,15 +417,17 @@ select option {
     user-select: none;
 }
 
+/* States (Kundenportal pattern): hover = neutral light wash, selected =
+   light brand tint — both pure token roles, so they follow ?brand=. */
 .question-card:hover {
     border-color: var(--md-sys-color-primary);
-    background: color-mix(in srgb, var(--md-sys-color-primary) 5%, var(--md-sys-color-surface));
+    background: var(--md-sys-color-surface-variant);
     box-shadow: var(--md-elevation-1);
 }
 
 .question-card.selected {
     border-color: var(--md-sys-color-primary);
-    background: color-mix(in srgb, var(--md-sys-color-primary) 10%, var(--md-sys-color-surface));
+    background: var(--md-sys-color-primary-container);
     box-shadow: var(--md-elevation-1);
 }
 
@@ -477,8 +479,11 @@ select option {
     line-height: 1.4;
 }
 
-/* Hidden actual radio input */
-.question-card input[type="radio"] {
+/* Hidden actual inputs — the custom indicator is the only visible mark.
+   (Unchecked native checkboxes previously leaked into the card layout as a
+   second, centered mark.) */
+.question-card input[type="radio"],
+.question-card input[type="checkbox"] {
     position: absolute;
     opacity: 0;
     pointer-events: none;
@@ -516,14 +521,14 @@ select option {
 
 .chip:hover {
     border-color: var(--md-sys-color-primary);
-    background: color-mix(in srgb, var(--md-sys-color-primary) 8%, var(--md-sys-color-surface));
+    background: var(--md-sys-color-surface-variant);
     color: var(--md-sys-color-on-surface);
 }
 
 .chip.selected {
     border-color: var(--md-sys-color-primary);
-    background: color-mix(in srgb, var(--md-sys-color-primary) 12%, var(--md-sys-color-surface));
-    color: var(--md-sys-color-primary);
+    background: var(--md-sys-color-primary-container);
+    color: var(--md-sys-color-on-primary-container);
     font-weight: 500;
 }
 
@@ -557,6 +562,7 @@ select option {
 .chip--disabled:hover,
 .question-card--disabled:hover {
     border-color: var(--md-sys-color-outline);
+    background: var(--md-sys-color-surface);
     background: var(--md-sys-color-surface);
     color: var(--md-sys-color-on-surface-variant);
 }
@@ -1366,6 +1372,69 @@ select option {
     background: var(--md-sys-color-primary);
     transition: width 0.3s ease;
 }
+.flow-phases {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+.flow-phase {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 12px;
+    border-radius: var(--md-sys-shape-full);
+    font-size: var(--md-typescale-label-medium-size);
+    line-height: var(--md-typescale-label-medium-line);
+    font-weight: 600;
+    color: var(--md-sys-color-on-surface-variant);
+    background: var(--md-sys-color-surface);
+    border: 1px solid var(--md-sys-color-outline-variant);
+}
+.flow-phase.active {
+    color: var(--md-sys-color-on-primary);
+    background: var(--md-sys-color-primary);
+    border-color: var(--md-sys-color-primary);
+}
+.flow-phase.done {
+    color: var(--md-sys-color-on-surface);
+    border-color: var(--md-sys-color-outline);
+}
+.flow-phase.done::before {
+    content: '✓';
+    font-weight: 700;
+}
+
+/* MVP-2 — optional-step chip (adaptive-skip affordance) */
+.flow-optional-chip {
+    display: inline-block;
+    align-self: flex-start;
+    margin-bottom: 12px;
+    padding: 3px 10px;
+    border-radius: var(--md-sys-shape-full);
+    font-size: var(--md-typescale-label-medium-size);
+    line-height: var(--md-typescale-label-medium-line);
+    font-weight: 600;
+    color: var(--md-sys-color-on-surface-variant);
+    background: var(--md-sys-color-surface);
+    border: 1px dashed var(--md-sys-color-outline-variant);
+}
+
+/* MVP-2 — live feasible-count footer */
+.flow-feasible {
+    flex: 1 1 100%;
+    margin-bottom: 8px;
+    font-size: var(--md-typescale-label-large-size);
+    line-height: var(--md-typescale-label-large-line);
+    color: var(--md-sys-color-on-surface-variant);
+    text-align: right;
+}
+.flow-nav__buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    width: 100%;
+}
 .flow-progress__label {
     margin-top: 0.5rem;
     font-size: 0.85rem;
@@ -1373,6 +1442,7 @@ select option {
 }
 .flow-nav {
     display: flex;
+    flex-wrap: wrap;           /* feasible-count footer takes its own row */
     justify-content: space-between;
     gap: 1rem;
     margin-top: 1.5rem;

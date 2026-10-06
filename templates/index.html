@@ -10,6 +10,9 @@
     <link rel="stylesheet" href="{{ brand_font_url }}">
     {% endif %}
     <link rel="stylesheet" href="/static/css/style.css?v={{ assets_version | default(build_time | replace(' ', '_') | replace(':', '-'), true) }}">
+    {% if brand_tokens_url %}
+    <link rel="stylesheet" href="{{ brand_tokens_url }}">
+    {% endif %}
     {% if brand_css_vars %}
     <style>:root { {{ brand_css_vars }}; }</style>
     {% endif %}
@@ -112,6 +115,9 @@
         <div id="flow-view" class="hidden">
             <div class="md-card animate-in">
                 <div class="flow-progress">
+                    <!-- Phase indicator (variant C): one chip per journey phase;
+                         hidden for flat variants A/B (see renderPhaseIndicator) -->
+                    <div id="flow-phases" class="flow-phases hidden" data-testid="flow--phase-indicator"></div>
                     <div class="flow-progress__track">
                         <div id="flow-progress-fill" class="flow-progress__fill" style="width:0%"></div>
                     </div>
@@ -123,8 +129,12 @@
                 <div id="flow-step-host"></div>
 
                 <div class="form-actions flow-nav">
-                    <button type="button" id="flow-back-btn" class="btn btn-secondary" data-i18n="ui.back">Back</button>
-                    <button type="button" id="flow-next-btn" class="btn btn-primary" data-i18n="ui.next">Next</button>
+                    <div id="flow-feasible" class="flow-feasible hidden"
+                         data-testid="flow--feasible-count" aria-live="polite"></div>
+                    <div class="flow-nav__buttons">
+                        <button type="button" id="flow-back-btn" class="btn btn-secondary" data-i18n="ui.back">Back</button>
+                        <button type="button" id="flow-next-btn" class="btn btn-primary" data-testid="flow--cta" data-i18n="ui.next">Next</button>
+                    </div>
                 </div>
             </div>
         </div>

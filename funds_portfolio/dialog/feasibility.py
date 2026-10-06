@@ -51,10 +51,16 @@ from typing import Any, Dict, List, Optional
 from ..portfolio.eligibility import (
     ESG_ONLY_VALUE,
     ETF_ONLY_VALUE,
+    etf_eligible,
     is_esg_fund,
     normalise_esg_preference,
 )
-from ..portfolio.risk_bands import PROFILES, RISK_BANDS, fund_in_risk_band
+from ..portfolio.risk_bands import (
+    PROFILES,
+    RISK_BANDS,
+    fund_in_risk_band,
+    risk_band_for_profile,
+)
 
 # Answer fields the gating depends on.
 RISK_FIELD = "risk_approach"
@@ -226,6 +232,34 @@ def decorate_options(
             continue
         opt["feasible"] = counts.get(value, _empty_counts())
     return options
+
+
+def universe_feasible_counts(funds: List[Dict[str, Any]]) -> Dict[str, Dict[str, int]]:
+    """Total in-universe fund count per (risk profile × esg8_9 × etf) combo.
+
+    Served as ``preference_gating.universe_totals`` so the SPA can show a
+    live "N funds match your current answers" signal (plans/
+    user-journey-redesign.md §2.2). Region/theme choices prioritise inside
+    this universe (engine boosts) — they do not shrink it; the per-option
+    ``feasible`` tables remain the guard against choices that cannot be
+    honored. Shares the band and filter semantics with the engine
+    (``risk_bands`` / ``eligibility``), so the signal cannot drift.
+    """
+    counts: Dict[str, Dict[str, int]] = {}
+    for profile in RISK_BANDS:
+        band = risk_band_for_profile(profile)
+        in_band = [f for f in funds if fund_in_risk_band(f, band)]
+        counts[profile] = {
+            "any": len(in_band),
+            "esg8_9": sum(1 for f in in_band if is_esg_fund(f)),
+            "etf": sum(1 for f in in_band if etf_eligible(f, ETF_ONLY_VALUE)),
+            "esg8_9+etf": sum(
+                1
+                for f in in_band
+                if is_esg_fund(f) and etf_eligible(f, ETF_ONLY_VALUE)
+            ),
+        }
+    return counts
 
 
 def decorate_theme_options(options, counts):

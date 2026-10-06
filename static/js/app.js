@@ -67,6 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const flowBackBtn      = document.getElementById('flow-back-btn');
     const flowNextBtn      = document.getElementById('flow-next-btn');
     let flowConfig         = null;    // loaded flows/variant<X>.json
+    let flowPhases         = null;    // phase model (variant C) or null (flat variants A/B)
     let flowAnswers        = {};      // accumulated answers across steps
     let flowStepIndex      = 0;
     const flowVariant      = (urlParams.get('flowVariant') || 'A').toUpperCase();
@@ -262,8 +263,20 @@ document.addEventListener('DOMContentLoaded', () => {
             questionnaireSections = data.sections || [];
             preferenceGating      = data.preference_gating || null;
             renderForm(questionnaireSections);
+            buildAnswerVocab();
             loadingView.classList.add('hidden');
-            welcomeView.classList.remove('hidden');
+            // Handover entry (docs/user-journey D-10/D-21, plans/
+            // user-journey-redesign.md §1.2): with a ?product= context — or an
+            // explicit #/<step-id> deep link — the journey starts directly in
+            // the wizard, skipping the welcome screen and, for product
+            // handovers, the entire product-determination phase. An invalid
+            // ?product= never reaches this path: the API error above surfaces
+            // before the wizard can start.
+            if (currentMode === 'flow' && (productContext || stepIdFromHash())) {
+                showFlowView();
+            } else {
+                welcomeView.classList.remove('hidden');
+            }
         } catch (err) {
             // The error alert (#error-view) lives inside #form-view, so both
             // views must be made visible for the message to actually show —
@@ -686,6 +699,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 grid.querySelectorAll('.question-card').forEach(c => c.classList.remove('selected'));
                 card.classList.add('selected');
                 radio.checked = true;
+                maybeAutoAdvance(section);
             });
 
             grid.appendChild(card);
@@ -706,7 +720,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const hasMax = section.max != null;
         const max = hasMax ? Number(section.max) : 0;
 
-        section.options.forEach(opt => {
+        // Options flagged selectable:false (e.g. the themes "NONE" default)
+        // are valid stored values but not offered as cards — the adaptive
+        // skip CTA already covers "no preference" (D-20). Parity with
+        // renderChipGroup.
+        section.options.filter(opt => opt.selectable !== false).forEach(opt => {
             const card = document.createElement('div');
             card.className   = 'question-card';
             card.dataset.value = opt.value;
@@ -924,6 +942,28 @@ document.addEventListener('DOMContentLoaded', () => {
             // Investment knowledge
             'confident': `<svg viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16,28 24,36 40,20"/></svg>`,
             'beginner':  `<svg viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="28" cy="24" r="6"/><line x1="28" y1="32" x2="28" y2="42"/><line x1="22" y1="36" x2="34" y2="36"/></svg>`,
+
+            // Preferred themes (variant C pickers)
+            'theme_sustainability': `<svg viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M28 12 C17 19 12 28 14 37 C23 40 35 35 40 26 C42 20 39 14 28 12 Z"/><path d="M14 37 C20 30 28 23 37 17"/></svg>`,
+            'theme_technology': `<svg viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="17" y="17" width="22" height="22" rx="2"/><rect x="23" y="23" width="10" height="10"/><path d="M22 17v-5M28 17v-5M34 17v-5M22 44v-5M28 44v-5M34 44v-5M17 22h-5M17 28h-5M17 34h-5M44 22h-5M44 28h-5M44 34h-5"/></svg>`,
+            'theme_healthcare': `<svg viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M28 42 C16 34 12 26 14.5 20 C16.5 14.5 24 14.5 28 20.5 C32 14.5 39.5 14.5 41.5 20 C44 26 40 34 28 42 Z"/></svg>`,
+            'theme_commodities': `<svg viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 34 l3.5-7 h9 l3.5 7 z"/><path d="M26 34 l3.5-7 h9 l3.5 7 z"/><path d="M20 44 l3.5-7 h9 l3.5 7 z"/><path d="M12 44 h32"/></svg>`,
+            'theme_infrastructure': `<svg viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 38 h36"/><path d="M14 38 V26 M42 38 V26"/><path d="M14 26 C21 18 35 18 42 26"/><path d="M28 22 V38"/><path d="M20 30 v4 M36 30 v4"/></svg>`,
+            'theme_defense': `<svg viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M28 11 L40 16 V27 C40 35 34.5 40.5 28 44 C21.5 40.5 16 35 16 27 V16 Z"/><path d="M22.5 27.5 l4 4 l7.5 -8.5"/></svg>`,
+            'theme_megatrends': `<svg viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 39 L21 29 L28 35 L45 17"/><path d="M37 17 h8 v8"/><circle cx="11" cy="39" r="2" fill="currentColor"/><circle cx="45" cy="17" r="2" fill="currentColor"/></svg>`,
+            'theme_water': `<svg viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M28 11 C21 21 16.5 27.5 16.5 33 a11.5 11.5 0 0 0 23 0 C39.5 27.5 35 21 28 11 Z"/><path d="M22 33 a6 6 0 0 0 4 5.5"/></svg>`,
+            'theme_ai_robotics': `<svg viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="15" y="21" width="26" height="19" rx="3"/><circle cx="23" cy="29" r="1.6" fill="currentColor"/><circle cx="33" cy="29" r="1.6" fill="currentColor"/><path d="M24 35.5 h8"/><path d="M28 21 v-6"/><circle cx="28" cy="12.5" r="2"/><path d="M15 27 h-4 M41 27 h4 M20 40 v4 M36 40 v4"/></svg>`,
+            'theme_dividends': `<svg viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 41 L41 15"/><circle cx="20.5" cy="20.5" r="4.5"/><circle cx="35.5" cy="35.5" r="4.5"/></svg>`,
+            'theme_energy': `<svg viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M30 11 L18 31.5 h8.5 L26 45 L40 24.5 h-8.5 Z"/></svg>`,
+            'theme_renewable_energy': `<svg viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M30 11 L18 31.5 h8.5 L26 45 L40 24.5 h-8.5 Z"/></svg>`,
+
+            // Preferred regions (variant C pickers)
+            'region_germany': `<svg viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M28 11 l15 7 H13 Z"/><path d="M16 18 v14 M24 18 v14 M32 18 v14 M40 18 v14"/><path d="M12 32 h32"/><path d="M14 38 v8 M42 38 v8 M12 46 h32"/></svg>`,
+            'region_europe': `<svg viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="28" cy="28" r="16"/><path d="M28 20 l1.8 3.6 4 .6-2.9 2.8.7 4-3.6-1.9-3.6 1.9.7-4-2.9-2.8 4-.6 Z" stroke-linejoin="round"/><path d="M18.5 38 a16 16 0 0 1 0-20 M37.5 18 a16 16 0 0 1 0 20"/></svg>`,
+            'region_north_america': `<svg viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="28" cy="28" r="16"/><ellipse cx="28" cy="28" rx="7" ry="16"/><path d="M13 22 h30 M13 34 h30"/></svg>`,
+            'region_asia': `<svg viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="28" cy="28" r="16"/><path d="M20 14 c4 4 2 8 6 10 s9 0 10 5 -3 7 -1 11"/><path d="M12.5 30 c4-2 7 1 11 0"/></svg>`,
+            'region_emerging': `<svg viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="28" cy="28" r="16"/><path d="M20 33 L26 26 L30 30 L36 22"/><path d="M31.5 22 H36 v4.5"/></svg>`,
+            'region_emerging_markets': `<svg viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="28" cy="28" r="16"/><path d="M20 33 L26 26 L30 30 L36 22"/><path d="M31.5 22 H36 v4.5"/></svg>`,
         };
         return icons[`${sectionId}_${optId}`]
             || icons[optId]
@@ -1027,7 +1067,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         renderDecisionTrace(portfolio.decision_trace, showTraces);
 
-        // Render user answers as filter pills (same styling as decision-filters)
+        // Render user answers as filter pills (same styling as decision-filters),
+        // with localized keys and values (see localizeAnswerKey/Value).
         if (userAnswersFilters) {
             userAnswersFilters.innerHTML = '';
             const answers = portfolio.user_answers || {};
@@ -1036,8 +1077,10 @@ document.addEventListener('DOMContentLoaded', () => {
             Object.entries(answers)
                 .filter(([key]) => key !== 'product_context')
                 .forEach(([key, value]) => {
-                    const displayValue = Array.isArray(value) ? value.join(', ') : String(value);
-                    userAnswersFilters.appendChild(makeFilterPill(`${key}: ${displayValue}`));
+                    const keyLabel = localizeAnswerKey(key);
+                    const fmt = (v) => localizeAnswerValue(key, v);
+                    const displayValue = Array.isArray(value) ? value.map(fmt).join(', ') : fmt(value);
+                    userAnswersFilters.appendChild(makeFilterPill(`${keyLabel}: ${displayValue}`));
                 });
         }
 
@@ -1536,10 +1579,21 @@ document.addEventListener('DOMContentLoaded', () => {
         // Reset card / chip selections
         document.querySelectorAll('.question-card.selected').forEach(c => c.classList.remove('selected'));
         document.querySelectorAll('.chip.selected').forEach(c => c.classList.remove('selected'));
-        welcomeView.classList.remove('hidden');
         resumeIdInput.value = '';
         resumeError.classList.add('hidden');
         currentPortfolioId  = null;
+        // A stale step hash must not survive a restart — "Start Over" always
+        // begins at the FIRST step, never at the last visited one.
+        clearStepHash();
+        // Handover entry (?product=): re-enter the wizard at the handover
+        // entry point instead of the welcome screen — the skipped
+        // product-determination phase stays unreachable (one-way). Without a
+        // product context the restart lands on the welcome screen.
+        if (currentMode === 'flow' && productContext) {
+            showFlowView();
+        } else {
+            welcomeView.classList.remove('hidden');
+        }
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
@@ -1669,7 +1723,21 @@ document.addEventListener('DOMContentLoaded', () => {
         if (flowConfig) return flowConfig;
         const response = await fetch(`/flows/variant${flowVariant}.json`, { cache: 'no-store' });
         if (!response.ok) throw new Error(`Flow config variant${flowVariant} not found`);
-        flowConfig = await response.json();
+        const config = await response.json();
+        // Phase model (variant C, plans/user-journey-redesign.md §1): flatten
+        // the declarative phases into the flat step list the wizard engine
+        // navigates, tagging each step with its phase id. Flat variants (A/B)
+        // pass through unchanged — flowPhases stays null and every phase-aware
+        // helper below degrades to the previous behaviour.
+        if (Array.isArray(config.phases) && config.phases.length) {
+            flowPhases  = config.phases;
+            config.steps = flowPhases.flatMap(phase =>
+                (phase.steps || []).map(step => ({ ...step, phase: phase.id }))
+            );
+        } else {
+            flowPhases = null;
+        }
+        flowConfig = config;
         return flowConfig;
     }
 
@@ -1680,21 +1748,38 @@ document.addEventListener('DOMContentLoaded', () => {
     function stepSections(step) {
         if (!step) return [];
         if (step.source === 'inline') {
-            const raw = step.fields ? step.fields : (step.section ? [step.section] : []);
+            // MVP-2 merged steps: a step may carry its card section AND its
+            // conditional fields (payment mode + amounts on one screen).
+            const raw = [];
+            if (step.section) raw.push(step.section);
+            if (step.fields) raw.push(...step.fields);
             return raw.map(localizeSection);
+        }
+        // MVP-2 multi-section step (variant C "preferences"): several
+        // questionnaire sections stacked on one screen.
+        if (Array.isArray(step.sections)) {
+            return step.sections
+                .map(id => questionnaireSections.find(s => s.id === id))
+                .filter(Boolean);
         }
         const sec = questionnaireSections.find(s => s.id === step.section);
         if (!sec) return [];
         // Per-step presentation overrides (e.g. render a chips section as cards
         // with a max limit in the flow) — clone so the shared section is intact.
+        let out;
         if (step.display_hint || step.max != null) {
-            return [{
+            out = [{
                 ...sec,
                 display_hint: step.display_hint || sec.display_hint,
                 max: step.max != null ? step.max : sec.max,
             }];
+        } else {
+            out = [sec];
         }
-        return [sec];
+        // Auto-advance is a step-level property (Flow-Mode only) — attach to
+        // the section copies the card renderer reads. Clone so the shared
+        // questionnaire section is never mutated.
+        return step.auto_advance ? out.map(s => ({ ...s, auto_advance: true })) : out;
     }
 
     // Pick a localized string from a {de,en} object (or pass a plain string through).
@@ -1715,6 +1800,23 @@ document.addEventListener('DOMContentLoaded', () => {
         };
     }
 
+    // Phase skip (docs/user-journey D-10/D-21): a phase declaring
+    // `skipOnProductContext` disappears entirely when the journey is entered
+    // with a valid ?product= handover — the insurance product was determined
+    // upstream and that decision cannot sensibly be un-made here (one-way).
+    // Its steps become invisible for entry (first visible step is already the
+    // strategy phase), for navigation (Back from the first B step never
+    // re-enters A) and for submission (mapFlowToUserAnswers drops the hidden
+    // steps' answer keys from the payload).
+    function phaseById(phaseId) {
+        return (flowPhases || []).find(p => p.id === phaseId) || null;
+    }
+    function phaseSkipped(phaseId) {
+        if (!phaseId || !productContext) return false;
+        const phase = phaseById(phaseId);
+        return !!(phase && phase.skipOnProductContext);
+    }
+
     // Conditional visibility — a step may declare `showIf`, either a single
     // condition or { allOf: [conditions] }. A condition is { field, equals } or
     // { field, notEquals }, evaluated against accumulated answers. Steps whose
@@ -1726,9 +1828,11 @@ document.addEventListener('DOMContentLoaded', () => {
         return true;
     }
     function stepVisible(step) {
+        if (phaseSkipped(step && step.phase)) return false;
         const cond = step && step.showIf;
         if (!cond) return true;
         if (Array.isArray(cond.allOf)) return cond.allOf.every(evalCond);
+        if (Array.isArray(cond.anyOf)) return cond.anyOf.some(evalCond);
         return evalCond(cond);
     }
     function visibleSteps() {
@@ -1743,6 +1847,79 @@ document.addEventListener('DOMContentLoaded', () => {
         const steps = flowConfig.steps || [];
         for (let i = from - 1; i >= 0; i--) if (stepVisible(steps[i])) return i;
         return -1;
+    }
+
+    // Hash deep links (plans/user-journey-redesign.md §1.2): #/<step-id> (e.g.
+    // #/strategy) jumps straight to the step with that id — provided it is
+    // visible under the current entry channel (a skipped phase's steps are
+    // never deep-link targets). renderFlowStep mirrors the current step back
+    // into the URL via replaceState so the view stays shareable without
+    // spamming the history stack.
+    function stepIdFromHash() {
+        const m = /^#\/([A-Za-z0-9_-]+)$/.exec(window.location.hash || '');
+        return m ? m[1] : null;
+    }
+    function visibleIndexForStepId(stepId) {
+        if (!stepId || !flowConfig) return -1;
+        return (flowConfig.steps || [])
+            .findIndex(step => step.id === stepId && stepVisible(step));
+    }
+    function syncHashToStep(step) {
+        if (!step || !step.id) return;
+        const wanted = `#/${step.id}`;
+        if (window.location.hash !== wanted) {
+            history.replaceState(null, '', wanted);
+        }
+    }
+    // Drop the step hash when the wizard session ends (portfolio generated or
+    // back out to welcome). Otherwise a stale #/<step-id> would (a) make
+    // "Start Over" look like a back button — resetApp would deep-link into the
+    // LAST visited step instead of starting fresh — and (b) re-trigger the
+    // deep-link auto-start logic on unrelated full reloads.
+    function clearStepHash() {
+        if (stepIdFromHash()) {
+            history.replaceState(null, '', window.location.pathname + window.location.search);
+        }
+    }
+    window.addEventListener('hashchange', () => {
+        if (!flowConfig || flowView.classList.contains('hidden')) return;
+        const idx = visibleIndexForStepId(stepIdFromHash());
+        if (idx >= 0 && idx !== flowStepIndex) {
+            persistCurrentStep();
+            flowStepIndex = idx;
+            renderFlowStep();
+        }
+    });
+
+    // Three-segment phase progress (variant C): one chip per phase that still
+    // has visible steps — a skipped phase renders no chip at all. Chips mark
+    // the active phase and tick off completed ones. Flat variants (A/B) have
+    // no phase model and keep the plain progress bar.
+    function renderPhaseIndicator(currentStep) {
+        const host = document.getElementById('flow-phases');
+        if (!host) return;
+        host.innerHTML = '';
+        if (!flowPhases) {
+            host.classList.add('hidden');
+            return;
+        }
+        host.classList.remove('hidden');
+        const steps = flowConfig.steps || [];
+        const currentIdx = steps.indexOf(currentStep);
+        flowPhases.forEach(phase => {
+            const hasVisible = steps.some(s => s.phase === phase.id && stepVisible(s));
+            if (!hasVisible) return;
+            const firstIdx = steps.findIndex(s => s.phase === phase.id);
+            const chip = document.createElement('span');
+            chip.className = 'flow-phase';
+            chip.textContent = loc(phase.title) || phase.id;
+            if (currentStep && currentStep.phase === phase.id) {
+                chip.classList.add('active');
+            } else if (firstIdx >= 0 && firstIdx < currentIdx) {
+                chip.classList.add('done');
+            }
+            host.appendChild(chip);
+        });
     }
 
     async function showFlowView() {
@@ -1761,8 +1938,14 @@ document.addEventListener('DOMContentLoaded', () => {
             showFlowError(err.message);
             return;
         }
+        buildAnswerVocab();
         flowAnswers   = {};
-        flowStepIndex = Math.max(0, nextVisibleIndex(-1));
+        // Entry point: a matching #/<step-id> deep link wins — external apps
+        // can jump straight into the strategy phase. Otherwise start at the
+        // first visible step, which under a ?product= handover is already the
+        // first step AFTER the skipped product-determination phase.
+        const deepIdx = visibleIndexForStepId(stepIdFromHash());
+        flowStepIndex = deepIdx >= 0 ? deepIdx : Math.max(0, nextVisibleIndex(-1));
         renderFlowStep();
     }
 
@@ -1773,8 +1956,20 @@ document.addEventListener('DOMContentLoaded', () => {
         // are hidden (e.g. only the relevant contribution field per payment mode).
         const sections = stepSections(step).filter(stepVisible);
 
+        // Snapshot of the visible-section set — onFlowStepInteract re-renders
+        // the step when an interaction changes it (field-level `showIf`, e.g.
+        // the amount field appearing once a payment mode is picked).
+        flowStepHost.dataset.visibleSections = sections.map(s => s.id).join('|');
         flowStepHost.innerHTML = '';
         clearFlowError();
+        // MVP-2 optional-step chip: consistent "can be skipped" affordance.
+        if (step.optional) {
+            const chip = document.createElement('span');
+            chip.className = 'flow-optional-chip';
+            chip.setAttribute('data-testid', 'flow--optional-chip');
+            chip.textContent = t('ui.optional_step', 'Optional — skipping is fine');
+            flowStepHost.appendChild(chip);
+        }
         sections.forEach(section => flowStepHost.appendChild(renderSection(section)));
         applyPrefill(flowStepHost, flowAnswers);
         // Back-navigation may have invalidated earlier theme selections
@@ -1791,16 +1986,71 @@ document.addEventListener('DOMContentLoaded', () => {
             flowProgressLabel.textContent =
                 `${t('ui.flow_step', 'Step')} ${pos} / ${total}`;
         }
+        renderPhaseIndicator(step);
+        syncHashToStep(step);
+        renderFeasibleCount(step);
 
         setFlowNavLabel();
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // Whether the current step is the last visible one (→ "Generate" vs "Next").
-    // Recomputed live because the deciding answer (e.g. Komfort vs Aktiv) is
-    // chosen on the very step whose lookahead it governs.
+    // MVP-2 auto-advance: single-select card steps declared `auto_advance`
+    // move on to the next visible step right after a card is picked
+    // (Flow-Mode only — the Quick-Mode form shares renderCardGroup).
+    function maybeAutoAdvance(section) {
+        if (!section || !section.auto_advance) return;
+        if (!flowConfig || flowView.classList.contains('hidden')) return;
+        // Short visual beat so the selection registers before the transition.
+        setTimeout(() => {
+            if (flowView.classList.contains('hidden')) return;
+            persistCurrentStep();
+            flowNext();
+        }, 180);
+    }
+
+    // MVP-2 live feasibility signal (plans/user-journey-redesign.md §2.2):
+    // total funds available under the chosen risk approach × ESG/ETF
+    // combination (preference_gating.universe_totals, product-reduced when a
+    // ?product= context is set). Region/theme choices prioritise within this
+    // universe — they do not shrink it; the per-option disabled cards already
+    // guard zero-count choices.
+    function renderFeasibleCount() {
+        const host = document.getElementById('flow-feasible');
+        if (!host) return;
+        const totals = preferenceGating && preferenceGating.universe_totals;
+        const profile = gatingProfile();
+        const n = (profile && totals && totals[profile])
+            ? totals[profile][liveComboKey()]
+            : null;
+        if (n == null) {
+            host.textContent = '';
+            host.classList.add('hidden');
+            return;
+        }
+        host.textContent = t('ui.feasible_count', '{n} funds match your current answers')
+            .replace('{n}', n);
+        host.classList.remove('hidden');
+    }
+
+    // Next-button label, recomputed live on every interaction: adaptive CTA
+    // label when the step declares one (empty → "continue without …", any
+    // selection → "lock in …"; the button stays enabled either way, and on
+    // the last step the adaptive label still finalizes), otherwise the
+    // classic "Next" / final-step "Generate Portfolio".
     function setFlowNavLabel() {
         if (!flowNextBtn) return;
+        const step = flowConfig.steps[flowStepIndex];
+        if (step.cta && step.cta.empty_label) {
+            const hasSelection = stepSections(step).some(section => {
+                const v = flowAnswers[section.id];
+                if (section.type === 'multi_select') return Array.isArray(v) && v.length > 0;
+                return v != null && v !== '';
+            });
+            const label = hasSelection ? (step.cta.filled_label || step.cta.empty_label)
+                                       : step.cta.empty_label;
+            flowNextBtn.textContent = loc(label);
+            return;
+        }
         const isLast = nextVisibleIndex(flowStepIndex) === -1;
         flowNextBtn.textContent = isLast
             ? t('ui.generate_portfolio', 'Generate Portfolio')
@@ -1812,22 +2062,40 @@ document.addEventListener('DOMContentLoaded', () => {
     // on the host rather than relying on native change events alone).
     function onFlowStepInteract() {
         if (!flowConfig || flowView.classList.contains('hidden')) return;
+        const before = flowStepHost.dataset.visibleSections || '';
         persistCurrentStep();
         setFlowNavLabel();
+        // Field-level `showIf` (merged payment step): when an interaction
+        // changes WHICH sections of this step are visible — the amount field
+        // is revealed only once its payment mode is chosen — re-render the
+        // step. applyPrefill restores every answer, so nothing is lost.
+        const step = flowConfig.steps[flowStepIndex];
+        const after = stepSections(step).filter(stepVisible).map(s => s.id).join('|');
+        if (after !== before) renderFlowStep();
     }
 
     // Persist the current step's inputs into flowAnswers. Clears the keys this
     // step owns first, so deselecting (e.g. unchecking all chips) is honoured.
     function persistCurrentStep() {
+        // Own every key the step's sections/fields COULD own — not only the
+        // names currently in the DOM — so a field hidden by `showIf` (e.g.
+        // the monthly amount after switching the payment mode to one-off)
+        // has its stale value deleted instead of leaking into the payload.
         const owned = new Set(
-            Array.from(flowStepHost.querySelectorAll('[name]')).map(el => el.name)
+            stepSections(flowConfig.steps[flowStepIndex]).map(s => s.id)
         );
+        Array.from(flowStepHost.querySelectorAll('[name]')).forEach(el => owned.add(el.name));
         owned.forEach(key => delete flowAnswers[key]);
         Object.assign(flowAnswers, gatherAnswers(flowStepHost));
     }
 
     function currentStepValid() {
-        return stepSections(flowConfig.steps[flowStepIndex]).every(section => {
+        const step = flowConfig.steps[flowStepIndex];
+        // Adaptive-skip steps (regions/themes): an empty selection is a valid
+        // answer — the adaptive CTA label carries the "continue without …"
+        // semantics (plans/user-journey-redesign.md §2.1).
+        if (step.optional) return true;
+        return stepSections(step).every(section => {
             if (!section.required) return true;
             const value = flowAnswers[section.id];
             if (section.type === 'multi_select') return Array.isArray(value) && value.length > 0;
@@ -1854,6 +2122,7 @@ document.addEventListener('DOMContentLoaded', () => {
         persistCurrentStep();
         const prev = prevVisibleIndex(flowStepIndex);
         if (prev === -1) {
+            clearStepHash();
             flowView.classList.add('hidden');
             welcomeView.classList.remove('hidden');
             return;
@@ -1968,7 +2237,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 throw new Error((data.error || 'Failed to generate portfolio') + details);
             }
             flowView.classList.add('hidden');
-            renderResults(data, { showTraces: false });
+            // Session over: drop the step hash BEFORE the results render, so
+            // "Start Over" starts fresh instead of deep-linking to the last
+            // visited step (bug report 2026-10-05).
+            clearStepHash();
+            // The decision trace is shown in Flow-Mode too (product feedback
+            // 2026-10-05: the Preferences tab needs the trace for
+            // transparency); Quick-Mode is now only "more of the same".
+            renderResults(data, { showTraces: true });
         } catch (err) {
             showFlowError(err.message);
         } finally {
@@ -2012,6 +2288,64 @@ document.addEventListener('DOMContentLoaded', () => {
         span.className   = 'decision-filter';
         span.textContent = text;
         return span;
+    }
+
+    // -------------------------------------------------------------------------
+    // Localized "Your Answers" pills. Stored answer keys/values are engine or
+    // flow enums — the commercial flow steps deliberately use German ids and
+    // values (anlageziel=kapitalanlage, beitrag=einmalig, …) — which must not
+    // leak into the UI locale. Resolution order per KEY:
+    //   ui.field_<key>  → short vocab label (questionnaire/flow section name)
+    //                     → raw key
+    // per VALUE:
+    //   ui.value_<norm> → ui.region_<norm> → ui.risk_profile_<norm>
+    //                   → short vocab option label → raw value
+    // (vocab = option labels from the questionnaire and the flow config,
+    // already localized to the active language at their load time).
+    // -------------------------------------------------------------------------
+    let answerVocab = null;
+    const FIELD_LABEL_MAX = 40;   // section names are questions — too long for a pill key
+    const VALUE_LABEL_MAX = 60;   // full option sentences stay untranslated (raw enum)
+
+    function buildAnswerVocab() {
+        const vocab = {};
+        const add = (sec) => {
+            if (!sec || !sec.id) return;
+            const values = {};
+            (sec.options || []).forEach(o => { values[String(o.value)] = o.label; });
+            vocab[sec.id] = { label: sec.title || sec.name || sec.id, values };
+        };
+        questionnaireSections.forEach(add);
+        (flowConfig ? (flowConfig.steps || []) : []).forEach(step =>
+            stepSections(step).forEach(add)
+        );
+        answerVocab = vocab;
+    }
+
+    function normValueKey(v) {
+        return String(v).trim().toLowerCase().replace(/[^a-z0-9]+/g, '_');
+    }
+
+    function localizeAnswerKey(key) {
+        const i18nKey = `ui.field_${key}`;
+        const byKey = t(i18nKey, null);
+        if (byKey && byKey !== i18nKey) return byKey;
+        const entry = answerVocab && answerVocab[key];
+        if (entry && entry.label && entry.label.length <= FIELD_LABEL_MAX) return entry.label;
+        return key;
+    }
+
+    function localizeAnswerValue(key, value) {
+        const norm = normValueKey(value);
+        for (const ns of ['value', 'region', 'risk_profile']) {
+            const i18nKey = `ui.${ns}_${norm}`;
+            const byNs = t(i18nKey, null);
+            if (byNs && byNs !== i18nKey) return byNs;
+        }
+        const entry = answerVocab && answerVocab[key];
+        const opt = entry && entry.values && entry.values[String(value)];
+        if (opt && String(opt).length <= VALUE_LABEL_MAX) return opt;
+        return String(value);
     }
 
     // -------------------------------------------------------------------------

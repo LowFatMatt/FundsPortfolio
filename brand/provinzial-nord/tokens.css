@@ -1,0 +1,55 @@
+/* ==========================================================================
+   Provinzial Nord (blau) — M3 role tokens, mapped from the Kundenportal
+   token dump. Base: #003b82 (Provinzial blue), shade #002f68, scale
+   50/100/200/300/700. Shared neutral ramp with the other Provinzial themes.
+   ========================================================================== */
+
+@font-face {
+  font-family: "Provinzial Iconfont";
+  src: url("fonts/iconfont-provinzial.woff2") format("woff2");
+  font-display: swap;
+}
+
+:root {
+  /* Primary — Provinzial blue */
+  --md-sys-color-primary: #003b82;
+  --md-sys-color-on-primary: #ffffff;
+  --md-sys-color-primary-container: #e5ebf2;
+  --md-sys-color-on-primary-container: #002f68;
+
+  /* Secondary / tertiary — brand scale + light-blue accent */
+  --md-sys-color-secondary: #33629b;
+  --md-sys-color-on-secondary: #ffffff;
+  --md-sys-color-secondary-container: #ccd8e6;
+  --md-sys-color-on-secondary-container: #002f68;
+  --md-sys-color-tertiary: #0087cc;
+
+  /* Error — Sparkassen/Feuerkasse red (shared across themes) */
+  --md-sys-color-error: #e30614;
+  --md-sys-color-on-error: #ffffff;
+  --md-sys-color-error-container: rgba(227, 6, 20, 0.08);
+  --md-sys-color-on-error-container: #ad000d;
+
+  /* Extended roles: success / info / warning */
+  --md-sys-color-success: #4f7e23;
+  --md-sys-color-on-success: #ffffff;
+  --md-sys-color-success-container: rgba(79, 126, 35, 0.12);
+  --md-sys-color-on-success-container: #4f7e23;
+  --md-sys-color-info-container: rgba(0, 59, 130, 0.1);
+  --md-sys-color-on-info-container: #003b82;
+  --md-sys-color-warning-container: rgba(236, 103, 47, 0.12);
+  --md-sys-color-on-warning-container: #b35415;
+
+  /* Surfaces & outlines — neutral ramp from the dump */
+  --md-sys-color-surface: #ffffff;
+  --md-sys-color-surface-variant: #f4f5f8;
+  --md-sys-color-on-surface: #363030;
+  --md-sys-color-on-surface-variant: #5c5c5c;
+  --md-sys-color-outline: #898989;
+  --md-sys-color-outline-variant: rgba(0, 0, 0, 0.1);
+
+  /* Typography — corporate text face (Sparkasse Web), robust fallback */
+  --font-body: "Sparkasse Web", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-heading: var(--font-body);
+}
