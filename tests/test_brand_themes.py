@@ -98,6 +98,31 @@ def test_brand_fonts_served(client):
     assert resp.status_code == 200
 
 
+@pytest.mark.parametrize("slug", THEMES)
+def test_brand_logo_served(client, slug):
+    resp = client.get(f"/brand/{slug}/logo.svg")
+    assert resp.status_code == 200
+    assert resp.get_data(as_text=True).lstrip().startswith("<svg")
+
+
+def test_brand_text_font_served(client):
+    """The scraped "Sparkasse Web" text font (MVP-3 input, 2026-10-06)."""
+    resp = client.get(
+        "/brand/provinzial-west/fonts/sparkasse-web-400-500.1348175173db8b19.woff"
+    )
+    assert resp.status_code == 200
+    assert resp.get_data()[:4] == b"wOFF"
+    resp = client.get("/brand/sparkassen/fonts/SparkasseWeb-Regular.ttf")
+    assert resp.status_code == 200
+
+
+def test_index_renders_brand_logo(client):
+    resp = client.get("/?brand=provinzial-west")
+    html = resp.get_data(as_text=True)
+    assert "/brand/provinzial-west/logo.svg" in html
+    assert "/brand/provinzial-west/tokens.css" in html
+
+
 def test_brand_asset_traversal_blocked(client):
     resp = client.get("/brand/default/..%2f..%2ffunds_portfolio%2fapp.py")
     assert resp.status_code == 404

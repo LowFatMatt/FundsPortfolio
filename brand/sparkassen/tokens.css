@@ -10,6 +10,36 @@
   font-display: swap;
 }
 
+/* "Sparkasse Web" text font — scraped from sparkasse.de (TTF, one file per
+   weight; headings use the dedicated SparkasseHead cut). Served via
+   /brand/<slug>/fonts/… */
+@font-face {
+  font-family: "Sparkasse Web";
+  src: url("fonts/SparkasseWeb-Light.ttf") format("truetype");
+  font-weight: 100 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Sparkasse Web";
+  src: url("fonts/SparkasseWeb-Regular.ttf") format("truetype");
+  font-weight: 400 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Sparkasse Web";
+  src: url("fonts/SparkasseWeb-Medium.ttf") format("truetype");
+  font-weight: 600 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "SparkasseHead Web";
+  src: url("fonts/SparkasseHeadWeb-Regular.ttf") format("truetype");
+  font-display: swap;
+}
+
 :root {
   /* Primary — Sparkassen blue */
   --md-sys-color-primary: #0054e9;

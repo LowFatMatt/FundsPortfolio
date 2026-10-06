@@ -1,4 +1,5 @@
-:{
+{
   "name": "Sparkassen Feuerkasse",
+  "logo": "logo.svg",
   "tokens_css": "tokens.css"
 }

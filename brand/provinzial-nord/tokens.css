@@ -10,6 +10,37 @@
   font-display: swap;
 }
 
+/* "Sparkasse Web" text font — scraped from the Kundenportal (WOFF, one
+   file per weight band). Served via /brand/<slug>/fonts/… */
+@font-face {
+  font-family: "Sparkasse Web";
+  src: url("fonts/sparkasse-web-100-300.c6b8e959b5796bb8.woff") format("woff");
+  font-weight: 100 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Sparkasse Web";
+  src: url("fonts/sparkasse-web-400-500.1348175173db8b19.woff") format("woff");
+  font-weight: 400 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Sparkasse Web";
+  src: url("fonts/sparkasse-web-600.2f090d1492c95d30.woff") format("woff");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Sparkasse Web";
+  src: url("fonts/sparkasse-web-700-900.90345d43fd2af5e3.woff") format("woff");
+  font-weight: 700 900;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   /* Primary — Provinzial blue */
   --md-sys-color-primary: #003b82;
