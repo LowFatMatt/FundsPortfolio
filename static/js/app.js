@@ -66,6 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const flowProgressLabel= document.getElementById('flow-progress-label');
     const flowBackBtn      = document.getElementById('flow-back-btn');
     const flowNextBtn      = document.getElementById('flow-next-btn');
+    const flowCancelBtn    = document.getElementById('flow-cancel-btn');
     let flowConfig         = null;    // loaded flows/variant<X>.json
     let flowPhases         = null;    // phase model (variant C) or null (flat variants A/B)
     let flowAnswers        = {};      // accumulated answers across steps
@@ -100,6 +101,11 @@ document.addEventListener('DOMContentLoaded', () => {
         qFields.addEventListener('change', onQuickFormInteract);
     }
     restartBtn.addEventListener('click', resetApp);
+    // 1.1 Kundenportal "Abbrechen": back to the welcome screen, dropping
+    // everything entered so far (even under a ?product= handover).
+    if (flowCancelBtn) {
+        flowCancelBtn.addEventListener('click', () => resetApp({ toWelcome: true }));
+    }
     startFreshBtn.addEventListener('click', () => {
         currentPortfolioId = null;
         qForm.reset();
@@ -939,6 +945,20 @@ document.addEventListener('DOMContentLoaded', () => {
             'home_ownership':  `<svg viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 28l16-14 16 14v16H12z"/><rect x="22" y="32" width="12" height="12"/></svg>`,
             'wealth_transfer': `<svg viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 28h6l4-8 4 16 4-10 4 4 4-2"/></svg>`,
 
+            // Variant C inline steps (German option ids)
+            'altersvorsorge': `<svg viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="28" cy="20" r="8"/><path d="M15 43v-2a13 13 0 0126 0v2"/><path d="M40 12a20 20 0 01-6 30" stroke-dasharray="3 3"/></svg>`,
+            'vermoegensaufbau': `<svg viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="12,40 22,28 30,34 44,18"/><polyline points="36,18 44,18 44,26"/><rect x="12" y="42" width="6" height="4"/><rect x="24" y="42" width="6" height="4"/><rect x="36" y="42" width="6" height="4"/></svg>`,
+            'kapitalanlage': `<svg viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="28" cy="16" rx="14" ry="5"/><path d="M14 16v10c0 2.8 6.3 5 14 5s14-2.2 14-5V16"/><path d="M14 26v10c0 2.8 6.3 5 14 5s14-2.2 14-5V26"/></svg>`,
+
+            // Payment modes (merged Beitrag step)
+            'beitrag_laufend': `<svg viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="10" y="13" width="36" height="32" rx="2"/><path d="M10 22h36M18 9v8M38 9v8"/><path d="M20 32h6v6h-6z"/></svg>`,
+            'beitrag_einmalig': `<svg viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="28" cy="28" r="14"/><path d="M28 20v16M23 24.5c0-2 2.2-3.5 5-3.5s5 1.5 5 3.5-2.2 3.2-5 3.9-5 1.9-5 3.9 2.2 3.5 5 3.5 5-1.5 5-3.5"/></svg>`,
+            'beitrag_beides': `<svg viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="10" y="12" width="24" height="20" rx="2"/><path d="M10 19h24M16 9v6"/><path d="M32 40c0-6 4-10 10-10 3 0 5 1 6 3" /><path d="M24 40c0 6-4 10-10 10-3 0-5-1-6-3" transform="translate(6,-8)"/></svg>`,
+
+            // Products (Phase A)
+            'fondsrente_vario': `<svg viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 44 L20 32 L28 38 L44 20"/><path d="M36 20 h8 v8"/><circle cx="28" cy="14" r="3"/></svg>`,
+            'garantrente_vario': `<svg viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M28 10 C20 20 14 24 14 30 a14 14 0 0 0 28 0 C42 24 36 20 28 10 Z"/><path d="M22 30 a6 7 0 0 0 5 6"/></svg>`,
+
             // Investment knowledge
             'confident': `<svg viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16,28 24,36 40,20"/></svg>`,
             'beginner':  `<svg viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="28" cy="24" r="6"/><line x1="28" y1="32" x2="28" y2="42"/><line x1="22" y1="36" x2="34" y2="36"/></svg>`,
@@ -1572,7 +1592,8 @@ document.addEventListener('DOMContentLoaded', () => {
         lastPortfolio = null;
     }
 
-    function resetApp() {
+    function resetApp(options = {}) {
+        const toWelcome = options.toWelcome === true;
         clearResults();
         errorView.classList.add('hidden');
         qForm.reset();
@@ -1588,12 +1609,14 @@ document.addEventListener('DOMContentLoaded', () => {
         // Handover entry (?product=): re-enter the wizard at the handover
         // entry point instead of the welcome screen — the skipped
         // product-determination phase stays unreachable (one-way). Without a
-        // product context the restart lands on the welcome screen.
-        if (currentMode === 'flow' && productContext) {
+        // product context the restart lands on the welcome screen. An
+        // explicit Cancel (1.1) always returns to the welcome screen.
+        if (!toWelcome && currentMode === 'flow' && productContext) {
             showFlowView();
         } else {
             welcomeView.classList.remove('hidden');
         }
+        syncChrome();
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
@@ -1986,12 +2009,53 @@ document.addEventListener('DOMContentLoaded', () => {
             flowProgressLabel.textContent =
                 `${t('ui.flow_step', 'Step')} ${pos} / ${total}`;
         }
+        renderStepper(step);
         renderPhaseIndicator(step);
         syncHashToStep(step);
         renderFeasibleCount(step);
+        syncChrome();
 
         setFlowNavLabel();
         window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Show/hide the app-bar Cancel affordance with the wizard session.
+    function syncChrome() {
+        if (flowCancelBtn) {
+            flowCancelBtn.classList.toggle('hidden', flowView.classList.contains('hidden'));
+        }
+    }
+
+    // MVP-3b Kundenportal-style stepper (variant C): one numbered/check
+    // bubble per visible step plus a short label from the step's `label`
+    // field — the A.4 pattern. Flat variants (A/B, unlabeled steps) keep
+    // the plain progress bar.
+    function renderStepper(currentStep) {
+        const host = document.getElementById('flow-stepper');
+        if (!host) return;
+        host.innerHTML = '';
+        const vis = visibleSteps();
+        if (!vis.length || !vis.every(s => s.label)) {
+            host.classList.add('hidden');
+            return;
+        }
+        host.classList.remove('hidden');
+        const currentIdx = vis.indexOf(currentStep);
+        vis.forEach((s, idx) => {
+            const item = document.createElement('div');
+            item.className = 'flow-step'
+                + (idx < currentIdx ? ' done' : '')
+                + (s === currentStep ? ' active' : '');
+            item.setAttribute('data-testid', `flow--step-${s.id}`);
+            const bubble = document.createElement('span');
+            bubble.className = 'flow-step__bubble';
+            bubble.textContent = idx < currentIdx ? '✓' : String(idx + 1);
+            const label = document.createElement('span');
+            label.className = 'flow-step__label';
+            label.textContent = loc(s.label) || s.id;
+            item.append(bubble, label);
+            host.appendChild(item);
+        });
     }
 
     // MVP-2 auto-advance: single-select card steps declared `auto_advance`

@@ -128,6 +128,14 @@ def test_single_select_steps_auto_advance():
                 assert not step.get("auto_advance"), step["id"]
 
 
+def test_steps_carry_stepper_labels():
+    """MVP-3b: every variant C step has a short bilingual label for the
+    Kundenportal-style stepper (bubble + label)."""
+    for phase in _load_variant("C")["phases"]:
+        for step in phase["steps"]:
+            assert step["label"]["de"] and step["label"]["en"], step["id"]
+
+
 def test_phase_steps_carry_unique_ids():
     flow = _load_variant("C")
     step_ids = [

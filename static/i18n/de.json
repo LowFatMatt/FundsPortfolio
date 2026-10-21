@@ -10,9 +10,9 @@
   "ui.welcome_title": "Willkommen",
   "ui.welcome_subtitle": "Gestalten Sie Ihr ganz persönliches Anlageportfolio – einfach, verständlich und weltweit ausgerichtet.",
   "ui.resume_placeholder": "z. B. port_20260310_6c75f86a",
-  "ui.resume_button": "Vorgang laden",
+  "ui.resume_button": "Portfolio laden",
   "ui.or_divider": "— ODER —",
-  "ui.start_fresh": "Los geht's",
+  "ui.start_fresh": "Neues Portfolio erstellen",
   "ui.editing_portfolio": "Vorgang bearbeiten:",
   "ui.build_profile": "Ihr Anlegerprofil",
   "ui.generate_portfolio": "Portfolio erstellen",
@@ -195,5 +195,8 @@
   "ui.value_prefer_etf": "ETFs bevorzugen",
   "ui.value_etf_only": "Nur ETFs",
   "ui.optional_step": "Optional – Überspringen ist in Ordnung",
-  "ui.feasible_count": "{n} Fonds passen zu Ihren aktuellen Antworten"
+  "ui.feasible_count": "{n} Fonds passen zu Ihren aktuellen Antworten",
+  "ui.cancel": "Abbrechen",
+  "ui.banner_title": "Fondskompass",
+  "ui.banner_subtitle": "Ihre personalisierte, datengestützte Anlagestrategie."
 }

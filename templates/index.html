@@ -14,7 +14,9 @@
     <link rel="stylesheet" href="{{ brand_tokens_url }}">
     {% endif %}
     {% if brand_css_vars %}
-    <style>:root { {{ brand_css_vars }}; }</style>
+    <!-- brand_css_vars comes from trusted repo files (brand.json); values may
+         legitimately contain single-quoted font names, so no autoescaping -->
+    <style>:root { {{ brand_css_vars | safe }}; }</style>
     {% endif %}
     {% if brand_overrides_url %}
     <link rel="stylesheet" href="{{ brand_overrides_url }}">
@@ -37,6 +39,16 @@
                 <span id="product-context-badge" class="product-context-badge hidden"
                       data-testid="chrome--badge-product"
                       aria-label="Product context"></span>
+                <!-- Wizard cancel (Kundenportal "Abbrechen"): back to welcome,
+                     dropping everything entered so far (2026-10-06) -->
+                <button type="button" id="flow-cancel-btn" class="app-bar__cancel hidden"
+                        data-testid="chrome--cancel">
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor"
+                         stroke-width="2" stroke-linecap="round" aria-hidden="true">
+                        <path d="M1 1l12 12M13 1L1 13"/>
+                    </svg>
+                    <span data-i18n="ui.cancel">Cancel</span>
+                </button>
                 <label for="lang-select" class="lang-select-label sr-only" data-i18n="ui.language_label">Language</label>
                 <select id="lang-select" class="lang-select" aria-label="Language">
                     <option value="en">EN</option>
@@ -55,13 +67,20 @@
             <p class="text-secondary" data-i18n="ui.loading">Loading...</p>
         </div>
 
-        <!-- Welcome Screen -->
+        <!-- Welcome Screen — hint-box pattern from the Kundenportal
+             (kupo-hinweis-box): grey box, hairline border, 4px radius -->
         <div id="welcome-view" class="welcome-center hidden">
-            <div class="md-card welcome-card animate-in">
-                <h1 class="welcome-card__title" data-i18n="ui.welcome_title">Welcome Back</h1>
-                <p class="welcome-card__subtitle" data-i18n="app.subtitle">Discover your personalized data-driven investment strategy.</p>
+            <div class="hint-box animate-in">
+                <h1 class="hint-box__title" data-i18n="ui.welcome_title">Welcome Back</h1>
+                <p class="hint-box__subtitle" data-i18n="app.subtitle">Discover your personalized data-driven investment strategy.</p>
 
-                <form id="resume-form" class="welcome-card__body">
+                <div class="hint-box__actions">
+                    <button id="start-fresh-btn" class="btn btn-primary btn--full">
+                        <span data-i18n="ui.start_fresh">Create new portfolio</span>
+                    </button>
+                </div>
+
+                <form id="resume-form" class="welcome-card__body hint-box__load">
                     <div class="field-group">
                         <input type="text" id="resume-id"
                                data-i18n-placeholder="ui.resume_placeholder"
@@ -69,16 +88,8 @@
                                style="text-align:center; font-family:monospace;">
                     </div>
                     <div id="resume-error" class="alert alert-error hidden"></div>
-                    <button type="submit" class="btn btn-secondary btn--full" data-i18n="ui.resume_button">Resume Portfolio</button>
+                    <button type="submit" class="btn btn-secondary btn--full" data-i18n="ui.resume_button">Load portfolio</button>
                 </form>
-
-                <div class="welcome-divider" data-i18n="ui.or_divider">— OR —</div>
-
-                <div class="welcome-btn-row">
-                    <button id="start-fresh-btn" class="btn btn-primary btn--full">
-                        <span data-i18n="ui.start_fresh">Start Fresh</span>
-                    </button>
-                </div>
             </div>
         </div>
 
@@ -111,18 +122,31 @@
             </div>
         </div>
 
-        <!-- Flow-Mode wizard (one step at a time) -->
+        <!-- Flow-Mode wizard (one step at a time).
+             No enclosing card frame (2.1) — the wizard sits directly on the
+             page like the Kundenportal, with banner → progress → stepper. -->
         <div id="flow-view" class="hidden">
-            <div class="md-card animate-in">
+            <div class="md-card md-card--bare animate-in">
+
+                <!-- 1.2 page banner (Kundenportal title band) -->
+                <div class="page-banner">
+                    <h1 class="page-banner__title" data-i18n="ui.banner_title">Fondskompass</h1>
+                    <p class="page-banner__subtitle" data-i18n="ui.banner_subtitle">Your personalized, data-driven investment strategy.</p>
+                </div>
+
+                <!-- 1.3 progress line directly below the banner -->
                 <div class="flow-progress">
-                    <!-- Phase indicator (variant C): one chip per journey phase;
-                         hidden for flat variants A/B (see renderPhaseIndicator) -->
-                    <div id="flow-phases" class="flow-phases hidden" data-testid="flow--phase-indicator"></div>
                     <div class="flow-progress__track">
                         <div id="flow-progress-fill" class="flow-progress__fill" style="width:0%"></div>
                     </div>
-                    <div id="flow-progress-label" class="flow-progress__label"></div>
+                    <div id="flow-progress-label" class="flow-progress__label sr-only" aria-live="polite"></div>
                 </div>
+
+                <!-- 1.4 stepper: bubble and label side by side -->
+                <div id="flow-stepper" class="flow-stepper hidden" data-testid="flow--stepper"></div>
+                <!-- Phase indicator (variant C): one chip per journey phase;
+                     hidden for flat variants A/B (see renderPhaseIndicator) -->
+                <div id="flow-phases" class="flow-phases hidden" data-testid="flow--phase-indicator"></div>
 
                 <div id="flow-error" class="alert alert-error hidden"></div>
 

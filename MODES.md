@@ -258,6 +258,11 @@ semantics:
   `preference_gating.universe_totals` (funds per risk approach × ESG/ETF
   combo, product-reduced under a `?product=` handover) once the risk
   approach is answered.
+- **MVP-3b stepper (variant C):** steps declaring a short `label`
+  (`{de,en}`) render as a Kundenportal-style horizontal stepper above the
+  phase chips — check bubble for completed steps, primary bubble for the
+  active step, grey numbers for upcoming ones (`flow--stepper`,
+  `flow--step-{id}`). Flat variants keep the plain progress bar.
 
 **Adding a variant:** drop a new `flows/variant<X>.json` and open
 `?mode=flow&flowVariant=<X>` — no code change. A config may use either the

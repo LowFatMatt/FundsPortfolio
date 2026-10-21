@@ -10,9 +10,9 @@
   "ui.welcome_title": "Welcome",
   "ui.welcome_subtitle": "Build your personalized portfolio — simple, clear, and globally diversified.",
   "ui.resume_placeholder": "e.g. port_20260310_6c75f86a",
-  "ui.resume_button": "Resume Portfolio",
+  "ui.resume_button": "Load portfolio",
   "ui.or_divider": "— OR —",
-  "ui.start_fresh": "Start Fresh",
+  "ui.start_fresh": "Create new portfolio",
   "ui.editing_portfolio": "Editing Portfolio:",
   "ui.build_profile": "Build Your Profile",
   "ui.generate_portfolio": "Generate Portfolio",
@@ -195,5 +195,8 @@
   "ui.value_prefer_etf": "Prefer ETFs",
   "ui.value_etf_only": "ETFs only",
   "ui.optional_step": "Optional — skipping is fine",
-  "ui.feasible_count": "{n} funds match your current answers"
+  "ui.feasible_count": "{n} funds match your current answers",
+  "ui.cancel": "Cancel",
+  "ui.banner_title": "Funds-Compass",
+  "ui.banner_subtitle": "Your personalized, data-driven investment strategy."
 }

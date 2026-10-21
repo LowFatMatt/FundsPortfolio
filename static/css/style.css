@@ -20,6 +20,8 @@
     --md-sys-color-on-secondary-container: #d0e8ff;
     --md-sys-color-surface:                #161b22;
     --md-sys-color-surface-variant:        #0d1117;
+    /* Kundenportal grey50 — default tile background (all four brand dumps) */
+    --md-sys-color-surface-container-lowest: #f9f9f9;
     --md-sys-color-on-surface:             #f0f6fc;
     --md-sys-color-on-surface-variant:     #8b949e;
     --md-sys-color-outline:                rgba(48, 54, 61, 0.6);
@@ -267,7 +269,8 @@ body {
     justify-content: center;
     gap: 0.5rem;
     border: none;
-    border-radius: var(--md-sys-shape-full);
+    /* Kundenportal buttons are near-square (4px brand radius), not pills */
+    border-radius: var(--md-sys-shape-extra-small);
     font-family: var(--font-body);
     font-size: var(--md-typescale-label-large-size);
     font-weight: 500;
@@ -396,16 +399,29 @@ select option {
    -------------------------------------------------------------------------- */
 .question-card-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 1rem;
+    /* 1.6/2.2 — portrait tiles like the Kundenportal Kacheln (155×313).
+       auto-FIT collapses unused tracks so a small tile group (3 payment
+       modes, 3 risk approaches) centres as a group on the page; full rows
+       behave like auto-fill. */
+    grid-template-columns: repeat(auto-fit, 160px);
+    /* the Kachel group is centred on the page, whatever the tile count */
+    justify-content: center;
+    /* kupo-kachel-radio-group: ~10px gutters between tiles */
+    gap: 10px;
     margin-top: 0.5rem;
 }
 
+/* Tile anatomy from kupo-kachel-radio-button (computed styles, 2026-10-06):
+   borderless, 4px radius, grey50 background, 16px padding; hover = light
+   grey wash; selection is carried by the indicator + our brand-tint
+   background (deliberate divergence from the portal). */
 .question-card {
-    background: var(--md-sys-color-surface);
-    border: 2px solid var(--md-sys-color-outline-variant);
-    border-radius: var(--md-sys-shape-large);
-    padding: 1.5rem 1.25rem 1.25rem;
+    background: var(--md-sys-color-surface-container-lowest);
+    border: 2px solid transparent;
+    border-radius: var(--md-sys-shape-extra-small);
+    padding: 1rem 0.75rem;
+    min-height: 300px;
+    justify-content: flex-start;
     cursor: pointer;
     transition: border-color 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
     display: flex;
@@ -417,18 +433,14 @@ select option {
     user-select: none;
 }
 
-/* States (Kundenportal pattern): hover = neutral light wash, selected =
-   light brand tint — both pure token roles, so they follow ?brand=. */
 .question-card:hover {
-    border-color: var(--md-sys-color-primary);
+    border-color: transparent;
     background: var(--md-sys-color-surface-variant);
-    box-shadow: var(--md-elevation-1);
 }
 
 .question-card.selected {
-    border-color: var(--md-sys-color-primary);
+    border-color: transparent;
     background: var(--md-sys-color-primary-container);
-    box-shadow: var(--md-elevation-1);
 }
 
 .question-card__radio {
@@ -438,7 +450,8 @@ select option {
     width: 20px;
     height: 20px;
     border-radius: 50%;
-    border: 2px solid var(--md-sys-color-outline);
+    /* the portal rings are primary-coloured even when unselected */
+    border: 2px solid var(--md-sys-color-primary);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -460,17 +473,30 @@ select option {
 }
 
 .question-card__icon {
-    width: 56px;
-    height: 56px;
+    width: 100%;
+    flex: 1 1 auto;            /* grows — portrait tiles centre a large icon */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 1.75rem 0;
     color: var(--md-sys-color-primary);
-    flex-shrink: 0;
+}
+.question-card__icon svg {
+    width: 64px;
+    height: 64px;
 }
 
 .question-card__title {
     font-size: var(--md-typescale-title-medium-size);
-    font-weight: 600;
+    font-weight: 400;
     color: var(--md-sys-color-on-surface);
-    font-family: var(--font-heading);
+    font-family: var(--font-body);
+    /* reserved text frame (like the portal's fixed text-frame): titles of
+       different line counts must not push the icons out of alignment */
+    min-height: 5.6em;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
 }
 
 .question-card__desc {
@@ -561,8 +587,8 @@ select option {
 
 .chip--disabled:hover,
 .question-card--disabled:hover {
-    border-color: var(--md-sys-color-outline);
-    background: var(--md-sys-color-surface);
+    border-color: transparent;
+    background: var(--md-sys-color-surface-container-lowest);
     background: var(--md-sys-color-surface);
     color: var(--md-sys-color-on-surface-variant);
 }
@@ -1280,7 +1306,8 @@ select option {
     .page-content { padding: 2rem var(--grid-margin); }
 
     .question-card-grid {
-        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        grid-template-columns: repeat(auto-fit, 160px);
+        justify-content: center;
     }
 }
 
@@ -1372,6 +1399,57 @@ select option {
     background: var(--md-sys-color-primary);
     transition: width 0.3s ease;
 }
+/* MVP-3b — Kundenportal-style stepper (numbered/check bubbles + labels) */
+/* 1.4 — bubble LEFT of the label (row), like the Kundenportal wizard */
+.flow-stepper {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 16px;
+    overflow-x: auto;
+}
+.flow-step {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+    flex: 1 1 0;
+    min-width: 0;
+    text-align: left;
+}
+.flow-step__bubble {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--md-typescale-label-large-size);
+    font-weight: 700;
+    color: var(--md-sys-color-on-surface-variant);
+    background: var(--md-sys-color-surface);
+    border: 2px solid var(--md-sys-color-outline);
+}
+.flow-step.active .flow-step__bubble,
+.flow-step.done .flow-step__bubble {
+    color: var(--md-sys-color-on-primary);
+    background: var(--md-sys-color-primary);
+    border-color: var(--md-sys-color-primary);
+}
+.flow-step__label {
+    font-size: var(--md-typescale-label-medium-size);
+    line-height: 1.2;
+    color: var(--md-sys-color-on-surface-variant);
+}
+.flow-step.active .flow-step__label,
+.flow-step.done .flow-step__label {
+    color: var(--md-sys-color-on-surface);
+    font-weight: 600;
+}
+@media (max-width: 720px) {
+    .flow-stepper { gap: 10px; }
+    .flow-step__label { display: none; }
+}
+
 .flow-phases {
     display: flex;
     flex-wrap: wrap;
@@ -1404,6 +1482,79 @@ select option {
     content: '✓';
     font-weight: 700;
 }
+
+/* --------------------------------------------------------------------------
+   MVP-3b refinements from the Kundenportal screenshot comparison
+   (notes/ProviExmplSM2026-10-06_12-50.png vs FK-Screen-2026-10-06_13-19.png)
+   -------------------------------------------------------------------------- */
+
+/* 1.1 — "Abbrechen" in the app bar */
+.app-bar__cancel {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: none;
+    border: none;
+    color: var(--md-sys-color-primary);
+    font-family: var(--font-body);
+    font-size: var(--md-typescale-label-large-size);
+    font-weight: 600;
+    cursor: pointer;
+    padding: 6px 8px;
+}
+.app-bar__cancel:hover { text-decoration: underline; }
+
+/* 2.1 — no frame around the wizard: sits directly on the page */
+.md-card--bare {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    border-radius: 0;
+    padding: 0;
+}
+
+/* 1.2 — page title band under the app bar */
+.page-banner {
+    background: var(--md-sys-color-surface-variant);
+    padding: 14px 20px;
+    margin: 0 0 16px;
+}
+.page-banner__title {
+    font-family: var(--font-heading);
+    font-size: var(--md-typescale-headline-small-size, 24px);
+    font-weight: 700;
+    color: var(--md-sys-color-on-surface);
+}
+.page-banner__subtitle {
+    font-size: var(--md-typescale-body-medium-size);
+    color: var(--md-sys-color-on-surface-variant);
+    margin-top: 2px;
+}
+
+/* 1.5 — welcome hint-box (kupo-hinweis-box pattern) */
+.hint-box {
+    background: var(--md-sys-color-surface-container-lowest);
+    border: 1px solid var(--md-sys-color-outline-variant);
+    border-radius: var(--md-sys-shape-extra-small);
+    padding: 16px;
+    max-width: 720px;
+    margin: 0 auto;
+    text-align: left;
+}
+.hint-box__title {
+    font-family: var(--font-heading);
+    font-size: var(--md-typescale-headline-small-size, 24px);
+    font-weight: 700;
+    color: var(--md-sys-color-on-surface);
+}
+.hint-box__subtitle {
+    margin: 6px 0 16px;
+    color: var(--md-sys-color-on-surface-variant);
+    font-size: var(--md-typescale-body-large-size);
+}
+.hint-box__actions { margin-bottom: 12px; }
+.hint-box__load { margin-top: 4px; }
+#welcome-view { padding-top: 2rem; }
 
 /* MVP-2 — optional-step chip (adaptive-skip affordance) */
 .flow-optional-chip {
@@ -1485,8 +1636,8 @@ select option {
     left: 0.875rem;
     width: 20px;
     height: 20px;
-    border-radius: 6px;
-    border: 2px solid var(--md-sys-color-outline);
+    border-radius: 50%;
+    border: 2px solid var(--md-sys-color-primary);
     display: flex;
     align-items: center;
     justify-content: center;

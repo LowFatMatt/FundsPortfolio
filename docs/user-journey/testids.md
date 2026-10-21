@@ -188,6 +188,8 @@ Status legend: **IMPLEMENTED-TODO** — screen exists in the prototype today; ad
 | testid | Status |
 |--------|--------|
 | `flow--progress` | IMPLEMENTED-TODO (`flow-progress-fill` / `-label`) |
+| `flow--stepper` | **IMPLEMENTED** (variant C: Kundenportal-style bubbles — `✓` done / number active / grey upcoming — plus short labels from the step's `label` field; labels collapse ≤720px; hidden for flat variants A/B) |
+| `flow--step-{step-id}` | **IMPLEMENTED** (per-step stepper item, e.g. `flow--step-risk`) |
 | `flow--phase-indicator` | **IMPLEMENTED** (variant C: one chip per phase with visible steps; active/done states; hidden for flat variants A/B) |
 | `flow--cta` | **IMPLEMENTED** (`flow-next-btn`) — adaptive label when the step declares `cta` (regions/themes: "continue without …" ↔ "lock in …"); classic Next/Generate otherwise |
 | `flow--optional-chip` | **IMPLEMENTED** (variant C optional steps: regions/themes) |

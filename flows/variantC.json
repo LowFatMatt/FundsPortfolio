@@ -10,6 +10,7 @@
       "steps": [
         {
           "id": "goal",
+          "label": { "de": "Anlageziel", "en": "Goal" },
           "auto_advance": true,
           "source": "inline",
           "section": {
@@ -28,6 +29,7 @@
         },
         {
           "id": "payment",
+          "label": { "de": "Beitrag", "en": "Contribution" },
           "source": "inline",
           "section": {
             "id": "beitrag",
@@ -77,6 +79,7 @@
         },
         {
           "id": "product",
+          "label": { "de": "Produkt", "en": "Product" },
           "auto_advance": true,
           "source": "inline",
           "section": {
@@ -100,17 +103,20 @@
       "steps": [
         {
           "id": "risk",
+          "label": { "de": "Strategie", "en": "Strategy" },
           "auto_advance": true,
           "source": "section",
           "section": "risk_approach"
         },
         {
           "id": "preferences",
+          "label": { "de": "Präferenzen", "en": "Preferences" },
           "source": "section",
           "sections": ["esg_preference", "etf_preference"]
         },
         {
           "id": "regions",
+          "label": { "de": "Regionen", "en": "Regions" },
           "optional": true,
           "source": "section",
           "section": "preferred_regions",
@@ -122,6 +128,7 @@
         },
         {
           "id": "themes",
+          "label": { "de": "Themen", "en": "Themes" },
           "optional": true,
           "source": "section",
           "section": "preferred_themes",
