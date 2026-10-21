@@ -96,9 +96,9 @@ class DecisionEngine:
         self,
         min_candidates: int = 0,  # set the mimimu to zero to avoid relaxations alltogether to find the limits of our funds universe.
         top_k: int = 65,  # seting it to numer of available funds (65) in the universe disables capping
-        final_fund_count: int = 5,
-        max_per_provider: int = 5,  # the value "5" ultimately disables the provider cap
-        max_per_category: int = 5,  # dito
+        final_fund_count: int = 6,
+        max_per_provider: int = 6,  # a value equal to "final_fund_count" ultimately disables the provider cap
+        max_per_category: int = 6,  # dito
         max_per_specific_theme: int = 2,  # quota: max funds carrying the SAME specific preferred theme
         max_per_specific_region: int = 2,  # quota: max funds from the SAME specific preferred region
         min_allocation_percentage: int = 10,  # minimum allocation percentage for any fund in the final portfolio
